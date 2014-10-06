@@ -1,0 +1,5 @@
+#!/bin/bash
+source /home/phc/bin/gcctools-4.8.1.sh
+source /home/phc/bin/python27.sh
+/opt/vim/bin/vim "$@"
+
