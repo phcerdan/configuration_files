@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'tomtom/tcomment_vim'
 " YouCompleteMe
 "Plugin 'Valloric/YouCompleteMe'
 
@@ -19,8 +20,13 @@ Plugin 'honza/vim-snippets'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-
+" Latex stuff, latex-suite or vim-latex (UltiSnippets better):
+"filetype plugin on
+"set grepprg=grep\ -nH\ $*
+"filetype indent on
+"let g:tex_flavor='latex'
 " set paste
+
 set number
 set relativenumber
 syntax on
