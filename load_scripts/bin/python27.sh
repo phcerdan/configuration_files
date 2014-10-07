@@ -5,6 +5,7 @@ if echo $python27 |grep -q 'loaded'
 then
 	echo "python27 already loaded"
 else
+	echo "Module python27.sh loaded"
 	export python27="loaded"
 	export oldPATH=$PATH
 	export oldLD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -13,6 +14,6 @@ else
 	export PATH=$python27home/bin:$PATH
 	
 	export LD_LIBRARY_PATH="$python27home/lib:$LD_LIBRARY_PATH"
-	echo "PATH= $PATH "
-	echo "LD_LIBRARY_PATH= $LD_LIBRARY_PATH"
+	#echo "PATH= $PATH "
+	#echo "LD_LIBRARY_PATH= $LD_LIBRARY_PATH"
 fi
