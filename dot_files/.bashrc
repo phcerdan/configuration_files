@@ -8,6 +8,7 @@ fi
 # User specific aliases and functions
 alias fe30='source $HOME/Software/OpenFOAM/foam-extend-3.0/etc/bashrc'
 alias v='gvim -v'
+alias vimserver='vim --servername vimserver'
 alias sgcctools='source /home/phc/bin/gcctools-4.8.1.sh'
 alias sopencv='source /home/phc/bin/opencv.sh'
 
