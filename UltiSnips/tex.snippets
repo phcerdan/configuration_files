@@ -1,0 +1,27 @@
+snippet figpage "PHC:Create a figure with minipages to input multiple images" b
+
+\begin{figure}[${1:htpb}]
+    \begin{minipage}{${2:0.5\linewidth}}
+        \subfloat[${3:float description}]{%
+            \includegraphics[width=0.95\linewidth]{${4:image1.png}}%
+            \label{fig:${4/(\w+)\.\w+/$1/}}}
+    \end{minipage}
+    \begin{minipage}{$2}
+        \subfloat[${5:float2}]{%
+            \includegraphics[width=0.95\linewidth]{${6:image2.png}}%
+            \label{fig:${6/(\w+)\.\w+/$1/}}}
+    \end{minipage}
+\end{figure}
+
+endsnippet
+
+snippet subfloat "PHC:subfloat expand(require subfig)" b
+\subfloat[${1:text}]{
+	\includegraphics[width=0.9\linewidth]{${2:image.xxx}}
+	\label{fig:${2/(\w+)\.\w+/$1/}$0}}
+
+endsnippet
+
+snippet hyperref "PHC: \ref with custom text"
+\hyperref[${1:label}]{${2:text}} $0 
+endsnippet
