@@ -1,33 +1,57 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
+let mapleader=","
+nnoremap <leader>a :echo("\<leader\> works! It is set to <leader>")<CR>
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
+" Fugitive for git
+Plugin 'tpope/vim-fugitive'
+
 " Ultisnips (Macros)
-Plugin 'SirVer/ultisnips'
+Plugin 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plugin 'honza/vim-snippets'
 
-Plugin 'tomtom/tcomment_vim'
-Plugin 'kien/ctrlp.vim'      " Ctrlp to search files
-Plugin 'rking/ag.vim'        " Silver searcher
-Plugin 'godlygeek/tabular'   " Tabularize :Tabularize /\/\ --Align \\
+" Supertab (Use tab to auto-complete, instead of the different omnifunc/bla C-x C-o or C-x C-u
+Plugin 'ervandew/supertab'
+
+" Align and Tabularize:
+Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
+Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
+Plugin 'vim-scripts/AutoAlign' 
+
+Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
+
+" File Navigation and Search:
+Plugin 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
+Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
+
+" Status Line Plugins
+Plugin 'bling/vim-airline'                " Colourful status-line.
+"Latex Plugins
+" Plugin 'vim-scripts/AutomaticLaTeXPlugin' " Latex plugin, include latexbox plugin.
+Plugin 'LaTeX-Box-Team/LaTeX-Box'           " Minimalistic. ll to compile, lv to view. Xpdf recommended.
+
+" Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
+" Plugin 'vim-scripts/Cpp11-Syntax-Support' " Cpp improved highlight
 
 " Color Schemes
 " Plugin 'altercation/vim-colors-solarized'
 Plugin 'rainux/vim-desert-warm-256'
 
 " Tmux related:
-Plugin 'benmills/vimux' 
+" Plugin 'benmills/vimux'
+Plugin 'edkolev/tmuxline.vim'               " Status line for tmux (Airline compatible)
 
-"  YouCompleteMe
-"Plugin 'Valloric/YouCompleteMe'
 
+" Eclim has a special installation: http://eclim.org/install.html
+"
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -37,7 +61,7 @@ filetype plugin indent on    " required
 syntax enable
 set t_Co=256
 set background=dark
-" colorscheme solarized 
+" colorscheme solarized
 colorscheme desert-warm-256
 
 
@@ -45,15 +69,22 @@ colorscheme desert-warm-256
 " autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
 " autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window " . expand("%"))
 set title
+set diffopt+=vertical " Gdiff open in vertical.
+set splitright
+" set splitbelow
 
 " BUILT IN OPTIONS:
 " Basic
 set number
 set relativenumber
 set autochdir        " Set cd to current file directory.
-set pastetoggle=<F11>
+set pastetoggle=<F8> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
-
+set textwidth=0
+set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
+"set nowrap         " No visual wrapping
+set laststatus=2     " Status line always visible (useful with vim-airline)
+set wrapscan         " Search next/ Search previous are cyclic.
 " Searching
 set ignorecase
 set smartcase
@@ -69,11 +100,19 @@ set expandtab
 set backspace=indent,eol,start
 
 set hid          " Send files to buffer instead of closing them -- e,n ... commands.
+
 set scrolloff=20 " 999 keeps the cursos in the middle.
 
 " General Maps:
-let mapleader = ","
+let mapleader=","
+nnoremap <leader>a :echo("\<leader\> works! It is set to <leader>")<CR>
 imap <c-f> <c-o>2l
+" To navigate trough visually wrapped lines.
+nnoremap j gj
+nnoremap k gk
+" To keep the old behavior in gj, gk
+nnoremap gj j
+nnoremap gk k
 
 " C,C++ specifics:
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
@@ -81,27 +120,57 @@ map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --on
 " Highlight Cursor
 :hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
 " :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-:nnoremap <Leader>c :set cursorline!
+:nnoremap <Leader>c :set cursorline!<CR>
 
 "let g:EclimCompletionMethod = 'omnifunc'
-" For your list of filetypes where you want Eclim semantic completion 
+" For your list of filetypes where you want Eclim semantic completion
 " as the default YCM completion mode:
 
-"autocmd FileType c,cpp,cc,h,hpp  
-"    \set completefunc=eclim#c#complete#CodeComplete 
+"autocmd FileType c,cpp,cc,h,hpp
+"    \set completefunc=eclim#c#complete#CodeComplete
 
 " This will allow you to hit <Enter> in normal mode to search for the
 " word under the cursor
-" If you want :UltiSnipsEdit to split your window.
+" If you want :UltiSnipsEdit to split your window
+" set runtimepath+=~/.dotfiles
 let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
 "let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsListSnippets="<Leader>q" "query ,q
 
 
-" Latex stuff, latex-suite or vim-latex (UltiSnippets better):
-"filetype plugin on
-"set grepprg=grep\ -nH\ $*
-"filetype indent on
-"let g:tex_flavor='latex'
-" set paste
+" Latex:
+" AutomaticLatex Plugin setup. For lighter functionality install latex-box.
+" Require python-psutil: http://atp-vim.sourceforge.net/requirements.shtml
+"   Install from repo or python27 setup.py install (source python27.sh as ROOT)
+" Reguire vim server (automatic from gvim , but must be setup from terminal and tmux):
+"gvim --servername vimserver main.tex
+"alias has been setup in bashrc: vimserver
+"
+"For SyncTex --No evince support-- Download Xpdf (and create a ln -s from
+"/usr/local/bin)
+":Viewer xpdf or :SetXpdf
+":SetOutDir ../output
+" Use :SyncTex
+
+"Tex-9. Lighter. Sync with evince. Less famous.
+
+" Latex-box:
+let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
+let g:LatexBox_latexmk_preview_continuosly=1 " -pvc option in latexmk
+let g:LatexBox_viewer="xpdf"
+let g:LatexBox_latexmk_options="-pdflatex='pdflatex -synctex=1 \%O \%S'"
+syntax spell toplevel
+let g:tex_comment_nospell=1
+
+" vim-Airline:
+let g:airline_theme='wombat'
+let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+" vim-tmuxline
+let g:tmuxline_powerline_separators = 0
+
+" Cpp highlighting:
+let g:cpp_class_scope_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
+setlocal spell spelllang=en_us
