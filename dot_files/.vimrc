@@ -17,7 +17,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plugin 'honza/vim-snippets'
 
-" Supertab (Use tab to auto-complete, instead of the different omnifunc/bla C-x C-o or C-x C-u
+" Supertab (Use tab to auto-complete, instead of the different omnifunc/bla C-x C-o or C-x C-u. Ctrl-E to return to original.
 Plugin 'ervandew/supertab'
 
 " Align and Tabularize:
@@ -35,23 +35,20 @@ Plugin 'rking/ag.vim'                     " Silver searcher integration (similar
 " Status Line Plugins
 Plugin 'bling/vim-airline'                " Colourful status-line.
 "Latex Plugins
-" Plugin 'vim-scripts/AutomaticLaTeXPlugin' " Latex plugin, include latexbox plugin.
 Plugin 'LaTeX-Box-Team/LaTeX-Box'           " Minimalistic. ll to compile, lv to view. Xpdf recommended.
 
-" Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
-" Plugin 'vim-scripts/Cpp11-Syntax-Support' " Cpp improved highlight
+Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 
 " Color Schemes
-" Plugin 'altercation/vim-colors-solarized'
 Plugin 'rainux/vim-desert-warm-256'
 
 " Tmux related:
 " Plugin 'benmills/vimux'
 Plugin 'edkolev/tmuxline.vim'               " Status line for tmux (Airline compatible)
 
-
 " Eclim has a special installation: http://eclim.org/install.html
-"
+let g:SuperTabDefaultCompletionType = 'context'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
@@ -71,7 +68,7 @@ colorscheme desert-warm-256
 set title
 set diffopt+=vertical " Gdiff open in vertical.
 set splitright
-" set splitbelow
+set splitbelow
 
 " BUILT IN OPTIONS:
 " Basic
@@ -119,41 +116,14 @@ map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --on
 
 " Highlight Cursor
 :hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
-" :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
 :nnoremap <Leader>c :set cursorline!<CR>
 
-"let g:EclimCompletionMethod = 'omnifunc'
-" For your list of filetypes where you want Eclim semantic completion
-" as the default YCM completion mode:
-
-"autocmd FileType c,cpp,cc,h,hpp
-"    \set completefunc=eclim#c#complete#CodeComplete
-
-" This will allow you to hit <Enter> in normal mode to search for the
-" word under the cursor
 " If you want :UltiSnipsEdit to split your window
 " set runtimepath+=~/.dotfiles
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
 "let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsListSnippets="<Leader>q" "query ,q
-
-
-" Latex:
-" AutomaticLatex Plugin setup. For lighter functionality install latex-box.
-" Require python-psutil: http://atp-vim.sourceforge.net/requirements.shtml
-"   Install from repo or python27 setup.py install (source python27.sh as ROOT)
-" Reguire vim server (automatic from gvim , but must be setup from terminal and tmux):
-"gvim --servername vimserver main.tex
-"alias has been setup in bashrc: vimserver
-"
-"For SyncTex --No evince support-- Download Xpdf (and create a ln -s from
-"/usr/local/bin)
-":Viewer xpdf or :SetXpdf
-":SetOutDir ../output
-" Use :SyncTex
-
-"Tex-9. Lighter. Sync with evince. Less famous.
 
 " Latex-box:
 let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
@@ -170,7 +140,21 @@ let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
 let g:tmuxline_powerline_separators = 0
 
 " Cpp highlighting:
-let g:cpp_class_scope_highlight = 1
-let g:cpp_experimental_template_highlight = 1
+" let g:cpp_class_scope_highlight = 1
 
 setlocal spell spelllang=en_us
+
+function! StripTrailingWhitespace()
+  normal mZ
+  let l:chars = col("$")
+  %s/\s\+$//e
+  if (line("'Z") != line(".")) || (l:chars != col("$"))
+    echo "Trailing whitespace stripped\n"
+  endif
+  normal `Z
+endfunction
+autocmd BufWritePre *.cpp,*.hpp,*.h,*.c :call StripTrailingWhitespace()
+
+if version >= 702
+  autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
+endif
