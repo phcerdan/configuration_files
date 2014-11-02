@@ -1,8 +1,6 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let mapleader=","
-nnoremap <leader>a :echo("\<leader\> works! It is set to <leader>")<CR>
-
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -28,6 +26,7 @@ Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+
 Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 
 " File Navigation and Search:
@@ -40,11 +39,12 @@ Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compat
 
 " Color Schemes
 Plugin 'rainux/vim-desert-warm-256'
-
 "Language specifics Plugins
 Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf recommended.
 Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
-
+" Plugin 'Townk/vim-autoclose'
+" inoremap {<CR> {<CR>}<C-o>O}
+Plugin 'Raimondi/delimitMate'
 " Eclim has a special installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
 
@@ -60,6 +60,7 @@ set background=dark
 " colorscheme solarized
 colorscheme desert-warm-256
 setlocal spell spelllang=en_us
+set nospell
 
 " Tmux
 " autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
@@ -100,16 +101,16 @@ set hid          " Send files to buffer instead of closing them -- e,n ... comma
 set scrolloff=20 " 999 keeps the cursos in the middle.
 
 " General Maps:
-let mapleader=","
-nnoremap <leader>a :echo("\<leader\> works! It is set to <leader>")<CR>
-imap <c-f> <c-o>2l
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
 " To keep the old behavior in gj, gk
 nnoremap gj j
 nnoremap gk k
-
+" To use with bracketing/indendation with brackets.
+imap <c-F> <C-g>g
+inoremap <c-k> <ESC>kI<TAB>
+inoremap <c-h> <c-o>h
 " C,C++ specifics:
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
 
