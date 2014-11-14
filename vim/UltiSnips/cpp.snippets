@@ -4,3 +4,33 @@ snippet ifndef "Expand ifdef" !b
 	$2
 #endif
 endsnippet
+
+snippet testinit "Boost test init test module" b
+///Flag to use BOOST_TEST dynamic library, not just the include library.
+#define BOOST_TEST_DYN_LINK
+/// Module subsitutes the main C++ function, only one module per project.
+#define BOOST_TEST_MODULE $1_module
+endsnippet
+
+snippet testinclude "Boost test include: unit_test.hpp" b
+#include <boost/test/unit_test.hpp>
+endsnippet
+
+snippet testsuite "Boost test suite" b
+BOOST_AUTO_TEST_SUITE($1)
+	$2
+BOOST_AUTO_TEST_SUITE_END()
+endsnippet
+
+snippet testcase "Boost test case" b
+BOOST_AUTO_TEST_CASE($1)
+{
+	$2
+}
+endsnippet
+
+snippet vtk6 "VTK6 compatibility defines" b
+#define vtkRenderingCore_AUTOINIT 4(vtkInteractionStyle,vtkRenderingFreeType, \
+vtkRenderingFreeTypeOpenGL,vtkRenderingOpenGL)
+#define vtkRenderingVolume_AUTOINIT 1(vtkRenderingVolumeOpenGL)
+endsnippet

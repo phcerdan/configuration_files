@@ -57,7 +57,6 @@ filetype plugin indent on    " required
 syntax enable
 set t_Co=256
 set background=dark
-" colorscheme solarized
 colorscheme desert-warm-256
 setlocal spell spelllang=en_us
 set nospell

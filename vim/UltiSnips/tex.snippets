@@ -23,5 +23,10 @@ snippet subfloat "PHC:subfloat expand(require subfig)" b
 endsnippet
 
 snippet hyperref "PHC: \ref with custom text"
-\hyperref[${1:label}]{${2:text}} $0 
+\hyperref[${1:label}]{${2:text}} $0
 endsnippet
+
+snippet incgraph "PHC: \includegrahics[]{}"
+\includegraphics[${1:width=0.9\textwidth]}{$2}
+endsnippet
+
