@@ -45,6 +45,10 @@ Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plugin 'Townk/vim-autoclose'
 " inoremap {<CR> {<CR>}<C-o>O}
 Plugin 'Raimondi/delimitMate'
+
+Plugin 'ntpeters/vim-better-whitespace'
+let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
+" Plugin 'nathanaelkane/vim-indent-guides'
 " Eclim has a special installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
 
