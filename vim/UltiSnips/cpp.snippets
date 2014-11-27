@@ -29,6 +29,29 @@ BOOST_AUTO_TEST_CASE($1)
 }
 endsnippet
 
+snippet bc "BOOST_CHECK" b
+BOOST_CHECK(${1:comparisson});
+endsnippet
+snippet bcm "BOOST_CHECK_MESSAGE" b
+BOOST_CHECK_MESSAGE(${1:comparisson},
+	"${2:message}");
+endsnippet
+snippet bw "BOOST_WARN" b
+BOOST_WARN(${1:comparisson});
+endsnippet
+snippet br "BOOST_REQUIRE" b
+BOOST_REQUIRE(${1:comparisson});
+endsnippet
+snippet bceq "BOOST_CHECK_EQUAL" b
+BOOST_CHECK_EQUAL($1,$2);
+endsnippet
+snippet bcgt "BOOST_CHECK_GT" b
+BOOST_CHECK_GT($1,$2);
+endsnippet
+snippet bclt "BOOST_CHECK_LT" b
+BOOST_CHECK_LT($1,$2);
+endsnippet
+
 snippet vtk6 "VTK6 compatibility defines" b
 #define vtkRenderingCore_AUTOINIT 4(vtkInteractionStyle,vtkRenderingFreeType, \
 vtkRenderingFreeTypeOpenGL,vtkRenderingOpenGL)
