@@ -29,7 +29,6 @@ Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispa
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save/restore sessions :Obsess, :Obsess!, and vim -S, or :source to restore. Also used by tmux-resurrect
-Plugin 'dhruvasagar/vim-prosession'       " :Prosession, save session to .vim/session
 
 Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 
