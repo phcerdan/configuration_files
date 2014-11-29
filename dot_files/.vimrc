@@ -1,3 +1,4 @@
+'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let mapleader=","
@@ -16,20 +17,23 @@ Plugin 'honza/vim-snippets'
 " Supertab Use tab to auto-complete, Ctrl-E to return to original without auto-complete
 Plugin 'ervandew/supertab'
 let g:SuperTabDefaultCompletionType = 'context'
+" set wildmode=list:longest,full
+" let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion "
 
 " Align and Tabularize:
 Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
 Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
-Plugin 'vim-scripts/AutoAlign' 
+Plugin 'vim-scripts/AutoAlign'
 
 Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
-
+Plugin 'tpope/vim-obsession'              " Save/restore sessions :Obsess, :Obsess!, and vim -S, or :source to restore. Also used by tmux-resurrect
 Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 
 " File Navigation and Search:
+Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
 Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
 
