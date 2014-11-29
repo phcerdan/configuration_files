@@ -1,4 +1,3 @@
-'
 set nocompatible              " be iMproved, required
 filetype off                  " required
 let mapleader=","
@@ -23,13 +22,15 @@ let g:SuperTabDefaultCompletionType = 'context'
 " Align and Tabularize:
 Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
 Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
-Plugin 'vim-scripts/AutoAlign'
+Plugin 'vim-scripts/AutoAlign' 
 
 Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save/restore sessions :Obsess, :Obsess!, and vim -S, or :source to restore. Also used by tmux-resurrect
+Plugin 'dhruvasagar/vim-prosession'       " :Prosession, save session to .vim/session
+
 Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 
 " File Navigation and Search:
