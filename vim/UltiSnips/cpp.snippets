@@ -57,3 +57,23 @@ snippet vtk6 "VTK6 compatibility defines" b
 vtkRenderingFreeTypeOpenGL,vtkRenderingOpenGL)
 #define vtkRenderingVolume_AUTOINIT 1(vtkRenderingVolumeOpenGL)
 endsnippet
+
+snippet setget "set and get function in .h" b
+void Set${1:CamelName}(${2:type} ${1/(^[A-Z])|([A-Z]+)/(?1:\l$0)(?2:_\l$0)/g}){ ${1/(^[A-Z])|([A-Z]+)/(?1:\l$0)(?2:_\l$0)/g}_ = ${1/(^[A-Z])|([A-Z]+)/(?1:\l$0)(?2:_\l$0)/g};};
+$2 Get$1(){ return ${1/(^[A-Z])|([A-Z]+)/(?1:\l$0)(?2:_\l$0)/g}_;};
+endsnippet
+
+
+# Casts
+snippet cast "Static Cast"
+std::static_cast<${1}>(${2})${0}
+endsnippet
+snippet cast "Reinterpret Cast"
+std::reinterpret_cast<${1}>(${2})${0}
+endsnippet
+snippet cast "Dynamic Cast"
+std::dynamic_cast<${1}>(${2})${0}
+endsnippet
+snippet cast "Const Cast"
+std::const_cast<${1}>(${2})${0}
+endsnippet
