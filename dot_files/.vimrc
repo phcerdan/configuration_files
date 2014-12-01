@@ -22,7 +22,7 @@ let g:SuperTabDefaultCompletionType = 'context'
 " Align and Tabularize:
 Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
 Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
-Plugin 'vim-scripts/AutoAlign' 
+Plugin 'vim-scripts/AutoAlign'
 
 Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
@@ -49,12 +49,16 @@ Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plugin 'Townk/vim-autoclose'
 " inoremap {<CR> {<CR>}<C-o>O}
 Plugin 'Raimondi/delimitMate'
-
+Plugin 'vim-scripts/DoxygenToolkit.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
 " Plugin 'nathanaelkane/vim-indent-guides'
 " Eclim has a special installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
+
+Plugin 'moll/vim-bbye'                   " Bdelete, as Bclose, deleting buffers without deleting windows.
+command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
+nnoremap <Leader>bd :Bdelete<CR>
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
