@@ -40,7 +40,7 @@ Plugin 'rking/ag.vim'                     " Silver searcher integration (similar
 " Status Line Plugins
 Plugin 'bling/vim-airline'                " Colourful status-line.
 Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
-
+Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 " Color Schemes
 Plugin 'rainux/vim-desert-warm-256'
 "Language specifics Plugins
@@ -120,8 +120,8 @@ nnoremap gj j
 nnoremap gk k
 " To use with bracketing/indendation with brackets.
 imap <c-F> <C-g>g
-inoremap <c-k> <ESC>kI<TAB>
-inoremap <c-h> <c-o>h
+inoremap <Leader>k <ESC>kI<TAB>
+inoremap <Leader>h <c-o>h
 " C,C++ specifics:
 map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
 
