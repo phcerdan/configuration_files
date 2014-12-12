@@ -35,8 +35,10 @@ Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 " File Navigation and Search:
 Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
+nnoremap <Leader>t :CtrlPTag<cr>
 Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
-
+Plugin 'emnh/taglist.vim'                 " Most up-voted plugin ever, works great with ctags.
+nnoremap <silent> <F9> :TlistToggle<cr>
 " Status Line Plugins
 Plugin 'bling/vim-airline'                " Colourful status-line.
 Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
@@ -110,7 +112,8 @@ set backspace=indent,eol,start
 set hid          " Send files to buffer instead of closing them -- e,n ... commands.
 
 set scrolloff=20 " 999 keeps the cursos in the middle.
-
+" Git commits:
+autocmd Filetype gitcommit setlocal spell textwidth=72
 " General Maps:
 " To navigate trough visually wrapped lines.
 nnoremap j gj
@@ -195,23 +198,22 @@ endif
 
 " Set makeprg to closest build folder (Cmake builds)
 function! SetMakeprg()
-
     if !empty(glob("../build"))
-        set makeprg=make\ -C\ ../build
+        set makeprg=make\ -C\ ../build\ --no-print-directory
         return
     endif
     if !empty(glob("../build-debug"))
-        set makeprg=make\ -C\ ../build-debug
+        set makeprg=make\ -C\ ../build-debug\ --no-print-directory
         return
     endif
 
     if !empty(glob("../../build"))
-        set makeprg=make\ -C\ ../../build
+        set makeprg=make\ -C\ ../../build\ --no-print-directory
         return
     endif
 
     if !empty(glob("../../build-debug"))
-        set makeprg=make\ -C\ ../../build-debug
+        set makeprg=make\ -C\ ../../build-debug\ --no-print-directory
         return
     endif
 endfunction

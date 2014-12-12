@@ -77,3 +77,14 @@ endsnippet
 snippet cast "Const Cast"
 std::const_cast<${1}>(${2})${0}
 endsnippet
+
+# Google Mock
+snippet ass "ASSERT_THAT" b
+ASSERT_THAT($1,$2);
+endsnippet
+
+snippet TEST_F "TEST_F" b
+TEST_F(${1:FixtureClass}, ${2:TestName}) {
+	$3
+}
+endsnippet
