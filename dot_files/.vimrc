@@ -74,7 +74,7 @@ set background=dark
 colorscheme desert-warm-256
 setlocal spell spelllang=en_us
 set nospell
-
+map <F12> :setlocal spell! spelllang=en_us<CR>
 " Tmux
 " autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
 " autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window " . expand("%"))
