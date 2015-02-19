@@ -57,7 +57,8 @@ let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and
 " Plugin 'nathanaelkane/vim-indent-guides'
 " Eclim has a special installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
-
+" Buffers control
+Plugin 'vim-scripts/BufOnly.vim'
 Plugin 'moll/vim-bbye'                   " Bdelete, as Bclose, deleting buffers without deleting windows.
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
 nnoremap <Leader>bd :Bdelete<CR>
@@ -92,9 +93,9 @@ set pastetoggle=<F8> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
 set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
-"set nowrap         " No visual wrapping
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
+au Filetype tex set spell wrap nolist textwidth=80 wrapmargin=0 linebreak breakindent showbreak=..
 " Searching
 set ignorecase
 set smartcase
@@ -143,7 +144,7 @@ let g:UltiSnipsListSnippets="<Leader>q" "query ,q
 let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
 let g:LatexBox_latexmk_preview_continuosly=1 " -pvc option in latexmk
 let g:LatexBox_viewer="xpdf"
-let g:LatexBox_latexmk_options="-pdflatex='pdflatex -synctex=1 \%O \%S'"
+let g:LatexBox_latexmk_options="-pdflatex='pdflatex -synctex=1 -shell-escape \%O \%S'"
 syntax spell toplevel
 let g:tex_comment_nospell=1
 
