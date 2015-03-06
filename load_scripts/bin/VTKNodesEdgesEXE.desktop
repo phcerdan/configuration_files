@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=VTKNodesEdgesEXE
+Exec=bash -c 'source /home/phc/bin/gcctools-4.8.1.sh;/home/phc/repository_local/VTKNodesEdges/build/VTKNodesEdgesEXE'
+NoDisplay=true
