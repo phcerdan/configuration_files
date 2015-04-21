@@ -6,7 +6,7 @@ set-window-option -g utf8 on
 set -g default-terminal "screen-256color"
 set-option -g xterm-keys on
 # For Arrows to work in xterm. http://unix.stackexchange.com/questions/29907/how-to-get-vim-to-work-with-tmux-properly
-
+# set-option -q update-environment 'PATH LD_LIBRARY_PATH'
 # remap prefix to Control + a
 set -g prefix C-a
 unbind C-b
@@ -30,7 +30,7 @@ setw -g mode-keys vi
 unbind p
 bind p paste-buffer
 bind -t vi-copy 'v' begin-selection
-bind -t vi-copy 'y' copy-selection
+bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
 ##CLIPBOARD selection integration
 ##Requires XSEL, and  prefix key before the command key
 #Copy tmux paste buffer to CLIPBOARD
@@ -93,7 +93,6 @@ bind -n C-\ run "(tmux display-message -p '#{pane_current_command} #{window_name
 set -g @tpm_plugins '              \
   tmux-plugins/tpm                 \
   tmux-plugins/tmux-resurrect      \
-  tmux-plugins/tmux-yank           \
 '
 # tmux-plugins/tmux-sensible       \
 # tmux-plugins/tmux-resurrect      \

@@ -63,7 +63,28 @@ Plugin 'moll/vim-bbye'                   " Bdelete, as Bclose, deleting buffers 
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
 nnoremap <Leader>bd :Bdelete<CR>
 
-" All of your Plugins must be added before the following line
+"""""""" R """""""""""":
+Plugin 'jalvesaq/VimCom'      " Communication vim - R
+" install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
+Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
+Plugin 'jalvesaq/R-Vim-runtime'
+" Recommended in R:
+" colourout and set with
+" download.file("http://www.lepem.ufc.br/jaa/colorout_1.1-0.tar.gz", destfile= "colorout_1.1-0.tar.gz")
+" install.packages("colorout_1.1-0.tar.gz", type = "source", repos = NULL)
+"  download.file("http://cran.r-project.org/src/contrib/setwidth_1.0-3.tar.gz", destfile= "setwidth_1.0-3.tar.gz")
+" install.packages("setwidth_1.0-3.tar.gz", type = "source", repos = NULL)
+let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
+let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
+" let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
+
+""""""""""CUDA""""""""""""
+Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
+" Create a symlink inside vim-snippets/snippets pointing to
+" snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
+au BufNewFile,BufRead *.cu setlocal ft=cuda.cpp
+
+" All oria/Vim-R-plugindded before the following line
 call vundle#end()            " required
 
 filetype plugin indent on    " required
@@ -95,7 +116,7 @@ set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
-au Filetype tex set spell wrap nolist textwidth=80 wrapmargin=0 linebreak breakindent showbreak=..
+au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 " Searching
 set ignorecase
 set smartcase
@@ -144,13 +165,21 @@ let g:UltiSnipsListSnippets="<Leader>q" "query ,q
 let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
 let g:LatexBox_latexmk_preview_continuosly=1 " -pvc option in latexmk
 let g:LatexBox_viewer="xpdf"
-let g:LatexBox_latexmk_options="-pdflatex='pdflatex -synctex=1 -shell-escape \%O \%S'"
+if executable('zathura')
+    let g:LatexBox_viewer="zathura"
+endif
+let g:LatexBox_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
 syntax spell toplevel
 let g:tex_comment_nospell=1
+" To save automatically when using <LocalLeader>ll
+autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update!<CR>:Latexmk!<CR>
 
 " vim-Airline:
 let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+" To show full path: default is %f instead of %F.
+let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+
 " vim-tmuxline
 let g:tmuxline_powerline_separators = 0
 

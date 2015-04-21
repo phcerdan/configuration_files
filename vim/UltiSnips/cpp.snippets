@@ -65,17 +65,17 @@ endsnippet
 
 
 # Casts
-snippet cast "Static Cast"
-std::static_cast<${1}>(${2})${0}
+snippet cast "Static Cast" w
+static_cast<${1}>(${2})${0}
 endsnippet
-snippet cast "Reinterpret Cast"
-std::reinterpret_cast<${1}>(${2})${0}
+snippet cast "Reinterpret Cast" w
+reinterpret_cast<${1}>(${2})${0}
 endsnippet
-snippet cast "Dynamic Cast"
-std::dynamic_cast<${1}>(${2})${0}
+snippet cast "Dynamic Cast" w
+dynamic_cast<${1}>(${2})${0}
 endsnippet
-snippet cast "Const Cast"
-std::const_cast<${1}>(${2})${0}
+snippet cast "Const Cast" w
+const_cast<${1}>(${2})${0}
 endsnippet
 
 # Google Mock
@@ -86,5 +86,97 @@ endsnippet
 snippet TEST_F "TEST_F" b
 TEST_F(${1:FixtureClass}, ${2:TestName}) {
 	$3
+}
+endsnippet
+#boost: program_options
+
+snippet poclass "program_option full class .cpp" bm
+#include <iostream>
+#include <string>
+#include <fstream>
+using namespace std;
+${1:poinit}
+${2:pofunction}
+endsnippet
+
+snippet pocall "call to program options from main()" b
+auto vm = program_options(argc, argv);
+endsnippet
+
+snippet pofunction "program_option parse function" bm
+po::variables_map program_options(const int &argc, char** const & argv)
+{
+	${1:pobasic}
+	${2:poOpenConfig}
+    return vm;
+}
+endsnippet
+
+snippet poinit "po include and namespace" b
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+endsnippet
+
+snippet pobasic "po only command line setup" bm
+// Declare a group of options that will be
+// allowed only on command line
+po::options_description generic("Generic options");
+generic.add_options()
+	("version,v", "print version string")
+	("help,h", "produce help message")
+	("config,c", po::value<string>()->default_value("config_file.init"),
+		  "name of a file of a configuration.")
+	;
+
+// Declare a group of options that will be
+// allowed both on command line and in
+// config file
+po::options_description config("Configuration");
+config.add_options()
+	("${1:cmdlinename}", po::value<int>()->default_value(${2}),
+		  "$1 description")
+	;
+
+// Hidden options, will be allowed both on command line and
+// in config file, but will not be shown to the user.
+po::options_description hidden("Hidden options");
+hidden.add_options()
+	("input-file", po::value< vector<string> >(), "input file")
+	;
+
+po::options_description cmdline_options;
+cmdline_options.add(generic).add(config).add(hidden);
+
+po::options_description config_file_options;
+config_file_options.add(config).add(hidden);
+
+po::options_description visible("Allowed options");
+visible.add(generic).add(config);
+
+po::positional_options_description p;
+p.add("input-file", -1);
+
+po::variables_map vm;
+store(po::command_line_parser(argc, argv).
+	  options(cmdline_options).positional(p).run(), vm);
+notify(vm);
+if (vm.count("help")) {
+	cout << visible << "\n";
+	return 0;
+}
+
+endsnippet
+
+snippet poOpenConfig "open config file" bm
+string config_file = vm["config"].as<string>();
+ifstream ifs(config_file.c_str());
+if (!ifs)
+{
+	throw(runtime_error("Can not open config file: " + config_file + " ,use -c option"));
+}
+else
+{
+	store(parse_config_file(ifs, config_file_options), vm);
+	notify(vm);
 }
 endsnippet

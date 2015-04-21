@@ -1,0 +1,79 @@
+snippet init "Init a basic cmake" bm
+cmake_minimum_required(VERSION 2.6)
+set(CMAKE_ECLIPSE_VERSION=4.4)
+cmake_policy(SET CMP0012 NEW)
+if (UNIX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wall -std=c++11")
+endif()
+# cmake ../src  -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE
+project(${1:projectName})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+add_executable(${2:exeName} $2.cpp)
+#target_link_libraries($2) )
+endsnippet
+
+snippet findBoost "Find boost Libs" b
+find_package(Boost COMPONENTS 
+		${1:filesystem}	${2:system}
+		${3:unit_test_framework} ${4:regex}
+		${5:program_options}
+		REQUIRED)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+endsnippet
+
+snippet findGoogle "Enable Google test and Google mock" bm
+### Google TEST AND MOCK
+# There must be an environment variable (in .bashrc or profile.d)
+# export GMOCK_HOME=/path/to/gmock-1.7.0
+set(ENABLE_GOOGLE_TEST "ON" CACHE BOOL "Requires ENV variable GMOCK_HOME pointing to gmock parent folder")
+set(GMOCK_HOME "$ENV{GMOCK_HOME}" CACHE PATH "Set this to gmock parent folder")
+IF(ENABLE_GOOGLE_TEST)
+    find_path(GTEST_INCLUDE_DIR
+             gtest/gtest.h
+             HINTS ${GMOCK_HOME}/gtest/include
+             PATH_SUFFIXES gtest
+             DOC "gtest include dir")
+    find_path(GMOCK_INCLUDE_DIR
+             gmock/gmock.h
+             HINTS ${GMOCK_HOME}/include
+             PATH_SUFFIXES gmock
+             DOC "gmock include dir")
+    include_directories(${GMOCK_INCLUDE_DIR} ${GTEST_INCLUDE_DIR})
+
+    find_library(GTEST_LIBRARY
+                NAMES gtest
+                      libgtest
+                      libgtest.a
+                HINTS ${GMOCK_HOME}/mybuild/gtest
+                      ${GMOCK_HOME}/gtest
+                      ${GMOCK_HOME}/gtest/mybuild)
+    find_library(GTEST_LIBRARY_MAIN
+                NAMES gtest_main
+                      libgtest_main
+                      libgtest.a
+                HINTS ${GMOCK_HOME}/mybuild/gtest
+                      ${GMOCK_HOME}/gtest
+                      ${GMOCK_HOME}/gtest/mybuild)
+
+    find_library(GMOCK_LIBRARY
+                NAMES gmock
+                      libgmock
+                      libgmock.a
+                HINTS ${GMOCK_HOME}/mybuild
+                      ${GMOCK_HOME})
+    find_library(GMOCK_LIBRARY_MAIN
+                NAMES gmock_main
+                      libgmock_main
+                      libgmock.a
+                HINTS ${GMOCK_HOME}/mybuild
+                      ${GMOCK_HOME})
+ENDIF()
+endsnippet
+
+snippet testGoogle "Create a test executable with google" b
+IF(ENABLE_GOOGLE_TEST)
+    add_executable(${1:exeTestName} $1.cpp)
+    target_link_libraries($1 ${GMOCK_LIBRARY_MAIN} ${GTEST_LIBRARY_MAIN})
+ENDIF()
+endsnippet
