@@ -1,0 +1,16 @@
+" Basics
+" C-o, C-i : back and forward
+" :qmarks key url
+" gn<key> open in new tab, or go<key> in current tab
+" f hint links
+" ctrl-w default firefox to close tab, d vimperator.
+" t <url> open url in new tab.
+" o url in current tab.
+" b, buffer of openen tabs. <count>b go there.
+
+" scrollfaster
+noremap j 3j
+noremap k 3k
+" use l and h to switch tabs
+noremap l gt
+noremap h gT
