@@ -9,8 +9,39 @@
 " b, buffer of openen tabs. <count>b go there.
 
 " scrollfaster
-noremap j 3j
-noremap k 3k
+let g:smooziee_scroll_amount="100"
+let g:smooziee_scroll_interval="150"
+" noremap j 3j
+" noremap k 3k
 " use l and h to switch tabs
 noremap l gt
 noremap h gT
+noremap <C-l> :tabmove! +1<CR>
+noremap <C-h> :tabmove! -1<CR>
+silent qmark g https://mail.google.com
+silent qmark c https://www.google.com/calendar
+silent qmark f https://www.facebook.com
+silent qmark G https://www.github.com
+silent qmark t https://www.twitter.com
+silent qmark o https://www.outlook.com
+
+set defsearch=google
+set suggestengines=google
+
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+" set the mapleader key
+" let mapleader = "\"
+" let g:mapleader = "\"
+"
+" " tell the bell to go beep itself!
+set visualbell
+" set wild mode to show completions as you type. Default is full:list
+" set wildmode="full:list"
+" Don't go into insert mode when loading a page
+set focuscontent
+
+" Use the default firefox <C-w> to close.
+noremap d <silent> <Nop>
