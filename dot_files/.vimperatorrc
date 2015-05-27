@@ -24,6 +24,8 @@ silent qmark f https://www.facebook.com
 silent qmark G https://www.github.com
 silent qmark t https://www.twitter.com
 silent qmark o https://www.outlook.com
+silent qmark v https://www.overleaf.com
+silent qmark r http://127.0.0.1:3000
 
 set defsearch=google
 set suggestengines=google

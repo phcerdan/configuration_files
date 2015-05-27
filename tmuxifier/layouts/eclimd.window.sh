@@ -12,6 +12,7 @@ split_h 20
 
 # Run commands.
 run_cmd "cd ~/Software/eclipse"     # runs in active pane
+run_cmd "export SWT_GTK3=0" # bug in eclipse Kepler/Luna/Mars
 run_cmd "./eclimd"
 #run_cmd "date" 1  # runs in pane 1
 

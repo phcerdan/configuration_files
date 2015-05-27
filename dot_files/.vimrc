@@ -28,7 +28,7 @@ Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
-Plugin 'tpope/vim-obsession'              " Save/restore sessions :Obsess, :Obsess!, and vim -S, or :source to restore. Also used by tmux-resurrect
+Plugin 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
 
 Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
 
@@ -66,8 +66,8 @@ nnoremap <Leader>bd :Bdelete<CR>
 """""""" R """""""""""":
 Plugin 'jalvesaq/VimCom'      " Communication vim - R
 " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
-Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 Plugin 'jalvesaq/R-Vim-runtime'
+Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 " Recommended in R:
 " colourout and set with
 " download.file("http://www.lepem.ufc.br/jaa/colorout_1.1-0.tar.gz", destfile= "colorout_1.1-0.tar.gz")
@@ -78,13 +78,16 @@ let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
 let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
 " let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
 
+"""""""" Python """"""""""
+Plugin 'klen/python-mode'
 """"""""""CUDA""""""""""""
 Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " Create a symlink inside vim-snippets/snippets pointing to
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
 au BufNewFile,BufRead *.cu setlocal ft=cuda.cpp
 
-" All oria/Vim-R-plugindded before the following line
+""""""" Rails (Ruby) """":
+Plugin 'tpope/vim-rails'
 call vundle#end()            " required
 
 filetype plugin indent on    " required
@@ -104,6 +107,7 @@ set title
 set diffopt+=vertical " Gdiff open in vertical.
 set splitright
 set splitbelow
+set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
 
 " BUILT IN OPTIONS:
 " Basic
@@ -116,6 +120,7 @@ set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
+set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (") 
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 " Searching
 set ignorecase
@@ -192,7 +197,8 @@ let g:EclimDefaultFileOpenAction       = 'vsplit'
 let g:EclimCSearchSingleResult         = 'vsplit'
 let g:EclimBuffersDefaultAction        = 'vsplit'
 let g:EclimLocateFileDefaultAction     = 'vsplit'
-let g:EclimCCallHierarchyDefaultAction ='vsplit'
+let g:EclimCCallHierarchyDefaultAction = 'vsplit'
+let g:EclimKeepLocalHistory            = 1
 autocmd VimEnter * if exists(":CSearchContext") | exe "nnoremap <silent> <buffer> <cr> :CSearchContext<cr>" | endif
 
 "CtrlP and Ag
@@ -221,11 +227,60 @@ if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
 endif
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close, in ~/.viminfo
+set viminfo^=%
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => vimgrep searching and cope displaying https://amix.dk/vim/vimrc.html
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" When you press gv you vimgrep after the selected text
+vnoremap <silent> gv :call VisualSelection('gv')<CR>
+
+" Open vimgrep and put the cursor in the right position
+map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+
+" Vimgreps in the current file
+map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 " Keep the last cursor position: http://stackoverflow.com/questions/8854371/vim-how-to-restore-the-cursors-logical-and-physical-positions
 " Create a folder ~/.vim/view
 " au BufWinLeave *.tex, *.c, *.cpp, *.h, *.hpp mkview
 " au VimEnter *.tex,*.c,*.cpp,*.h,*.hpp loadview
 
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction
+function! VisualSelection(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set makeprg to closest build folder (Cmake builds)
 function! SetMakeprg()
     if !empty(glob("../build"))
