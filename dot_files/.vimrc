@@ -142,6 +142,12 @@ set scrolloff=20 " 999 keeps the cursos in the middle.
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " General Maps:
+" Close window (split)
+noremap <Leader>q <c-W>c
+"Easiest save:
+nnoremap <silent> <Leader>w          :update<CR>
+vnoremap <silent> <Leader>w         <C-C>:update<CR>
+inoremap <silent> <Leader>w         <C-O>:update<CR>
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -183,12 +189,12 @@ autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update!<CR>:
 let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
 " To show full path: default is %f instead of %F.
-let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}Ô%#__restore__#'
 
 " vim-tmuxline
 let g:tmuxline_powerline_separators = 0
 
-" Cpp highlighting:
+" Cpp highlighting:[MaÔ
 " let g:cpp_class_scope_highlight = 1
 
 " Eclim
@@ -199,7 +205,7 @@ let g:EclimBuffersDefaultAction        = 'vsplit'
 let g:EclimLocateFileDefaultAction     = 'vsplit'
 let g:EclimCCallHierarchyDefaultAction = 'vsplit'
 let g:EclimKeepLocalHistory            = 1
-autocmd VimEnter * if exists(":CSearchContext") | exe "nnoremap <silent> <buffer> <cr> :CSearchContext<cr>" | endif
+nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 
 "CtrlP and Ag
 if executable('ag')
