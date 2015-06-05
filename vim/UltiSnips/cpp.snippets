@@ -1,3 +1,22 @@
+global !p
+import vim
+def commentLine(ll = 60):
+	r="/"
+	for a in xrange(ll - 2):
+		r+="*"
+	r+="/"
+	return r
+
+endglobal
+snippet com "Comment /** */" b
+/** ${1:Comment} */
+endsnippet
+snippet comsep "Comment Separator, with fixed length" !b
+`!p snip.rv = commentLine()`
+/*******${1:TEXT}********/
+`!p snip.rv = commentLine()`
+$0
+endsnippet
 snippet ifndef "Expand ifdef" !b
 #ifndef $1
 #define $1
@@ -79,12 +98,17 @@ const_cast<${1}>(${2})${0}
 endsnippet
 
 # Google Mock
-snippet ass "ASSERT_THAT" b
+snippet ass "ASSERT_THAT Google Mock" b
 ASSERT_THAT($1,$2);
 endsnippet
 
-snippet TEST_F "TEST_F" b
+snippet TEST_F "TEST_F Google Mock" !b
 TEST_F(${1:FixtureClass}, ${2:TestName}) {
+	$3
+}
+endsnippet
+snippet TEST "TEST Google Mock" !b
+TEST(${1:TestClass}, ${2:TestName}) {
 	$3
 }
 endsnippet

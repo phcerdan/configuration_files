@@ -4,6 +4,8 @@
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
+# EDITOR, for tmuxinator
+export EDITOR='vim'
 # GMOCK
 export GMOCK_HOME=/home/phc/Software/gmock-1.7.0
 # User specific aliases and functions
@@ -26,6 +28,10 @@ if [ "$TMUX" ]; then
         source /home/phc/bin/texlive-dev.sh
     fi
 fi
+# For tmuxifier:
+alias mux='tmuxifier'
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+eval "$(tmuxifier init -)"
 # FOR tmux: from http://opennomad.com/content/goodbye-screen-hello-tmux
 # Color stuff
 if [ $TERM == "xterm" ]; then #  && [ $COLORTERM == "gnome-terminal" ]; then
@@ -79,3 +85,5 @@ fi
 #     #echo DISPLAY = $DISPLAY, display.txt = `cat ~/.display.txt`, STY = $STY, TMUX = $TMUX  
 # }
 # trap 'preexec' DEBUG
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

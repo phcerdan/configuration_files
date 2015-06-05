@@ -120,7 +120,7 @@ set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
-set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (") 
+set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 " Searching
 set ignorecase
@@ -142,8 +142,8 @@ set scrolloff=20 " 999 keeps the cursos in the middle.
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " General Maps:
-" Close window (split)
-noremap <Leader>q <c-W>c
+" Close buffer and window (split)
+noremap <Leader>q :Bclose<CR><c-W>c
 "Easiest save:
 nnoremap <silent> <Leader>w          :update<CR>
 vnoremap <silent> <Leader>w         <C-C>:update<CR>
@@ -227,7 +227,7 @@ function! StripTrailingWhitespace()
   endif
   normal `Z
 endfunction
-autocmd BufWritePre *.cpp,*.hpp,*.h,*.c :call StripTrailingWhitespace()
+autocmd BufWritePre *.cpp,*.hpp,*.h,*.c,*.hxx :call StripTrailingWhitespace()
 
 if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
