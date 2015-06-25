@@ -113,6 +113,9 @@ TEST(${1:TestClass}, ${2:TestName}) {
 }
 endsnippet
 #boost: program_options
+snippet vflag "VFLAG conditional to visualize tests" b
+if (VFLAG) viewer.Visualize();
+endsnippet
 
 snippet poclass "program_option full class .cpp" bm
 #include <iostream>

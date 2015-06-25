@@ -9,8 +9,8 @@ if initialize_session "ruby"; then
   # Create a new window inline within session layout definition.
   new_window "vim"
   new_window "build"
-  new_window "irb"
-  run_cmd "irb"
+  new_window "railsConsole"
+  run_cmd "rails console
 
   # Load a defined window layout.
   #load_window "example"
