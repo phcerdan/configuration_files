@@ -8,6 +8,8 @@ else
 	#Modify path for dependancies of OPENFOAM: CGAL
 	export PATH=$numerical_libs_folder/bin:$PATH
 	export LD_LIBRARY_PATH=$numerical_libs_folder/lib:$LD_LIBRARY_PATH
+    source /home/phc/bin/openBlas-devtools.sh
+    source /home/phc/bin/lapack-devtools.sh
     echo 'Module numerical_libs loaded'
 	# echo ''
 	# echo 'PATH:'$PATH

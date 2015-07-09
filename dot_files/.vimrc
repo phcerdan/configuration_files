@@ -297,6 +297,10 @@ function! SetMakeprg()
         set makeprg=make\ -C\ ../build-debug\ --no-print-directory
         return
     endif
+    if !empty(glob("../build-release"))
+        set makeprg=make\ -C\ ../build-release\ --no-print-directory
+        return
+    endif
 
     if !empty(glob("../../build"))
         set makeprg=make\ -C\ ../../build\ --no-print-directory
@@ -305,6 +309,10 @@ function! SetMakeprg()
 
     if !empty(glob("../../build-debug"))
         set makeprg=make\ -C\ ../../build-debug\ --no-print-directory
+        return
+    endif
+    if !empty(glob("../../build-release"))
+        set makeprg=make\ -C\ ../../build-release\ --no-print-directory
         return
     endif
 endfunction
