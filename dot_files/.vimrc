@@ -289,30 +289,35 @@ endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set makeprg to closest build folder (Cmake builds)
 function! SetMakeprg()
+      if !empty($NUMBER_OF_PROCESSORS)
+        " this works on Windows and provides a convenient override mechanism otherwise
+        let n = $NUMBER_OF_PROCESSORS + 0
+      elseif filereadable('/proc/cpuinfo')
+        " this works on most Linux systems
+        let n = system('grep -c ^processor /proc/cpuinfo') + 0
+      elseif executable('/usr/sbin/psrinfo')
+        " this works on Solaris
+        let n = system('/usr/sbin/psrinfo -p')
+      else
+        " default to single process if we can't figure it out automatically
+        let n = 1
+      endif
+
     if !empty(glob("../build"))
-        set makeprg=make\ -C\ ../build\ --no-print-directory
-        return
+        let buildFolder='../build'
+    elseif !empty(glob("../build-debug"))
+        let buildFolder='../build-debug'
+    elseif !empty(glob("../build-release"))
+        let buildFolder='../build-release'
+    elseif !empty(glob("../../build"))
+        let buildFolder='../../build'
+    elseif !empty(glob("../../build-debug"))
+        let buildFolder='../../build-debug'
+    elseif !empty(glob("../../build-release"))
+        let buildFolder='../../build-release'
     endif
-    if !empty(glob("../build-debug"))
-        set makeprg=make\ -C\ ../build-debug\ --no-print-directory
-        return
-    endif
-    if !empty(glob("../build-release"))
-        set makeprg=make\ -C\ ../build-release\ --no-print-directory
-        return
-    endif
-
-    if !empty(glob("../../build"))
-        set makeprg=make\ -C\ ../../build\ --no-print-directory
-        return
-    endif
-
-    if !empty(glob("../../build-debug"))
-        set makeprg=make\ -C\ ../../build-debug\ --no-print-directory
-        return
-    endif
-    if !empty(glob("../../build-release"))
-        set makeprg=make\ -C\ ../../build-release\ --no-print-directory
+    if exists("buildFolder")
+        let &makeprg= 'make --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
         return
     endif
 endfunction
