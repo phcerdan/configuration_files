@@ -1,0 +1,16 @@
+[user]
+	name = phcerdan
+	email = pablo.hernandez.cerdan@outlook.com
+	mail = pablo.hernandez.cerdan@outlook.com
+[core]
+	editor = gvim -v
+[http]
+	proxy = http://phernand:massey_mola_1@tur-cache.massey.ac.nz:8080
+[https]
+	proxy = https://phernand:massey_mola_1@tur-cache.massey.ac.nz:8080
+[credential]
+	helper = cache --timeout=36000000000
+[init]
+	templatedir = ~/.git_template
+[push]
+	default = simple

@@ -1,5 +1,5 @@
 #!/bin/bash
-export gtk_folder=/home/phc/devtoolset/gtk
+export gtk_folder=~/devtoolset/gtk
 if echo $gtk_loaded |grep -q 'loaded'
 then
 	echo "gtk already loaded"

@@ -1,5 +1,5 @@
 #!/bin/bash
-export vtk_debug_folder=/home/phc/devtoolset/debug/VTK
+export vtk_debug_folder=~/devtoolset/debug/VTK
 if echo $vtk_debug_loaded |grep -q 'loaded'
 then
 	echo "vtk_debug already loaded"

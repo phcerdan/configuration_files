@@ -1,5 +1,5 @@
 #!/bin/bash
-export opencv_release_folder=/home/phc/devtoolset/release/opencv
+export opencv_release_folder=~/devtoolset/release/opencv
 if echo $opencv_release_loaded |grep -q 'loaded'
 then
 	echo "opencv_release already loaded"

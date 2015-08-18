@@ -1,5 +1,5 @@
 #!/bin/bash
-export open_blas_folder=/home/phc/devtoolset/numerical_libs/OpenBLAS
+export open_blas_folder=~/devtoolset/numerical_libs/OpenBLAS
 if echo $open_blas_loaded |grep -q 'loaded'
 then
 	echo "open_blas already loaded"

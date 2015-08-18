@@ -1,5 +1,5 @@
 #!/bin/bash
-export R_folder=/home/phc/devtoolset/R
+export R_folder=~/devtoolset/R
 if echo $R_loaded |grep -q 'loaded'
 then
 	echo "R already loaded"

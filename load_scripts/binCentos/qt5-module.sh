@@ -1,5 +1,5 @@
 #!/bin/bash
-export qt5_folder=/home/phc/Software/Qt5/qt5/qtbase
+export qt5_folder=~/Software/Qt5/qt5/qtbase
 if echo $qt5_loaded |grep -q 'loaded'
 then
 	echo "qt5 already loaded"

@@ -77,14 +77,14 @@ Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
 let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
 " let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
-
+let vimrplugin_r_path = "~/devtoolset/R/bin" 
 """""""" Python """"""""""
 Plugin 'klen/python-mode'
 """"""""""CUDA""""""""""""
 Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " Create a symlink inside vim-snippets/snippets pointing to
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
-au BufNewFile,BufRead *.cu setlocal ft=cuda.cpp
+au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 
 """"""" Rails (Ruby) """":
 Plugin 'tpope/vim-rails'
@@ -135,6 +135,16 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set backspace=indent,eol,start
+set matchpairs+=<:>
+command Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
+command Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
+command Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
+command Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+command Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
+command Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
+
+command IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
+au BufNewFile,BufRead *.txx setlocal ft=cpp
 
 set hid          " Send files to buffer instead of closing them -- e,n ... commands.
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-export itk_release_folder=/home/phc/devtoolset/release/ITK
+export itk_release_folder=~/devtoolset/release/ITK
 if echo $itk_release_loaded |grep -q 'loaded'
 then
 	echo "itk_release already loaded"

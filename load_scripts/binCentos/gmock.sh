@@ -1,1 +1,1 @@
-export GMOCK_HOME=/home/phc/Software/gmock-1.7.0
+export GMOCK_HOME=~/Software/gmock-1.7.0

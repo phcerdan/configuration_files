@@ -1,5 +1,5 @@
 #!/bin/bash
-export vtk_release_folder=/home/phc/devtoolset/release/VTK
+export vtk_release_folder=~/devtoolset/release/VTK
 if echo $vtk_release_loaded |grep -q 'loaded'
 then
 	echo "vtk_release already loaded"

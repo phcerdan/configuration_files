@@ -1,4 +1,5 @@
 #!/bin/bash
-source /home/phc/bin/debug-VTK-dev.sh
-source /home/phc/bin/debug-ITK-dev.sh
-source /home/phc/bin/debug-opencv-dev.sh
+source ~/bin/debug-VTK-dev.sh
+source ~/bin/debug-ITK-dev.sh
+source ~/bin/debug-opencv-dev.sh
+source ~/bin/qt5-module.sh

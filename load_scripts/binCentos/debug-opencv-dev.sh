@@ -1,5 +1,5 @@
 #!/bin/bash
-export opencv_debug_folder=/home/phc/devtoolset/debug/opencv
+export opencv_debug_folder=~/devtoolset/debug/opencv
 if echo $opencv_debug_loaded |grep -q 'loaded'
 then
 	echo "opencv_debug already loaded"

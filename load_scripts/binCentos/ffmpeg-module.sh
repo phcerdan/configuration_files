@@ -1,5 +1,5 @@
 #!/bin/bash
-export ffmpeg_folder=/home/phc/devtoolset/ffmpeg
+export ffmpeg_folder=~/devtoolset/ffmpeg
 if echo $ffmpeg_loaded |grep -q 'loaded'
 then
 	echo "ffmpeg already loaded"

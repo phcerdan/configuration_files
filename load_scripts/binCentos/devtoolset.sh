@@ -8,7 +8,7 @@ else
 	export devtoolsetloaded="loaded"
 	export oldPATH=$PATH
 	export oldLD_LIBRARY_PATH=$LD_LIBRARY_PATH
-	devtoolsethome=/home/phc/devtoolset
+	devtoolsethome=~/devtoolset
 	export PATH=$devtoolsethome/bin:$PATH
 	export LD_LIBRARY_PATH="$devtoolsethome/lib:$devtoolsethome/lib64:$LD_LIBRARY_PATH"
 	echo "Module devtoolset loaded"

@@ -1,5 +1,5 @@
 #!/bin/bash
-export lapack_folder=/home/phc/devtoolset/numerical_libs/Lapack
+export lapack_folder=~/devtoolset/numerical_libs/Lapack
 if echo $lapack_loaded |grep -q 'loaded'
 then
 	echo "lapack already loaded"

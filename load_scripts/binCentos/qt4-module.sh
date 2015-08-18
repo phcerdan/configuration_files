@@ -1,5 +1,5 @@
 #!/bin/bash
-export qt4_folder=/home/phc/Software/Qt4
+export qt4_folder=~/Software/Qt4
 if echo $q4_loaded |grep -q 'loaded'
 then
 	echo "qt4 already loaded"
