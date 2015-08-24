@@ -1,0 +1,5 @@
+#!/bin/bash
+xset m 1/1 0
+# Increase Decceleration of USB Mouse. xinput --list to see devices
+# xinput --set-prop 11 280 1.2
+# xinput --set-prop 11 279 1.2

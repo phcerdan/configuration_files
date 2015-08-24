@@ -121,7 +121,8 @@ set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of 
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
 set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
-au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
+" au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
+au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 " Searching
 set ignorecase
 set smartcase
@@ -193,7 +194,7 @@ let g:LatexBox_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O
 syntax spell toplevel
 let g:tex_comment_nospell=1
 " To save automatically when using <LocalLeader>ll
-autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update!<CR>:Latexmk!<CR>
+autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
 
 " vim-Airline:
 let g:airline_theme='wombat'
@@ -325,6 +326,12 @@ function! SetMakeprg()
         let buildFolder='../../build-debug'
     elseif !empty(glob("../../build-release"))
         let buildFolder='../../build-release'
+    elseif !empty(glob("../../../build"))
+        let buildFolder='../../../build'
+    elseif !empty(glob("../../../build-debug"))
+        let buildFolder='../../../build-debug'
+    elseif !empty(glob("../../../build-release"))
+        let buildFolder='../../../build-release'
     endif
     if exists("buildFolder")
         let &makeprg= 'make --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
