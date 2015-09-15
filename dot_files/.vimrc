@@ -77,9 +77,9 @@ Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
 let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
 " let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
-let vimrplugin_r_path = "~/devtoolset/R/bin" 
+let vimrplugin_r_path = "~/devtoolset/R/bin"
 """""""" Python """"""""""
-Plugin 'klen/python-mode'
+" Plugin 'klen/python-mode'
 """"""""""CUDA""""""""""""
 Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " Create a symlink inside vim-snippets/snippets pointing to
@@ -88,6 +88,33 @@ au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 
 """"""" Rails (Ruby) """":
 Plugin 'tpope/vim-rails'
+""""""" Modern Clang Required! """
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'rdnetto/YCM-Generator'
+" disable load ycm if no clang in the path.
+if executable('clang')
+    " ctags must be called with --fields=+l (modify git_templates/ctags)
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+    let g:ycm_autoclose_preview_window_after_insertion = 1
+    let g:ycm_autoclose_preview_window_after_completion = 1
+
+    " make YCM compatible with UltiSnips (using supertab)
+    let g:ycm_key_list_select_completion = ['<C-j>', '<C-n>', '<Down>']
+    let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
+    let g:SuperTabDefaultCompletionType = '<C-n>'
+    let g:SuperTabCrMapping = 0
+
+    "  better key bindings for UltiSnipsExpandTrigger
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    " let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+else
+    let g:loaded_youcompleteme = 1
+endif
+" Close preview window (Ctrl-W z do it as well)
+:nnoremap <Leader>c :set cursorline!<CR>
+
 call vundle#end()            " required
 
 filetype plugin indent on    " required
@@ -150,6 +177,9 @@ au BufNewFile,BufRead *.txx setlocal ft=cpp
 set hid          " Send files to buffer instead of closing them -- e,n ... commands.
 
 set scrolloff=20 " 999 keeps the cursos in the middle.
+" Autocomplete window: show preview win, show menu with 1 match, insert
+" longest match
+set completeopt=preview,menuone,longest
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " General Maps:
@@ -174,7 +204,7 @@ map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --on
 
 " Highlight Cursor
 :hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
-:nnoremap <Leader>c :set cursorline!<CR>
+:nnoremap <Leader>cl :set cursorline!<CR>
 
 " If you want :UltiSnipsEdit to split your window
 " set runtimepath+=~/.dotfiles
@@ -238,7 +268,7 @@ function! StripTrailingWhitespace()
   endif
   normal `Z
 endfunction
-autocmd BufWritePre *.cpp,*.hpp,*.h,*.c,*.hxx :call StripTrailingWhitespace()
+autocmd BufWritePre *.cpp,*.hpp,*.h,*.c,*.hxx,*.cxx :call StripTrailingWhitespace()
 
 if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
