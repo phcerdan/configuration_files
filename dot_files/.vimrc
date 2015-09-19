@@ -91,27 +91,27 @@ Plugin 'tpope/vim-rails'
 """"""" Modern Clang Required! """
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'rdnetto/YCM-Generator'
+" ctags must be called with --fields=+l (modify git_templates/ctags)
+let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabCrMapping = 0
+
+"  better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+" let g:UltiSnipsJumpForwardTrigger = "<tab>"
+" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " disable load ycm if no clang in the path.
-if executable('clang')
-    " ctags must be called with --fields=+l (modify git_templates/ctags)
-    let g:ycm_collect_identifiers_from_tags_files = 1
-    let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-    let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_autoclose_preview_window_after_completion = 1
-
-    " make YCM compatible with UltiSnips (using supertab)
-    let g:ycm_key_list_select_completion = ['<C-j>', '<C-n>', '<Down>']
-    let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
-    let g:SuperTabDefaultCompletionType = '<C-n>'
-    let g:SuperTabCrMapping = 0
-
-    "  better key bindings for UltiSnipsExpandTrigger
-    let g:UltiSnipsExpandTrigger = "<tab>"
-    " let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-else
-    let g:loaded_youcompleteme = 1
-endif
+" if executable('clang')
+" else
+"     let g:loaded_youcompleteme = 1
+" endif
 " Close preview window (Ctrl-W z do it as well)
 :nnoremap <Leader>c :set cursorline!<CR>
 
@@ -186,9 +186,9 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 " Close buffer and window (split)
 noremap <Leader>q :Bclose<CR><c-W>c
 "Easiest save:
-nnoremap <silent> <Leader>w          :update<CR>
-vnoremap <silent> <Leader>w         <C-C>:update<CR>
-inoremap <silent> <Leader>w         <C-O>:update<CR>
+" nnoremap <silent> <Leader>w          :update<CR>
+" vnoremap <silent> <Leader>w         <C-C>:update<CR>
+" inoremap <silent> <Leader>w         <C-O>:update<CR>
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -244,8 +244,9 @@ let g:EclimDefaultFileOpenAction       = 'vsplit'
 let g:EclimCSearchSingleResult         = 'vsplit'
 let g:EclimBuffersDefaultAction        = 'vsplit'
 let g:EclimLocateFileDefaultAction     = 'vsplit'
-let g:EclimCCallHierarchyDefaultAction = 'vsplit'
-let g:EclimKeepLocalHistory            = 1
+" let g:EclimCCallHierarchyDefaultAction = 'vsplit'
+" let g:EclimKeepLocalHistory            = 1
+let g:EclimCompletionMethod = 'omnifunc'
 nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 
 "CtrlP and Ag
