@@ -21,6 +21,8 @@ let g:SuperTabDefaultCompletionType = 'context'
 
 " Align and Tabularize:
 Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
+" Markdown recognition: (no github flavour :/ )
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
 Plugin 'vim-scripts/AutoAlign'
 
@@ -147,7 +149,8 @@ set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
-set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
+" set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
+set clipboard+=unnamedplus
 " au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 " Searching
@@ -366,6 +369,7 @@ function! SetMakeprg()
     endif
     if exists("buildFolder")
         let &makeprg= 'make --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
+        let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
         return
     endif
 endfunction
