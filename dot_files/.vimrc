@@ -8,10 +8,13 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-
 " Ultisnips (Macros)
 Plugin 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plugin 'honza/vim-snippets'
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
+"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:UltiSnipsListSnippets="<Leader>q" "query ,q
 
 " Supertab Use tab to auto-complete, Ctrl-E to return to original without auto-complete
 Plugin 'ervandew/supertab'
@@ -19,51 +22,58 @@ let g:SuperTabDefaultCompletionType = 'context'
 " set wildmode=list:longest,full
 " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion "
 
-" Align and Tabularize:
-Plugin 'godlygeek/tabular'                " Tabularize :Tabularize /\/\ --Align \\
-" Markdown recognition: (no github flavour :/ )
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-Plugin 'vim-scripts/Align'                " Tabularize is better, but it is requisite for autoalign
-Plugin 'vim-scripts/AutoAlign'
-
 Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
+Plugin 'tpope/vim-commentary'             " gcc to comment sentence, gc$, etc.
+Plugin 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
+Plugin 'vim-scripts/visualrepeat'         " works with visual mode too.
 
-Plugin 'tomtom/tcomment_vim'              " gcc to comment sentence, gc$, etc.
+Plugin 'Raimondi/delimitMate'             " Auto-pair like script
+Plugin 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
+let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
+
+" Align and Tabularize:
+Plugin 'junegunn/vim-easy-align'
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " File Navigation and Search:
-Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'              " Folder structure viewer
 Plugin 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
 nnoremap <Leader>t :CtrlPTag<cr>
 Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
 Plugin 'emnh/taglist.vim'                 " Most up-voted plugin ever, works great with ctags.
 nnoremap <silent> <F9> :TlistToggle<cr>
-" Status Line Plugins
-Plugin 'bling/vim-airline'                " Colourful status-line.
-Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
-Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 " Color Schemes
 Plugin 'rainux/vim-desert-warm-256'
+Plugin 'bling/vim-airline'                " Colourful status-line.
+let g:airline_theme='wombat'
+let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+" To show full path: default is %f instead of %F.
+let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+" TMUX
+Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
+let g:tmuxline_powerline_separators = 0
+Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+" Buffers control
+Plugin 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
+Plugin 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
+command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
+nnoremap <Leader>bd :Bdelete<CR>
 "Language specifics Plugins
+""""""LATEX """""
 Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf recommended.
 Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plugin 'Townk/vim-autoclose'
 " inoremap {<CR> {<CR>}<C-o>O}
-Plugin 'Raimondi/delimitMate'
 Plugin 'vim-scripts/DoxygenToolkit.vim'
-Plugin 'ntpeters/vim-better-whitespace'
-let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
-" Plugin 'nathanaelkane/vim-indent-guides'
 " Eclim has a special installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
-" Buffers control
-Plugin 'vim-scripts/BufOnly.vim'
-Plugin 'moll/vim-bbye'                   " Bdelete, as Bclose, deleting buffers without deleting windows.
-command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-nnoremap <Leader>bd :Bdelete<CR>
 
 """""""" R """""""""""":
 Plugin 'jalvesaq/VimCom'      " Communication vim - R
@@ -87,25 +97,22 @@ Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " Create a symlink inside vim-snippets/snippets pointing to
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
 au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
-
 """"""" Rails (Ruby) """":
-Plugin 'tpope/vim-rails'
-""""""" Modern Clang Required! """
+" Plugin 'tpope/vim-rails'
+"""""""AUTCOMPLETERS"""""
+" Installed without Clang
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'rdnetto/YCM-Generator'
+" Plugin 'rdnetto/YCM-Generator'  " Generate yconf_* per project based on cmake (weak)
 " ctags must be called with --fields=+l (modify git_templates/ctags)
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:ycm_autoclose_preview_window_after_completion = 1
-
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
 let g:SuperTabCrMapping = 0
-
-"  better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 " let g:UltiSnipsJumpForwardTrigger = "<tab>"
 " let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
@@ -129,9 +136,6 @@ colorscheme desert-warm-256
 setlocal spell spelllang=en_us
 set nospell
 map <F12> :setlocal spell! spelllang=en_us<CR>
-" Tmux
-" autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
-" autocmd BufReadPost,FileReadPost,BufNewFile,BufEnter * call system("tmux rename-window " . expand("%"))
 set title
 set diffopt+=vertical " Gdiff open in vertical.
 set splitright
@@ -140,8 +144,8 @@ set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc)
 
 " BUILT IN OPTIONS:
 " Basic
-set number
-set relativenumber
+set number           " Show line numbers
+set relativenumber   " In relative way
 set autochdir        " Set cd to current file directory.
 set pastetoggle=<F8> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
@@ -154,38 +158,39 @@ set clipboard+=unnamedplus
 " au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 " Searching
-set ignorecase
-set smartcase
+set ignorecase " ignore case
+set smartcase  " expcept when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
+set hid          " Send files to buffer instead of closing them -- e,n ... commands.
+set scrolloff=20 " 999 keeps the cursos in the middle.
+" Autocomplete window: show preview win, show menu with 1 match, insert longest match
+set completeopt=preview,menuone,longest
 
 " Tabs and whitespaces
 set autoindent
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
 set backspace=indent,eol,start
+set expandtab
 set matchpairs+=<:>
-command Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
-command Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
-command Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
-command Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
-command Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
-command Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
 
-command IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
+command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
+command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
+command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
+command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
+command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
+" Template files.
 au BufNewFile,BufRead *.txx setlocal ft=cpp
-
-set hid          " Send files to buffer instead of closing them -- e,n ... commands.
-
-set scrolloff=20 " 999 keeps the cursos in the middle.
-" Autocomplete window: show preview win, show menu with 1 match, insert
-" longest match
-set completeopt=preview,menuone,longest
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
-" General Maps:
+" Recognize Markdown.
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+""""""""" General Maps: """""""""""""""""
 " Close buffer and window (split)
 noremap <Leader>q :Bclose<CR><c-W>c
 "Easiest save:
@@ -209,13 +214,6 @@ map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --on
 :hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
 :nnoremap <Leader>cl :set cursorline!<CR>
 
-" If you want :UltiSnipsEdit to split your window
-" set runtimepath+=~/.dotfiles
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
-"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsListSnippets="<Leader>q" "query ,q
-
 " Latex-box:
 let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
 let g:LatexBox_latexmk_preview_continuosly=1 " -pvc option in latexmk
@@ -228,18 +226,6 @@ syntax spell toplevel
 let g:tex_comment_nospell=1
 " To save automatically when using <LocalLeader>ll
 autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
-
-" vim-Airline:
-let g:airline_theme='wombat'
-let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-" To show full path: default is %f instead of %F.
-let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-
-" vim-tmuxline
-let g:tmuxline_powerline_separators = 0
-
-" Cpp highlighting:[MaÔ
-" let g:cpp_class_scope_highlight = 1
 
 " Eclim
 let g:EclimLogLevel                    = 'debug'
@@ -254,12 +240,12 @@ nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 
 "CtrlP and Ag
 if executable('ag')
-" Use Ag over Grep
-set grepprg=ag\ --nogroup\ --nocolor
-" Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" ag is fast enough that CtrlP doesn't need to cache
-let g:ctrlp_use_caching = 0
+    " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
 endif
 let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
 
@@ -272,7 +258,8 @@ function! StripTrailingWhitespace()
   endif
   normal `Z
 endfunction
-autocmd BufWritePre *.cpp,*.hpp,*.h,*.c,*.hxx,*.cxx :call StripTrailingWhitespace()
+" autocmd FileType c,cpp autocmd BufWritePre <buffer> StripWhitespace
+au FileType c,cpp au BufWritePre * call StripTrailingWhitespace()
 
 if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
@@ -291,19 +278,12 @@ set viminfo^=%
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " When you press gv you vimgrep after the selected text
 vnoremap <silent> gv :call VisualSelection('gv')<CR>
-
 " Open vimgrep and put the cursor in the right position
 map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
-
 " Vimgreps in the current file
 map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
-
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
-" Keep the last cursor position: http://stackoverflow.com/questions/8854371/vim-how-to-restore-the-cursors-logical-and-physical-positions
-" Create a folder ~/.vim/view
-" au BufWinLeave *.tex, *.c, *.cpp, *.h, *.hpp mkview
-" au VimEnter *.tex,*.c,*.cpp,*.h,*.hpp loadview
 
 function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
