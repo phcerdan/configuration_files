@@ -22,16 +22,18 @@ let g:SuperTabDefaultCompletionType = 'context'
 " set wildmode=list:longest,full
 " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion "
 
+Plugin 'Raimondi/delimitMate'             " Auto-pair like script
 Plugin 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
 Plugin 'tpope/vim-commentary'             " gcc to comment sentence, gc$, etc.
+au FileType cmake setlocal commentstring=#\ %s
+Plugin 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plugin 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plugin 'vim-scripts/visualrepeat'         " works with visual mode too.
 
-Plugin 'Raimondi/delimitMate'             " Auto-pair like script
 Plugin 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
 
@@ -41,6 +43,13 @@ Plugin 'junegunn/vim-easy-align'
 vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+Plugin 'Yggdroot/indentLine'
+let g:indentLine_char = '|'
+" let g:indentLine_leadingSpaceChar = '.'
+" let g:indentLine_leadingSpaceEnabled = 1
+let g:indentLine_faster = 1
+let g:indentLine_color_term = 239
+let g:indentLine_enabled = 1
 
 " File Navigation and Search:
 Plugin 'scrooloose/nerdtree'              " Folder structure viewer
@@ -65,6 +74,8 @@ Plugin 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except cur
 Plugin 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
 nnoremap <Leader>bd :Bdelete<CR>
+" Close buffer and window (split)
+noremap <Leader>q :Bclose<CR><c-W>c
 "Language specifics Plugins
 """"""LATEX """""
 Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf recommended.
@@ -121,8 +132,6 @@ let g:UltiSnipsExpandTrigger = "<tab>"
 " else
 "     let g:loaded_youcompleteme = 1
 " endif
-" Close preview window (Ctrl-W z do it as well)
-:nnoremap <Leader>c :set cursorline!<CR>
 
 call vundle#end()            " required
 
@@ -171,7 +180,7 @@ set completeopt=preview,menuone,longest
 set autoindent
 set backspace=indent,eol,start
 set expandtab
-set matchpairs+=<:>
+" set matchpairs+=<:>
 
 set tabstop=4
 set shiftwidth=4
@@ -191,12 +200,6 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 """"""""" General Maps: """""""""""""""""
-" Close buffer and window (split)
-noremap <Leader>q :Bclose<CR><c-W>c
-"Easiest save:
-" nnoremap <silent> <Leader>w          :update<CR>
-" vnoremap <silent> <Leader>w         <C-C>:update<CR>
-" inoremap <silent> <Leader>w         <C-O>:update<CR>
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -207,8 +210,9 @@ nnoremap gk k
 imap <c-F> <C-g>g
 inoremap <Leader>k <ESC>kI<TAB>
 inoremap <Leader>h <c-o>h
-" C,C++ specifics:
-map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
+" " C,C++ specifics:
+" use ]f [f from Unimpaired instead
+" map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
 
 " Highlight Cursor
 :hi CursorLine   cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
@@ -229,13 +233,14 @@ autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:L
 
 " Eclim
 let g:EclimLogLevel                    = 'debug'
-let g:EclimDefaultFileOpenAction       = 'vsplit'
-let g:EclimCSearchSingleResult         = 'vsplit'
-let g:EclimBuffersDefaultAction        = 'vsplit'
-let g:EclimLocateFileDefaultAction     = 'vsplit'
+" let g:EclimDefaultFileOpenAction       = 'vsplit'
+" let g:EclimCSearchSingleResult         = 'vsplit'
+" let g:EclimBuffersDefaultAction        = 'vsplit'
+" let g:EclimLocateFileDefaultAction     = 'vsplit'
 " let g:EclimCCallHierarchyDefaultAction = 'vsplit'
-" let g:EclimKeepLocalHistory            = 1
+let g:EclimKeepLocalHistory            = 1
 let g:EclimCompletionMethod = 'omnifunc'
+let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
 nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 
 "CtrlP and Ag
@@ -354,3 +359,5 @@ function! SetMakeprg()
     endif
 endfunction
 au FileType c,cpp call SetMakeprg()
+
+com! ClearQuickFix call setqflist([])
