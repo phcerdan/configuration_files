@@ -11,4 +11,8 @@ ln -s $SCRIPT_DIR/tmuxifier/layouts .
 cd $HOME/.vim
 ln -s $SCRIPT_DIR/vim/UltiSnips .
 
+echo "Cloning (git) Plugin managers in .vim (Vundle) and .tmux (tpm)"
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "Success: Eclim, YouCompleteMe and vim-R plugins require extra steps."
 
