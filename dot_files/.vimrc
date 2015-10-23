@@ -65,9 +65,10 @@ let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
 " To show full path: default is %f instead of %F.
 let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+let g:airline_powerline_fonts = 1
 " TMUX
 Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
-let g:tmuxline_powerline_separators = 0
+let g:tmuxline_powerline_separators = 1
 Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 " Buffers control
 Plugin 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
@@ -78,7 +79,7 @@ nnoremap <Leader>bd :Bdelete<CR>
 noremap <Leader>q :Bclose<CR><c-W>c
 "Language specifics Plugins
 """"""LATEX """""
-Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf recommended.
+Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf/Zathura recommended.
 Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plugin 'Townk/vim-autoclose'
 " inoremap {<CR> {<CR>}<C-o>O}
@@ -113,8 +114,11 @@ au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 """""""AUTCOMPLETERS"""""
 " Installed without Clang
 Plugin 'Valloric/YouCompleteMe'
+" Compiling required after plugin download:
+" cd ~/.vim/plugin/YouCompleteMe ; ./install.py
+" cd ~/.vim/plugin/YouCompleteMe ; ./install.py --clang-completer (Not recommended)
 " Plugin 'rdnetto/YCM-Generator'  " Generate yconf_* per project based on cmake (weak)
-" ctags must be called with --fields=+l (modify git_templates/ctags)
+" ctags must be called with --fields=+l (modified in git_templates/ctags)
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " let g:ycm_autoclose_preview_window_after_insertion = 1
