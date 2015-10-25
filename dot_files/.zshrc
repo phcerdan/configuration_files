@@ -25,12 +25,14 @@ if ! zgen saved; then
     zgen load bobthecow/git-flow-completion
     zgen load chrissicool/zsh-256color
     zgen load zsh-users/zsh-completions src
+    zgen load rupa/z
 
     # You don't require zgen oh-my-zsh for basic plugins.
     zgen oh-my-zsh
     zgen oh-my-zsh command-not-found
-    zgen oh-my-zsh z
     zgen oh-my-zsh git
+    # ESC ESC pre-pend sudo in current line.
+    zgen oh-my-zsh sudo
     # INSTALL FONTS: git clone https://github.com/powerline/fonts; cd fonts;./install.sh
     # https://powerline.readthedocs.org/en/latest/installation/linux.html#font-installation
     # fc-cache -vf ~/.fonts/
@@ -43,18 +45,38 @@ fi
 # Automatic rename at "cd /to/folder/" when tmux is set to screen-256color. Harmless workaround here in zsh.:
 DISABLE_AUTO_TITLE=true
 
-# FROM BASHRC
-export EDITOR='nvim'
-export PATH="$HOME/.tmuxifier/bin:$PATH"
-alias mux='tmuxifier'
-alias vim='nvim'
-alias sdevd='source /home/phc/bin/devtoolset-debug.sh'
-alias sdevr='source /home/phc/bin/devtoolset-release.sh'
+# LOAD general .aliases.
+source $HOME/.aliases
+# Platform specific aliases.
+alias sdev='source ~/bin/devtoolset-core.sh'
+alias sdevd='source ~/bin/devtoolset-debug.sh'
+alias sdevr='source ~/bin/devtoolset-release.sh'
 
-alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
-alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
-alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles"'
-alias ccmakeEclipse='ccmake -G"Eclipse CDT4 - Unix Makefiles"'
-alias cmakeEclipseC11='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
-alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
+if hash nvim 2>/dev/null; then
+    export EDITOR='nvim'
+    # alias vim='nvim'
+else
+    export EDITOR='vim'
+fi
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+
+
+###### FUNCTIONS ######
+# make a backup of a file
+# https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
+bk() {
+    cp -a "$1" "${1}_$(date --iso-8601=seconds)"
+}
+
+# print a separator banner, as wide as the terminal
+function sep {
+    print ${(l:COLUMNS::=:)}
+}
+
+# launch an app
+function launch {
+	type $1 >/dev/null || { print "$1 not found" && return 1 }
+	$@ &>/dev/null &|
+}
+alias launch="launch " # expand aliases
 # vim: set filetype=sh:

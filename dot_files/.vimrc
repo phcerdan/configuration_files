@@ -65,10 +65,10 @@ let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
 " To show full path: default is %f instead of %F.
 let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 " TMUX
 Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
-let g:tmuxline_powerline_separators = 1
+let g:tmuxline_powerline_separators = 0
 Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 " Buffers control
 Plugin 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
@@ -77,6 +77,8 @@ command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
 nnoremap <Leader>bd :Bdelete<CR>
 " Close buffer and window (split)
 noremap <Leader>q :Bclose<CR><c-W>c
+" Git (only)
+Plugin 'airblade/vim-gitgutter'
 "Language specifics Plugins
 """"""LATEX """""
 Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf/Zathura recommended.
