@@ -58,6 +58,9 @@ nnoremap <Leader>t :CtrlPTag<cr>
 Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
 Plugin 'emnh/taglist.vim'                 " Most up-voted plugin ever, works great with ctags.
 nnoremap <silent> <F9> :TlistToggle<cr>
+" c-] does not work when tags with same name exists (:help tselect). This will show a list.
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
 " Color Schemes
 Plugin 'rainux/vim-desert-warm-256'
 Plugin 'bling/vim-airline'                " Colourful status-line.
@@ -359,7 +362,7 @@ function! SetMakeprg()
         let buildFolder='../../../build-release'
     endif
     if exists("buildFolder")
-        let &makeprg= 'make --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
+        let &makeprg= 'make --stop --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
         let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
         return
     endif
