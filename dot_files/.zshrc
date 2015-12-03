@@ -1,4 +1,5 @@
 #!/bin/zsh
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # Clone zgen if you haven't already
 if [ ! -f ~/zgen/zgen.zsh ]; then
     pushd ~

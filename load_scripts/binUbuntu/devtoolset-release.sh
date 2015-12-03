@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/phc/bin/devtoolset-core.sh
 export devtoolset_release_folder=/home/phc/devtoolset/release
 if echo $devtoolset_release_loaded |grep -q 'loaded'
 then

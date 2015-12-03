@@ -1,4 +1,5 @@
 #!/bin/bash
+source /home/phc/bin/devtoolset-core.sh
 export devtoolset_debug_folder=/home/phc/devtoolset/debug
 if echo $devtoolset_debug_loaded |grep -q 'loaded'
 then

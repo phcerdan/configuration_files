@@ -29,6 +29,7 @@ Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
 Plugin 'tpope/vim-commentary'             " gcc to comment sentence, gc$, etc.
+au FileType matlab setlocal commentstring=%\ %s
 au FileType cmake setlocal commentstring=#\ %s
 Plugin 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plugin 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
@@ -84,7 +85,10 @@ noremap <Leader>q :Bclose<CR><c-W>c
 Plugin 'airblade/vim-gitgutter'
 "Language specifics Plugins
 """"""LATEX """""
-Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf/Zathura recommended.
+" Plugin 'LaTeX-Box-Team/LaTeX-Box'         " Minimalistic. ll to compile, lv to view. Xpdf/Zathura recommended.
+Plugin 'lervag/vimtex' " Fork from Latex-box
+Plugin 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
+let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 Plugin 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plugin 'Townk/vim-autoclose'
 " inoremap {<CR> {<CR>}<C-o>O}
@@ -115,7 +119,8 @@ Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
 au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 """"""" Rails (Ruby) """":
-" Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-rails'
+" Plugin 'vim-ruby/vim-ruby'
 """""""AUTCOMPLETERS"""""
 " Installed without Clang
 Plugin 'Valloric/YouCompleteMe'
@@ -228,17 +233,22 @@ inoremap <Leader>h <c-o>h
 :nnoremap <Leader>cl :set cursorline!<CR>
 
 " Latex-box:
-let g:LatexBox_latexmk_async=1 " Require gvim --servername vimserver main.tex
-let g:LatexBox_latexmk_preview_continuosly=1 " -pvc option in latexmk
-let g:LatexBox_viewer="xpdf"
-if executable('zathura')
-    let g:LatexBox_viewer="zathura"
-endif
-let g:LatexBox_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
+let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
+let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
+let g:vimtex_quickfix_ignored_warnings = [
+    \ 'Underfull',
+    \ 'Overfull',
+    \ 'specifier changed to',
+  \ ]
+let g:vimtex_quickfix_open_on_warning=0 
+" zathura forwarding require: xdotool
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options_latexmk = '--unique'
+" let g:vimtex_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
 syntax spell toplevel
 let g:tex_comment_nospell=1
 " To save automatically when using <LocalLeader>ll
-autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
+" autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
 
 " Eclim
 let g:EclimLogLevel                    = 'debug'
