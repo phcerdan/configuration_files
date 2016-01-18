@@ -19,15 +19,15 @@ alias mux='tmuxifier'
 # alias sdevr='source ~/bin/devtoolset-release.sh'
 
 # CMAKE
-alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
-alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
-alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles"'
-alias ccmakeEclipse='ccmake -G"Eclipse CDT4 - Unix Makefiles"'
-alias cmakeEclipseC11='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
-alias cmakeEclipseC11Source='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
-alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
-alias ccmakeEclipseC11Source='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
+alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias ccmakeEclipse='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias cmakeEclipseC11='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias cmakeEclipseC11Source='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias ccmakeEclipseC11Source='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
 
-alias ccmakeEclipseC14='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++14'
+alias ccmakeEclipseC14='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++14 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
 # GMOCK
 export GMOCK_HOME=~/Software/gmock-1.7.0
