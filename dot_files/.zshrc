@@ -52,6 +52,7 @@ source $HOME/.aliases
 alias sdev='source ~/bin/devtoolset-core.sh'
 alias sdevd='source ~/bin/devtoolset-debug.sh'
 alias sdevr='source ~/bin/devtoolset-release.sh'
+alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
 
 if hash nvim 2>/dev/null; then
     export EDITOR='nvim'

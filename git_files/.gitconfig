@@ -18,3 +18,5 @@
 	prompt = false
 [pull]
 	rebase = true
+[alias]
+	ctags = !.git/hooks/ctags

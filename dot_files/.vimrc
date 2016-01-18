@@ -10,11 +10,11 @@ Plugin 'gmarik/Vundle.vim'
 
 " Ultisnips (Macros)
 Plugin 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
-Plugin 'honza/vim-snippets'
+Plugin 'honza/vim-snippets'               " Merged cmake changes!
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
 "let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsListSnippets="<Leader>q" "query ,q
+let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
 
 " Supertab Use tab to auto-complete, Ctrl-E to return to original without auto-complete
 Plugin 'ervandew/supertab'
@@ -28,9 +28,11 @@ Plugin 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispa
 Plugin 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plugin 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plugin 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
-Plugin 'tpope/vim-commentary'             " gcc to comment sentence, gc$, etc.
-au FileType matlab setlocal commentstring=%\ %s
-au FileType cmake setlocal commentstring=#\ %s
+" Plugin 'tpope/vim-commentary'             " gcc to comment sentence, gc$, etc.
+" au FileType matlab setlocal commentstring=%\ %s
+" au FileType cmake setlocal commentstring=#\ %s
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-sleuth'                 " Automatic detection of indent, based on current file or folder files with same extension.
 Plugin 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plugin 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plugin 'vim-scripts/visualrepeat'         " works with visual mode too.
@@ -41,9 +43,20 @@ let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and
 " Align and Tabularize:
 Plugin 'junegunn/vim-easy-align'
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
+vmap <Enter> <Plug>(LiveEasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+" To alignt c++ definitions.
+augroup Filetype c,c++
+    let g:easy_align_delimiters = {
+      \ 'd': {
+      \     'pattern': ' \ze\S\+\s*[;=]',
+      \     'ignore_groups': ['Comment'],
+      \     'left_margin': 0,
+      \     'right_margin': 0
+      \     }
+    \}
+augroup end
 Plugin 'Yggdroot/indentLine'
 let g:indentLine_char = '|'
 " let g:indentLine_leadingSpaceChar = '.'
@@ -54,12 +67,14 @@ let g:indentLine_enabled = 1
 
 " File Navigation and Search:
 Plugin 'scrooloose/nerdtree'              " Folder structure viewer
+nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
 Plugin 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
 nnoremap <Leader>t :CtrlPTag<cr>
 Plugin 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
-Plugin 'emnh/taglist.vim'                 " Most up-voted plugin ever, works great with ctags.
-nnoremap <silent> <F9> :TlistToggle<cr>
+Plugin 'majutsushi/tagbar'
+nnoremap <silent> <Leader>b :TagbarToggle<CR>
 " c-] does not work when tags with same name exists (:help tselect). This will show a list.
+" Plugin 'emnh/taglist.vim'                 " Most up-voted plugin ever, works great with ctags.
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 " Color Schemes
@@ -74,6 +89,9 @@ let g:airline_powerline_fonts = 0
 Plugin 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 let g:tmuxline_powerline_separators = 0
 Plugin 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+" <Ctrl-w b> to go to bottom right window (TagBar). Or <Ctrl-w 2j>
+" <Ctrl-w t> to go to top left window.(NERDtree). Or <Ctrl-w 2h>
+" TIP: Use <Ctrl-\> to go to last split, specially useful with TabBar.
 " Buffers control
 Plugin 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
 Plugin 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
@@ -108,12 +126,16 @@ Plugin 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 "  download.file("http://cran.r-project.org/src/contrib/setwidth_1.0-3.tar.gz", destfile= "setwidth_1.0-3.tar.gz")
 " install.packages("setwidth_1.0-3.tar.gz", type = "source", repos = NULL)
 let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
-let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
-" let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
-let vimrplugin_r_path = "~/devtoolset/R/bin"
+" let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
+let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
+" let vimrplugin_r_path = "~/devtoolset/R/bin"
 """""""" Python """"""""""
 " Plugin 'klen/python-mode'
 """"""""""CUDA""""""""""""
+Plugin 'petRUShka/vim-opencl'
+"opencl.vim is not unix! use dos2unix ~/.vim/Bundle/opencl.vim/syntax/opencl.vim
+" Plugin 'opencl.vim'
+" au BufNewFile,BufRead *.cl setlocal ft=opencl
 Plugin 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 " Create a symlink inside vim-snippets/snippets pointing to
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
@@ -121,15 +143,19 @@ au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 """"""" Rails (Ruby) """":
 Plugin 'tpope/vim-rails'
 " Plugin 'vim-ruby/vim-ruby'
+""""""" Docker """"""
+Plugin 'ekalinin/Dockerfile.vim'
 """""""AUTCOMPLETERS"""""
 " Installed without Clang
 Plugin 'Valloric/YouCompleteMe'
-" Compiling required after plugin download:
-" cd ~/.vim/plugin/YouCompleteMe ; ./install.py
-" cd ~/.vim/plugin/YouCompleteMe ; ./install.py --clang-completer (Not recommended)
+" Compiling required after plugin download AND UPDATE!
+" cd ~/.vim/Bundle/YouCompleteMe ; python2 ./install.py
+" cd ~/.vim/Bundle/YouCompleteMe ; python2 ./install.py --clang-completer (Not recommended)
 " Plugin 'rdnetto/YCM-Generator'  " Generate yconf_* per project based on cmake (weak)
 " ctags must be called with --fields=+l (modified in git_templates/ctags)
-let g:ycm_collect_identifiers_from_tags_files = 1
+" BUG in ycm about memory consuption with ctags, put it 0
+" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
+let g:ycm_collect_identifiers_from_tags_files = 0
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 " let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:ycm_autoclose_preview_window_after_completion = 1
@@ -139,8 +165,8 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
 let g:SuperTabCrMapping = 0
 let g:UltiSnipsExpandTrigger = "<tab>"
-" let g:UltiSnipsJumpForwardTrigger = "<tab>"
-" let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " disable load ycm if no clang in the path.
 " if executable('clang')
 " else
@@ -208,6 +234,7 @@ command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabs
 command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
 " Template files.
 au BufNewFile,BufRead *.txx setlocal ft=cpp
+au BufNewFile,BufRead *.ih setlocal ft=cpp
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " Recognize Markdown.
@@ -240,7 +267,7 @@ let g:vimtex_quickfix_ignored_warnings = [
     \ 'Overfull',
     \ 'specifier changed to',
   \ ]
-let g:vimtex_quickfix_open_on_warning=0 
+let g:vimtex_quickfix_open_on_warning=0
 " zathura forwarding require: xdotool
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options_latexmk = '--unique'
@@ -252,12 +279,13 @@ let g:tex_comment_nospell=1
 
 " Eclim
 let g:EclimLogLevel                    = 'debug'
-" let g:EclimDefaultFileOpenAction       = 'vsplit'
-" let g:EclimCSearchSingleResult         = 'vsplit'
-" let g:EclimBuffersDefaultAction        = 'vsplit'
-" let g:EclimLocateFileDefaultAction     = 'vsplit'
-" let g:EclimCCallHierarchyDefaultAction = 'vsplit'
-let g:EclimKeepLocalHistory            = 1
+" Options: split, vsplit, edit
+let g:EclimDefaultFileOpenAction       = 'edit'
+let g:EclimCSearchSingleResult         = 'edit'
+let g:EclimBuffersDefaultAction        = 'edit'
+let g:EclimLocateFileDefaultAction     = 'edit'
+let g:EclimCCallHierarchyDefaultAction = 'edit'
+let g:EclimKeepLocalHistory            = 0
 let g:EclimCompletionMethod = 'omnifunc'
 let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
 nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
@@ -354,22 +382,22 @@ function! SetMakeprg()
 
     if !empty(glob("../build"))
         let buildFolder='../build'
-    elseif !empty(glob("../build-debug"))
-        let buildFolder='../build-debug'
     elseif !empty(glob("../build-release"))
         let buildFolder='../build-release'
+    elseif !empty(glob("../build-debug"))
+        let buildFolder='../build-debug'
     elseif !empty(glob("../../build"))
         let buildFolder='../../build'
-    elseif !empty(glob("../../build-debug"))
-        let buildFolder='../../build-debug'
     elseif !empty(glob("../../build-release"))
         let buildFolder='../../build-release'
+    elseif !empty(glob("../../build-debug"))
+        let buildFolder='../../build-debug'
     elseif !empty(glob("../../../build"))
         let buildFolder='../../../build'
-    elseif !empty(glob("../../../build-debug"))
-        let buildFolder='../../../build-debug'
     elseif !empty(glob("../../../build-release"))
         let buildFolder='../../../build-release'
+    elseif !empty(glob("../../../build-debug"))
+        let buildFolder='../../../build-debug'
     endif
     if exists("buildFolder")
         let &makeprg= 'make --stop --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')

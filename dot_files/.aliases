@@ -24,7 +24,10 @@ alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLI
 alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles"'
 alias ccmakeEclipse='ccmake -G"Eclipse CDT4 - Unix Makefiles"'
 alias cmakeEclipseC11='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
+alias cmakeEclipseC11Source='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
 alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11'
+alias ccmakeEclipseC11Source='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE'
 
+alias ccmakeEclipseC14='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++14'
 # GMOCK
 export GMOCK_HOME=~/Software/gmock-1.7.0
