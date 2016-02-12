@@ -1,3 +1,4 @@
+set nocompatible
 let mapleader=" "
 
 " VIM-PLUG Setup {{{
@@ -18,23 +19,11 @@ Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 let g:vebugger_leader = '<leader>v'
 " }}}
 
-Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
-Plug 'honza/vim-snippets'               " Merged cmake changes!
-" UltiSnips Setup {{{
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
-"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
+Plug 'xolox/vim-misc' | Plug 'xolox/vim-notes'  " Note taking with :Note
+" vim-notes Setup {{{
+nnoremap <Leader>o :split note:todo<CR>
+let g:notes_directories = ['~/Dropbox/VimNotes']
 " }}}
-
-Plug 'ervandew/supertab'                " Tab to autocomplete.
-" Supertab Setup {{{
-" TIP: Ctrl-E to return to original without auto-complete
-let g:SuperTabDefaultCompletionType = 'context'
-" set wildmode=list:longest,full
-let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
-" }}}
-
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
@@ -57,6 +46,7 @@ nnoremap <leader>z :ZoomWin<cr>
 " }}}
 
 " Align and Tabularize:
+Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/vim-easy-align'
 " Easy-Align Setup {{{
 " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -101,6 +91,7 @@ Plug 'rking/ag.vim'                     " Silver searcher integration (similar t
 Plug 'majutsushi/tagbar'
 " Tagbar Setup {{{
 nnoremap <silent> <Leader>b :TagbarToggle<CR>
+let g:tagbar_sort=0 "Keep order of file.
 " }}}
 
 """"""" Color Schemes """""""""""
@@ -130,7 +121,7 @@ let g:tmuxline_powerline_separators = 0
 Plug 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
 Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
 command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-nnoremap <Leader>bd :Bdelete<CR>
+nnoremap <Leader>d :Bdelete<CR>
 " Close buffer and window (split)
 noremap <Leader>q :Bclose<CR><c-W>c
 
@@ -179,27 +170,48 @@ Plug 'tpope/vim-rails'
 Plug 'ekalinin/Dockerfile.vim'
 
 """""""AUTOCOMPLETERS"""""
+Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
+Plug 'honza/vim-snippets'               " Merged cmake changes!
+" UltiSnips Setup {{{
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
+"let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+"let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
+" }}}
+
+Plug 'ervandew/supertab'                " Tab to autocomplete.
+" Supertab Setup {{{
+" TIP: Ctrl-E to return to original without auto-complete
+let g:SuperTabDefaultCompletionType = 'context'
+set wildmode=list:longest,full
+" let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
+" }}}
+
 let completer = 'oblitum/YouCompleteMe'
 Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
-" Plug 'rdnetto/YCM-Generator'  " Generate yconf_* per project based on cmake (weak)
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " ctags must be called with --fields=+l (modified in git_templates/ctags)
 " BUG in ycm about memory consuption with ctags, put it 0
 " meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 
 " YouCompleteMe Setup {{{
 let g:ycm_collect_identifiers_from_tags_files = 0
-set completeopt-=preview
-let g:ycm_confirm_extra_conf = 0
+let g:ycm_add_preview_to_completeopt = 1
+" set completeopt-=preview
+" let g:ycm_confirm_extra_conf = 0
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 nnoremap <leader>h :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>? :YcmCompleter GoToDefinitionElseDeclaration<cr>
-nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
+" nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
 nnoremap <leader>i :YcmCompleter FixIt<cr>
+nnoremap <leader>gt :YcmCompleter GoTo<cr>
+nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+nnoremap <leader>gy :YcmCompleter GetType<cr>
 " }}}
 
 " YCM+UltiSnips+SuperTab {{{
@@ -208,6 +220,16 @@ let g:SuperTabCrMapping = 0
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" }}}
+
+" Multiple-Cursors setup {{{
+function! Multiple_cursors_before()
+    let g:ycm_auto_trigger = 0
+endfunction
+
+function! Multiple_cursors_after()
+    let g:ycm_auto_trigger = 1
+endfunction
 " }}}
 
 Plug 'rhysd/vim-clang-format'
@@ -225,8 +247,13 @@ let g:clang_format#style_options = {
 au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
 " }}}
 
+" Change typedef to using (c++11)
+let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
 call plug#end()            " required
 
+" EXPERIMENTAL:
+set undofile  " Maintain a undofile to keep changes between sessions.
+set undodir=~/.vim/undo/
 " COLOUR OPTIONS:
 syntax enable
 set t_Co=256
@@ -264,7 +291,18 @@ set incsearch  " incremental search
 set hid          " Send files to buffer instead of closing them -- e,n ... commands.
 set scrolloff=20 " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
-set completeopt=preview,menuone,longest
+set completeopt=preview,menuone,longest,noselect
+
+set previewheight=12        " increase the default height (12)
+set pumheight=30            " limit popup menu height
+set concealcursor=nv        " expand concealed characters in insert mode solely
+
+" Open QuickFix horizontally with line wrap
+au FileType qf wincmd J | setlocal wrap
+
+" Preview window with line wrap
+au BufWinEnter * if &previewwindow | setlocal wrap | resize 7 | endif
+" au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
 
 " Tabs and whitespaces
 set autoindent
@@ -289,7 +327,8 @@ au BufNewFile,BufRead *.ih setlocal ft=cpp
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " Recognize Markdown.
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
+" To use :Man. Read :help man
+runtime ftplugin/man.vim
 """"""""" General Maps: """""""""""""""""
 " Escape remap (avoid Ctrl-C)
 inoremap jk <Esc>
@@ -301,11 +340,14 @@ nnoremap gj j
 nnoremap gk k
 " To use with bracketing/indendation with brackets.
 imap <c-F> <C-g>g
-inoremap <Leader>k <ESC>kI<TAB>
-inoremap <Leader>h <c-o>h
+" inoremap <Leader>k <ESC>kI<TAB>
+" inoremap <Leader>h <c-o>h
 " Tag Navigation
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
+" TimeStamps
+nnoremap <leader>f "=strftime("%a %d %b %Y")<CR>P
+inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 " " C,C++ specifics:
 " use ]f [f from Unimpaired instead
 " map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
@@ -393,9 +435,9 @@ set viminfo^=%
 " When you press gv you vimgrep after the selected text
 vnoremap <silent> gv :call VisualSelection('gv')<CR>
 " Open vimgrep and put the cursor in the right position
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+" map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 " Vimgreps in the current file
-map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
+" map <leader><space> :vimgrep // <C-R>%<C-A><right><right><right><right><right><right><right><right><right>
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 
@@ -460,13 +502,40 @@ function! SetMakeprg()
         let buildFolder='../../../build-release'
     elseif !empty(glob("../../../build-debug"))
         let buildFolder='../../../build-debug'
+    elseif !empty(glob("../../../../build"))
+        let buildFolder='../../../../build'
+    elseif !empty(glob("../../../../build-release"))
+        let buildFolder='../../../../build-release'
+    elseif !empty(glob("../../../../build-debug"))
+        let buildFolder='../../../../build-debug'
     endif
     if exists("buildFolder")
-        let &makeprg= 'make --stop --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
-        let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory -C '. (buildFolder)  . (n > 1 ? (' -j'.(n)) : '')
-        return
+        let buildsys="make --stop --no-print-directory"
+        if filereadable((buildFolder) . '/rules.ninja')
+          let buildsys="ninja"
+        endif
+        let &makeprg= buildsys . (n > 1 ? (' -j'.(n)) : '')
+        let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory' . (n > 1 ? (' -j'.(n)) : '')
     endif
+    if exists('b:buildFolder')
+        let &makeprg = &makeprg . ' -C ' . (b:buildFolder)
+        let b:dispatch = b:dispatch . ' -C ' . (b:buildFolder)
+    elseif exists("buildFolder")
+        let &makeprg = &makeprg . ' -C ' . (buildFolder)
+        let b:dispatch = b:dispatch . ' -C ' . (buildFolder)
+        let b:buildFolder = (buildFolder)
+    endif
+    return
+
 endfunction
 au FileType c,cpp call SetMakeprg()
+
+function! BuildAppend(str)
+  let b:buildFolder = b:buildFolder . (a:str)
+endfunction
+
+
+
+
 
 com! ClearQuickFix call setqflist([])

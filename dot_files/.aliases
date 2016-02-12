@@ -14,9 +14,12 @@ if hash nvim 2>/dev/null; then
 fi
 alias mux='tmuxifier'
 # alias vim='vim --servername VIMserver'
-# alias sdev='source ~/bin/devtoolset-core.sh'
-# alias sdevd='source ~/bin/devtoolset-debug.sh'
-# alias sdevr='source ~/bin/devtoolset-release.sh'
+
+# Platform specific aliases.
+alias sdev='source ~/bin/devtoolset-core.sh'
+alias sdevd='source ~/bin/devtoolset-debug.sh'
+alias sdevr='source ~/bin/devtoolset-release.sh'
+alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
 
 # CMAKE
 alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
@@ -29,5 +32,4 @@ alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COM
 alias ccmakeEclipseC11Source='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
 
 alias ccmakeEclipseC14='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++14 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-# GMOCK
-export GMOCK_HOME=~/Software/gmock-1.7.0
+alias ccmakeNinja='ccmake -GNinja -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'

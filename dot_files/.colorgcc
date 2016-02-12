@@ -1,0 +1,7 @@
+g++: /usr/lib/ccache/bin/g++
+gcc: /usr/lib/ccache/bin/gcc
+c++: /usr/lib/ccache/bin/g++
+cc:  /usr/lib/ccache/bin/cc
+g77: /usr/lib/ccache/bin/g77
+f77: /usr/lib/ccache/bin/g77
+gcj: /usr/lib/ccache/bin/gcj

@@ -10,11 +10,16 @@ source "${HOME}/zgen/zgen.zsh"
 
 if ! zgen saved; then
     echo "Creating a zgen save"
+    # autosuggestions should be loaded last
+    zgen load tarruda/zsh-autosuggestions
+    # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
+    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
+
+    # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
+    ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
     # Most fav plugins ever.
     zgen load jimmijj/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
-    # autosuggestions should be loaded last
-    zgen load tarruda/zsh-autosuggestions
     # colorize list of folder with git information.
     zgen load rimraf/k
     # Notify (require libnotify-bin)
@@ -48,11 +53,6 @@ DISABLE_AUTO_TITLE=true
 
 # LOAD general .aliases.
 source $HOME/.aliases
-# Platform specific aliases.
-alias sdev='source ~/bin/devtoolset-core.sh'
-alias sdevd='source ~/bin/devtoolset-debug.sh'
-alias sdevr='source ~/bin/devtoolset-release.sh'
-alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
 
 if hash nvim 2>/dev/null; then
     export EDITOR='nvim'
@@ -62,6 +62,14 @@ else
 fi
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 
+######## CCACHE, colorgcc ######
+# USE ccache for gcc compilers.
+# Check that you have ~/.colorgcc pointing to ccache compilers
+if ( hash ccache 2>/dev/null ) && (hash colorgcc 2>/dev/null); then
+    export ccache_loaded="loaded"
+    export PATH="/usr/lib/colorgcc/bin:$PATH"
+    export CCACHE_PATH="/usr/bin"
+fi
 
 ###### FUNCTIONS ######
 # make a backup of a file
