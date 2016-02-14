@@ -13,6 +13,19 @@ endif
 " }}}
 
 call plug#begin('~/.vim/plugged')
+" Debuggers:
+" ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
+Plug 'vim-scripts/Conque-GDB'
+" Conque-GDB Setup {{{
+let g:ConqueGdb_Leader='\'
+let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
+let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+" Delete all buffers opened by Conque
+nnoremap <silent> <Leader>// :ConqueGdbBDelete
+" nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
+" nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
+" }}}
 
 Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " Vebugger Setup {{{
