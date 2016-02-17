@@ -109,7 +109,8 @@ let g:tagbar_sort=0 "Keep order of file.
 
 """"""" Color Schemes """""""""""
 Plug 'rainux/vim-desert-warm-256'
-Plug 'bling/vim-airline'                " Colourful status-line.
+Plug 'vim-airline/vim-airline'                " Colourful status-line.
+Plug 'vim-airline/vim-airline-themes'
 " Airline Setup {{{
 let g:airline_theme='wombat'
 let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
