@@ -130,7 +130,7 @@ TEST_F(${1:FixtureClass}, ${2:TestName}) {
 	$3
 }
 endsnippet
-snippet TEST "TEST Google Mock" !b
+snippet TESTG "TEST Google Mock" !b
 TEST(${1:TestClass}, ${2:TestName}) {
 	$3
 }
@@ -230,6 +230,11 @@ else
 	notify(vm);
 }
 endsnippet
+#####  CATCH  #######
+snippet "(?i)test_case" "catch-test-case-method" rb
+TEST_CASE_METHOD(${1:FixtureClass}, "${2:Description}", "[${3:tag}]"){${0}}
+endsnippet
+
 snippet "(?i)capture" "catch-capture" rb
 CAPTURE( ${0:theAnswer"} )
 endsnippet
@@ -239,9 +244,7 @@ INFO( "${1:someInfoString} " << ${0:a_variable"} )
 endsnippet
 
 snippet "(?i)scen" "catch-scenario" rb
-SCENARIO( "${1:test name}", "[${2:tag}]" ){
-    ${0}
-}
+SCENARIO( "${1:test name}", "[${2:tag}]" ){${0}}
 endsnippet
 
 snippet "(?i)req" "catch-require" rb
@@ -253,31 +256,21 @@ CHECK( ${1:condToTest} ${2:==} ${0:Known} );
 endsnippet
 
 snippet "(?i)given" "catch-given" rb
-GIVEN( "${1:description}" ){
-    ${0}
-}
+GIVEN( "${1:description}" ){${0}}
 endsnippet
 
 snippet "(?i)when" "catch-when" rb
-WHEN( "${1:description}" ){
-    ${0}
-}
+WHEN( "${1:description}" ){${0}}
 endsnippet
 
 snippet "(?i)then" "catch-then" rb
-THEN( "${1:description}" ){
-    ${0}
-}
+THEN( "${1:description}" ){${0}}
 endsnippet
 
 snippet "(?i)andthen" "catch-andthen" rb
-AND_THEN( "${1:description}" ){
-    ${0}
-}
+AND_THEN( "${1:description}" ){${0}}
 endsnippet
 
 snippet "(?i)andwhen" "catch-andwhen" rb
-AND_WHEN( "${1:description}" ){
-    ${0}
-}
+AND_WHEN( "${1:description}" ){${0}}
 endsnippet

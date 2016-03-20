@@ -1,5 +1,7 @@
 set nocompatible
 let mapleader=" "
+" For R (and latex?) plugins
+let maplocalleader=";"
 
 " VIM-PLUG Setup {{{
 
@@ -67,7 +69,7 @@ vmap <Enter> <Plug>(LiveEasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 " To align c++ definitions.
-augroup Filetype c,c++
+augroup FileType c,c++
     let g:easy_align_delimiters = {
       \ 'd': {
       \     'pattern': ' \ze\S\+\s*[;=]',
@@ -152,9 +154,10 @@ Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 Plug 'vim-scripts/DoxygenToolkit.vim'
 
 """""""" R """""""""""""
-Plug 'jalvesaq/VimCom'      " Communication vim - R
-Plug 'jalvesaq/R-Vim-runtime'
-Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
+Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
+" Plug 'jalvesaq/VimCom'      " Communication vim - R
+" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
+Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " R plugins Setup {{{
 " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
 " Recommended in R:
@@ -163,10 +166,17 @@ Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 " install.packages("colorout_1.1-0.tar.gz", type = "source", repos = NULL)
 "  download.file("http://cran.r-project.org/src/contrib/setwidth_1.0-3.tar.gz", destfile= "setwidth_1.0-3.tar.gz")
 " install.packages("setwidth_1.0-3.tar.gz", type = "source", repos = NULL)
-let vimrplugin_notmuxconf = 1 " To use your own tmux.conf
+let R_notmuxconf = 1 " To use your own tmux.conf
 " let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
-let vimrplugin_assign = "<Leader>_"     " To avoid replacement from _ to <-, to disable = 0
+let R_assign = "<LocalLeader>_"     " To avoid replacement from _ to <-, to disable = 0
 " let vimrplugin_r_path = "~/devtoolset/R/bin"
+if has("gui_running")
+    inoremap <C-Space> <C-x><C-o>
+else
+    inoremap <Nul> <C-x><C-o>
+endif
+vmap <Space> <Plug>RDSendSelection
+nmap <Space> <Plug>RDSendLine
 " }}}
 """""""" Python """"""""""
 " Plug 'klen/python-mode'
@@ -201,7 +211,9 @@ set wildmode=list:longest,full
 " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 
+" This has function completer support but it is behind master
 let completer = 'oblitum/YouCompleteMe'
+" let completer = 'Valloric/YouCompleteMe'
 Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " ctags must be called with --fields=+l (modified in git_templates/ctags)
@@ -337,6 +349,8 @@ command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
 " Template files.
 au BufNewFile,BufRead *.txx setlocal ft=cpp
 au BufNewFile,BufRead *.ih setlocal ft=cpp
+hi ColorColumn ctermbg=DarkGray
+au FileType c,cpp setlocal colorcolumn=81
 " Git commits:
 autocmd Filetype gitcommit setlocal spell textwidth=72
 " Recognize Markdown.
@@ -344,8 +358,8 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " To use :Man. Read :help man
 runtime ftplugin/man.vim
 """"""""" General Maps: """""""""""""""""
-" Escape remap (avoid Ctrl-C)
-inoremap jk <Esc>
+" Escape remap (Ctrl-C doesnt work well in some plugins)
+noremap <C-c> <Esc>
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -368,11 +382,12 @@ inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 
 
 " Highlight Cursor
-:hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
-:nnoremap <Leader>cl :set cursorline!<CR>
+hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
+nnoremap <Leader>cl :set cursorline!<CR>
 
 " Latex-box:
 " VimTex Setup {{{
+let g:vimtex_latexmk_build_dir="../output"
 let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
 let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
 let g:vimtex_quickfix_ignored_warnings = [
@@ -419,17 +434,17 @@ endif
 let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
 "}}}
 
-function! StripTrailingWhitespace()
-  normal mZ
-  let l:chars = col("$")
-  %s/\s\+$//e
-  if (line("'Z") != line(".")) || (l:chars != col("$"))
-    echo "Trailing whitespace stripped\n"
-  endif
-  normal `Z
-endfunction
+" function! StripTrailingWhitespace()
+"   normal mZ
+"   let l:chars = col("$")
+"   %s/\s\+$//e
+"   if (line("'Z") != line(".")) || (l:chars != col("$"))
+"     echo "Trailing whitespace stripped\n"
+"   endif
+"   normal `Z
+" endfunction
 " autocmd FileType c,cpp autocmd BufWritePre <buffer> StripWhitespace
-au FileType c,cpp au BufWritePre * call StripTrailingWhitespace()
+" au FileType c,cpp au BufWritePre * call StripTrailingWhitespace()
 
 if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
