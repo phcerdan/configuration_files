@@ -28,7 +28,8 @@ nnoremap <silent> <Leader>// :ConqueGdbBDelete
 " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
 " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
 " }}}
-
+" lldb improved (require nvim)
+Plug 'critiqjo/lldb.nvim'
 Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " Vebugger Setup {{{
 let g:vebugger_leader = '<leader>v'
@@ -95,6 +96,7 @@ let g:indentLine_enabled = 1
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 " NerdTREE Setup {{{
 nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
 
 Plug 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
@@ -214,7 +216,8 @@ set wildmode=list:longest,full
 " This has function completer support but it is behind master
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
-Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
+Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " ctags must be called with --fields=+l (modified in git_templates/ctags)
 " BUG in ycm about memory consuption with ctags, put it 0
@@ -231,6 +234,8 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_autoclose_preview_window_after_insertion = 1
 " let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_key_invoke_completion = '<C-b>'
 nnoremap <leader>h :YcmCompleter GoToDeclaration<cr>
 nnoremap <leader>? :YcmCompleter GoToDefinitionElseDeclaration<cr>
 " nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
@@ -368,6 +373,7 @@ nnoremap gj j
 nnoremap gk k
 " To use with bracketing/indendation with brackets.
 imap <c-F> <C-g>g
+vnoremap <C-c> <Esc>
 " inoremap <Leader>k <ESC>kI<TAB>
 " inoremap <Leader>h <c-o>h
 " Tag Navigation
@@ -400,6 +406,21 @@ let g:vimtex_quickfix_open_on_warning=0
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options_latexmk = '--unique'
 " let g:vimtex_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
+let g:vimtex_latexmk_options='-file-line-error -verbose -pdf -interaction="nonstopmode" -pdflatex="lualatex -synctex=1 -shell-escape \%O \%S"'
+" With YCM completion
+if !exists('g:ycm_semantic_triggers')
+  let g:ycm_semantic_triggers = {}
+endif
+let g:ycm_semantic_triggers.tex = [
+      \ 're!\\[A-Za-z]*cite[A-Za-z]*(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\[A-Za-z]*ref({[^}]*|range{([^,{}]*(}{)?))',
+      \ 're!\\hyperref\[[^]]*',
+      \ 're!\\includegraphics\*?(\[[^]]*\]){0,2}{[^}]*',
+      \ 're!\\(include(only)?|input){[^}]*',
+      \ 're!\\\a*(gls|Gls|GLS)(pl)?\a*(\s*\[[^]]*\]){0,2}\s*\{[^}]*',
+      \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
+      \ ]
 " }}}
 syntax spell toplevel
 let g:tex_comment_nospell=1
@@ -432,6 +453,8 @@ if executable('ag')
     let g:ctrlp_use_caching = 0
 endif
 let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
+let g:ctrlp_max_files=0
+let g:ctrlp_max_depth=40
 "}}}
 
 " function! StripTrailingWhitespace()

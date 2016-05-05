@@ -1,5 +1,6 @@
 [user]
-	name = phcerdan
+	name = Pablo Hernandez-Cerdan
+	# name = phcerdan
 	email = pablo.hernandez.cerdan@outlook.com
 	mail = pablo.hernandez.cerdan@outlook.com
 [core]
@@ -20,3 +21,8 @@
 	rebase = true
 [alias]
 	ctags = !.git/hooks/ctags
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	pullall = !bash -c \"git pull && git submodule update --init\"
+	prepush = log --graph --stat origin/master..
+[color]
+	ui = auto

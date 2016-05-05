@@ -1,5 +1,10 @@
 #!/bin/zsh
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# Require: mkdir ~/.npm_global ; npm config set prefix '~/.npm-global'
+export PATH=~/.npm-global/bin:$PATH
+export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+# To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
+export TERMINFO="$HOME/.terminfo"
 # Clone zgen if you haven't already
 if [ ! -f ~/zgen/zgen.zsh ]; then
     pushd ~
