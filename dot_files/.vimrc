@@ -30,6 +30,15 @@ nnoremap <silent> <Leader>// :ConqueGdbBDelete
 " }}}
 " lldb improved (require nvim)
 Plug 'critiqjo/lldb.nvim'
+" lldb improved Setup {{{
+nmap <Leader>db <Plug>LLBreakSwitch
+nnoremap <Leader>dd :LLmode debug<CR>
+nnoremap <Leader>dc :LLmode code<CR>
+nnoremap <Leader>ds :LLmode continue<CR>
+nnoremap <Leader>dS :LL process interrupt<CR>
+nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
+vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
+" }}}
 Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " Vebugger Setup {{{
 let g:vebugger_leader = '<leader>v'
@@ -42,7 +51,6 @@ let g:notes_directories = ['~/Dropbox/VimNotes']
 " }}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
-Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
@@ -51,6 +59,9 @@ Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based o
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
+Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
+Plug 'benekastah/neomake'               " Async building for neovim. :Make, :Make!
+Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l
 
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Better-whitespace Setup {{{
@@ -521,71 +532,178 @@ endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set makeprg to closest build folder (Cmake builds)
-function! SetMakeprg()
-      if !empty($NUMBER_OF_PROCESSORS)
-        " this works on Windows and provides a convenient override mechanism otherwise
-        let n = $NUMBER_OF_PROCESSORS + 0
-      elseif filereadable('/proc/cpuinfo')
-        " this works on most Linux systems
-        let n = system('grep -c ^processor /proc/cpuinfo') + 0
-      elseif executable('/usr/sbin/psrinfo')
-        " this works on Solaris
-        let n = system('/usr/sbin/psrinfo -p')
-      else
-        " default to single process if we can't figure it out automatically
-        let n = 1
-      endif
-
+function! BuildFolderSearch()
     if !empty(glob("../build"))
-        let buildFolder='../build'
+        let g:buildFolder='../build'
     elseif !empty(glob("../build-release"))
-        let buildFolder='../build-release'
+        let g:buildFolder='../build-release'
     elseif !empty(glob("../build-debug"))
-        let buildFolder='../build-debug'
+        let g:buildFolder='../build-debug'
+
     elseif !empty(glob("../../build"))
-        let buildFolder='../../build'
+        let g:buildFolder='../../build'
     elseif !empty(glob("../../build-release"))
-        let buildFolder='../../build-release'
+        let g:buildFolder='../../build-release'
     elseif !empty(glob("../../build-debug"))
-        let buildFolder='../../build-debug'
+        let g:buildFolder='../../build-debug'
+
     elseif !empty(glob("../../../build"))
-        let buildFolder='../../../build'
+        let g:buildFolder='../../../build'
     elseif !empty(glob("../../../build-release"))
-        let buildFolder='../../../build-release'
+        let g:buildFolder='../../../build-release'
     elseif !empty(glob("../../../build-debug"))
-        let buildFolder='../../../build-debug'
+        let g:buildFolder='../../../build-debug'
+
     elseif !empty(glob("../../../../build"))
-        let buildFolder='../../../../build'
+        let g:buildFolder='../../../../build'
     elseif !empty(glob("../../../../build-release"))
-        let buildFolder='../../../../build-release'
+        let g:buildFolder='../../../../build-release'
     elseif !empty(glob("../../../../build-debug"))
-        let buildFolder='../../../../build-debug'
+        let g:buildFolder='../../../../build-debug'
     endif
-    if exists("buildFolder")
-        let buildsys="make --stop --no-print-directory"
-        if filereadable((buildFolder) . '/rules.ninja')
-          let buildsys="ninja"
-        endif
-        let &makeprg= buildsys . (n > 1 ? (' -j'.(n)) : '')
-        let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory' . (n > 1 ? (' -j'.(n)) : '')
-    endif
-    if exists('b:buildFolder')
-        let &makeprg = &makeprg . ' -C ' . (b:buildFolder)
-        let b:dispatch = b:dispatch . ' -C ' . (b:buildFolder)
-    elseif exists("buildFolder")
-        let &makeprg = &makeprg . ' -C ' . (buildFolder)
-        let b:dispatch = b:dispatch . ' -C ' . (buildFolder)
-        let b:buildFolder = (buildFolder)
-    endif
-    return
-
-endfunction
-au FileType c,cpp call SetMakeprg()
-
-function! BuildAppend(str)
-  let b:buildFolder = b:buildFolder . (a:str)
+    let g:buildFolder = fnamemodify(g:buildFolder, ':p')
+    return g:buildFolder
 endfunction
 
+function! SetNThreads()
+  if !empty($NUMBER_OF_PROCESSORS)
+    " this works on Windows and provides a convenient override mechanism otherwise
+    let g:n_threads = $NUMBER_OF_PROCESSORS + 0
+  elseif filereadable('/proc/cpuinfo')
+    " this works on most Linux systems
+    let g:n_threads = system('grep -c ^processor /proc/cpuinfo') + 1
+  elseif executable('/usr/sbin/psrinfo')
+    " this works on Solaris
+    let g:n_threads = system('/usr/sbin/psrinfo -p')
+  else
+    " default to single process if we can't figure it out automatically
+    let g:n_threads = 1
+  endif
+endfunction
+
+function! SetMakeprg()
+  call SetNThreads()
+  call BuildFolderSearch()
+
+  if exists("g:buildFolder")
+    let buildsys="make --stop --no-print-directory"
+    if filereadable((g:buildFolder) . '/rules.ninja')
+      let buildsys="ninja"
+    endif
+    let &makeprg= buildsys . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '')
+    let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory' . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '')
+  endif
+  if exists('g:buildFolder')
+    let &makeprg = &makeprg . ' -C ' . (g:buildFolder)
+    let b:dispatch = b:dispatch . ' -C ' . (g:buildFolder)
+  endif
+  return
+
+endfunction
+
+function! BuildFolderAppend(str)
+  let g:buildFolder = g:buildFolder . (a:str)
+endfunction
+
+" neomake Setup {{{
+let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
+" let g:neomake_open_list   = 2 " Open automatically quick/loc list conserving cursor position. vim-togglelist plugin provides <Leader>q / l to toggle lists.
+let g:neomake_list_height = 6
+let g:neomake_build_maker = {
+      \ 'exe': 'make',
+      \ 'args': ['-j5', '--stop', '--no-print-directory', '-C'],
+      \ 'append_file': 0,
+      \ 'errorformat': '%f:%l:%c: %m',
+      \ 'buffer_output': 1
+      \ }
+hi NeomakeWarningMsg ctermfg=black ctermbg=yellow cterm=bold
+hi NeomakeErrorMsg ctermfg=white ctermbg=red cterm=bold
+let g:neomake_error_sign = {
+            \ 'texthl': 'NeomakeErrorMsg',
+            \ }
+let g:neomake_warning_sign = {
+            \ 'texthl': 'NeomakeWarningMsg',
+            \ }
+function! NeomakeBuildErrorFormatClang()
+  let g:neomake_build_maker['errorformat'] = 
+            \ '%-G%f:%s:,' .
+            \ '%f:%l:%c: %trror: %m,' .
+            \ '%f:%l:%c: %tarning: %m,' .
+            \ '%f:%l:%c: %m,'.
+            \ '%f:%l: %trror: %m,'.
+            \ '%f:%l: %tarning: %m,'.
+            \ '%f:%l: %m'
+  let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
+endfunction
+function! NeomakeBuildErrorFormatGCC()
+  let g:neomake_build_maker['errorformat'] = 
+            \ '%-G%f:%s:,' .
+            \ '%-G%f:%l: %#error: %#(Each undeclared identifier is reported only%.%#,' .
+            \ '%-G%f:%l: %#error: %#for each function it appears%.%#,' .
+            \ '%-GIn file included%.%#,' .
+            \ '%-G %#from %f:%l\,,' .
+            \ '%f:%l:%c: %trror: %m,' .
+            \ '%f:%l:%c: %tarning: %m,' .
+            \ '%f:%l:%c: %m,' .
+            \ '%f:%l: %trror: %m,' .
+            \ '%f:%l: %tarning: %m,'.
+            \ '%f:%l: %m'
+  let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
+endfunction
+function! NeomakeBuildDefault()
+  let g:neomake_build_maker['args'] = [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C']
+endfunction
+
+function! NeomakeBuildSetBuildFolder()
+  call NeomakeBuildDefault()
+  let g:neomake_build_args = g:neomake_build_maker['args'] + [g:buildFolder]
+endfunction
+au BufWinEnter * call SetNThreads()
+au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
+
+function! NeomakeBuildPrepare()
+  call SetNThreads()       " Sets g:n_threads
+  call BuildFolderSearch() " Sets g:buildFolder
+  call NeomakeBuildSetBuildFolder()
+endfunction
+
+function! NeomakeBuildPrepareClang()
+  call NeomakeBuildPrepare()
+  call NeomakeBuildErrorFormatClang()
+  let g:NeomakeBuildOnSave = 1
+endfunction
+
+function! NeomakeBuildPrepareGCC()
+  call NeomakeBuildPrepare()
+  call NeomakeBuildErrorFormatGCC()
+  let g:NeomakeBuildOnSave = 1
+endfunction
+
+function! NeomakeBuildUpdate(file_path_append)
+  call NeomakeBuildPrepare()
+  call BuildFolderAppend(a:file_path_append)
+  call NeomakeBuildSetBuildFolder()
+endfunction
+
+function! NeomakeBuild()
+    execute 'Neomake! build'
+endfunction
+
+function! ToggleNeomakeBuildOnSave()
+  if g:NeomakeBuildOnSave == 1
+    let g:NeomakeBuildOnSave = 0
+  else
+    let g:NeomakeBuildOnSave = 1
+  endif
+endfunction
+
+function! NeomakeAutoBuild()
+  if g:NeomakeBuildOnSave == 1
+    call NeomakeBuild()
+  endif
+endfunction
+
+" }}}
 
 
 
