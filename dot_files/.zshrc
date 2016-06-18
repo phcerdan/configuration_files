@@ -95,3 +95,5 @@ function launch {
 }
 alias launch="launch " # expand aliases
 # vim: set filetype=sh:
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
