@@ -108,9 +108,29 @@ Plug 'scrooloose/nerdtree'              " Folder structure viewer
   nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
 
-Plug 'kien/ctrlp.vim'                   " Ctrlp to search for / open files
-Plug 'rking/ag.vim'                     " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
-Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher
+Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
+"Ag Setup {{{
+  if executable('ag')
+      " Use Ag over Grep
+      set grepprg=ag\ --nogroup\ --nocolor
+      nnoremap <silent> <Leader>/ :execute 'Ag ' . input('Ag/')<CR>
+      " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  endif
+"}}}
+Plug 'kien/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
+"CtrlP Setup{{{
+  if executable('ag')
+      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+      " ag is fast enough that CtrlP doesn't need to cache
+      let g:ctrlp_use_caching = 0
+      let g:ctrlp_map=''
+  endif
+  " nnoremap <Leader>t :CtrlPTag<cr>
+  let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
+  let g:ctrlp_max_files=0
+  let g:ctrlp_max_depth=40
+"}}}
+Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
 Plug 'junegunn/fzf.vim'
 " fzf Setup {{{
   let g:fzf_nvim_statusline = 0 " disable statusline overwriting
@@ -126,6 +146,8 @@ Plug 'junegunn/fzf.vim'
     return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
 
+  " Map C-p to override CtrlP plugin.
+  nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
   nnoremap <silent> <Leader>ff :exe 'FFiles ' . <SID>fzf_root()<CR>
   nnoremap <silent> <Leader>fc :FColors<CR>
   nnoremap <silent> <Leader>fh :FHistory<CR>
@@ -134,15 +156,14 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <Leader>; :FCommands<CR>
   nnoremap <silent> <Leader>h :FHelptags<CR>
   nnoremap <silent> <Leader>fl :FLines<CR>
-  nnoremap <silent> <Leader>fb :FBLines<CR>
+  nnoremap <silent> <Leader>fL :FBLines<CR>
   nnoremap <silent> K :call SearchWordWithAg()<CR>
   vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <Leader>o :FBTags<CR>
-  nnoremap <silent> <Leader>O :FTags<CR>
+  nnoremap <silent> <Leader>t :FTags<CR>
+  nnoremap <silent> <Leader>T :FBTags<CR>
   nnoremap <silent> <Leader>gl :FCommits<CR>
   nnoremap <silent> <Leader>ga :FBCommits<CR>
   nnoremap <silent> <Leader>ft :FFiletypes<CR>
-  nnoremap <silent> <Leader>/ :execute 'Ag ' . input('Ag/')<CR>
 
 
   function! SearchWordWithAg()
@@ -335,6 +356,16 @@ Plug 'rhysd/vim-clang-format'
               \ "ColumnLimit": 80,
               \ "Standard": "C++11" }
   au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
+  fun! SetClangFormatITK()
+    let g:clang_format#style_options = {
+          \ "BasedOnStyle": "Mozilla",
+          \ "AlignOperands": "false",
+          \ "AlwaysBreakAfterReturnType": "None",
+          \ "AlwaysBreakAfterDefinitionReturnType": "None",
+          \ "AlignConsecutiveDeclarations": "true",
+          \ "ColumnLimit": 79,
+          \ "Standard": "Cpp03" }
+  endfunction
 " }}}
 
 " Change typedef to using (c++11)
@@ -344,8 +375,11 @@ call plug#end()            " required
 " EXPERIMENTAL:
 set undofile  " Maintain a undofile to keep changes between sessions.
 set undodir=~/.vim/undo/
-" COLOUR OPTIONS:
+" SYNTAX
+syntax spell toplevel
 syntax enable
+set synmaxcol=100 " syntax highlight is really slow for long lines.
+" COLOUR OPTIONS:
 set t_Co=256
 set background=dark
 colorscheme desert-warm-256
@@ -409,7 +443,7 @@ command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
 command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
 command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
 command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
-command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1
+command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
 " Template files.
 au BufNewFile,BufRead *.txx setlocal ft=cpp
 au BufNewFile,BufRead *.ih setlocal ft=cpp
@@ -452,6 +486,7 @@ nnoremap <Leader>cl :set cursorline!<CR>
 
 " Latex-box:
 " VimTex Setup {{{
+  let g:vimtex_fold_manual=1 " autofold is slow in vim
   let g:vimtex_latexmk_build_dir="../output"
   let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
   let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
@@ -481,7 +516,6 @@ nnoremap <Leader>cl :set cursorline!<CR>
         \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
         \ ]
 " }}}
-syntax spell toplevel
   let g:tex_comment_nospell=1
 " To save automatically when using <LocalLeader>ll
 " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
@@ -502,20 +536,6 @@ syntax spell toplevel
   nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 "}}}
 
-"CtrlP and Ag Setup {{{
-  if executable('ag')
-      " Use Ag over Grep
-      set grepprg=ag\ --nogroup\ --nocolor
-      " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-      " ag is fast enough that CtrlP doesn't need to cache
-      let g:ctrlp_use_caching = 0
-  endif
-  nnoremap <Leader>t :CtrlPTag<cr>
-  let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
-  let g:ctrlp_max_files=0
-  let g:ctrlp_max_depth=40
-"}}}
 
 " function! StripTrailingWhitespace()
 "   normal mZ
