@@ -3,19 +3,17 @@ let mapleader=" "
 " For R (and latex?) plugins
 let maplocalleader=";"
 
-" VIM-PLUG Setup {{{
-
-" Automatic installation {{{
+" Plug manager {{{
+" Vim-Plug Automatic installation {{{
 if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim
-          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    au VimEnter * PlugInstall
+  silent !mkdir -p ~/.vim/autoload
+  silent !curl -fLo ~/.vim/autoload/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  au VimEnter * PlugInstall
 endif
 " }}}
-
 call plug#begin('~/.vim/plugged')
-" Debuggers:
+" Debuggers: {{{
 Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
 " Conque-GDB Setup {{{
   let g:ConqueGdb_Leader='\'
@@ -42,12 +40,24 @@ Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " Vebugger Setup {{{
   let g:vebugger_leader = '<leader>v'
 " }}}
-
+"}}}
+" Organization / Note taking {{{
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-notes'  " Note taking with :Note
 " vim-notes Setup {{{
   nnoremap <Leader>o :split note:todo<CR>
   let g:notes_directories = ['~/Dropbox/VimNotes']
 " }}}
+Plug 'jceb/vim-orgmode'                 " org-mode (port from emacs)
+" vim-orgmode optional Plug dependencies {{{
+  Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
+  Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
+  Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
+  Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
+" }}}
+" vim-orgmode Setup  {{{
+  let g:org_agenda_files = ['~/Dropbox/org-mode/agenda/*.org']
+" }}}
+" Organization end}}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
@@ -69,8 +79,7 @@ Plug 'drn/zoomwin-vim'
 " ZoomWin Setup {{{
   nnoremap <leader>z :ZoomWin<cr>
 " }}}
-
-" Align and Tabularize:
+" Align and Tabularize: {{{
 Plug 'terryma/vim-multiple-cursors'
 Plug 'junegunn/vim-easy-align'
 " Easy-Align Setup {{{
@@ -100,8 +109,8 @@ Plug 'Yggdroot/indentLine'
   let g:indentLine_color_term = 239
   let g:indentLine_enabled = 1
 " }}}
-
-" File Navigation and Search:
+" }}}
+" File Navigation and Search: {{{
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 " NerdTREE Setup {{{
   nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
@@ -154,7 +163,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <Leader>bb :FBuffers<CR>
   nnoremap <silent> <Leader>bB :FWindows<CR>
   nnoremap <silent> <Leader>; :FCommands<CR>
-  nnoremap <silent> <Leader>h :FHelptags<CR>
+  nnoremap <silent> <Leader>fhl :FHelptags<CR>
   nnoremap <silent> <Leader>fl :FLines<CR>
   nnoremap <silent> <Leader>fL :FBLines<CR>
   nnoremap <silent> K :call SearchWordWithAg()<CR>
@@ -187,8 +196,8 @@ Plug 'majutsushi/tagbar'
   nnoremap <silent> <Leader>b :TagbarToggle<CR>
   let g:tagbar_sort=0 "Keep order of file.
 " }}}
-
-""""""" Color Schemes """""""""""
+" }}}
+"Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
 Plug 'vim-airline/vim-airline'                " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
@@ -199,8 +208,8 @@ Plug 'vim-airline/vim-airline-themes'
   let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
   let g:airline_powerline_fonts = 0
 " }}}
-
-"""""""""" TMUX """"""""""""
+"}}}
+" TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 " Tmuxline Setup {{{
@@ -211,283 +220,32 @@ Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. De
   " TIP: Use <Ctrl-\> to go to last split, specially useful with TabBar.
   " }}}
 " }}}
-
-""""" Buffer Related """""
+" }}}
+" Buffer Related {{{
+" Switch to latest used buffer
+nnoremap <Leader>h :b#<CR>
 Plug 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
 Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
-command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
-nnoremap <Leader>d :Bdelete<CR>
-" Close buffer and window (split)
-noremap <Leader>q :Bclose<CR><c-W>c
-
-""""" Version Controlling """""
+" vim-bbye Setup {{{
+  command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
+  nnoremap <Leader>d :Bdelete<CR>
+  " Close buffer and window (split)
+  noremap <Leader>q :Bclose<CR><c-W>c
+"}}}
+"}}}
+" Version Controlling {{{
 Plug 'airblade/vim-gitgutter'
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""" Language Specific Plugins """""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""" LATEX """""""""
-Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
-Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
-  let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
-Plug 'vim-scripts/DoxygenToolkit.vim'
-
-"""""""" R """""""""""""
-Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
-" Plug 'jalvesaq/VimCom'      " Communication vim - R
-" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
-Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
-" R plugins Setup {{{
-  " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
-  " Recommended in R:
-  " colourout and set with
-  " download.file("http://www.lepem.ufc.br/jaa/colorout_1.1-0.tar.gz", destfile= "colorout_1.1-0.tar.gz")
-  " install.packages("colorout_1.1-0.tar.gz", type = "source", repos = NULL)
-  "  download.file("http://cran.r-project.org/src/contrib/setwidth_1.0-3.tar.gz", destfile= "setwidth_1.0-3.tar.gz")
-  " install.packages("setwidth_1.0-3.tar.gz", type = "source", repos = NULL)
-  let R_notmuxconf = 1 " To use your own tmux.conf
-  " let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
-  let R_assign = "<LocalLeader>_"     " To avoid replacement from _ to <-, to disable = 0
-  " let vimrplugin_r_path = "~/devtoolset/R/bin"
-  if has("gui_running")
-      inoremap <C-Space> <C-x><C-o>
-  else
-      inoremap <Nul> <C-x><C-o>
-  endif
-  vmap <Space> <Plug>RDSendSelection
-  nmap <Space> <Plug>RDSendLine
-" }}}
-"""""""" Python """"""""""
-Plug 'klen/python-mode'
-" python-mode Setup {{{
-  let g:pymode_rope_completion = 0 " Use YCM instead
-" }}}
-"""""""" OpenCL """"""""""
-Plug 'petRUShka/vim-opencl'
-""""""""""CUDA""""""""""""
-Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
-" Create a symlink inside vim-snippets/snippets pointing to
-" snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
-au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
-""""""" Rails (Ruby) """":
-Plug 'tpope/vim-rails'
-" Plug 'vim-ruby/vim-ruby'
-""""""" Docker """"""
-Plug 'ekalinin/Dockerfile.vim'
-
-"""""""AUTOCOMPLETERS"""""
-Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
-Plug 'honza/vim-snippets'               " Merged cmake changes!
-" UltiSnips Setup {{{
-  let g:UltiSnipsEditSplit="vertical"
-  let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
-  " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-  " let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
-" }}}
-
-Plug 'ervandew/supertab'                " Tab to autocomplete.
-" Supertab Setup {{{
-  " TIP: Ctrl-E to return to original without auto-complete
-  let g:SuperTabDefaultCompletionType = 'context'
-  set wildmode=list:longest,full
-  " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
-" }}}
-
-" This has function completer support but it is behind master
-let completer = 'oblitum/YouCompleteMe'
-" let completer = 'Valloric/YouCompleteMe'
-Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
-" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" ctags must be called with --fields=+l (modified in git_templates/ctags)
-" BUG in ycm about memory consuption with ctags, put it 0
-" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
-
-" YouCompleteMe Setup {{{
-  let g:ycm_collect_identifiers_from_tags_files = 0
-  let g:ycm_add_preview_to_completeopt = 1
-  " set completeopt-=preview
-  " let g:ycm_confirm_extra_conf = 0
-  let g:ycm_seed_identifiers_with_syntax = 1
-  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  let g:ycm_autoclose_preview_window_after_insertion = 1
-  " let g:ycm_autoclose_preview_window_after_completion = 1
-  let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-  "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
-  let g:ycm_key_invoke_completion = '<C-b>'
-  nnoremap <leader>h :YcmCompleter GoToDeclaration<cr>
-  nnoremap <leader>? :YcmCompleter GoToDefinitionElseDeclaration<cr>
-  " nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
-  nnoremap <leader>i :YcmCompleter FixIt<cr>
-  nnoremap <leader>gt :YcmCompleter GoTo<cr>
-  nnoremap <leader>gd :YcmCompleter GetDoc<cr>
-  nnoremap <leader>gy :YcmCompleter GetType<cr>
-" }}}
-
-" YCM+UltiSnips+SuperTab {{{
-  let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
-  let g:SuperTabCrMapping = 0
-  let g:UltiSnipsExpandTrigger = "<tab>"
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-" }}}
-
-" Multiple-Cursors setup {{{
-  function! Multiple_cursors_before()
-      let g:ycm_auto_trigger = 0
-  endfunction
-
-  function! Multiple_cursors_after()
-      let g:ycm_auto_trigger = 1
-  endfunction
-" }}}
-
-Plug 'rhysd/vim-clang-format'
-" ClangFormat Setup {{{
-  let g:clang_format#style_options = {
-              \ "AccessModifierOffset": -4,
-              \ "AllowShortLoopsOnASingleLine": "false",
-              \ "AllowShortBlocksOnASingleLine" : "false",
-              \ "AllowShortIfStatementsOnASingleLine": "false",
-              \ "AlwaysBreakTemplateDeclarations": "false",
-              \ "DerivePointerBinding": "false",
-              \ "PointerBindsToType": "false",
-              \ "ColumnLimit": 80,
-              \ "Standard": "C++11" }
-  au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
-  fun! SetClangFormatITK()
-    let g:clang_format#style_options = {
-          \ "BasedOnStyle": "Mozilla",
-          \ "AlignOperands": "false",
-          \ "AlwaysBreakAfterReturnType": "None",
-          \ "AlwaysBreakAfterDefinitionReturnType": "None",
-          \ "AlignConsecutiveDeclarations": "true",
-          \ "ColumnLimit": 79,
-          \ "Standard": "Cpp03" }
-  endfunction
-" }}}
-
-" Change typedef to using (c++11)
-let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
-call plug#end()            " required
-
-" EXPERIMENTAL:
-set undofile  " Maintain a undofile to keep changes between sessions.
-set undodir=~/.vim/undo/
-" SYNTAX
-syntax spell toplevel
-syntax enable
-set synmaxcol=100 " syntax highlight is really slow for long lines.
-" COLOUR OPTIONS:
-set t_Co=256
-set background=dark
-colorscheme desert-warm-256
-setlocal spell spelllang=en_us
-set nospell
-map <F12> :setlocal spell! spelllang=en_us<CR>
-set title
-set diffopt+=vertical " Gdiff open in vertical.
-set splitright
-set splitbelow
-set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
-
-" BUILT IN OPTIONS:
-" Basic
-set number           " Show line numbers
-set relativenumber   " In relative way
-set autochdir        " Set cd to current file directory.
-set pastetoggle=<F8> " Paste without autoindent
-set mouse=a          " Automatic enable mouse
-set textwidth=0
-set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
-set laststatus=2     " Status line always visible (useful with vim-airline)
-set wrapscan         " Search next/ Search previous are cyclic.
-" set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
-set clipboard+=unnamedplus
+"}}}
+" Language Specific Plugins and Settings {{{
+" LATEX {{{
+let g:tex_comment_nospell=1
+let g:tex_conceal = ""
 " au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
-" Searching
-set ignorecase " ignore case
-set smartcase  " expcept when there is a case on the query
-set hlsearch   " highlight search
-set incsearch  " incremental search
-set hid          " Send files to buffer instead of closing them -- e,n ... commands.
-set scrolloff=20 " 999 keeps the cursos in the middle.
-" Autocomplete window: show preview win, show menu with 1 match, insert longest match
-set completeopt=preview,menuone,longest,noselect
-
-set previewheight=12        " increase the default height (12)
-set pumheight=30            " limit popup menu height
-set concealcursor=nv        " expand concealed characters in insert mode solely
-
-" Open QuickFix horizontally with line wrap
-au FileType qf wincmd J | setlocal wrap
-
-" Preview window with line wrap
-au BufWinEnter * if &previewwindow | setlocal wrap | resize 7 | endif
-" au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
-
-" Tabs and whitespaces
-set autoindent
-set backspace=indent,eol,start
-set expandtab
-" set matchpairs+=<:>
-
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
-command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
-command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
-command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
-command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
-command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
-command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
-" Template files.
-au BufNewFile,BufRead *.txx setlocal ft=cpp
-au BufNewFile,BufRead *.ih setlocal ft=cpp
-hi ColorColumn ctermbg=DarkGray
-au FileType c,cpp setlocal colorcolumn=81
-" Git commits:
-autocmd Filetype gitcommit setlocal spell textwidth=72
-" Recognize Markdown.
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-" To use :Man. Read :help man
-runtime ftplugin/man.vim
-""""""""" General Maps: """""""""""""""""
-" Escape remap (Ctrl-C doesnt work well in some plugins)
-noremap <C-c> <Esc>
-" To navigate trough visually wrapped lines.
-nnoremap j gj
-nnoremap k gk
-" To keep the old behavior in gj, gk
-nnoremap gj j
-nnoremap gk k
-" To use with bracketing/indendation with brackets.
-imap <c-F> <C-g>g
-vnoremap <C-c> <Esc>
-" inoremap <Leader>k <ESC>kI<TAB>
-" inoremap <Leader>h <c-o>h
-" Tag Navigation
-nnoremap <c-]> g<c-]>
-vnoremap <c-]> g<c-]>
-" TimeStamps
-nnoremap <leader>ts "=strftime("%a %d %b %Y")<CR>P
-inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
-" " C,C++ specifics:
-" use ]f [f from Unimpaired instead
-" map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
-
-
-" Highlight Cursor
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
-nnoremap <Leader>cl :set cursorline!<CR>
-
-" Latex-box:
+Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
 " VimTex Setup {{{
   let g:vimtex_fold_manual=1 " autofold is slow in vim
-  let g:vimtex_latexmk_build_dir="../output"
+  let g:vimtex_latexmk_build_dir="./output"
   let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
   let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
   let g:vimtex_quickfix_ignored_warnings = [
@@ -515,11 +273,112 @@ nnoremap <Leader>cl :set cursorline!<CR>
         \ 're!\\includepdf(\s*\[[^]]*\])?\s*\{[^}]*',
         \ 're!\\includestandalone(\s*\[[^]]*\])?\s*\{[^}]*',
         \ ]
-" }}}
-  let g:tex_comment_nospell=1
 " To save automatically when using <LocalLeader>ll
 " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
-
+" }}}
+Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
+  let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+Plug 'Konfekt/FastFold' " auto fold is slow
+" FastFold Setup {{{
+  " let g:tex_fold_enabled=1
+  " let g:vimsyn_folding='af'
+" }}}
+"}}}
+" R {{{
+Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
+" Plug 'jalvesaq/VimCom'      " Communication vim - R
+" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
+Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
+" R plugins Setup {{{
+  " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
+  " Recommended in R:
+  " colourout and set with
+  " download.file("http://www.lepem.ufc.br/jaa/colorout_1.1-0.tar.gz", destfile= "colorout_1.1-0.tar.gz")
+  " install.packages("colorout_1.1-0.tar.gz", type = "source", repos = NULL)
+  "  download.file("http://cran.r-project.org/src/contrib/setwidth_1.0-3.tar.gz", destfile= "setwidth_1.0-3.tar.gz")
+  " install.packages("setwidth_1.0-3.tar.gz", type = "source", repos = NULL)
+  let R_notmuxconf = 1 " To use your own tmux.conf
+  " let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
+  let R_assign = "<LocalLeader>_"     " To avoid replacement from _ to <-, to disable = 0
+  " let vimrplugin_r_path = "~/devtoolset/R/bin"
+  if has("gui_running")
+      inoremap <C-Space> <C-x><C-o>
+  else
+      inoremap <Nul> <C-x><C-o>
+  endif
+  vmap <Space> <Plug>RDSendSelection
+  nmap <Space> <Plug>RDSendLine
+" }}}
+" }}}
+" Python {{{
+Plug 'klen/python-mode'
+" python-mode Setup {{{
+  let g:pymode_rope_completion = 0 " Use YCM instead
+" }}}
+" }}}
+" OpenCL {{{
+Plug 'petRUShka/vim-opencl'
+"}}}
+"CUDA {{{
+Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
+" Create a symlink inside vim-snippets/snippets pointing to
+" snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
+au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
+"}}}
+" Rails (Ruby) {{{
+Plug 'tpope/vim-rails'
+" Plug 'vim-ruby/vim-ruby'
+" }}}
+"Docker {{{
+Plug 'ekalinin/Dockerfile.vim'
+" }}}
+" Git {{{
+autocmd Filetype gitcommit setlocal spell textwidth=72
+"}}}
+" Markdown {{{
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+"}}}
+" C++ {{{
+" Map to reformat 'typedef' to 'using' (c++11)
+let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
+" set ft in files: {{{
+au BufNewFile,BufRead *.txx setlocal ft=cpp
+au BufNewFile,BufRead *.ih setlocal ft=cpp
+"}}}
+" Switch header-implementation {{{
+" use ]f [f from Unimpaired instead
+" map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
+" }}}
+" Shift+K to open cppman in a tmux split {{{
+command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
+autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
+"}}}
+Plug 'rhysd/vim-clang-format'
+Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
+Plug 'vim-scripts/DoxygenToolkit.vim'
+" ClangFormat Setup {{{
+  let g:clang_format#style_options = {
+              \ "AccessModifierOffset": -4,
+              \ "AllowShortLoopsOnASingleLine": "false",
+              \ "AllowShortBlocksOnASingleLine" : "false",
+              \ "AllowShortIfStatementsOnASingleLine": "false",
+              \ "AlwaysBreakTemplateDeclarations": "false",
+              \ "DerivePointerBinding": "false",
+              \ "PointerBindsToType": "false",
+              \ "ColumnLimit": 80,
+              \ "Standard": "C++11" }
+  au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
+  fun! SetClangFormatITK()
+    let g:clang_format#style_options = {
+          \ "BasedOnStyle": "Mozilla",
+          \ "AlignOperands": "false",
+          \ "AlwaysBreakAfterReturnType": "None",
+          \ "AlwaysBreakAfterDefinitionReturnType": "None",
+          \ "AlignConsecutiveDeclarations": "true",
+          \ "ColumnLimit": 79,
+          \ "Standard": "Cpp03" }
+  endfunction
+" }}}
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
@@ -535,35 +394,198 @@ nnoremap <Leader>cl :set cursorline!<CR>
   let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
   nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 "}}}
+" End of C++}}}
+"End of Language specifics }}}
+" AUTOCOMPLETERS {{{
+Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
+Plug 'honza/vim-snippets'               " Merged cmake changes!
+" UltiSnips Setup {{{
+  let g:UltiSnipsEditSplit="vertical"
+  let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
+  " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+  " let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
+" }}}
+Plug 'ervandew/supertab'                " Tab to autocomplete.
+" Supertab Setup {{{
+  " TIP: Ctrl-E to return to original without auto-complete
+  let g:SuperTabDefaultCompletionType = 'context'
+  set wildmode=list:longest,full
+  " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
+" }}}
+" YCM {{{
+" This has function completer support but it is behind master
+let completer = 'oblitum/YouCompleteMe'
+" let completer = 'Valloric/YouCompleteMe'
+Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" ctags must be called with --fields=+l (modified in git_templates/ctags)
+" BUG in ycm about memory consuption with ctags, put it 0
+" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 
+" YouCompleteMe Setup {{{
+  let g:ycm_collect_identifiers_from_tags_files = 1 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
+  let g:ycm_add_preview_to_completeopt = 1
+  " set completeopt-=preview
+  " let g:ycm_confirm_extra_conf = 0
+  let g:ycm_seed_identifiers_with_syntax = 1
+  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+  let g:ycm_autoclose_preview_window_after_insertion = 1
+  " let g:ycm_autoclose_preview_window_after_completion = 1
+  let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+  "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
+  let g:ycm_key_invoke_completion = '<C-b>'
+  nnoremap <leader>j :YcmCompleter GoToDeclaration<cr>
+  nnoremap <leader>k :YcmCompleter GoToDefinitionElseDeclaration<cr>
+  " nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
+  nnoremap <leader>i :YcmCompleter FixIt<cr>
+  nnoremap <leader>gt :YcmCompleter GoTo<cr>
+  nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+  nnoremap <leader>gy :YcmCompleter GetType<cr>
+" }}}
 
-" function! StripTrailingWhitespace()
-"   normal mZ
-"   let l:chars = col("$")
-"   %s/\s\+$//e
-"   if (line("'Z") != line(".")) || (l:chars != col("$"))
-"     echo "Trailing whitespace stripped\n"
-"   endif
-"   normal `Z
-" endfunction
-" autocmd FileType c,cpp autocmd BufWritePre <buffer> StripWhitespace
-" au FileType c,cpp au BufWritePre * call StripTrailingWhitespace()
+" YCM+UltiSnips+SuperTab {{{
+  let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
+  let g:SuperTabCrMapping = 0
+  let g:UltiSnipsExpandTrigger = "<tab>"
+  let g:UltiSnipsJumpForwardTrigger = "<tab>"
+  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+" }}}
+
+" Multiple-Cursors setup {{{
+  function! Multiple_cursors_before()
+      let g:ycm_auto_trigger = 0
+  endfunction
+
+  function! Multiple_cursors_after()
+      let g:ycm_auto_trigger = 1
+  endfunction
+" }}}
+" }}}
+" Autocompleters END }}}
+
+call plug#end()            " required
+" vim-plug END }}}
+
+" COLOUR OPTIONS: {{{
+set t_Co=256
+set background=dark
+colorscheme desert-warm-256
+"}}}
+" SYNTAX {{{
+syntax spell toplevel
+syntax enable
+set synmaxcol=200 " syntax highlight is really slow for long lines.
+setlocal spell spelllang=en_us
+set nospell
+map <F12> :setlocal spell! spelllang=en_us<CR>
+" hi stuff must be after syntax (not colour)
+hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
+au FileType c,cpp setlocal colorcolumn=81
+hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
+nnoremap <Leader>cl :set cursorline!<CR>
 
 if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
 endif
+"}}}
+" UNDO {{{
+set undofile  " Maintain a undofile to keep changes between sessions.
+set undodir=~/.vim/undo/
+" }}}
 
-" Return to last edit position when opening files (You want this!)
+" Basic {{{
+set number           " Show line numbers
+set relativenumber   " In relative way
+set autochdir        " Set cd to current file directory.
+set pastetoggle=<F8> " Paste without autoindent
+set mouse=a          " Automatic enable mouse
+set textwidth=0
+set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
+set laststatus=2     " Status line always visible (useful with vim-airline)
+set wrapscan         " Search next/ Search previous are cyclic.
+" set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
+set clipboard+=unnamedplus
+set title
+set diffopt+=vertical " Gdiff open in vertical.
+set splitright
+set splitbelow
+set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
+set hid            " Send files to buffer instead of closing them -- e,n ... commands.
+"}}}
+" Searching {{{
+set ignorecase " ignore case
+set smartcase  " expcept when there is a case on the query
+set hlsearch   " highlight search
+set incsearch  " incremental search
+"}}}
+" Aesthetics {{{
+set scrolloff=20 " 999 keeps the cursos in the middle.
+" Autocomplete window: show preview win, show menu with 1 match, insert longest match
+set completeopt=preview,menuone,longest,noselect
+set previewheight=12        " increase the default height (12)
+set pumheight=30            " limit popup menu height
+set concealcursor=nv        " expand concealed characters in insert mode solely
+" Open QuickFix horizontally with line wrap
+au FileType qf wincmd J | setlocal wrap
+" Preview window with line wrap
+au BufWinEnter * if &previewwindow | setlocal wrap | resize 7 | endif
+" au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
+" }}}
+
+" Tabs and whitespaces {{{
+set autoindent
+set backspace=indent,eol,start
+set expandtab
+" set matchpairs+=<:>
+"}}}
+" Indent {{{
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+" Indent specific commands {{{
+command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
+command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
+command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
+command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
+command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
+command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
+" }}}
+" }}}
+" General Maps: {{{
+" Escape remap (Ctrl-C doesnt work well in some plugins)
+noremap <C-c> <Esc>
+" To navigate trough visually wrapped lines.
+nnoremap j gj
+nnoremap k gk
+" To keep the old behavior in gj, gk
+nnoremap gj j
+nnoremap gk k
+" To use with bracketing/indendation with brackets.
+imap <c-F> <C-g>g
+vnoremap <C-c> <Esc>
+" inoremap <Leader>k <ESC>kI<TAB>
+" inoremap <Leader>h <c-o>h
+" Tag Navigation
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
+" TimeStamps
+nnoremap <leader>ts "=strftime("%a %d %b %Y")<CR>P
+inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
+"End of General Maps}}}
+
+" Return to last edit position when opening files (You want this!) {{{
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
 " Remember info about open buffers on close, in ~/.viminfo
 set viminfo^=%
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"}}}
+" vimgrep mappings {{{
 " => vimgrep searching and cope displaying https://amix.dk/vim/vimrc.html
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " When you press gv you vimgrep after the selected text
 vnoremap <silent> gv :call VisualSelection('gv')<CR>
 " Open vimgrep and put the cursor in the right position
@@ -598,8 +620,10 @@ function! VisualSelection(direction) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
+"}}}
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Makeprg options functions (homemade) {{{
+" BuildFolderSearch {{{
 " Set makeprg to closest build folder (Cmake builds)
 function! BuildFolderSearch()
     if !empty(glob("../build"))
@@ -641,7 +665,8 @@ function! BuildFolderSearch()
     let g:buildFolder = fnamemodify(g:buildFolder, ':p')
     return g:buildFolder
 endfunction
-
+"}}}
+"SetNThreads {{{
 function! SetNThreads()
   if !empty($NUMBER_OF_PROCESSORS)
     " this works on Windows and provides a convenient override mechanism otherwise
@@ -657,7 +682,8 @@ function! SetNThreads()
     let g:n_threads = 1
   endif
 endfunction
-
+"}}}
+"SetMakeprg {{{
 function! SetMakeprg()
   call SetNThreads()
   call BuildFolderSearch()
@@ -675,13 +701,14 @@ function! SetMakeprg()
     let b:dispatch = b:dispatch . ' -C ' . (g:buildFolder)
   endif
   return
-
 endfunction
-
+"}}}
+" BuildFolderAppend(str) {{{
 function! BuildFolderAppend(str)
   let g:buildFolder = g:buildFolder . (a:str)
 endfunction
-
+"}}}
+" end of makeprg functions }}}
 " neomake Setup {{{
   let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
   " let g:neomake_open_list   = 2 " Open automatically quick/loc list conserving cursor position. vim-togglelist plugin provides <Leader>q / l to toggle lists.
@@ -702,7 +729,7 @@ endfunction
               \ 'texthl': 'NeomakeWarningMsg',
               \ }
   function! NeomakeBuildErrorFormatClang()
-    let g:neomake_build_maker['errorformat'] = 
+    let g:neomake_build_maker['errorformat'] =
               \ '%-G%f:%s:,' .
               \ '%f:%l:%c: %trror: %m,' .
               \ '%f:%l:%c: %tarning: %m,' .
@@ -713,7 +740,7 @@ endfunction
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
   endfunction
   function! NeomakeBuildErrorFormatGCC()
-    let g:neomake_build_maker['errorformat'] = 
+    let g:neomake_build_maker['errorformat'] =
               \ '%-G%f:%s:,' .
               \ '%-G%f:%l: %#error: %#(Each undeclared identifier is reported only%.%#,' .
               \ '%-G%f:%l: %#error: %#for each function it appears%.%#,' .
@@ -782,3 +809,4 @@ endfunction
 " }}}
 
 com! ClearQuickFix call setqflist([])
+" vim:foldmethod=marker:foldlevel=0
