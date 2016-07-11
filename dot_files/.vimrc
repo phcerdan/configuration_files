@@ -1,4 +1,5 @@
 set nocompatible
+syntax on
 let mapleader=" "
 " For R (and latex?) plugins
 let maplocalleader=";"
@@ -16,10 +17,12 @@ call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
 Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
 " Conque-GDB Setup {{{
+" Set localsyntax of ConqueGDB buffer to cpp
+  let g:ConqueTerm_Syntax = 'cpp'
   let g:ConqueGdb_Leader='\'
   let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-  let g:ConqueTerm_CloseOnEnd = 1    " close conque when program ends running
-  let g:ConqueTerm_StartMessages = 0 " display warning messages if conqueTerm is configured incorrectly
+  let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
+  let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
   let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
   " Delete all buffers opened by Conque
   nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
@@ -44,18 +47,30 @@ Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " Organization / Note taking {{{
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-notes'  " Note taking with :Note
 " vim-notes Setup {{{
-  nnoremap <Leader>o :split note:todo<CR>
+  " nnoremap <Leader>o :split note:todo<CR>
   let g:notes_directories = ['~/Dropbox/VimNotes']
 " }}}
-Plug 'jceb/vim-orgmode'                 " org-mode (port from emacs)
-" vim-orgmode optional Plug dependencies {{{
+Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
+" vimwiki Setup {{{
+  nnoremap <Leader>o :split <CR>:VimwikiIndex<CR>
+  " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
+  "                      \ 'syntax': 'markdown', 'ext': '.md',
+  "                      \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
+                       \ 'syntax': 'default', 'ext': '.md',
+                       \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+" }}}
+" Plug 'blindFS/vim-taskwarrior', has('task') ? {} : { 'on': [] }   " task warrior (requires TaskWarrior binary)
+" Plug 'blindFS/vim-taskwarrior'
+" Plug 'jceb/vim-orgmode'                 " org-mode (port from emacs)
+" " vim-orgmode Setup  {{{
+"   let g:org_agenda_files = ['~/Dropbox/org-mode/agenda/*.org']
+" " }}}
+" Note-taking utilities Plugins  {{{
   Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
   Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
   Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
   Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
-" }}}
-" vim-orgmode Setup  {{{
-  let g:org_agenda_files = ['~/Dropbox/org-mode/agenda/*.org']
 " }}}
 " Organization end}}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
@@ -235,6 +250,9 @@ Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers w
 "}}}
 " Version Controlling {{{
 Plug 'airblade/vim-gitgutter'
+" Gitgutter Setup {{{
+" let g:loaded_gitgutter=1 " Slow, don't load it.
+" }}}
 "}}}
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
@@ -337,6 +355,7 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
 " Markdown {{{
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+" au FileType markdown setlocal conceallevel=0
 "}}}
 " C++ {{{
 " Map to reformat 'typedef' to 'using' (c++11)
@@ -355,6 +374,7 @@ autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
 "}}}
 Plug 'rhysd/vim-clang-format'
 Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
+" Plug 'justinmk/vim-syntax-extra'        " Syntax for c,c++.
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " ClangFormat Setup {{{
   let g:clang_format#style_options = {
@@ -368,6 +388,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
               \ "ColumnLimit": 80,
               \ "Standard": "C++11" }
   au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
+  au FileType c,cpp au BufReadPre,BufNewFile itk execute IntentITK
   fun! SetClangFormatITK()
     let g:clang_format#style_options = {
           \ "BasedOnStyle": "Mozilla",
@@ -413,10 +434,11 @@ Plug 'ervandew/supertab'                " Tab to autocomplete.
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 " YCM {{{
-" This has function completer support but it is behind master
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
 Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+" Apply patch to allow c++ completion with templates (slower)
+" Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
 " Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " ctags must be called with --fields=+l (modified in git_templates/ctags)
@@ -476,7 +498,7 @@ colorscheme desert-warm-256
 " SYNTAX {{{
 syntax spell toplevel
 syntax enable
-set synmaxcol=200 " syntax highlight is really slow for long lines.
+set synmaxcol=128 " syntax highlight is really slow for long lines.
 setlocal spell spelllang=en_us
 set nospell
 map <F12> :setlocal spell! spelllang=en_us<CR>
@@ -490,14 +512,13 @@ if version >= 702
   autocmd BufWinLeave * call clearmatches() " Solve performance problems with multiple syntax match.
 endif
 "}}}
-" UNDO {{{
-set undofile  " Maintain a undofile to keep changes between sessions.
-set undodir=~/.vim/undo/
-" }}}
 
+" Render options (for Slow machines) {{{
+" set relativenumber " In relative way (SLOW rendering!!!!!) :((
+set lazyredraw
+" }}}
 " Basic {{{
 set number           " Show line numbers
-set relativenumber   " In relative way
 set autochdir        " Set cd to current file directory.
 set pastetoggle=<F8> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
@@ -532,6 +553,10 @@ au FileType qf wincmd J | setlocal wrap
 " Preview window with line wrap
 au BufWinEnter * if &previewwindow | setlocal wrap | resize 7 | endif
 " au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
+" }}}
+" Undofile {{{
+set undofile  " Maintain a undofile to keep changes between sessions.
+set undodir=~/.vim/undo/
 " }}}
 
 " Tabs and whitespaces {{{
@@ -572,7 +597,7 @@ vnoremap <C-c> <Esc>
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 " TimeStamps
-nnoremap <leader>ts "=strftime("%a %d %b %Y")<CR>P
+nnoremap <leader>ts "=strftime("%F")<CR>P
 inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 "End of General Maps}}}
 
