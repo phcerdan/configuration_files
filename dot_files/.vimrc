@@ -45,27 +45,17 @@ Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
 " }}}
 "}}}
 " Organization / Note taking {{{
-Plug 'xolox/vim-misc' | Plug 'xolox/vim-notes'  " Note taking with :Note
-" vim-notes Setup {{{
-  " nnoremap <Leader>o :split note:todo<CR>
-  let g:notes_directories = ['~/Dropbox/VimNotes']
-" }}}
-Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
+Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim. TODO In transition to obsolescency...
 " vimwiki Setup {{{
-  nnoremap <Leader>o :split <CR>:VimwikiIndex<CR>
-  " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-  "                      \ 'syntax': 'markdown', 'ext': '.md',
-  "                      \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  let g:vimwiki_conceallevel = 0
+  " nnoremap <Leader>o :split <CR>:VimwikiIndex<CR>
   let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-                       \ 'syntax': 'default', 'ext': '.md',
+                       \ 'syntax': 'markdown', 'ext': '.md',
                        \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
+  "                      \ 'syntax': 'default', 'ext': '.md',
+  "                      \ 'nested_syntaxes': {'cpp': 'cpp'}}]
 " }}}
-" Plug 'blindFS/vim-taskwarrior', has('task') ? {} : { 'on': [] }   " task warrior (requires TaskWarrior binary)
-" Plug 'blindFS/vim-taskwarrior'
-" Plug 'jceb/vim-orgmode'                 " org-mode (port from emacs)
-" " vim-orgmode Setup  {{{
-"   let g:org_agenda_files = ['~/Dropbox/org-mode/agenda/*.org']
-" " }}}
 " Note-taking utilities Plugins  {{{
   Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
   Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
@@ -172,7 +162,8 @@ Plug 'junegunn/fzf.vim'
 
   " Map C-p to override CtrlP plugin.
   nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
-  nnoremap <silent> <Leader>ff :exe 'FFiles ' . <SID>fzf_root()<CR>
+  nnoremap <silent> <Leader>ff :exe 'FFiles ' . expand("~")<CR>
+  nnoremap <silent> <Leader>ft :FFiletypes<CR>
   nnoremap <silent> <Leader>fc :FColors<CR>
   nnoremap <silent> <Leader>fh :FHistory<CR>
   nnoremap <silent> <Leader>bb :FBuffers<CR>
@@ -187,7 +178,6 @@ Plug 'junegunn/fzf.vim'
   nnoremap <silent> <Leader>T :FBTags<CR>
   nnoremap <silent> <Leader>gl :FCommits<CR>
   nnoremap <silent> <Leader>ga :FBCommits<CR>
-  nnoremap <silent> <Leader>ft :FFiletypes<CR>
 
 
   function! SearchWordWithAg()
@@ -227,6 +217,20 @@ Plug 'vim-airline/vim-airline-themes'
 " TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
+" Vimux Setup {{{
+  let g:VimuxHeight = "40" " Default is 20
+  let g:VimuxUseNearest = 0  " Always split-window
+  " Calling Emacs from vim for org-mode
+  " org is an alias (in .aliases) similar or equal to:'emacs -nw ~/path/to/organizer.org'
+  nnoremap <Leader>o :call VimuxRunCommand("clear; org")<CR>
+  fun! VimuxCloseOrgMode()
+    " Save all buffers, and quit.
+    :call VimuxSendKeys(":xa")
+    :call VimuxCloseRunner()
+  endfunction
+  nnoremap <Leader>O :call VimuxCloseOrgMode<CR>
+" }}}
 " Tmuxline Setup {{{
   let g:tmuxline_powerline_separators = 0
   " Tmux Navigator tips {{{
@@ -274,6 +278,7 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
   let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool
   let g:vimtex_view_general_viewer = 'okular'
+  " let g:vimtex_view_general_viewer = 'mupdf'
   let g:vimtex_view_general_options_latexmk = '--unique'
   " let g:vimtex_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
   let g:vimtex_latexmk_options='-file-line-error -verbose -pdf -interaction="nonstopmode" -pdflatex="lualatex -synctex=1 -shell-escape \%O \%S"'
@@ -353,7 +358,7 @@ Plug 'ekalinin/Dockerfile.vim'
 " Git {{{
 autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
-" Markdown {{{
+" Markdown / vimwiki {{{
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " au FileType markdown setlocal conceallevel=0
 "}}}
@@ -580,8 +585,11 @@ command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 |
 " }}}
 " }}}
 " General Maps: {{{
-" Escape remap (Ctrl-C doesnt work well in some plugins)
+" Escape remap (Ctrl-C doesnt work well in some plugins) (not reliable)
 noremap <C-c> <Esc>
+" Smash Escape
+inoremap jk <ESC>
+inoremap kj <ESC>
 " To navigate trough visually wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -743,8 +751,7 @@ endfunction
         \ 'args': ['-j5', '--stop', '--no-print-directory', '-C'],
         \ 'append_file': 0,
         \ 'errorformat': '%f:%l:%c: %m',
-        \ 'buffer_output': 1
-        \ }
+        \ 'buffer_output': 1 }
   hi NeomakeWarningMsg ctermfg=black ctermbg=yellow cterm=bold
   hi NeomakeErrorMsg ctermfg=white ctermbg=red cterm=bold
   let g:neomake_error_sign = {

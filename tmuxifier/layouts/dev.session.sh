@@ -11,7 +11,8 @@ if initialize_session "dev"; then
   new_window "vim"
   new_window "build"
   # Load a defined window layout.
-  new_window "other"
+  # new_window "org-mode"
+  load_window "org"
   # Select the default active window on session creation.
   select_window 1
 
