@@ -14,8 +14,11 @@ if hash nvim 2>/dev/null; then
 fi
 alias mux='tmuxifier'
 # alias vim='vim --servername VIMserver'
-alias emacs='emacs -nw'
-alias org='emacs ~/Dropbox/org-mode/organizer.org'
+# alias emacs='emacs -nw'
+alias emacsserver='emacs --daemon'
+alias emacsserver-kill="emacsclient -e '(kill-emacs)'"
+alias org='emacs -nw ~/Dropbox/org-mode/organizer.org'
+alias orgclient='emacsclient -t ~/Dropbox/org-mode/organizer.org'
 
 # Platform specific aliases.
 alias sdev='source ~/bin/devtoolset-core.sh'

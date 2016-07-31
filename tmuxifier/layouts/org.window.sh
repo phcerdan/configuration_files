@@ -12,7 +12,7 @@ new_window "org-mode"
 # select_pane 0
 
 # Run commands: This is an alias to open emacs with agenda: check ~/.aliases
-run_cmd "org"     # runs in active pane
+run_cmd "emacs --daemon ; orgclient"
 
 # Set active pane.
 #select_pane 0

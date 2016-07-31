@@ -82,7 +82,7 @@ Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide Stri
 "}}}
 Plug 'drn/zoomwin-vim'
 " ZoomWin Setup {{{
-  nnoremap <leader>z :ZoomWin<cr>
+  nnoremap <Leader>z :ZoomWin<cr>
 " }}}
 " Align and Tabularize: {{{
 Plug 'terryma/vim-multiple-cursors'
@@ -220,16 +220,24 @@ Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. De
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
 " Vimux Setup {{{
   let g:VimuxHeight = "40" " Default is 20
-  let g:VimuxUseNearest = 0  " Always split-window
+  let g:VimuxUseNearest = 1  " With 0 always split, with 1 attach if pane exist
   " Calling Emacs from vim for org-mode
   " org is an alias (in .aliases) similar or equal to:'emacs -nw ~/path/to/organizer.org'
-  nnoremap <Leader>o :call VimuxRunCommand("clear; org")<CR>
+
+  function! VimuxSwitchOrRun(command)
+    if exists("g:VimuxRunnerIndex")
+      call _VimuxTmux("select-"._VimuxRunnerType()." -t ".g:VimuxRunnerIndex)
+    else
+      call VimuxRunCommand(a:command)
+    endif
+  endfunction
   fun! VimuxCloseOrgMode()
     " Save all buffers, and quit.
     :call VimuxSendKeys(":xa")
     :call VimuxCloseRunner()
   endfunction
-  nnoremap <Leader>O :call VimuxCloseOrgMode<CR>
+  nnoremap <Leader>o :call VimuxSwitchOrRun("orgclient")<CR>
+  nnoremap <Leader>O :call VimuxCloseOrgMode()<CR>
 " }}}
 " Tmuxline Setup {{{
   let g:tmuxline_powerline_separators = 0
@@ -266,7 +274,7 @@ let g:tex_conceal = ""
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
 " VimTex Setup {{{
-  let g:vimtex_fold_manual=1 " autofold is slow in vim
+  " let g:vimtex_fold_manual=1 " autofold is slow in vim
   let g:vimtex_latexmk_build_dir="./output"
   let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
   let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
@@ -303,7 +311,8 @@ Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
   let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
 Plug 'Konfekt/FastFold' " auto fold is slow
 " FastFold Setup {{{
-  " let g:tex_fold_enabled=1
+  let g:tex_fold_enabled = 1
+  let g:cpp_folding = 1
   " let g:vimsyn_folding='af'
 " }}}
 "}}}
@@ -435,7 +444,6 @@ Plug 'ervandew/supertab'                " Tab to autocomplete.
 " Supertab Setup {{{
   " TIP: Ctrl-E to return to original without auto-complete
   let g:SuperTabDefaultCompletionType = 'context'
-  set wildmode=list:longest,full
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 " YCM {{{
@@ -539,6 +547,7 @@ set splitright
 set splitbelow
 set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
 set hid            " Send files to buffer instead of closing them -- e,n ... commands.
+set wildmode=list:longest,full
 "}}}
 " Searching {{{
 set ignorecase " ignore case
@@ -607,6 +616,16 @@ vnoremap <c-]> g<c-]>
 " TimeStamps
 nnoremap <leader>ts "=strftime("%F")<CR>P
 inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
+" Copy filename to clipboard {{{
+  " absolute path (/something/src/foo.txt)
+  nnoremap <leader>cf :let @+=expand("%:p")<CR>
+ " relative path (src/foo.txt)
+  nnoremap <leader>cfr :let @+=expand("%")<CR>
+  " filename (foo.txt)
+  nnoremap <leader>cfl :let @+=expand("%:t")<CR>
+  " directory name (/something/src)
+  nnoremap <leader>cfd :let @+=expand("%:p:h")<CR>
+"}}}
 "End of General Maps}}}
 
 " Return to last edit position when opening files (You want this!) {{{
@@ -786,6 +805,7 @@ endfunction
               \ '%f:%l: %m'
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
   endfunction
+
   function! NeomakeBuildDefault()
     let g:neomake_build_maker['args'] = [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C']
   endfunction
@@ -799,20 +819,20 @@ endfunction
 
   function! NeomakeBuildPrepare()
     call SetNThreads()       " Sets g:n_threads
-    call BuildFolderSearch() " Sets g:buildFolder
+    call BuildFolderSearch() " Sets g:buildFolder // TODO and overrides it, which is bad.
     call NeomakeBuildSetBuildFolder()
   endfunction
 
   function! NeomakeBuildPrepareClang()
     call NeomakeBuildPrepare()
     call NeomakeBuildErrorFormatClang()
-    let g:NeomakeBuildOnSave = 1
+    let g:NeomakeBuildOnSave = 0
   endfunction
 
   function! NeomakeBuildPrepareGCC()
     call NeomakeBuildPrepare()
     call NeomakeBuildErrorFormatGCC()
-    let g:NeomakeBuildOnSave = 1
+    let g:NeomakeBuildOnSave = 0
   endfunction
 
   function! NeomakeBuildUpdate(file_path_append)
@@ -838,6 +858,21 @@ endfunction
       call NeomakeBuild()
     endif
   endfunction
+
+  "Dispatch Setup {{{
+   let g:DispArg = ''
+   fun! DispArg(args)
+       let g:DispArg = a:args
+   endfunction
+   " Hack to have file autocompletion in command line (or in q:)
+   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
+
+   nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
+  "}}}
+  nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
+  nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
+  nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
+  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder()
 " }}}
 
 com! ClearQuickFix call setqflist([])

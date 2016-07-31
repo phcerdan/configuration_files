@@ -8,13 +8,13 @@ session_root "~/repository_local/"
 if initialize_session "dev"; then
 
   # Create a new window inline within session layout definition.
-  new_window "vim"
+  load_window "vim"
   new_window "build"
   # Load a defined window layout.
-  # new_window "org-mode"
-  load_window "org"
+  new_window "other"
+  run_cmd "emacs --daemon ; orgclient"
   # Select the default active window on session creation.
-  select_window 1
+  # select_window 1
 
 fi
 

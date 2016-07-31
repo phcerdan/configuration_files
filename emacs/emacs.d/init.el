@@ -1,6 +1,8 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
+;; For TAB to work in org-mode evil-mode:
+(setq evil-want-C-i-jump nil)
 (require 'evil-org)
 (require 'evil-leader)
 (evil-leader/set-leader "<SPC>")
@@ -10,13 +12,15 @@
 (add-hook 'after-init-hook
  (lambda () (load-theme 'cyberpunk t)))
 ;; Move between window with C-c hjkl, note that in vim/tmux is C-hjkl. Not sure if good.
-(global-set-key (kbd "C-c h")  'windmove-left)
-(global-set-key (kbd "C-c l")  'windmove-right)
-(global-set-key (kbd "C-c k")  'windmove-up)
-(global-set-key (kbd "C-c j")  'windmove-down)
+(global-set-key (kbd "C-c C-h")  'windmove-left)
+(global-set-key (kbd "C-c C-l")  'windmove-right)
+(global-set-key (kbd "C-c C-k")  'windmove-up)
+(global-set-key (kbd "C-c C-j")  'windmove-down)
 (setq org-todo-keywords
       '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
-(setq org-agenda-files '("~/Dropbox/org-mode/agenda"))
+(setq org-log-done 'time)
+(setq org-agenda-files (list "~/Dropbox/org-mode/agenda.org"
+			     "~/Dropbox/org-mode/organizer.org"))
 (setq org-directory '("~/Dropbox/org-mode"))
 ; org - minimum for agenda
 (add-hook 'org-agenda-mode-hook
@@ -31,6 +35,8 @@
     (define-key org-agenda-mode-map "n" 'evil-forward-word-begin)
     (define-key org-agenda-mode-map "p" 'evil-forward-word-begin)
     (define-key org-agenda-mode-map "w" 'evil-forward-word-begin)))
+;; To copy to clipboard in emacs terminal mode -nw. Require XSEL
+(load "~/.emacs.d/copy_paste_emacs_terminal.el")
 ;;;;;;;;;;;;;;;; END of PHC ;;;;;;;;;;;
 ;; from \url: http://lukeswart.net/2015/04/lightning-intro-to-emacs-using-evil-mode-and-org-mode/
 ;; Include this in your Emacs config file (ie ~/.emacs.d/init.el or ~/.emacs)
@@ -81,3 +87,15 @@
         (push 'escape unread-command-events))
        (t (setq unread-command-events (append unread-command-events
                                               (list evt))))))))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/Dropbox/org-mode/organizer.org"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
