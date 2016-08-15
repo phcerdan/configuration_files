@@ -29,31 +29,35 @@ Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer.
   " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
   " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
 " }}}
-Plug 'critiqjo/lldb.nvim', has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
+let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
+Plug 'critiqjo/lldb.nvim'
+" , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
 " lldb improved Setup {{{
   nmap <Leader>db <Plug>LLBreakSwitch
   nnoremap <Leader>dd :LLmode debug<CR>
-  nnoremap <Leader>dc :LLmode code<CR>
-  nnoremap <Leader>ds :LLmode continue<CR>
-  nnoremap <Leader>dS :LL process interrupt<CR>
+  nnoremap <Leader>dD :LLmode code<CR>
+  nnoremap <Leader>dc :LL continue<CR>
+  nnoremap <Leader>dn :LL next<CR>
+  nnoremap <Leader>dni :LL thread step-over-inst<CR>
+  nnoremap <Leader>ds :LL step<CR>
+  nnoremap <Leader>dsi :LL thread step-inst<CR>
+  nnoremap <Leader>df :LL finish<CR>
+  nnoremap <Leader>dI :LL process interrupt<CR>
+  nnoremap <Leader>dK :LL process kill<CR>
   nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
   vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-" }}}
-Plug 'Shougo/vimproc', { 'do': 'make' } | Plug 'idanarye/vim-vebugger'
-" Vebugger Setup {{{
-  let g:vebugger_leader = '<leader>v'
+  nnoremap <Leader>dle :LLsession bp-set<CR>
+  nnoremap <Leader>dlw :LLsession bp-save<CR>
+  nnoremap <Leader>dlr :LLsession reload<CR>
+  nnoremap <Leader>dll :LLsession load
 " }}}
 "}}}
 " Organization / Note taking {{{
-Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim. TODO In transition to obsolescency...
+" Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim. TODO In transition to obsolescency...
 " vimwiki Setup {{{
-  let g:vimwiki_conceallevel = 0
-  " nnoremap <Leader>o :split <CR>:VimwikiIndex<CR>
-  let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-                       \ 'syntax': 'markdown', 'ext': '.md',
-                       \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  " let g:vimwiki_conceallevel = 0
   " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-  "                      \ 'syntax': 'default', 'ext': '.md',
+  "                      \ 'syntax': 'markdown', 'ext': '.md',
   "                      \ 'nested_syntaxes': {'cpp': 'cpp'}}]
 " }}}
 " Note-taking utilities Plugins  {{{
@@ -68,13 +72,18 @@ Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
-Plug 'tomtom/tcomment_vim'
+Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
 Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based on current file or folder files with same extension.
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
 Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
+" Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
 Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make!
+Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS. Testing... slow?
+" restore_view Setup{{{
+  set viewoptions=cursor,folds,slash,unix
+" }}}
 Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Better-whitespace Setup {{{
@@ -85,7 +94,7 @@ Plug 'drn/zoomwin-vim'
   nnoremap <Leader>z :ZoomWin<cr>
 " }}}
 " Align and Tabularize: {{{
-Plug 'terryma/vim-multiple-cursors'
+Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification
 Plug 'junegunn/vim-easy-align'
 " Easy-Align Setup {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -149,16 +158,33 @@ Plug 'junegunn/fzf.vim'
 " fzf Setup {{{
   let g:fzf_nvim_statusline = 0 " disable statusline overwriting
   let g:fzf_command_prefix = 'F'
+  " Enable per-command history.
+  " CTRL-N and CTRL-P will be automatically bound to next-history and
+  " previous-history instead of down and up. If you don't like the change,
+  " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+  " let g:fzf_history_dir = '~/.fzf-history'
+
+  " Mapping selecting mappings
+  nmap <leader><tab> <plug>(fzf-maps-n)
+  xmap <leader><tab> <plug>(fzf-maps-x)
+  omap <leader><tab> <plug>(fzf-maps-o)
   " Insert mode completion
-  imap <c-x><c-w> <plug>(fzf-complete-word)
-  imap <c-x><c-p> <plug>(fzf-complete-path)
-  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+  imap <c-x><c-k> <plug>(fzf-complete-word)
+  imap <c-x><c-f> <plug>(fzf-complete-path)
+  imap <C-x><C-j> <plug>(fzf-complete-file-ag)
   imap <C-x><C-l> <plug>(fzf-complete-line)
 
   fun! s:fzf_root()
     let path = finddir(".git", expand("%:p:h").";")
     return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
   endfun
+
+function! s:with_git_root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  return v:shell_error ? {} : {'dir': root}
+endfunction
+command! -nargs=* GAg
+  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
 
   " Map C-p to override CtrlP plugin.
   nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
@@ -181,10 +207,12 @@ Plug 'junegunn/fzf.vim'
 
 
   function! SearchWordWithAg()
-    execute 'FAg' expand('<cword>')
+    let ag_command = 'GAg'
+    execute ag_command expand('<cword>')
   endfunction
 
   function! SearchVisualSelectionWithAg() range
+    let ag_command = 'GAg'
     let old_reg = getreg('"')
     let old_regtype = getregtype('"')
     let old_clipboard = &clipboard
@@ -193,7 +221,7 @@ Plug 'junegunn/fzf.vim'
     let selection = getreg('"')
     call setreg('"', old_reg, old_regtype)
     let &clipboard = old_clipboard
-    execute 'FAg' selection
+    execute ag_command selection
   endfunction
 " }}}
 Plug 'majutsushi/tagbar'
@@ -343,10 +371,25 @@ Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " }}}
 " }}}
 " Python {{{
-Plug 'klen/python-mode'
+" python-mode is just too heavy, you don't really need rope.
+" Plug 'klen/python-mode', { 'branch': 'develop'}
 " python-mode Setup {{{
-  let g:pymode_rope_completion = 0 " Use YCM instead
+  " let g:pymode_rope_completion = 0 " Use YCM instead
 " }}}
+Plug 'nvie/vim-flake8'
+" , has('flake8') ? {} : { 'on': [] } " lint for python. Require flake8 installation
+" vim-flake8 Setup {{{
+" Default mapping is <F7>
+  let g:flake8_show_in_gutter=1
+  let g:flake8_show_in_file=1
+" }}}
+" vim-flake8 Setup {{{
+  " let no_flake8_maps = 1
+" }}}
+Plug 'jmcantrell/vim-virtualenv'
+" vim-virtualenv Setup {{{
+  let g:virtualenv_directory='/home/phc/repository_local'
+"}}}
 " }}}
 " OpenCL {{{
 Plug 'petRUShka/vim-opencl'
@@ -459,7 +502,8 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 
 " YouCompleteMe Setup {{{
-  let g:ycm_collect_identifiers_from_tags_files = 1 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
+  let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
+  let g:ycm_collect_identifiers_from_tags_files = 0 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
   let g:ycm_add_preview_to_completeopt = 1
   " set completeopt-=preview
   " let g:ycm_confirm_extra_conf = 0
@@ -511,7 +555,7 @@ colorscheme desert-warm-256
 " SYNTAX {{{
 syntax spell toplevel
 syntax enable
-set synmaxcol=128 " syntax highlight is really slow for long lines.
+set synmaxcol=200 " syntax highlight is really slow for long lines.
 setlocal spell spelllang=en_us
 set nospell
 map <F12> :setlocal spell! spelllang=en_us<CR>
@@ -628,13 +672,14 @@ inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 "}}}
 "End of General Maps}}}
 
-" Return to last edit position when opening files (You want this!) {{{
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-" Remember info about open buffers on close, in ~/.viminfo
-set viminfo^=%
+" Return to last edit position when opening files (You want this!) Obsolete:
+" plugin:restore_view does this. {{{
+" autocmd BufReadPost *
+"      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+"      \   exe "normal! g`\"" |
+"      \ endif
+" " Remember info about open buffers on close, in ~/.viminfo
+" set viminfo^=%
 "}}}
 " vimgrep mappings {{{
 " => vimgrep searching and cope displaying https://amix.dk/vim/vimrc.html
@@ -676,7 +721,6 @@ endfunction
 
 " Makeprg options functions (homemade) {{{
 " BuildFolderSearch {{{
-" Set makeprg to closest build folder (Cmake builds)
 function! BuildFolderSearch()
     if !empty(glob("../build"))
         let g:buildFolder='../build'
@@ -738,22 +782,34 @@ endfunction
 "SetMakeprg {{{
 function! SetMakeprg()
   call SetNThreads()
-  call BuildFolderSearch()
 
   if exists("g:buildFolder")
     let buildsys="make --stop --no-print-directory"
     if filereadable((g:buildFolder) . '/rules.ninja')
       let buildsys="ninja"
     endif
-    let &makeprg= buildsys . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '')
-    let b:dispatch= 'env CTEST_OUTPUT_ON_FAILURE=TRUE make test --no-print-directory' . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '')
+    let &makeprg= buildsys . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '') . ' -C ' . (g:buildFolder)
+  else
+    call BuildFolderSearch()
+    call SetMakeprg()
   endif
-  if exists('g:buildFolder')
-    let &makeprg = &makeprg . ' -C ' . (g:buildFolder)
-    let b:dispatch = b:dispatch . ' -C ' . (g:buildFolder)
-  endif
-  return
 endfunction
+
+function! SetDispatchToCTest()
+  call SetNThreads()
+  if exists("g:buildFolder")
+    let b:dispatch='make test --no-print-directory' . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '') . ' -C ' . (g:buildFolder)
+  else
+    call BuildFolderSearch()
+    call SetDispatchToCTest()
+  endif
+endfunction
+function! CTestDispatchArgs(args)
+  call SetDispatchToCTest()
+  let b:dispatch = b:dispatch . ' ARGS=''' . a:args . ''''
+" env CTEST_OUTPUT_ON_FAILURE=TRUE
+endfunction
+com! -nargs=* CTestArgs call DispArg(<q-args>)
 "}}}
 " BuildFolderAppend(str) {{{
 function! BuildFolderAppend(str)
@@ -761,16 +817,9 @@ function! BuildFolderAppend(str)
 endfunction
 "}}}
 " end of makeprg functions }}}
-" neomake Setup {{{
-  let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
+" Neomake Setup {{{
   " let g:neomake_open_list   = 2 " Open automatically quick/loc list conserving cursor position. vim-togglelist plugin provides <Leader>q / l to toggle lists.
   let g:neomake_list_height = 6
-  let g:neomake_build_maker = {
-        \ 'exe': 'make',
-        \ 'args': ['-j5', '--stop', '--no-print-directory', '-C'],
-        \ 'append_file': 0,
-        \ 'errorformat': '%f:%l:%c: %m',
-        \ 'buffer_output': 1 }
   hi NeomakeWarningMsg ctermfg=black ctermbg=yellow cterm=bold
   hi NeomakeErrorMsg ctermfg=white ctermbg=red cterm=bold
   let g:neomake_error_sign = {
@@ -779,6 +828,18 @@ endfunction
   let g:neomake_warning_sign = {
               \ 'texthl': 'NeomakeWarningMsg',
               \ }
+"}}}
+" Neomake makers {{{
+" Build
+  let g:neomake_build_maker = {
+        \ 'exe': 'make',
+        \ 'args': ['-j5', '--stop', '--no-print-directory', '-C'],
+        \ 'append_file': 0,
+        \ 'errorformat': '%f:%l:%c: %m',
+        \ 'buffer_output': 1 }
+" }}}
+" NeomakeBuild functions {{{
+  let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
   function! NeomakeBuildErrorFormatClang()
     let g:neomake_build_maker['errorformat'] =
               \ '%-G%f:%s:,' .
@@ -790,6 +851,7 @@ endfunction
               \ '%f:%l: %m'
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
   endfunction
+
   function! NeomakeBuildErrorFormatGCC()
     let g:neomake_build_maker['errorformat'] =
               \ '%-G%f:%s:,' .
@@ -814,8 +876,6 @@ endfunction
     call NeomakeBuildDefault()
     let g:neomake_build_args = g:neomake_build_maker['args'] + [g:buildFolder]
   endfunction
-  au BufWinEnter * call SetNThreads()
-  au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
 
   function! NeomakeBuildPrepare()
     call SetNThreads()       " Sets g:n_threads
@@ -859,16 +919,18 @@ endfunction
     endif
   endfunction
 
-  "Dispatch Setup {{{
-   let g:DispArg = ''
-   fun! DispArg(args)
-       let g:DispArg = a:args
-   endfunction
-   " Hack to have file autocompletion in command line (or in q:)
-   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
-
-   nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
-  "}}}
+"}}}
+" Make and Neomake maps and autocommands Setup {{{
+  let g:DispArg = ''
+  fun! DispArg(args)
+    let g:DispArg = a:args
+  endfunction
+  " Hack to have file autocompletion in command line (or in q:)
+  com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
+  nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
+  au FileType c,cpp au BufWinEnter * call SetNThreads()
+  " Call NeomakeBuild() on save if g:NeomakeBuildOnSave=1
+  au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
   nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
   nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
   nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>

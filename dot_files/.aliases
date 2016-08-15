@@ -22,9 +22,10 @@ alias orgclient='emacsclient -t ~/Dropbox/org-mode/organizer.org'
 
 # Platform specific aliases.
 alias sdev='source ~/bin/devtoolset-core.sh'
-alias sdevd='source ~/bin/devtoolset-debug.sh'
 alias sdevr='source ~/bin/devtoolset-release.sh'
+alias sdevd='source ~/bin/devtoolset-debug.sh'
 alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
+alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 
 # CMAKE
 alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'

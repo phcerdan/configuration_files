@@ -1,7 +1,7 @@
 import os
 import ycm_core
 
-#From: https://github.com/oblitum/dotfiles/blob/archlinux/.ycm_extra_conf.py
+# From: https://github.com/oblitum/dotfiles/blob/archlinux/.ycm_extra_conf.py
 
 # flags = [
 # '-x', 'c++',
@@ -89,8 +89,8 @@ flags = [
 '-DCGAL_EIGEN3_ENABLED', '-DWITH_CGAL', '-DWITH_Eigen3', '-DWITH_LAPACK',
 '-fPIC'
 ]
-#Template declaration in .ih files:
-#From: https://github.com/Valloric/YouCompleteMe/issues/1938#issuecomment-175411991
+# Template declaration in .ih files:
+# From: https://github.com/Valloric/YouCompleteMe/issues/1938#issuecomment-175411991
 def GetIncludeTemplateDeclaration( filename ):
     root, ext = os.path.splitext( filename )
     if ext == '.ih':
