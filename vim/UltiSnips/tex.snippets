@@ -1,3 +1,6 @@
+snippet mm "inline MathMode. Dangerously simple? Be aware of collide" w
+\$${1}\$
+endsnippet
 snippet figpage "PHC:Create a figure with minipages to input multiple images" b
 
 \begin{figure}[${1:htpb}]
@@ -39,6 +42,14 @@ snippet bmc "bm (bold) and caligraphic upper case in math mode" w
 \bm{\mathcal{${1}}}
 endsnippet
 
+snippet mbb "hollow caligraphic letters for number sets: R, N, Z, etc" w
+\mathbb{${1:R}}
+endsnippet
+
 snippet cal "Caligraphic upper case in math mode" w
 \mathcal{${1}}
+endsnippet
+
+snippet innp "Bracket inner product" w
+\langle${1},${2}\rangle
 endsnippet

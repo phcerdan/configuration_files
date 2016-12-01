@@ -58,12 +58,16 @@ DISABLE_AUTO_TITLE=true
 
 # LOAD general .aliases.
 source $HOME/.aliases
+# base16stuff (only arch?)
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+base16_monokai
 
+
+export EDITOR='vim'
 if hash nvim 2>/dev/null; then
     export EDITOR='nvim'
     # alias vim='nvim'
-else
-    export EDITOR='vim'
 fi
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 

@@ -9,16 +9,18 @@
 
 ########## ALIASES ##############
 # if nvim
-if hash nvim 2>/dev/null; then
-    alias vim='nvim'
-fi
+# if hash nvim 2>/dev/null; then
+#     alias vim='nvim'
+# fi
 alias mux='tmuxifier'
-# alias vim='vim --servername VIMserver'
+alias gits='git status'
+alias viserver='gvim -v --servername vimserver'
 # alias emacs='emacs -nw'
 alias emacsserver='emacs --daemon'
 alias emacsserver-kill="emacsclient -e '(kill-emacs)'"
 alias org='emacs -nw ~/Dropbox/org-mode/organizer.org'
 alias orgclient='emacsclient -t ~/Dropbox/org-mode/organizer.org'
+alias orgthesis='emacsclient -t ~/Dropbox/org-mode/thesis.org'
 
 # Platform specific aliases.
 alias sdev='source ~/bin/devtoolset-core.sh'

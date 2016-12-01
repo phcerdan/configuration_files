@@ -1,0 +1,70 @@
+URxvt.font: xft:MesloLGM-Regular
+URxvt.externalBorder: 0
+URxvt.scrollBar: false
+URxvt.saveLines: 10000
+URxvt.cursorBlink: false
+URxvt.iso14755 : false
+URxvt.urgentOnBell: true
+URxvt.visualBell: true
+URxvt.keysym.C-S-C: perl:clipboard:copy
+URxvt.keysym.C-S-V: perl:clipboard:paste
+URxvt.perl-ext-common: selection-to-clipboard
+
+! Xft.antialias: true
+! #include ".Xresources.d/base16/base16-monokai-256.Xresources"
+
+!-------------------------------------------------------------------------
+! Hybrid Terminal Colours. Uses the palette from Tomorrow-Night:
+! https://github.com/chriskempson/tomorrow-theme/blob/master/vim/colors/Tomorrow-Night.vim
+! vim: ft=xdefaults
+
+! *background: #1D1F21
+! *foreground: #C5C8C6
+! ! black
+! *color0: #282A2E
+! *color8: #373B41
+! ! red
+! *color1: #A54242
+! *color9: #CC6666
+! ! green
+! *color2: #8C9440
+! *color10: #B5BD68
+! ! yellow
+! *color3: #DE935F
+! *color11: #F0C674
+! ! blue
+! *color4: #5F819D
+! *color12: #81A2BE
+! ! magenta
+! *color5: #85678F
+! *color13: #B294BB
+! ! cyan
+! *color6: #5E8D87
+! *color14: #8ABEB7
+! ! white
+! *color7: #707880
+! *color15: #C5C8C6
+!--------------------------------------------------------------------
+! Base16 Monokai
+! ! Scheme: Wimer Hazenberg (http://www.monokai.nl)
+! from: https://github.com/jedipunkz/dotfiles/blob/master/.Xresources.molokai
+! Molokai theme
+!*background: #101010
+!*foreground: #d0d0d0
+!*cursorColor: #d0d0d0
+!*color0: #101010
+!*color1: #960050
+!*color2: #66aa11
+!*color3: #c47f2c
+!*color4: #30309b
+!*color5: #7e40a5
+!*color6: #3579a8
+!*color7: #9999aa
+!*color8: #303030
+!*color9: #ff0090
+!*color10: #80ff00
+!*color11: #ffba68
+!*color12: #5f5fee
+!*color13: #bb88dd
+!*color14: #4eb4fa
+!*color15: #d0d0d0

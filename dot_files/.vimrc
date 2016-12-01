@@ -1,4 +1,5 @@
 set nocompatible
+set nofoldenable    " disable folding. Slow. Even with fastfold
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins
@@ -15,56 +16,77 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
-Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
-" Conque-GDB Setup {{{
-" Set localsyntax of ConqueGDB buffer to cpp
-  let g:ConqueTerm_Syntax = 'cpp'
-  let g:ConqueGdb_Leader='\'
-  let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-  let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
-  let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
-  let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
-  " Delete all buffers opened by Conque
-  nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
-  " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
-  " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
-" }}}
-let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
-Plug 'critiqjo/lldb.nvim'
-" , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
-" lldb improved Setup {{{
-  nmap <Leader>db <Plug>LLBreakSwitch
-  nnoremap <Leader>dd :LLmode debug<CR>
-  nnoremap <Leader>dD :LLmode code<CR>
-  nnoremap <Leader>dc :LL continue<CR>
-  nnoremap <Leader>dn :LL next<CR>
-  nnoremap <Leader>dni :LL thread step-over-inst<CR>
-  nnoremap <Leader>ds :LL step<CR>
-  nnoremap <Leader>dsi :LL thread step-inst<CR>
-  nnoremap <Leader>df :LL finish<CR>
-  nnoremap <Leader>dI :LL process interrupt<CR>
-  nnoremap <Leader>dK :LL process kill<CR>
-  nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
-  vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-  nnoremap <Leader>dle :LLsession bp-set<CR>
-  nnoremap <Leader>dlw :LLsession bp-save<CR>
-  nnoremap <Leader>dlr :LLsession reload<CR>
-  nnoremap <Leader>dll :LLsession load
-" }}}
+" " SLOW{{{
+" Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
+" " Conque-GDB Setup {{{
+" " Set localsyntax of ConqueGDB buffer to cpp
+"   let g:ConqueTerm_Syntax = 'cpp'
+"   let g:ConqueGdb_Leader='\'
+"   let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+"   let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
+"   let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
+"   let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
+"   " Delete all buffers opened by Conque
+"   nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
+"   " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
+"   " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
+" " }}}
+" let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
+" Plug 'critiqjo/lldb.nvim'
+" " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
+" " lldb improved Setup {{{
+"   nmap <Leader>db <Plug>LLBreakSwitch
+"   nnoremap <Leader>dd :LLmode debug<CR>
+"   nnoremap <Leader>dD :LLmode code<CR>
+"   nnoremap <Leader>dc :LL continue<CR>
+"   nnoremap <Leader>dn :LL next<CR>
+"   nnoremap <Leader>dni :LL thread step-over-inst<CR>
+"   nnoremap <Leader>ds :LL step<CR>
+"   nnoremap <Leader>dsi :LL thread step-inst<CR>
+"   nnoremap <Leader>df :LL finish<CR>
+"   nnoremap <Leader>dI :LL process interrupt<CR>
+"   nnoremap <Leader>dK :LL process kill<CR>
+"   nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
+"   vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
+"   nnoremap <Leader>dle :LLsession bp-set<CR>
+"   nnoremap <Leader>dlw :LLsession bp-save<CR>
+"   nnoremap <Leader>dlr :LLsession reload<CR>
+"   nnoremap <Leader>dll :LLsession load
+" " }}}
+" "}}} SLOW
 "}}}
 " Organization / Note taking {{{
-" Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim. TODO In transition to obsolescency...
+" Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
 " vimwiki Setup {{{
   " let g:vimwiki_conceallevel = 0
   " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-  "                      \ 'syntax': 'markdown', 'ext': '.md',
-  "                      \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  "                       \ 'syntax': 'markdown', 'ext': '.md',
+  "                       \ 'nested_syntaxes': {'cpp': 'cpp'}}]
+  " function! VimwikiLinkHandler(link)
+  "   " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
+  "   "   1) [[vfile:~/Code/PythonProject/abc123.py]]
+  "   "   2) [[vfile:./|Wiki Home]]
+  "   let link = a:link
+  "   if link =~# '^vfile:'
+  "     let link = link[1:]
+  "   else
+  "     return 0
+  "   endif
+  "   let link_infos = vimwiki#base#resolve_link(link)
+  "   if link_infos.filename == ''
+  "     echomsg 'Vimwiki Error: Unable to resolve link!'
+  "     return 0
+  "   else
+  "     exe 'tabnew ' . fnameescape(link_infos.filename)
+  "     return 1
+  "   endif
+  " endfunction
 " }}}
 " Note-taking utilities Plugins  {{{
-  Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
-  Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
-  Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
-  Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
+  " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
+  " Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
+  " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
+  " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
 " Organization end}}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
@@ -78,13 +100,14 @@ Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
 Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
+Plug 'tpope/vim-eunuch'  " Move/Rename/UNIX shell goodies.
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
-Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make!
+Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS. Testing... slow?
 " restore_view Setup{{{
   set viewoptions=cursor,folds,slash,unix
 " }}}
-Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l
+Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Better-whitespace Setup {{{
   let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
@@ -94,7 +117,7 @@ Plug 'drn/zoomwin-vim'
   nnoremap <Leader>z :ZoomWin<cr>
 " }}}
 " Align and Tabularize: {{{
-Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification
+Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Good!
 Plug 'junegunn/vim-easy-align'
 " Easy-Align Setup {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -125,22 +148,37 @@ Plug 'Yggdroot/indentLine'
 " }}}
 " }}}
 " File Navigation and Search: {{{
+
+Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 " NerdTREE Setup {{{
   nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
   nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
-
+Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
+"Vim-grepper Setup {{{
+" When use -tool=git, search from root directory.
+let g:grepper = {}
+let g:grepper.git =
+\ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+nnoremap <leader>GS :Grepper -tool agSF<cr>
+"}}}
+" Plug 'mileszs/ack.vim' " Ag is obsolete. Use this.
 Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
-"Ag Setup {{{
+"Ack/Ag Setup {{{
+"
   if executable('ag')
-      " Use Ag over Grep
-      set grepprg=ag\ --nogroup\ --nocolor
-      nnoremap <silent> <Leader>/ :execute 'Ag ' . input('Ag/')<CR>
-      " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    " let g:ackprg = 'ag --vimgrep --smart-case'
+    " cnoreabbrev Ag Ack
+    " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    nnoremap <silent> <Leader>/ :execute 'Ag ' . input('Ag/')<CR>
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   endif
 "}}}
-Plug 'kien/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
+Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
 "CtrlP Setup{{{
   if executable('ag')
       let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -185,14 +223,22 @@ function! s:with_git_root()
 endfunction
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
-
+" Specialized for ITK.
+function! s:with_itk_git_root()
+  let root = systemlist('git -C ~/Software/ITK/ITK-development rev-parse --show-toplevel')[0]
+  return v:shell_error ? {} : {'dir': root}
+endfunction
+command! -nargs=* IAg
+  \ call fzf#vim#ag(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
+command! -nargs=* IFiles
+  \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
   " Map C-p to override CtrlP plugin.
   nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
   nnoremap <silent> <Leader>ff :exe 'FFiles ' . expand("~")<CR>
   nnoremap <silent> <Leader>ft :FFiletypes<CR>
   nnoremap <silent> <Leader>fc :FColors<CR>
   nnoremap <silent> <Leader>fh :FHistory<CR>
-  nnoremap <silent> <Leader>bb :FBuffers<CR>
+  nnoremap <silent> <Leader>b :FBuffers<CR>
   nnoremap <silent> <Leader>bB :FWindows<CR>
   nnoremap <silent> <Leader>; :FCommands<CR>
   nnoremap <silent> <Leader>fhl :FHelptags<CR>
@@ -207,12 +253,12 @@ command! -nargs=* GAg
 
 
   function! SearchWordWithAg()
-    let ag_command = 'GAg'
+    let ag_command = 'Ag'
     execute ag_command expand('<cword>')
   endfunction
 
   function! SearchVisualSelectionWithAg() range
-    let ag_command = 'GAg'
+    let ag_command = 'Ag'
     let old_reg = getreg('"')
     let old_regtype = getregtype('"')
     let old_clipboard = &clipboard
@@ -226,12 +272,17 @@ command! -nargs=* GAg
 " }}}
 Plug 'majutsushi/tagbar'
 " Tagbar Setup {{{
-  nnoremap <silent> <Leader>b :TagbarToggle<CR>
+  nnoremap <silent> <Leader>bb :TagbarToggle<CR>
   let g:tagbar_sort=0 "Keep order of file.
 " }}}
 " }}}
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
+Plug 'justinmk/molokai'
+Plug 'w0ng/vim-hybrid'
+" Plug 'nanotech/jellybeans.vim'
+Plug 'chriskempson/base16-vim'
+
 Plug 'vim-airline/vim-airline'                " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
 " Airline Setup {{{
@@ -245,6 +296,15 @@ Plug 'vim-airline/vim-airline-themes'
 " TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
+" vim-slime Setup {{{
+  let g:slime_target = "tmux"
+  let g:slime_python_ipython = 1
+  " :SlimeConfig socket name is usually default.
+  " send to: :5.2 <- Window 5, second pane. or :5.%45, if you know the PaneId
+  " from echo $TMUX_PANE
+  command! TmuxSockets silent! !lsof -U | grep "^tmux"
+" }}}
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
 " Vimux Setup {{{
   let g:VimuxHeight = "40" " Default is 20
@@ -264,8 +324,8 @@ Plug 'benmills/vimux'                   " Call tmux from vim (used for calling e
     :call VimuxSendKeys(":xa")
     :call VimuxCloseRunner()
   endfunction
-  nnoremap <Leader>o :call VimuxSwitchOrRun("orgclient")<CR>
-  nnoremap <Leader>O :call VimuxCloseOrgMode()<CR>
+  nnoremap <Leader>y :call VimuxSwitchOrRun("orgclient")<CR>
+  nnoremap <Leader>Y :call VimuxCloseOrgMode()<CR>
 " }}}
 " Tmuxline Setup {{{
   let g:tmuxline_powerline_separators = 0
@@ -302,8 +362,14 @@ let g:tex_conceal = ""
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
 " VimTex Setup {{{
-  " let g:vimtex_fold_manual=1 " autofold is slow in vim
-  let g:vimtex_latexmk_build_dir="./output"
+" Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
+  " let g:vimtex_latexmk_callback = 0
+  " Instead of nvim use: gvim -v --servername vimserver
+  " (aliased to viserver)
+  let g:vimtex_fold_enabled=1
+  " let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead
+  " of this option!.
+  let g:vimtex_latexmk_build_dir="output"
   let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
   let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
   let g:vimtex_quickfix_ignored_warnings = [
@@ -313,11 +379,19 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
     \ ]
   let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool
-  let g:vimtex_view_general_viewer = 'okular'
   " let g:vimtex_view_general_viewer = 'mupdf'
+  " For Okular {{{
+  let g:vimtex_view_general_viewer = 'okular'
+  " Forward:
+  let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
   let g:vimtex_view_general_options_latexmk = '--unique'
-  " let g:vimtex_latexmk_options="-pdflatex='lualatex -synctex=1 -shell-escape \%O \%S'"
-  let g:vimtex_latexmk_options='-file-line-error -verbose -pdf -interaction="nonstopmode" -pdflatex="lualatex -synctex=1 -shell-escape \%O \%S"'
+  " Backward (Shift + LeftClick) in Okular
+  " Configure Okular first: Settings, Okular Config, Editor:
+  " gvim --servername vimserver --remote-silent +%l "%f"
+  " }}}
+  " let g:vimtex_latexmk_options='-file-line-error -verbose -pdf -interaction="nonstopmode" -pdflatex="lualatex -synctex=1 -shell-escape \%O \%S"'
+  " This line works for beamer
+  " let g:vimtex_latexmk_options='-pdf -verbose -file-line-error -pdflatex="lualatex -shell-escape -synctex=1 -interaction=nonstopmode \%O \%S"'
   " With YCM completion
   if !exists('g:ycm_semantic_triggers')
     let g:ycm_semantic_triggers = {}
@@ -335,12 +409,14 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
 " To save automatically when using <LocalLeader>ll
 " autocmd BufNewFile,BufRead *.tex nnoremap <buffer> <LocalLeader>ll :update<CR>:Latexmk<CR>
 " }}}
-Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
-  let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-Plug 'Konfekt/FastFold' " auto fold is slow
+" Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
+"   let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
+" Plug 'Konfekt/FastFold' " auto fold is slow
 " FastFold Setup {{{
-  let g:tex_fold_enabled = 1
-  let g:cpp_folding = 1
+  " let g:tex_fold_enabled = 1
+  " let g:cpp_folding = 1
+  " let g:vim_folding = 1
+  " let g:python_folding = 1
   " let g:vimsyn_folding='af'
 " }}}
 "}}}
@@ -371,6 +447,8 @@ Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " }}}
 " }}}
 " Python {{{
+" To run current file.
+au FileType python nnoremap <buffer> <Leader>e :exec '!python' shellescape(@%, 1)<cr>
 " python-mode is just too heavy, you don't really need rope.
 " Plug 'klen/python-mode', { 'branch': 'develop'}
 " python-mode Setup {{{
@@ -386,9 +464,10 @@ Plug 'nvie/vim-flake8'
 " vim-flake8 Setup {{{
   " let no_flake8_maps = 1
 " }}}
-Plug 'jmcantrell/vim-virtualenv'
+" SLOW:
+" Plug 'jmcantrell/vim-virtualenv'
 " vim-virtualenv Setup {{{
-  let g:virtualenv_directory='/home/phc/repository_local'
+  " let g:virtualenv_directory='/home/phc/repository_local'
 "}}}
 " }}}
 " OpenCL {{{
@@ -414,6 +493,9 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 " au FileType markdown setlocal conceallevel=0
 "}}}
+" CMake {{{
+Plug 'phcerdan/vim-cmake-syntax'
+" }}}
 " C++ {{{
 " Map to reformat 'typedef' to 'using' (c++11)
 let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
@@ -460,7 +542,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
-  let g:EclimLogLevel                    = 'debug'
+  " let g:EclimLogLevel                    = 'debug'
   " Options: split, vsplit, edit
   let g:EclimDefaultFileOpenAction       = 'edit'
   let g:EclimCSearchSingleResult         = 'edit'
@@ -482,6 +564,9 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
   let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
   " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
   " let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
+  " Because remap of Tab, ctrl-i does not work as a jumplist-forward
+  nnoremap <Leader>o <C-o>
+  nnoremap <Leader>i :echo "jump list forward does not work, because TAB is remapped!"<CR>
 " }}}
 Plug 'ervandew/supertab'                " Tab to autocomplete.
 " Supertab Setup {{{
@@ -502,8 +587,9 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 
 " YouCompleteMe Setup {{{
+  " let g:loaded_youcompleteme = 1
   let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
-  let g:ycm_collect_identifiers_from_tags_files = 0 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
+  let g:ycm_collect_identifiers_from_tags_files = 1 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
   let g:ycm_add_preview_to_completeopt = 1
   " set completeopt-=preview
   " let g:ycm_confirm_extra_conf = 0
@@ -511,6 +597,7 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
   let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   let g:ycm_autoclose_preview_window_after_insertion = 1
+  let g:ycm_min_num_of_chars_for_completion = 4
   " let g:ycm_autoclose_preview_window_after_completion = 1
   let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
   "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
@@ -518,10 +605,15 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
   nnoremap <leader>j :YcmCompleter GoToDeclaration<cr>
   nnoremap <leader>k :YcmCompleter GoToDefinitionElseDeclaration<cr>
   " nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
-  nnoremap <leader>i :YcmCompleter FixIt<cr>
+  nnoremap <leader>fi :YcmCompleter FixIt<cr>
   nnoremap <leader>gt :YcmCompleter GoTo<cr>
   nnoremap <leader>gd :YcmCompleter GetDoc<cr>
   nnoremap <leader>gy :YcmCompleter GetType<cr>
+" To remove clang_completer move hooks.py to hooks.py.BACKUP
+  " let g:ycm_filetype_specific_completion_to_disable = {
+  "       \ 'cpp': 1
+  "       \}
+
 " }}}
 
 " YCM+UltiSnips+SuperTab {{{
@@ -550,19 +642,35 @@ call plug#end()            " required
 " COLOUR OPTIONS: {{{
 set t_Co=256
 set background=dark
-colorscheme desert-warm-256
+" colorscheme desert256
+" colorscheme desert-warm-256
+" let g:hybrid_custom_term_colors = 1
+" colorscheme hybrid
+" let base16colorspace=256
+" colorscheme base16-default-dark
+" colorscheme molokai
+" let g:molokai_original=1
+" let g:rehash256=1
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  " colorscheme base16-monokai
+  source ~/.vimrc_background
+  " modified this in base16-monokai
+  " call <sid>hi("IncSearch",    s:gui00, s:gui03, s:cterm00, s:cterm03,  "undercurl", "")
+endif
 "}}}
 " SYNTAX {{{
 syntax spell toplevel
 syntax enable
-set synmaxcol=200 " syntax highlight is really slow for long lines.
+set synmaxcol=400 " syntax highlight is really slow for monstruously long lines.
 setlocal spell spelllang=en_us
 set nospell
 map <F12> :setlocal spell! spelllang=en_us<CR>
 " hi stuff must be after syntax (not colour)
 hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
 au FileType c,cpp setlocal colorcolumn=81
-hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
+" hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
 nnoremap <Leader>cl :set cursorline!<CR>
 
 if version >= 702
@@ -594,13 +702,18 @@ set hid            " Send files to buffer instead of closing them -- e,n ... com
 set wildmode=list:longest,full
 "}}}
 " Searching {{{
+" Search visual selection (problems with end of line ^M character)
+vnoremap // y/<C-R>"<CR>
+vnoremap s y:%s/<C-R>"/
+set gdefault   " avoid to /g at the end of search.
 set ignorecase " ignore case
 set smartcase  " expcept when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
 " Aesthetics {{{
-set scrolloff=20 " 999 keeps the cursos in the middle.
+set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
 set completeopt=preview,menuone,longest,noselect
 set previewheight=12        " increase the default height (12)
@@ -830,6 +943,60 @@ endfunction
               \ }
 "}}}
 " Neomake makers {{{
+" Cppcheck
+function! SetWarningType(entry)
+  if a:entry.type =~? '\m^[SPI]'
+    let a:entry.type = 'I'
+  endif
+endfunction
+
+" local for cpp file.
+let g:neomake_cpp_cppcheck_maker = {
+        \ 'exe': 'cppcheck',
+        \ 'args': ['%:p', '-q', '--enable=style'],
+        \ 'errorformat': '[%f:%l]: (%trror) %m,' .
+        \ '[%f:%l]: (%tarning) %m,' .
+        \ '[%f:%l]: (%ttyle) %m,' .
+        \ '[%f:%l]: (%terformance) %m,' .
+        \ '[%f:%l]: (%tortability) %m,' .
+        \ '[%f:%l]: (%tnformation) %m,' .
+        \ '[%f:%l]: (%tnconclusive) %m,' .
+        \ '%-G%.%#',
+        \ }
+        " \ 'postprocess': function('SetWarningType')
+" Global for project.
+let g:neomake_cppcheck_maker = {
+        \ 'exe': 'cppcheck',
+        \ 'args': ['%:p', '-q', '--enable=style'],
+        \ 'errorformat': '[%f:%l]: (%trror) %m,' .
+        \ '[%f:%l]: (%tarning) %m,' .
+        \ '[%f:%l]: (%ttyle) %m,' .
+        \ '[%f:%l]: (%terformance) %m,' .
+        \ '[%f:%l]: (%tortability) %m,' .
+        \ '[%f:%l]: (%tnformation) %m,' .
+        \ '[%f:%l]: (%tnconclusive) %m,' .
+        \ '%-G%.%#',
+        \ 'buffer_output': 1 }
+
+        " \ 'postprocess': function('SetWarningType'),
+function! SetSourceFolder(path)
+    let g:sourceFolder=a:path
+    let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', '-j3']
+    let g:grepper.tools = g:grepper.tools + ['agSF']
+    let g:grepper.agSF=g:grepper.ag
+    let g:grepper.agSF =
+                \ { 'grepprg': 'ag --vimgrep $* ' . g:sourceFolder }
+endfunction
+com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
+
+" com! -nargs=1 -complete=file SourceFolder let g:sourceFolder=<q-args> |
+"             \ let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', '-j3']
+
+  function! NeomakeCppcheck()
+      execute 'echo "NeomakeCppCheck on: "g:sourceFolder " started..."'
+      execute 'Neomake! cppcheck'
+  endfunction
+  au FileType c,cpp nnoremap <silent> <Leader>w :call NeomakeCppcheck()<CR>
 " Build
   let g:neomake_build_maker = {
         \ 'exe': 'make',
@@ -902,6 +1069,7 @@ endfunction
   endfunction
 
   function! NeomakeBuild()
+      execute 'echo "NeomakeBuild started..."'
       execute 'Neomake! build'
   endfunction
 
@@ -927,13 +1095,13 @@ endfunction
   endfunction
   " Hack to have file autocompletion in command line (or in q:)
   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
-  nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
+  " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:NeomakeBuildOnSave=1
   au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
-  nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
-  nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
-  nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder()
 " }}}
 

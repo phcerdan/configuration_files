@@ -5,7 +5,7 @@ session_root "~/Software/ITK"
 
 # Create session with specified name if it does not already exist. If no
 # argument is given, session name will be based on layout file name.
-if initialize_session "dev"; then
+if initialize_session "itk"; then
 
   # Create a new window inline within session layout definition.
   new_window "vim"
