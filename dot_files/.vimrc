@@ -150,6 +150,10 @@ Plug 'Yggdroot/indentLine'
 " File Navigation and Search: {{{
 
 Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
+" Plug 'justinmk/vim-dirvish'             " Minimalist file-explorer, aims to replace vim-built-in netwr.
+" vim-dirvish Setup {{{
+" Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
+" }}}
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 " NerdTREE Setup {{{
   nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
@@ -282,15 +286,20 @@ Plug 'justinmk/molokai'
 Plug 'w0ng/vim-hybrid'
 " Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
-
-Plug 'vim-airline/vim-airline'                " Colourful status-line.
-Plug 'vim-airline/vim-airline-themes'
-" Airline Setup {{{
-  let g:airline_theme='wombat'
-  let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-  " To show full path: default is %f instead of %F.
-  let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-  let g:airline_powerline_fonts = 0
+Plug 'itchyny/lightline.vim'
+" lightline setup {{{
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
+" }}}
+" Plug 'vim-airline/vim-airline'                " Colourful status-line.
+" Plug 'vim-airline/vim-airline-themes'
+" " Airline Setup {{{
+"   let g:airline_theme='wombat'
+"   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+"   " To show full path: default is %f instead of %F.
+"   let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+"   let g:airline_powerline_fonts = 0
 " }}}
 "}}}
 " TMUX {{{
@@ -348,6 +357,9 @@ Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers w
   noremap <Leader>q :Bclose<CR><c-W>c
 "}}}
 "}}}
+" Diff tools {{{
+Plug 'AndrewRadev/linediff.vim' " :Linediff in v-selection (x2) will compare chunks
+" }}}
 " Version Controlling {{{
 Plug 'airblade/vim-gitgutter'
 " Gitgutter Setup {{{
@@ -550,9 +562,9 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
   let g:EclimLocateFileDefaultAction     = 'edit'
   let g:EclimCCallHierarchyDefaultAction = 'edit'
   let g:EclimKeepLocalHistory            = 0
-  let g:EclimCompletionMethod = 'omnifunc'
   let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
-  nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
+  au FileType c,cpp nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
+
 "}}}
 " End of C++}}}
 "End of Language specifics }}}
@@ -577,7 +589,9 @@ Plug 'ervandew/supertab'                " Tab to autocomplete.
 " YCM {{{
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
-Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+Plug completer , { 'do': 'python2 ./install.py' }
+" Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
+" Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " Apply patch to allow c++ completion with templates (slower)
 " Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
@@ -609,11 +623,17 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
   nnoremap <leader>gt :YcmCompleter GoTo<cr>
   nnoremap <leader>gd :YcmCompleter GetDoc<cr>
   nnoremap <leader>gy :YcmCompleter GetType<cr>
-" To remove clang_completer move hooks.py to hooks.py.BACKUP
-  " let g:ycm_filetype_specific_completion_to_disable = {
-  "       \ 'cpp': 1
-  "       \}
 
+" YCM+eclim {{{
+  " From the docs.
+  let g:EclimCompletionMethod = 'omnifunc'
+  " But it is too intrusive/slow calling eclipse indexer all the time, so we disable semantic completion.
+  " We can still call it manually with <C-X><C-O> or the key in g:ycm_key_invoke_completion
+" To remove clang_completer move hooks.py to hooks.py.BACKUP
+  let g:ycm_filetype_specific_completion_to_disable = {
+        \ 'cpp': 1
+        \}
+" }}}
 " }}}
 
 " YCM+UltiSnips+SuperTab {{{
@@ -639,6 +659,11 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 call plug#end()            " required
 " vim-plug END }}}
 
+" Neovim options {{{
+if has('nvim')
+  set inccommand=nosplit
+endif
+" }}}
 " COLOUR OPTIONS: {{{
 set t_Co=256
 set background=dark
@@ -981,11 +1006,35 @@ let g:neomake_cppcheck_maker = {
         " \ 'postprocess': function('SetWarningType'),
 function! SetSourceFolder(path)
     let g:sourceFolder=a:path
+    " Set neomake (global) cppcheck
     let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', '-j3']
-    let g:grepper.tools = g:grepper.tools + ['agSF']
-    let g:grepper.agSF=g:grepper.ag
+
+    " Set vim-grepper {{{
+    if !has_key(g:grepper, 'tools')
+      let g:grepper.tools = []
+    endif
+    " Ag
+    if index(g:grepper.tools,'agSF') == -1
+      let g:grepper.tools = g:grepper.tools + ['agSF']
+    endif
+    let g:grepper.agSF = g:grepper.ag
     let g:grepper.agSF =
-                \ { 'grepprg': 'ag --vimgrep $* ' . g:sourceFolder }
+          \ { 'grepprg': 'ag --vimgrep $* ' . g:sourceFolder }
+    " git
+    let root = systemlist('git -C ' . g:sourceFolder . ' rev-parse --show-toplevel')[0]
+    if !v:shell_error
+      if index(g:grepper.tools,'gitSF') == -1
+        let g:grepper.tools = g:grepper.tools + ['gitSF']
+      endif
+      let g:grepper.gitSF = g:grepper.git
+      let g:grepper.gitSF =
+            \ { 'grepprg': 'git -C ' . g:sourceFolder . ' grep -nI $* --' }
+    endif
+    execute 'command! -nargs=+ -complete=file GrepperAgSF'
+          \ 'Grepper -noprompt -tool agSF -query <args>'
+    execute 'command! -nargs=+ -complete=file GrepperGitSF'
+          \ 'Grepper -noprompt -tool gitSF -query <args>'
+    " }}}
 endfunction
 com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 
@@ -1103,6 +1152,11 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   au FileType c,cpp nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder()
+" }}}
+" Useful commands: {{{
+" write to open file that requires sudo
+" :w !sudo tee %
+" :earlier 15m
 " }}}
 
 com! ClearQuickFix call setqflist([])

@@ -13,6 +13,8 @@
 	default = simple
 [diff]
 	tool = vimdiff
+	compactionHeuristic = true
+	indentHeuristic = true
 [merge]
 	tool = vimdiff
 [difftool]

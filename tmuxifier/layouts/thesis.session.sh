@@ -6,9 +6,9 @@ session_root "~/repository_local/thesis-git"
 # argument is given, session name will be based on layout file name.
 if initialize_session "thesis"; then
   new_window "vim"
-  run_cmd "vim -S Session.vim"
+  run_cmd "viserver -S Session.vim"
   new_window "git-emacs"
-  split_h 70
+  split_h 50
   run_cmd "emacs --daemon ; orgthesis"
 fi
 

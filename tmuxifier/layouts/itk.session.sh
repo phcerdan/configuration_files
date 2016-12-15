@@ -11,8 +11,8 @@ if initialize_session "itk"; then
   new_window "vim"
   run_cmd "vim -S Session.vim"
   load_window "buildITK"
-  new_window "other"
-  run_cmd "emacs --daemon ; orgclient"
+  load_window "org"
+  load_window "eclimd"
   # Select the default active window on session creation.
   select_window 2
 

@@ -12,7 +12,7 @@ if initialize_session "dev"; then
   new_window "build"
   # Load a defined window layout.
   new_window "other"
-  run_cmd "emacs --daemon ; orgclient"
+  # run_cmd "emacs --daemon ; orgclient"
   # Select the default active window on session creation.
   # select_window 1
 
