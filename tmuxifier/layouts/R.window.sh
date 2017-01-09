@@ -6,10 +6,9 @@
 # layout file name.
 new_window "R"
 split_h 50
+run_cmd "export R_LIBS='/home/phc/R/x86_64-pc-linux-gnu-library/3.2:$R_LIBS'"
+run_cmd "R"
 select_pane 1
-run_cmd "vim ~/tmp/a.R"
-sleep 3
-send_keys "\\rf"
 # Split window into panes.
 #split_v 20
 

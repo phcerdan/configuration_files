@@ -1,0 +1,29 @@
+global !p
+import vim
+def commentLine(ll = 40):
+	try:
+	    xrange
+	except:
+	    xrange=range
+	r="#"
+	for a in xrange(ll - 2):
+		r+="#"
+	r+="#"
+	return r
+
+endglobal
+snippet "(\/\/(\s)?)?sep" "---- ----//" rb
+`!p snip.rv = commentLine()`
+endsnippet
+snippet com "Comment #" b
+# ${1:Comment}
+endsnippet
+snippet comlin "Comment line" !b
+############# ${1:TEXT} ###############
+endsnippet
+snippet comsep "Comment Separator, with fixed length" !b
+`!p snip.rv = commentLine()`
+############# ${1:TEXT} ###############
+`!p snip.rv = commentLine()`
+$0
+endsnippet

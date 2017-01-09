@@ -55,7 +55,7 @@ call plug#begin('~/.vim/plugged')
 " " }}}
 " "}}} SLOW
 "}}}
-" Organization / Note taking {{{
+" Organization/Note taking {{{
 " Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
 " vimwiki Setup {{{
   " let g:vimwiki_conceallevel = 0
@@ -88,7 +88,10 @@ call plug#begin('~/.vim/plugged')
   " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
   " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
-" Organization end}}}
+" }}}
+" Advanced {{{
+Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
+" }}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
@@ -1160,4 +1163,4 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 " }}}
 
 com! ClearQuickFix call setqflist([])
-" vim:foldmethod=marker:foldlevel=0
+" vim:foldmethod=marker:foldlevel=2
