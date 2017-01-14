@@ -152,7 +152,7 @@ Plug 'Yggdroot/indentLine'
 " }}}
 " File Navigation and Search: {{{
 
-Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
+" Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
 " Plug 'justinmk/vim-dirvish'             " Minimalist file-explorer, aims to replace vim-built-in netwr.
 " vim-dirvish Setup {{{
 " Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
@@ -286,7 +286,6 @@ Plug 'majutsushi/tagbar'
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
 Plug 'justinmk/molokai'
-Plug 'w0ng/vim-hybrid'
 " Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
 Plug 'itchyny/lightline.vim'
@@ -436,7 +435,7 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
 " }}}
 "}}}
 " R {{{
-Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
+" Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
 " Plug 'jalvesaq/VimCom'      " Communication vim - R
 " Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
@@ -451,6 +450,14 @@ Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
   let R_notmuxconf = 1 " To use your own tmux.conf
   " let vimrplugin_latexcmd = "~/devtoolset/texlive/2014/bin/x86_64-lqnux/latexmk"
   let R_assign = "<LocalLeader>_"     " To avoid replacement from _ to <-, to disable = 0
+  " To lunch in split tmux. It needs in .tmux.conf to export R_LIBS
+  " set -g update-environment "R_LIBS_USER R_LIBS"
+  let R_vsplit = 1
+  let R_rconsole_width = 80
+  let R_objbr_place = "script,left"
+  let R_in_buffer = 0
+  let R_applescript = 0
+  let R_tmux_split = 1
   " let vimrplugin_r_path = "~/devtoolset/R/bin"
   if has("gui_running")
       inoremap <C-Space> <C-x><C-o>
@@ -672,8 +679,6 @@ set t_Co=256
 set background=dark
 " colorscheme desert256
 " colorscheme desert-warm-256
-" let g:hybrid_custom_term_colors = 1
-" colorscheme hybrid
 " let base16colorspace=256
 " colorscheme base16-default-dark
 " colorscheme molokai
