@@ -4,7 +4,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH=~/.npm-global/bin:$PATH
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
-export TERMINFO="$HOME/.terminfo"
+# export TERMINFO="$HOME/.terminfo"
 # Clone zgen if you haven't already
 if [ ! -f ~/zgen/zgen.zsh ]; then
     pushd ~
@@ -59,9 +59,9 @@ DISABLE_AUTO_TITLE=true
 # LOAD general .aliases.
 source $HOME/.aliases
 # base16stuff (only arch?)
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-base16_monokai
+# BASE16_SHELL=$HOME/.config/base16-shell/
+# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+# base16_monokai
 
 
 export EDITOR='vim'
@@ -70,6 +70,25 @@ if hash nvim 2>/dev/null; then
     # alias vim='nvim'
 fi
 export PATH="$HOME/.tmuxifier/bin:$PATH"
+
+######## Options ###### from: https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.zshrc
+# setopt autocd               # .. is shortcut for cd .. (etc)
+setopt autoparamslash       # tab completing directory appends a slash
+setopt autopushd            # cd automatically pushes old dir onto dir stack
+# setopt clobber              # allow clobbering with >, no need to use >!
+setopt correct              # command auto-correction
+# setopt correctall           # argument auto-correction
+setopt noflowcontrol        # disable start (C-s) and stop (C-q) characters
+setopt nonomatch            # unmatched patterns are left unchanged
+setopt histignorealldups    # filter duplicates from history
+setopt histignorespace      # don't record commands starting with a space
+setopt histverify           # confirm history expansion (!$, !!, !foo)
+setopt ignoreeof            # prevent accidental C-d from exiting shell
+setopt interactivecomments  # allow comments, even in interactive shells
+# setopt printexitvalue       # for non-zero exit status
+setopt pushdignoredups      # don't push multiple copies of same dir onto stack
+setopt pushdsilent          # don't print dir stack after pushing/popping
+setopt sharehistory         # share history across shells
 
 ######## CCACHE, colorgcc ######
 # USE ccache for gcc compilers.

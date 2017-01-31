@@ -113,7 +113,6 @@ Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS. Testi
 Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Better-whitespace Setup {{{
-  let g:better_whitespace_filetypes_blacklist=['unite'] " ignore in help files and similar
 "}}}
 Plug 'drn/zoomwin-vim'
 " ZoomWin Setup {{{
@@ -286,23 +285,35 @@ Plug 'majutsushi/tagbar'
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
 Plug 'justinmk/molokai'
-" Plug 'nanotech/jellybeans.vim'
+Plug 'nanotech/jellybeans.vim'
+" Jellybeans setup{{{
+  let g:jellybeans_use_term_italics = 1
+  " let g:jellybeans_use_lowcolor_black = 0
+" }}}
 Plug 'chriskempson/base16-vim'
-Plug 'itchyny/lightline.vim'
-" lightline setup {{{
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ }
+" Plug 'itchyny/lightline.vim'
+" " lightline setup {{{
+" let g:lightline = {
+"       \ 'colorscheme': 'wombat',
+"       \ }
 " }}}
-" Plug 'vim-airline/vim-airline'                " Colourful status-line.
-" Plug 'vim-airline/vim-airline-themes'
-" " Airline Setup {{{
-"   let g:airline_theme='wombat'
-"   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-"   " To show full path: default is %f instead of %F.
-"   let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-"   let g:airline_powerline_fonts = 0
+Plug 'vim-airline/vim-airline'                " Colourful status-line.
+Plug 'vim-airline/vim-airline-themes'
+" Airline Setup {{{
+  let g:airline_theme='wombat'
+  let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+  let g:airline#extensions#tabline#show_buffers=2 "
+  let g:airline#extensions#tabline#show_splits=1 "
+  " To show full path: default is %f instead of %F.
+  " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+  let g:airline_powerline_fonts = 1
 " }}}
+" Plug 'gcmt/taboo.vim'   " Rename tabs
+ " Taboo Options {{{ :TabooRename, TabooOpen aname
+ " To restore tab names.
+   " let g:taboo_tabline=0
+   " set sessionoptions+=tabpages,globals
+ " }}}
 "}}}
 " TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
@@ -512,7 +523,8 @@ Plug 'ekalinin/Dockerfile.vim'
 autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
 " Markdown / vimwiki {{{
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+Plug 'phcerdan/vim-flavored-markdown'
+autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
 " au FileType markdown setlocal conceallevel=0
 "}}}
 " CMake {{{
@@ -675,8 +687,7 @@ if has('nvim')
 endif
 " }}}
 " COLOUR OPTIONS: {{{
-set t_Co=256
-set background=dark
+" set t_Co=256
 " colorscheme desert256
 " colorscheme desert-warm-256
 " let base16colorspace=256
@@ -684,14 +695,22 @@ set background=dark
 " colorscheme molokai
 " let g:molokai_original=1
 " let g:rehash256=1
-
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  " colorscheme base16-monokai
-  source ~/.vimrc_background
-  " modified this in base16-monokai
-  " call <sid>hi("IncSearch",    s:gui00, s:gui03, s:cterm00, s:cterm03,  "undercurl", "")
+colorscheme jellybeans
+set background=dark
+if has('termguicolors') " Truecolor. modern vim or nvim only.
+  set termguicolors
+  " vim only: RGB colors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
+
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   " colorscheme base16-monokai
+"   source ~/.vimrc_background
+"   " modified this in base16-monokai
+"   " call <sid>hi("IncSearch",    s:gui00, s:gui03, s:cterm00, s:cterm03,  "undercurl", "")
+" endif
 "}}}
 " SYNTAX {{{
 syntax spell toplevel

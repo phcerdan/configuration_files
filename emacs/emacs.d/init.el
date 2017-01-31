@@ -9,8 +9,8 @@
 (global-evil-leader-mode)
 (require 'company)
 ;; Color-scheme
-(add-hook 'after-init-hook
- (lambda () (load-theme 'cyberpunk t)))
+; (add-hook 'after-init-hook
+;  (lambda () (load-theme 'cyberpunk t)))
 ;; Move between window with C-c hjkl, note that in vim/tmux is C-hjkl. Not sure if good.
 (global-set-key (kbd "C-c C-h")  'windmove-left)
 (global-set-key (kbd "C-c C-l")  'windmove-right)
@@ -44,8 +44,8 @@
 ;; Enable Evil mode as defuault
 (evil-mode 1)
 ;; Treat wrapped line scrolling as single lines
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+; (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+; (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
   ;;; esc quits pretty much anything (like pending prompts in the minibuffer)
 (define-key evil-normal-state-map [escape] 'keyboard-quit)
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
@@ -92,7 +92,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/Dropbox/org-mode/organizer.org"))))
+ '(org-agenda-files (quote ("~/Dropbox/org-mode/organizer.org")))
+ '(package-selected-packages (quote (helm evil-org cyberpunk-theme company))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -16,11 +16,12 @@ alias mux='tmuxifier'
 alias gits='git status'
 alias viserver='gvim -v --servername vimserver'
 # alias emacs='emacs -nw'
+# Workaround: emacs does not works well with TERM=tmux-256color
 alias emacsserver='emacs --daemon'
 alias emacsserver-kill="emacsclient -e '(kill-emacs)'"
-alias org='emacs -nw ~/Dropbox/org-mode/organizer.org'
-alias orgclient='emacsclient -t ~/Dropbox/org-mode/organizer.org'
-alias orgthesis='emacsclient -t ~/Dropbox/org-mode/thesis.org'
+alias org='TERM=screen-256color emacs -nw ~/Dropbox/org-mode/organizer.org'
+alias orgclient='TERM=screen-256color emacsclient -t ~/Dropbox/org-mode/organizer.org'
+alias orgthesis='TERM=screen-256color emacsclient -t ~/Dropbox/org-mode/thesis.org'
 
 # Platform specific aliases.
 alias sdev='source ~/bin/devtoolset-core.sh'
@@ -30,6 +31,8 @@ alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
 alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 
 # CMAKE
+# Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
+alias ccmake='TERM=xterm-256color ccmake'
 alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
 alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
 alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
