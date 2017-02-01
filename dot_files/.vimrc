@@ -524,7 +524,7 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
-autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
+autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 " au FileType markdown setlocal conceallevel=0
 "}}}
 " CMake {{{
@@ -597,7 +597,7 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
   let g:UltiSnipsEditSplit="vertical"
   let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
   " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-  " let g:UltiSnipsListSnippets="<Leader><tab>" "list ,l
+  let g:UltiSnipsListSnippets="<Leader>11" "list ,l
   " Because remap of Tab, ctrl-i does not work as a jumplist-forward
   nnoremap <Leader>o <C-o>
   nnoremap <Leader>i :echo "jump list forward does not work, because TAB is remapped!"<CR>

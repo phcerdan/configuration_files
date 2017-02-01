@@ -15,13 +15,13 @@ source "${HOME}/zgen/zgen.zsh"
 
 if ! zgen saved; then
     echo "Creating a zgen save"
-    # autosuggestions should be loaded last
-    zgen load tarruda/zsh-autosuggestions
+    # autosuggestions should be loaded last (annoying!)
+    # zgen load tarruda/zsh-autosuggestions
     # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
-    ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
+    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
 
     # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
-    ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
+    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
     # Most fav plugins ever.
     zgen load jimmijj/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
@@ -89,6 +89,10 @@ setopt interactivecomments  # allow comments, even in interactive shells
 setopt pushdignoredups      # don't push multiple copies of same dir onto stack
 setopt pushdsilent          # don't print dir stack after pushing/popping
 setopt sharehistory         # share history across shells
+
+#### color prompt (ugly as hell)####
+# autoload -Uz promptinit
+# promptinit
 
 ######## CCACHE, colorgcc ######
 # USE ccache for gcc compilers.
