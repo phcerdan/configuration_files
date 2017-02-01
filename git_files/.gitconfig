@@ -1,3 +1,6 @@
+[include]
+	# private credentials in local file, such as proxy.
+	path = .gitconfig_local
 [user]
 	name = Pablo Hernandez-Cerdan
 	# name = phcerdan
