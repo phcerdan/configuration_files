@@ -40,16 +40,19 @@ if ! zgen saved; then
 
     # You don't require zgen oh-my-zsh for basic plugins.
     zgen oh-my-zsh
-    zgen oh-my-zsh command-not-found
-    zgen oh-my-zsh git
+
+    zgen oh-my-zsh plugins/command-not-found
+    zgen oh-my-zsh plugins/git
     # ESC ESC pre-pend sudo in current line.
-    zgen oh-my-zsh sudo
+    zgen oh-my-zsh plugins/sudo
     # INSTALL FONTS: git clone https://github.com/powerline/fonts; cd fonts;./install.sh
     # https://powerline.readthedocs.org/en/latest/installation/linux.html#font-installation
     # fc-cache -vf ~/.fonts/
     # AND create a new profile in terminal, select powerline font (Liberation)
-    zgen oh-my-zsh themes/fishy
-    # zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
+
+    # Theme (fishy from oh-my-zsh not working in ARCH)
+    # zgen oh-my-zsh themes/arrow
+    zgen load Stas-Ghost/fishy-gentoo fishy-gentoo
     zgen save
 fi
 # Tmux
