@@ -308,11 +308,12 @@ Plug 'vim-airline/vim-airline-themes'
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
   let g:airline_powerline_fonts = 1
 " }}}
-" Plug 'gcmt/taboo.vim'   " Rename tabs
+Plug 'gcmt/taboo.vim'   " Rename tabs
  " Taboo Options {{{ :TabooRename, TabooOpen aname
  " To restore tab names.
-   " let g:taboo_tabline=0
-   " set sessionoptions+=tabpages,globals
+   " let g:airline#extensions#taboo#enabled = 1
+   let g:taboo_tabline=0
+   set sessionoptions+=tabpages,globals
  " }}}
 "}}}
 " TMUX {{{
@@ -834,6 +835,21 @@ inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
   nnoremap <leader>cfl :let @+=expand("%:t")<CR>
   " directory name (/something/src)
   nnoremap <leader>cfd :let @+=expand("%:p:h")<CR>
+"}}}
+" Move between tabs {{{
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+let g:lasttab = 1
+nmap <leader>0 :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
 "}}}
 "End of General Maps}}}
 
