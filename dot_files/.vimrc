@@ -302,8 +302,11 @@ Plug 'vim-airline/vim-airline-themes'
 " Airline Setup {{{
   let g:airline_theme='wombat'
   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-  let g:airline#extensions#tabline#show_buffers=2 "
-  let g:airline#extensions#tabline#show_splits=1 "
+  let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
+  let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
+  let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+  let g:airline#extensions#tabline#formatter = 'unique_tail'
+  let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
   " To show full path: default is %f instead of %F.
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
   let g:airline_powerline_fonts = 1
@@ -311,7 +314,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'gcmt/taboo.vim'   " Rename tabs
  " Taboo Options {{{ :TabooRename, TabooOpen aname
  " To restore tab names.
-   " let g:airline#extensions#taboo#enabled = 1
+   " let g:airline#extensions#taboo#enabled = 0
+   " let g:loaded_taboo = 1
    let g:taboo_tabline=0
    set sessionoptions+=tabpages,globals
  " }}}
@@ -851,6 +855,9 @@ let g:lasttab = 1
 nmap <leader>0 :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 "}}}
+" setlocal foldmethod {{{
+noremap <leader>ss :setlocal foldmethod=syntax
+" }}}
 "End of General Maps}}}
 
 " Return to last edit position when opening files (You want this!) Obsolete:
