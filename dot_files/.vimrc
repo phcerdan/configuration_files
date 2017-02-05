@@ -162,15 +162,6 @@ Plug 'scrooloose/nerdtree'              " Folder structure viewer
   nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
 Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
-"Vim-grepper Setup {{{
-" When use -tool=git, search from root directory.
-let g:grepper = {}
-let g:grepper.git =
-\ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
-nnoremap <leader>g :Grepper -tool git<cr>
-nnoremap <leader>G :Grepper -tool ag<cr>
-nnoremap <leader>GS :Grepper -tool agSF<cr>
-"}}}
 " Plug 'mileszs/ack.vim' " Ag is obsolete. Use this.
 Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
 "Ack/Ag Setup {{{
@@ -230,8 +221,9 @@ endfunction
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
 " Specialized for ITK.
+let g:ITKFolder = '~/Software/ITK/ITK-development'
 function! s:with_itk_git_root()
-  let root = systemlist('git -C ~/Software/ITK/ITK-development rev-parse --show-toplevel')[0]
+  let root = systemlist('git -C '. g:ITKFolder . ' rev-parse --show-toplevel')[0]
   return v:shell_error ? {} : {'dir': root}
 endfunction
 command! -nargs=* IAg
@@ -240,10 +232,6 @@ command! -nargs=* IFiles
   \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
   " Map C-p to override CtrlP plugin.
   nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
-  nnoremap <silent> <Leader>ff :exe 'FFiles ' . expand("~")<CR>
-  nnoremap <silent> <Leader>ft :FFiletypes<CR>
-  nnoremap <silent> <Leader>fc :FColors<CR>
-  nnoremap <silent> <Leader>fh :FHistory<CR>
   nnoremap <silent> <Leader>b :FBuffers<CR>
   nnoremap <silent> <Leader>bB :FWindows<CR>
   nnoremap <silent> <Leader>; :FCommands<CR>
@@ -252,8 +240,8 @@ command! -nargs=* IFiles
   nnoremap <silent> <Leader>fL :FBLines<CR>
   nnoremap <silent> K :call SearchWordWithAg()<CR>
   vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <Leader>t :FTags<CR>
-  nnoremap <silent> <Leader>T :FBTags<CR>
+  nnoremap <silent> <Leader>ft :FTags<CR>
+  nnoremap <silent> <Leader>fT :FBTags<CR>
   nnoremap <silent> <Leader>gl :FCommits<CR>
   nnoremap <silent> <Leader>ga :FBCommits<CR>
 
@@ -1054,6 +1042,17 @@ let g:neomake_cppcheck_maker = {
         \ 'buffer_output': 1 }
 
         " \ 'postprocess': function('SetWarningType'),
+"Vim-grepper Setup {{{
+" initialize g:grepper with defaults
+let g:grepper = {}
+runtime autoload/grepper.vim
+" When use -tool=git, search from root directory.
+let g:grepper.git =
+\ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
+nnoremap <leader>g :Grepper -tool git<cr>
+nnoremap <leader>G :Grepper -tool ag<cr>
+nnoremap <leader>GS :Grepper -tool agSF<cr>
+"}}}
 function! SetSourceFolder(path)
     let g:sourceFolder=a:path
     " Set neomake (global) cppcheck
@@ -1070,18 +1069,18 @@ function! SetSourceFolder(path)
     let g:grepper.agSF = g:grepper.ag
     let g:grepper.agSF =
           \ { 'grepprg': 'ag --vimgrep $* ' . g:sourceFolder }
+    execute 'command! -nargs=+ -complete=file GrepperAgSF'
+          \ 'Grepper -noprompt -tool agSF -query <args>'
     " git
-    let root = systemlist('git -C ' . g:sourceFolder . ' rev-parse --show-toplevel')[0]
+    " let root = systemlist('git -C ' . g:sourceFolder . ' rev-parse --show-toplevel')[0]
     if !v:shell_error
       if index(g:grepper.tools,'gitSF') == -1
         let g:grepper.tools = g:grepper.tools + ['gitSF']
       endif
       let g:grepper.gitSF = g:grepper.git
       let g:grepper.gitSF =
-            \ { 'grepprg': 'git -C ' . g:sourceFolder . ' grep -nI $* --' }
+            \ { 'grepprg': 'git -C ' . g:sourceFolder . ' grep -nI $* | sed s:^:' . g:sourceFolder .'/: --' }
     endif
-    execute 'command! -nargs=+ -complete=file GrepperAgSF'
-          \ 'Grepper -noprompt -tool agSF -query <args>'
     execute 'command! -nargs=+ -complete=file GrepperGitSF'
           \ 'Grepper -noprompt -tool gitSF -query <args>'
     " }}}
