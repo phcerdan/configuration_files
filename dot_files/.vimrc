@@ -554,7 +554,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
               \ "ColumnLimit": 80,
               \ "Standard": "C++11" }
   au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
-  au FileType c,cpp au BufReadPre,BufNewFile itk execute IntentITK
+  au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   fun! SetClangFormatITK()
     let g:clang_format#style_options = {
           \ "BasedOnStyle": "Mozilla",
@@ -1208,5 +1208,8 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 " :earlier 15m
 " }}}
 
+function! CommentsLightBlue()
+ execute 'highlight Comment ctermfg=LightBlue guifg=LightBlue' 
+endfunction
 com! ClearQuickFix call setqflist([])
 " vim:foldmethod=marker:foldlevel=2

@@ -52,7 +52,9 @@ if ! zgen saved; then
 
     # Theme (fishy from oh-my-zsh not working in ARCH)
     # zgen oh-my-zsh themes/arrow
-    zgen load Stas-Ghost/fishy-gentoo fishy-gentoo
+    # zgen load arialdomartini/oh-my-git
+    # zgen load arialdomartini/oh-my-git-themes oppa-lana-style
+    zgen load phcerdan/fishy-gentoo fishy-gentoo
     zgen save
 fi
 # Tmux
