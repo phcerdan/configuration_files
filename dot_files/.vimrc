@@ -538,34 +538,18 @@ au BufNewFile,BufRead *.ih setlocal ft=cpp
 command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
 autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
 "}}}
-Plug 'rhysd/vim-clang-format'
+Plug 'sbdchd/neoformat'
+"{{{ neoformat Setup
+let g:neoformat_cpp_itk = {
+      \ 'exe': 'uncrustify',
+      \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg','-q', '-l CPP', '-f'],
+      \ }
+let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
+"}}}
+au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plug 'justinmk/vim-syntax-extra'        " Syntax for c,c++.
 Plug 'vim-scripts/DoxygenToolkit.vim'
-" ClangFormat Setup {{{
-  let g:clang_format#style_options = {
-              \ "AccessModifierOffset": -4,
-              \ "AllowShortLoopsOnASingleLine": "false",
-              \ "AllowShortBlocksOnASingleLine" : "false",
-              \ "AllowShortIfStatementsOnASingleLine": "false",
-              \ "AlwaysBreakTemplateDeclarations": "false",
-              \ "DerivePointerBinding": "false",
-              \ "PointerBindsToType": "false",
-              \ "ColumnLimit": 80,
-              \ "Standard": "C++11" }
-  au FileType c,cpp,objc,objcpp noremap  <silent> <buffer> <leader>= :ClangFormat<cr>
-  au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
-  fun! SetClangFormatITK()
-    let g:clang_format#style_options = {
-          \ "BasedOnStyle": "Mozilla",
-          \ "AlignOperands": "false",
-          \ "AlwaysBreakAfterReturnType": "None",
-          \ "AlwaysBreakAfterDefinitionReturnType": "None",
-          \ "AlignConsecutiveDeclarations": "true",
-          \ "ColumnLimit": 79,
-          \ "Standard": "Cpp03" }
-  endfunction
-" }}}
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
