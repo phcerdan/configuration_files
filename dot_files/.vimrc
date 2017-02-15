@@ -1079,6 +1079,7 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
       execute 'Neomake! cppcheck'
   endfunction
   au FileType c,cpp nnoremap <silent> <Leader>w :call NeomakeCppcheck()<CR>
+  com! CppcheckNeomake call NeomakeCppcheck()
 " Build
   let g:neomake_build_maker = {
         \ 'exe': 'make',
