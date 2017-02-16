@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, and .aliases; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template"
+echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, and .aliases; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .config/cower/config"
 cd $HOME
 ln -s $SCRIPT_DIR/dot_files/.vimrc .
 ln -s $SCRIPT_DIR/dot_files/.tmux.conf .
@@ -16,10 +16,12 @@ ln -s $SCRIPT_DIR/eclipse/.eclimrc .
 ln -s $SCRIPT_DIR/emacs/.spacemacs .
 ln -s $SCRIPT_DIR/git_files/.gitconfig .
 ln -s $SCRIPT_DIR/git_files/.git_template .
-cd $HOME/.tmuxifier
+mkdir -p $HOME/.tmuxifier ; cd $_
 ln -s $SCRIPT_DIR/tmuxifier/layouts .
-cd $HOME/.vim
+mkdir -p $HOME/.vim ; cd $_
 ln -s $SCRIPT_DIR/vim/UltiSnips .
+mkdir -p $HOME/.config/cower ; cd $_
+ln -s $SCRIPT_DIR/dot_files/config/cower/config .
 
 echo "Cloning (git) Plugin managers in .vim (Vundle) and .tmux (tpm)"
 # zsh manager zgen, should be handled in .zshrc
