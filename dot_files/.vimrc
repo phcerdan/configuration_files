@@ -16,6 +16,8 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
+Plug 'phcerdan/minimal_gdb'
+" Plug '~/repository_local/minimal_gdb'
 " " SLOW{{{
 " Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
 " " Conque-GDB Setup {{{
