@@ -552,6 +552,9 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 " Plug 'justinmk/vim-syntax-extra'        " Syntax for c,c++.
 Plug 'vim-scripts/DoxygenToolkit.vim'
+" DoxygenToolkit Setup {{{
+  let g:DoxygenToolkit_briefTag_pre = '' " Remove @brief tag. (First line will be parsed as brief anyway).
+" }}}
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc

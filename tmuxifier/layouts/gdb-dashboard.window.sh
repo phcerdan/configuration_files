@@ -12,3 +12,6 @@ split_v 66 2
 
 select_pane 1
 run_cmd "gdb"
+sleep 2
+send_keys "python tmux_layout()"
+send_keys Enter
