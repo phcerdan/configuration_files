@@ -7,12 +7,7 @@
 new_window "other-org"
 
 # Split window into panes.
-# split_v 20
 split_h 50
-# select_pane 0
-
-# Run commands: This is an alias to open emacs with agenda: check ~/.aliases
 run_cmd "emacs --daemon ; orgclient"
-
-# Set active pane.
-#select_pane 0
+select_pane 1
+split_v 50

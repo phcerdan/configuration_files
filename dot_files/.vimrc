@@ -1,5 +1,5 @@
 set nocompatible
-set nofoldenable    " disable folding. Slow. Even with fastfold
+set nofoldenable      " disable folding. Slow. Even with fastfold
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins
@@ -16,23 +16,23 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
-Plug 'phcerdan/minimal_gdb'
+" Plug 'phcerdan/minimal_gdb'
 " Plug '~/repository_local/minimal_gdb'
 " " SLOW{{{
-" Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
-" " Conque-GDB Setup {{{
-" " Set localsyntax of ConqueGDB buffer to cpp
-"   let g:ConqueTerm_Syntax = 'cpp'
-"   let g:ConqueGdb_Leader='\'
-"   let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-"   let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
-"   let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
-"   let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
-"   " Delete all buffers opened by Conque
-"   nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
-"   " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
-"   " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
-" " }}}
+Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
+" Conque-GDB Setup {{{
+" Set localsyntax of ConqueGDB buffer to cpp
+  let g:ConqueTerm_Syntax = 'cpp'
+  let g:ConqueGdb_Leader='\'
+  let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
+  let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
+  let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
+  " let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
+  " Delete all buffers opened by Conque
+  " nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
+  " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
+  " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
+" }}}
 " let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
 " Plug 'critiqjo/lldb.nvim'
 " " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
@@ -96,6 +96,9 @@ Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real tim
 " }}}
 Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+" Fugitive Setup {{{
+  nnoremap <Leader>gs :Gstatus<CR>
+" }}}
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
@@ -159,6 +162,7 @@ Plug 'Yggdroot/indentLine'
 " Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
 " }}}
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " NerdTREE Setup {{{
   nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
   nnoremap <silent> <Leader>N :NERDTree<CR>
@@ -299,6 +303,10 @@ Plug 'vim-airline/vim-airline-themes'
   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
   " To show full path: default is %f instead of %F.
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+  " neomake integration:{{{
+  let g:airline#extensions#neomake#enabled = 1
+  let g:airline#extensions#eclim#enabled = 0
+  "}}}
   let g:airline_powerline_fonts = 1
 " }}}
 Plug 'gcmt/taboo.vim'   " Rename tabs
@@ -324,8 +332,10 @@ Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to o
 " }}}
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
 " Vimux Setup {{{
-  let g:VimuxHeight = "40" " Default is 20
+  let g:VimuxHeight = "25" " Default is 20
   let g:VimuxUseNearest = 1  " With 0 always split, with 1 attach if pane exist
+  map <Leader>xc :VimuxCloseRunner<CR>
+  map <Leader>xx :VimuxRunLastCommand<CR>
   " Calling Emacs from vim for org-mode
   " org is an alias (in .aliases) similar or equal to:'emacs -nw ~/path/to/organizer.org'
 
@@ -341,8 +351,8 @@ Plug 'benmills/vimux'                   " Call tmux from vim (used for calling e
     :call VimuxSendKeys(":xa")
     :call VimuxCloseRunner()
   endfunction
-  nnoremap <Leader>y :call VimuxSwitchOrRun("orgclient")<CR>
-  nnoremap <Leader>Y :call VimuxCloseOrgMode()<CR>
+  nnoremap <Leader>vy :call VimuxSwitchOrRun("orgclient")<CR>
+  nnoremap <Leader>vY :call VimuxCloseOrgMode()<CR>
 " }}}
 " Tmuxline Setup {{{
   let g:tmuxline_powerline_separators = 0
@@ -607,7 +617,7 @@ Plug completer , { 'do': 'python2 ./install.py' }
 " YouCompleteMe Setup {{{
   " let g:loaded_youcompleteme = 1
   let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
-  let g:ycm_collect_identifiers_from_tags_files = 1 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
+  let g:ycm_collect_identifiers_from_tags_files = 0 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
   let g:ycm_add_preview_to_completeopt = 1
   " set completeopt-=preview
   " let g:ycm_confirm_extra_conf = 0
@@ -750,14 +760,14 @@ set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
 set completeopt=preview,menuone,longest,noselect
-set previewheight=12        " increase the default height (12)
+set previewheight=20        " omnicompletion and fugitive window.
 set pumheight=30            " limit popup menu height
 set concealcursor=nv        " expand concealed characters in insert mode solely
 " Open QuickFix horizontally with line wrap
 au FileType qf wincmd J | setlocal wrap
 " Preview window with line wrap
-au BufWinEnter * if &previewwindow | setlocal wrap | resize 7 | endif
 " au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
+au BufWinEnter * if &previewwindow | setlocal wrap | endif
 " }}}
 " Undofile {{{
 set undofile  " Maintain a undofile to keep changes between sessions.
@@ -1038,8 +1048,8 @@ runtime autoload/grepper.vim
 " When use -tool=git, search from root directory.
 let g:grepper.git =
 \ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
-nnoremap <leader>g :Grepper -tool git<cr>
-nnoremap <leader>G :Grepper -tool ag<cr>
+nnoremap <leader>GG :Grepper -tool git<cr>
+nnoremap <leader>GA :Grepper -tool ag<cr>
 nnoremap <leader>GS :Grepper -tool agSF<cr>
 "}}}
 function! SetSourceFolder(path)

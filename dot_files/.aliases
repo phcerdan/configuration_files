@@ -15,6 +15,7 @@ fi
 alias mux='tmuxifier'
 alias gits='git status'
 alias viserver='gvim -v --servername vimserver'
+alias dualpdf='dspdfviewer'
 # alias emacs='emacs -nw'
 # Workaround: emacs does not works well with TERM=tmux-256color
 alias emacsserver='emacs --daemon'
