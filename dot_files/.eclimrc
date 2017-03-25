@@ -1,0 +1,4 @@
+osgi.instance.area.default=@user.home/workspaceEclim
+# osgi.instance.area.default=/home/phc/workspaceEclim
+# osgi.instance.area.default=@user.home/repository_local/VTKNodesEdges/build
+# osgi.instance.area.default=@user.home/repository_local/tem-saxs/build
