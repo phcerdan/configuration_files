@@ -559,10 +559,9 @@ Plug 'sbdchd/neoformat'
 "{{{ neoformat Setup
 let g:neoformat_cpp_itk = {
       \ 'exe': 'uncrustify',
-      \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg', '-q', '-l CPP'],
-      \ 'stdin': 1
+      \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
+      \ 'stdin': 1,
       \ }
-      " \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg','-q', '-l CPP', '-f'],
 let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
 "}}}
 au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
