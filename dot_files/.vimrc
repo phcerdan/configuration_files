@@ -19,7 +19,7 @@ call plug#begin('~/.vim/plugged')
 " Plug 'phcerdan/minimal_gdb'
 " Plug '~/repository_local/minimal_gdb'
 " " SLOW{{{
-Plug 'vim-scripts/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever.
+Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever. Updated to v0.16.
 " Conque-GDB Setup {{{
 " Set localsyntax of ConqueGDB buffer to cpp
   let g:ConqueTerm_Syntax = 'cpp'
@@ -119,9 +119,14 @@ Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Better-whitespace Setup {{{
 "}}}
-Plug 'drn/zoomwin-vim'
+Plug 'troydm/zoomwintab.vim'
+" ZoomWinTab Setup {{{
+" Default: <C-w>o
+map <Leader>z :ZoomWinTabToggle<CR>
+" }}}
+" Plug 'drn/zoomwin-vim'
 " ZoomWin Setup {{{
-  nnoremap <Leader>z :ZoomWin<cr>
+  " nnoremap <Leader>z :ZoomWin<cr>
 " }}}
 " Align and Tabularize: {{{
 Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Good!
@@ -554,8 +559,10 @@ Plug 'sbdchd/neoformat'
 "{{{ neoformat Setup
 let g:neoformat_cpp_itk = {
       \ 'exe': 'uncrustify',
-      \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg','-q', '-l CPP', '-f'],
+      \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg', '-q', '-l CPP'],
+      \ 'stdin': 1
       \ }
+      " \ 'args': ['-c ~/repository_local/configuration_files/uncrustify_itk_aggressive_phcerdan.cfg','-q', '-l CPP', '-f'],
 let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
 "}}}
 au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
@@ -756,7 +763,8 @@ set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
 " Aesthetics {{{
-set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+set list
+set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
 set completeopt=preview,menuone,longest,noselect
