@@ -1062,7 +1062,7 @@ nnoremap <leader>GS :Grepper -tool agSF<cr>
 function! SetSourceFolder(path)
     let g:sourceFolder=a:path
     " Set neomake (global) cppcheck
-    let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', '-j3']
+    let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', (g:n_threads > 1 ? ('-j'.(g:n_threads)) : '')]
 
     " Set vim-grepper {{{
     if !has_key(g:grepper, 'tools')
@@ -1103,9 +1103,10 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   au FileType c,cpp nnoremap <silent> <Leader>w :call NeomakeCppcheck()<CR>
   com! CppcheckNeomake call NeomakeCppcheck()
 " Build
+  call SetNThreads()
   let g:neomake_build_maker = {
         \ 'exe': 'make',
-        \ 'args': ['-j5', '--stop', '--no-print-directory', '-C'],
+        \ 'args': [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C'],
         \ 'append_file': 0,
         \ 'errorformat': '%f:%l:%c: %m',
         \ 'buffer_output': 1 }
@@ -1201,7 +1202,7 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   " Hack to have file autocompletion in command line (or in q:)
   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
-  au FileType c,cpp au BufWinEnter * call SetNThreads()
+  " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:NeomakeBuildOnSave=1
   au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
   au FileType c,cpp nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
