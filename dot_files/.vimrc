@@ -15,6 +15,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 " }}}
 call plug#begin('~/.vim/plugged')
+" Nyaovim Plugs {{{
+Plug 'rhysd/nyaovim-markdown-preview'
+" }}}
 " Debuggers: {{{
 " Plug 'phcerdan/minimal_gdb'
 " Plug '~/repository_local/minimal_gdb'

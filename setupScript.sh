@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, and .aliases; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .config/cower/config"
+echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, and .aliases; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .config/cower/config ; .config/nyaovim/nyaovimrc.html"
 cd $HOME
 ln -s $SCRIPT_DIR/dot_files/.vimrc .
 ln -s $SCRIPT_DIR/dot_files/.tmux.conf .
@@ -22,6 +22,8 @@ mkdir -p $HOME/.vim ; cd $_
 ln -s $SCRIPT_DIR/vim/UltiSnips .
 mkdir -p $HOME/.config/cower ; cd $_
 ln -s $SCRIPT_DIR/dot_files/config/cower/config .
+mkdir -p $HOME/.config/nyaovim ; cd $_
+ln -s $SCRIPT_DIR/dot_files/config/nyaovim/nyaovimrc.html .
 
 echo "Cloning (git) Plugin managers in .vim (Vundle) and .tmux (tpm)"
 # zsh manager zgen, should be handled in .zshrc
