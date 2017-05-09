@@ -389,6 +389,14 @@ Plug 'airblade/vim-gitgutter'
 " let g:loaded_gitgutter=1 " Slow, don't load it.
 " }}}
 "}}}
+" Grammar check {{{
+Plug 'rhysd/vim-grammarous'
+let g:grammarous#disabled_rules = {
+            \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
+            \ 'help' : ['WHITESPACE_RULE', 'EN_QUOTES', 'SENTENCE_WHITESPACE', 'UPPERCASE_SENTENCE_START'],
+            \ }
+nmap <localleader>. <Plug>(grammarous-open-info-window)
+" }}}
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
 let g:tex_comment_nospell=1
@@ -761,6 +769,9 @@ set smartcase  " expcept when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
+" Inser WhiteSpace in normal mode with ss {{{
+nnoremap ss i<space><esc>
+" }}}
 " Aesthetics {{{
 set list
 set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
