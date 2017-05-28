@@ -21,8 +21,156 @@ Plug 'rhysd/nyaovim-markdown-preview'
 " Debuggers: {{{
 " Plug 'phcerdan/minimal_gdb'
 " Plug '~/repository_local/minimal_gdb'
-" " SLOW{{{
 Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever. Updated to v0.16.
+" let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
+" Plug 'critiqjo/lldb.nvim'
+" " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
+"}}}
+" Note-taking utilities Plugins  {{{
+  " Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
+  " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
+  " Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
+  " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
+  " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
+" }}}
+Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
+Plug 'Raimondi/delimitMate'             " Auto-pair like script
+Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
+Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
+Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
+Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based on current file or folder files with same extension.
+Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
+Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
+Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
+Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
+Plug 'tpope/vim-eunuch'  " Move/Rename/UNIX shell goodies.
+" Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
+Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
+Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
+Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
+Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
+Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
+" Align and Tabularize: {{{
+Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Good!
+Plug 'junegunn/vim-easy-align'
+Plug 'Yggdroot/indentLine'
+" }}}
+" File Navigation and Search: {{{
+" Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
+" Plug 'justinmk/vim-dirvish'             " Minimalist file-explorer, aims to replace vim-built-in netwr.
+"      Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
+Plug 'scrooloose/nerdtree'              " Folder structure viewer
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" }}}
+" Search/Grep {{{
+Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
+Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
+Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
+Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
+Plug 'junegunn/fzf.vim'
+Plug 'majutsushi/tagbar'
+" }}}
+"Color Schemes and status-line {{{
+Plug 'rainux/vim-desert-warm-256'
+Plug 'justinmk/molokai'
+Plug 'nanotech/jellybeans.vim'
+Plug 'chriskempson/base16-vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'                " Colourful status-line.
+Plug 'vim-airline/vim-airline-themes'
+Plug 'gcmt/taboo.vim'   " Rename tabs
+"}}}
+" TMUX {{{
+Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
+Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
+Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
+" }}}
+" Buffer Related {{{
+" Switch to latest used buffer
+Plug 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
+Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
+"}}}
+" Diff tools {{{
+Plug 'AndrewRadev/linediff.vim' " :Linediff in v-selection (x2) will compare chunks
+" }}}
+" Version Controlling {{{
+Plug 'airblade/vim-gitgutter'
+"}}}
+" Style / Grammar check {{{
+Plug 'sbdchd/neoformat'
+Plug 'rhysd/vim-grammarous'
+" }}}
+" Language Specific Plugins and Settings {{{
+" LATEX {{{
+Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
+"}}}
+" R {{{
+" Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
+" Plug 'jalvesaq/VimCom'      " Communication vim - R
+" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
+Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
+" }}}
+" Python {{{
+" Plug 'klen/python-mode', { 'branch': 'develop'} " python-mode is just too heavy, you don't really need rope.
+Plug 'nvie/vim-flake8'
+" , has('flake8') ? {} : { 'on': [] } " lint for python. Require flake8 installation
+" }}}
+" OpenCL {{{
+Plug 'petRUShka/vim-opencl'
+"}}}
+"CUDA {{{
+" Create a symlink inside vim-snippets/snippets pointing to
+" snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
+Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
+"}}}
+" Rails (Ruby) {{{
+Plug 'tpope/vim-rails'
+" Plug 'vim-ruby/vim-ruby'
+" }}}
+"Docker {{{
+Plug 'ekalinin/Dockerfile.vim'
+" }}}
+" Markdown / vimwiki {{{
+Plug 'phcerdan/vim-flavored-markdown'
+"}}}
+" CMake {{{
+Plug 'phcerdan/vim-cmake-syntax'
+" }}}
+" C++ {{{
+Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
+Plug 'vim-scripts/DoxygenToolkit.vim'
+" }}}
+"End of Language specifics }}}
+" AUTOCOMPLETERS {{{
+Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
+Plug 'honza/vim-snippets'               " Merged cmake changes!
+Plug 'ervandew/supertab'                " Tab to autocomplete.
+" YCM {{{
+let completer = 'oblitum/YouCompleteMe'
+" let completer = 'Valloric/YouCompleteMe'
+" Plug completer , { 'do': 'python2 ./install.py' }
+" Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
+Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+" Apply patch to allow c++ completion with templates (slower)
+" Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
+" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+" ctags must be called with --fields=+l (modified in git_templates/ctags)
+" BUG in ycm about memory consuption with ctags, put it 0
+" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
+" }}}
+" }}} End autocompleters
+call plug#end()            " required
+" vim-plug END }}}
+
+" nyaovim Setup {{{
+  let g:markdown_preview_auto =1
+" }}}
+"
+" Debuggers Setup {{{
 " Conque-GDB Setup {{{
 " Set localsyntax of ConqueGDB buffer to cpp
   let g:ConqueTerm_Syntax = 'cpp'
@@ -30,38 +178,35 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
   let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
   let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
-  " let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
-  " Delete all buffers opened by Conque
-  " nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
-  " nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
-  " nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
+" let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
+" Delete all buffers opened by Conque
+" nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
+" nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
+" nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
 " }}}
-" let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
-" Plug 'critiqjo/lldb.nvim'
-" " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
-" " lldb improved Setup {{{
-"   nmap <Leader>db <Plug>LLBreakSwitch
-"   nnoremap <Leader>dd :LLmode debug<CR>
-"   nnoremap <Leader>dD :LLmode code<CR>
-"   nnoremap <Leader>dc :LL continue<CR>
-"   nnoremap <Leader>dn :LL next<CR>
-"   nnoremap <Leader>dni :LL thread step-over-inst<CR>
-"   nnoremap <Leader>ds :LL step<CR>
-"   nnoremap <Leader>dsi :LL thread step-inst<CR>
-"   nnoremap <Leader>df :LL finish<CR>
-"   nnoremap <Leader>dI :LL process interrupt<CR>
-"   nnoremap <Leader>dK :LL process kill<CR>
-"   nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
-"   vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-"   nnoremap <Leader>dle :LLsession bp-set<CR>
-"   nnoremap <Leader>dlw :LLsession bp-save<CR>
-"   nnoremap <Leader>dlr :LLsession reload<CR>
-"   nnoremap <Leader>dll :LLsession load
+"
+" lldb Setup {{{
+" nmap <Leader>db <Plug>LLBreakSwitch
+" nnoremap <Leader>dd :LLmode debug<CR>
+" nnoremap <Leader>dD :LLmode code<CR>
+" nnoremap <Leader>dc :LL continue<CR>
+" nnoremap <Leader>dn :LL next<CR>
+" nnoremap <Leader>dni :LL thread step-over-inst<CR>
+" nnoremap <Leader>ds :LL step<CR>
+" nnoremap <Leader>dsi :LL thread step-inst<CR>
+" nnoremap <Leader>df :LL finish<CR>
+" nnoremap <Leader>dI :LL process interrupt<CR>
+" nnoremap <Leader>dK :LL process kill<CR>
+" nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
+" vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
+" nnoremap <Leader>dle :LLsession bp-set<CR>
+" nnoremap <Leader>dlw :LLsession bp-save<CR>
+" nnoremap <Leader>dlr :LLsession reload<CR>
+" nnoremap <Leader>dll :LLsession load
 " " }}}
-" "}}} SLOW
-"}}}
-" Organization/Note taking {{{
-" Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
+" Debuggers End }}}
+
+" Organization/Note taking
 " vimwiki Setup {{{
   " let g:vimwiki_conceallevel = 0
   " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
@@ -87,53 +232,20 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   "   endif
   " endfunction
 " }}}
-" Note-taking utilities Plugins  {{{
-  " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
-  " Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
-  " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
-  " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
-" }}}
-" }}}
-" Advanced {{{
-Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
-" }}}
-Plug 'Raimondi/delimitMate'             " Auto-pair like script
-Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+
 " Fugitive Setup {{{
   nnoremap <Leader>gs :Gstatus<CR>
 " }}}
-Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
-Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
-Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
-Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
-Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based on current file or folder files with same extension.
-Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
-Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
-Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
-Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
-Plug 'tpope/vim-eunuch'  " Move/Rename/UNIX shell goodies.
-" Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
-Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
-Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS. Testing... slow?
+
 " restore_view Setup{{{
   set viewoptions=cursor,folds,slash,unix
 " }}}
-Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
-Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
-" Better-whitespace Setup {{{
-"}}}
-Plug 'troydm/zoomwintab.vim'
+
 " ZoomWinTab Setup {{{
 " Default: <C-w>o
-map <Leader>z :ZoomWinTabToggle<CR>
+  map <Leader>z :ZoomWinTabToggle<CR>
 " }}}
-" Plug 'drn/zoomwin-vim'
-" ZoomWin Setup {{{
-  " nnoremap <Leader>z :ZoomWin<cr>
-" }}}
-" Align and Tabularize: {{{
-Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Good!
-Plug 'junegunn/vim-easy-align'
+
 " Easy-Align Setup {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
@@ -152,8 +264,7 @@ Plug 'junegunn/vim-easy-align'
   augroup end
 " }}}
 
-Plug 'Yggdroot/indentLine'
-  " indentLine Setup {{{
+" indentLine Setup {{{
   let g:indentLine_char = '|'
   " let g:indentLine_leadingSpaceChar = '.'
   " let g:indentLine_leadingSpaceEnabled = 1
@@ -161,25 +272,13 @@ Plug 'Yggdroot/indentLine'
   let g:indentLine_color_term = 239
   let g:indentLine_enabled = 1
 " }}}
-" }}}
-" File Navigation and Search: {{{
 
-" Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
-" Plug 'justinmk/vim-dirvish'             " Minimalist file-explorer, aims to replace vim-built-in netwr.
-" vim-dirvish Setup {{{
-" Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
-" }}}
-Plug 'scrooloose/nerdtree'              " Folder structure viewer
-Plug 'Xuyuanp/nerdtree-git-plugin'
 " NerdTREE Setup {{{
   nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
   nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
-Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
-" Plug 'mileszs/ack.vim' " Ag is obsolete. Use this.
-Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
-"Ack/Ag Setup {{{
-"
+
+" Ack/Ag Setup {{{
   if executable('ag')
     " let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
@@ -189,7 +288,7 @@ Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), sea
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   endif
 "}}}
-Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
+
 "CtrlP Setup{{{
   if executable('ag')
       let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -202,31 +301,30 @@ Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for
   let g:ctrlp_max_files=0
   let g:ctrlp_max_depth=40
 "}}}
-Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
-Plug 'junegunn/fzf.vim'
+
 " fzf Setup {{{
-  let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-  let g:fzf_command_prefix = 'F'
-  " Enable per-command history.
-  " CTRL-N and CTRL-P will be automatically bound to next-history and
-  " previous-history instead of down and up. If you don't like the change,
-  " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
-  " let g:fzf_history_dir = '~/.fzf-history'
+let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+let g:fzf_command_prefix = 'F'
+" Enable per-command history.
+" CTRL-N and CTRL-P will be automatically bound to next-history and
+" previous-history instead of down and up. If you don't like the change,
+" explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+" let g:fzf_history_dir = '~/.fzf-history'
 
-  " Mapping selecting mappings
-  nmap <leader><tab> <plug>(fzf-maps-n)
-  xmap <leader><tab> <plug>(fzf-maps-x)
-  omap <leader><tab> <plug>(fzf-maps-o)
-  " Insert mode completion
-  imap <c-x><c-k> <plug>(fzf-complete-word)
-  imap <c-x><c-f> <plug>(fzf-complete-path)
-  imap <C-x><C-j> <plug>(fzf-complete-file-ag)
-  imap <C-x><C-l> <plug>(fzf-complete-line)
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <C-x><C-j> <plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <plug>(fzf-complete-line)
 
-  fun! s:fzf_root()
-    let path = finddir(".git", expand("%:p:h").";")
-    return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
-  endfun
+fun! s:fzf_root()
+  let path = finddir(".git", expand("%:p:h").";")
+  return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
+endfun
 
 function! s:with_git_root()
   let root = systemlist('git rev-parse --show-toplevel')[0]
@@ -244,63 +342,68 @@ command! -nargs=* IAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
 command! -nargs=* IFiles
   \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
-  " Map C-p to override CtrlP plugin.
-  nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
-  nnoremap <silent> <Leader>b :FBuffers<CR>
-  nnoremap <silent> <Leader>bB :FWindows<CR>
-  nnoremap <silent> <Leader>; :FCommands<CR>
-  nnoremap <silent> <Leader>fhl :FHelptags<CR>
-  nnoremap <silent> <Leader>fl :FLines<CR>
-  nnoremap <silent> <Leader>fL :FBLines<CR>
-  nnoremap <silent> K :call SearchWordWithAg()<CR>
-  vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-  nnoremap <silent> <Leader>ft :FTags<CR>
-  nnoremap <silent> <Leader>fT :FBTags<CR>
-  nnoremap <silent> <Leader>gl :FCommits<CR>
-  nnoremap <silent> <Leader>ga :FBCommits<CR>
+" Map C-p to override CtrlP plugin.
+nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
+nnoremap <silent> <Leader>b :FBuffers<CR>
+nnoremap <silent> <Leader>bB :FWindows<CR>
+nnoremap <silent> <Leader>; :FCommands<CR>
+nnoremap <silent> <Leader>fhl :FHelptags<CR>
+nnoremap <silent> <Leader>fl :FLines<CR>
+nnoremap <silent> <Leader>fL :FBLines<CR>
+nnoremap <silent> K :call SearchWordWithAg()<CR>
+vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <Leader>ft :FTags<CR>
+nnoremap <silent> <Leader>fT :FBTags<CR>
+nnoremap <silent> <Leader>gl :FCommits<CR>
+nnoremap <silent> <Leader>ga :FBCommits<CR>
+
+command! -bang -nargs=* PAg
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
 
 
-  function! SearchWordWithAg()
-    let ag_command = 'Ag'
-    execute ag_command expand('<cword>')
-  endfunction
+" Likewise, Files command with preview window
+command! -bang -nargs=? -complete=dir PFiles
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-  function! SearchVisualSelectionWithAg() range
-    let ag_command = 'Ag'
-    let old_reg = getreg('"')
-    let old_regtype = getregtype('"')
-    let old_clipboard = &clipboard
-    set clipboard&
-    normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', old_reg, old_regtype)
-    let &clipboard = old_clipboard
-    execute ag_command selection
-  endfunction
+
+function! SearchWordWithAg()
+  let ag_command = 'Ag!'
+  execute ag_command expand('<cword>')
+endfunction
+
+function! SearchVisualSelectionWithAg() range
+  let ag_command = 'Ag!'
+  let old_reg = getreg('"')
+  let old_regtype = getregtype('"')
+  let old_clipboard = &clipboard
+  set clipboard&
+  normal! ""gvy
+  let selection = getreg('"')
+  call setreg('"', old_reg, old_regtype)
+  let &clipboard = old_clipboard
+  execute ag_command selection
+endfunction
 " }}}
-Plug 'majutsushi/tagbar'
+
 " Tagbar Setup {{{
   nnoremap <silent> <Leader>bb :TagbarToggle<CR>
   let g:tagbar_sort=0 "Keep order of file.
 " }}}
-" }}}
-"Color Schemes and status-line {{{
-Plug 'rainux/vim-desert-warm-256'
-Plug 'justinmk/molokai'
-Plug 'nanotech/jellybeans.vim'
+
 " Jellybeans setup{{{
   let g:jellybeans_use_term_italics = 1
   " let g:jellybeans_use_lowcolor_black = 0
 " }}}
-Plug 'chriskempson/base16-vim'
-" Plug 'itchyny/lightline.vim'
-" " lightline setup {{{
+
+" lightline setup {{{
 " let g:lightline = {
 "       \ 'colorscheme': 'wombat',
 "       \ }
 " }}}
-Plug 'vim-airline/vim-airline'                " Colourful status-line.
-Plug 'vim-airline/vim-airline-themes'
+
 " Airline Setup {{{
   let g:airline_theme='wombat'
   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
@@ -314,22 +417,20 @@ Plug 'vim-airline/vim-airline-themes'
   " neomake integration:{{{
   let g:airline#extensions#neomake#enabled = 1
   let g:airline#extensions#eclim#enabled = 0
+  " fzf slow on close: https://github.com/neovim/neovim/issues/4487
+  let g:airline#extensions#branch#enabled = 0
   "}}}
   let g:airline_powerline_fonts = 1
 " }}}
-Plug 'gcmt/taboo.vim'   " Rename tabs
- " Taboo Options {{{ :TabooRename, TabooOpen aname
- " To restore tab names.
-   " let g:airline#extensions#taboo#enabled = 0
-   " let g:loaded_taboo = 1
-   let g:taboo_tabline=0
-   set sessionoptions+=tabpages,globals
- " }}}
-"}}}
-" TMUX {{{
-Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
-Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
-Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
+
+" Taboo Options {{{ :TabooRename, TabooOpen aname
+" To restore tab names.
+ " let g:airline#extensions#taboo#enabled = 0
+ " let g:loaded_taboo = 1
+ let g:taboo_tabline=0
+ set sessionoptions+=tabpages,globals
+" }}}
+
 " vim-slime Setup {{{
   let g:slime_target = "tmux"
   let g:slime_python_ipython = 1
@@ -338,7 +439,7 @@ Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to o
   " from echo $TMUX_PANE
   command! TmuxSockets silent! !lsof -U | grep "^tmux"
 " }}}
-Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
+
 " Vimux Setup {{{
   let g:VimuxHeight = "25" " Default is 20
   let g:VimuxUseNearest = 1  " With 0 always split, with 1 attach if pane exist
@@ -362,6 +463,7 @@ Plug 'benmills/vimux'                   " Call tmux from vim (used for calling e
   nnoremap <Leader>vy :call VimuxSwitchOrRun("orgclient")<CR>
   nnoremap <Leader>vY :call VimuxCloseOrgMode()<CR>
 " }}}
+
 " Tmuxline Setup {{{
   let g:tmuxline_powerline_separators = 0
   " Tmux Navigator tips {{{
@@ -370,43 +472,44 @@ Plug 'benmills/vimux'                   " Call tmux from vim (used for calling e
   " TIP: Use <Ctrl-\> to go to last split, specially useful with TabBar.
   " }}}
 " }}}
-" }}}
-" Buffer Related {{{
-" Switch to latest used buffer
-nnoremap <Leader>h :b#<CR>
-Plug 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
-Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
+
 " vim-bbye Setup {{{
+  nnoremap <Leader>h :b#<CR>
   command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
   nnoremap <Leader>d :Bdelete<CR>
   " Close buffer and window (split)
   noremap <Leader>q :Bclose<CR><c-W>c
 "}}}
-"}}}
-" Diff tools {{{
-Plug 'AndrewRadev/linediff.vim' " :Linediff in v-selection (x2) will compare chunks
-" }}}
-" Version Controlling {{{
-Plug 'airblade/vim-gitgutter'
+
 " Gitgutter Setup {{{
 " let g:loaded_gitgutter=1 " Slow, don't load it.
 " }}}
-"}}}
-" Grammar check {{{
-Plug 'rhysd/vim-grammarous'
-let g:grammarous#disabled_rules = {
-            \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
-            \ 'help' : ['WHITESPACE_RULE', 'EN_QUOTES', 'SENTENCE_WHITESPACE', 'UPPERCASE_SENTENCE_START'],
-            \ }
-nmap <localleader>. <Plug>(grammarous-open-info-window)
+
+" neoformat Setup {{{
+" C++, itk
+let g:neoformat_cpp_itk = {
+      \ 'exe': 'uncrustify',
+      \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
+      \ 'stdin': 1,
+      \ }
 " }}}
-" Language Specific Plugins and Settings {{{
-" LATEX {{{
+
+let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
+"}}}
+" vim-grammarous Setup {{{
+  let g:grammarous#disabled_rules = {
+        \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
+        \ 'help' : ['WHITESPACE_RULE', 'EN_QUOTES', 'SENTENCE_WHITESPACE', 'UPPERCASE_SENTENCE_START'],
+        \ }
+  nmap <localleader>. <Plug>(grammarous-open-info-window)
+" }}}
+
+" LaTeX Setup {{{
 let g:tex_comment_nospell=1
 let g:tex_conceal = ""
 " au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
-Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
+
 " VimTex Setup {{{
 " Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
   " let g:vimtex_latexmk_callback = 0
@@ -465,12 +568,8 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
   " let g:python_folding = 1
   " let g:vimsyn_folding='af'
 " }}}
-"}}}
-" R {{{
-" Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
-" Plug 'jalvesaq/VimCom'      " Communication vim - R
-" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
-Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
+" }}}
+
 " R plugins Setup {{{
   " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
   " Recommended in R:
@@ -499,59 +598,43 @@ Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
   vmap <Space> <Plug>RDSendSelection
   nmap <Space> <Plug>RDSendLine
 " }}}
-" }}}
-" Python {{{
+
+" Python Setup {{{
 " To run current file.
 au FileType python nnoremap <buffer> <Leader>e :exec '!python' shellescape(@%, 1)<cr>
-" python-mode is just too heavy, you don't really need rope.
-" Plug 'klen/python-mode', { 'branch': 'develop'}
 " python-mode Setup {{{
   " let g:pymode_rope_completion = 0 " Use YCM instead
 " }}}
-Plug 'nvie/vim-flake8'
-" , has('flake8') ? {} : { 'on': [] } " lint for python. Require flake8 installation
 " vim-flake8 Setup {{{
 " Default mapping is <F7>
   let g:flake8_show_in_gutter=1
   let g:flake8_show_in_file=1
-" }}}
-" vim-flake8 Setup {{{
   " let no_flake8_maps = 1
 " }}}
 " SLOW:
 " Plug 'jmcantrell/vim-virtualenv'
 " vim-virtualenv Setup {{{
   " let g:virtualenv_directory='/home/phc/repository_local'
-"}}}
 " }}}
-" OpenCL {{{
-Plug 'petRUShka/vim-opencl'
-"}}}
-"CUDA {{{
-Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
-" Create a symlink inside vim-snippets/snippets pointing to
-" snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
+" }}}
+
+" CUDA Setup {{{
 au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
-"}}}
-" Rails (Ruby) {{{
-Plug 'tpope/vim-rails'
-" Plug 'vim-ruby/vim-ruby'
 " }}}
-"Docker {{{
-Plug 'ekalinin/Dockerfile.vim'
-" }}}
-" Git {{{
+
+" Git Setup {{{
 autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
-" Markdown / vimwiki {{{
-Plug 'phcerdan/vim-flavored-markdown'
+
+" Markdown Setup {{{
 autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 " au FileType markdown setlocal conceallevel=0
-"}}}
-" CMake {{{
-Plug 'phcerdan/vim-cmake-syntax'
 " }}}
-" C++ {{{
+
+" C++ Setup {{{
+" DoxygenToolkit Setup {{{
+  let g:DoxygenToolkit_briefTag_pre = '' " Remove @brief tag. (First line will be parsed as brief anyway).
+" }}}
 " Map to reformat 'typedef' to 'using' (c++11)
 let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
 " set ft in files: {{{
@@ -562,26 +645,11 @@ au BufNewFile,BufRead *.ih setlocal ft=cpp
 " use ]f [f from Unimpaired instead
 " map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR> " Togle cpp/h --only if they are at the same folder.
 " }}}
-" Shift+K to open cppman in a tmux split {{{
+" Cppman in tmux pane {{{
 command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
 autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
 "}}}
-Plug 'sbdchd/neoformat'
-"{{{ neoformat Setup
-let g:neoformat_cpp_itk = {
-      \ 'exe': 'uncrustify',
-      \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
-      \ 'stdin': 1,
-      \ }
-let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
-"}}}
 au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
-Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
-" Plug 'justinmk/vim-syntax-extra'        " Syntax for c,c++.
-Plug 'vim-scripts/DoxygenToolkit.vim'
-" DoxygenToolkit Setup {{{
-  let g:DoxygenToolkit_briefTag_pre = '' " Remove @brief tag. (First line will be parsed as brief anyway).
-" }}}
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
@@ -595,13 +663,9 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
   let g:EclimKeepLocalHistory            = 0
   let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
   au FileType c,cpp nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
+" }}}
+" }}}
 
-"}}}
-" End of C++}}}
-"End of Language specifics }}}
-" AUTOCOMPLETERS {{{
-Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
-Plug 'honza/vim-snippets'               " Merged cmake changes!
 " UltiSnips Setup {{{
   let g:UltiSnipsEditSplit="vertical"
   let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
@@ -611,32 +675,22 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
   nnoremap <Leader>o <C-o>
   nnoremap <Leader>i :echo "jump list forward does not work, because TAB is remapped!"<CR>
 " }}}
-Plug 'ervandew/supertab'                " Tab to autocomplete.
+
 " Supertab Setup {{{
   " TIP: Ctrl-E to return to original without auto-complete
   let g:SuperTabDefaultCompletionType = 'context'
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
-" YCM {{{
-let completer = 'oblitum/YouCompleteMe'
-" let completer = 'Valloric/YouCompleteMe'
-Plug completer , { 'do': 'python2 ./install.py' }
-" Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-" Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
-" Apply patch to allow c++ completion with templates (slower)
-" Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
-" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" ctags must be called with --fields=+l (modified in git_templates/ctags)
-" BUG in ycm about memory consuption with ctags, put it 0
-" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 
 " YouCompleteMe Setup {{{
   " let g:loaded_youcompleteme = 1
   let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
   let g:ycm_collect_identifiers_from_tags_files = 0 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
-  let g:ycm_add_preview_to_completeopt = 1
-  " set completeopt-=preview
+  " let g:ycm_add_preview_to_completeopt = 1
+  "if preview is slow {
+  let g:ycm_add_preview_to_completeopt = 0
+  set completeopt-=preview
+  "}
   " let g:ycm_confirm_extra_conf = 0
   let g:ycm_seed_identifiers_with_syntax = 1
   let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -645,26 +699,31 @@ Plug completer , { 'do': 'python2 ./install.py' }
   let g:ycm_min_num_of_chars_for_completion = 4
   " let g:ycm_autoclose_preview_window_after_completion = 1
   let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+  let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
+
   "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
   let g:ycm_key_invoke_completion = '<C-b>'
-  nnoremap <leader>j :YcmCompleter GoToDeclaration<cr>
-  nnoremap <leader>k :YcmCompleter GoToDefinitionElseDeclaration<cr>
-  " nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
-  nnoremap <leader>fi :YcmCompleter FixIt<cr>
-  nnoremap <leader>gt :YcmCompleter GoTo<cr>
-  nnoremap <leader>gd :YcmCompleter GetDoc<cr>
-  nnoremap <leader>gy :YcmCompleter GetType<cr>
+  " nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
+  " nnoremap <leader>kd :YcmCompleter GoToDefinitionElseDeclaration<cr>
+  " nnoremap <leader> :YcmCompleter GoToDefinition<cr>
+  nnoremap <leader>jf :YcmCompleter FixIt<cr>
+  nnoremap <leader>jj :YcmCompleter GoTo<cr>
+  " h for help!
+  nnoremap <leader>jh :YcmCompleter GetDoc<cr>
+  nnoremap <leader>jt :YcmCompleter GetType<cr>
+  "close preview
+  nnoremap <leader>jc :pc<cr>
 
 " YCM+eclim {{{
+  " Use default completefunc (<c-x><c-u>) to work with both YCM, and eclim.
   " From the docs.
-  let g:EclimCompletionMethod = 'omnifunc'
+  " let g:EclimCompletionMethod = 'omnifunc'
   " But it is too intrusive/slow calling eclipse indexer all the time, so we disable semantic completion.
   " We can still call it manually with <C-X><C-O> or the key in g:ycm_key_invoke_completion
 " To remove clang_completer move hooks.py to hooks.py.BACKUP
-  let g:ycm_filetype_specific_completion_to_disable = {
-        \ 'cpp': 1
-        \}
-" }}}
+  " let g:ycm_filetype_specific_completion_to_disable = {
+  "       \ 'cpp': 1
+  "       \}
 " }}}
 
 " YCM+UltiSnips+SuperTab {{{
@@ -684,11 +743,7 @@ Plug completer , { 'do': 'python2 ./install.py' }
       let g:ycm_auto_trigger = 1
   endfunction
 " }}}
-" }}}
-" Autocompleters END }}}
-
-call plug#end()            " required
-" vim-plug END }}}
+" }}} End YCM related
 
 " Neovim options {{{
 if has('nvim')
@@ -780,7 +835,7 @@ set list
 set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
-set completeopt=preview,menuone,longest,noselect
+" set completeopt=preview,menuone,longest,noselect
 set previewheight=20        " omnicompletion and fugitive window.
 set pumheight=30            " limit popup menu height
 set concealcursor=nv        " expand concealed characters in insert mode solely
@@ -798,13 +853,13 @@ set undodir=~/.vim/undo/
 " Tabs and whitespaces {{{
 set autoindent
 set backspace=indent,eol,start
-set expandtab
 " set matchpairs+=<:>
 "}}}
 " Indent {{{
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+set expandtab
 " Indent specific commands {{{
 command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
 command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
