@@ -11,7 +11,7 @@ if initialize_session "devEclim"; then
   new_window "vim"
   new_window "build"
   # Load a defined window layout.
-  load_window "eclimd"
+  # load_window "eclimd"
   # Select the default active window on session creation.
   select_window 1
 

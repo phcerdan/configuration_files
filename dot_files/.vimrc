@@ -1,9 +1,14 @@
 set nocompatible
 set nofoldenable      " disable folding. Slow. Even with fastfold
+" let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins
 let maplocalleader=";"
+
+" Because remap of TAB (== <C-I>) in Supertab, or Ultisnips. ctrl-i does not work as a jumplist-forward
+" Note: Now <C-i> works?
+nnoremap <C-s> <C-I>
 
 " Plug manager {{{
 " Vim-Plug Automatic installation {{{
@@ -49,6 +54,7 @@ Plug 'tpope/vim-eunuch'  " Move/Rename/UNIX shell goodies.
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
 Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
+" Plug 'vim-scripts/delview'              " Delete stored view with :delview.
 Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
@@ -163,6 +169,7 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 " }}}
 " }}} End autocompleters
+Plug 'lyuts/vim-rtags'     " Require rtags server: rc
 call plug#end()            " required
 " vim-plug END }}}
 
@@ -330,6 +337,20 @@ function! s:with_git_root()
   let root = systemlist('git rev-parse --show-toplevel')[0]
   return v:shell_error ? {} : {'dir': root}
 endfunction
+command! -nargs=* GAg
+  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
+" Use rg (ripgrep, Faster!)
+" --column: Show column number
+" --line-number: Show line number
+" --no-heading: Do not show file headings in results
+" --fixed-strings: Search term as a literal string
+" --ignore-case: Case insensitive search
+" --no-ignore: Do not respect .gitignore, etc...
+" --hidden: Search hidden files and folders
+" --follow: Follow symlinks
+" --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
+" --color: Search color options
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
 " Specialized for ITK.
@@ -515,8 +536,11 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
   " let g:vimtex_latexmk_callback = 0
   " Instead of nvim use: gvim -v --servername vimserver
   " (aliased to viserver)
-  let g:vimtex_fold_enabled=1
-  " let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead
+  if has('nvim')
+    let g:vimtex_compiler_progname = 'nvr'
+  endif
+  let g:vimtex_fold_enabled=0 " Need to use fastFold with this option or... really slow.
+  let g:vimtex_fold_manual=0 " autofold is slow in vim, use FastFold instead
   " of this option!.
   let g:vimtex_latexmk_build_dir="output"
   let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
@@ -527,7 +551,8 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
       \ 'specifier changed to',
     \ ]
   let g:vimtex_quickfix_open_on_warning=0
-  " zathura forwarding require: xdotool
+  " zathura forwarding require: xdotool but xdotool fails in arch (wayland?)
+  " let g:vimtex_view_method = 'zathura'
   " let g:vimtex_view_general_viewer = 'mupdf'
   " For Okular {{{
   let g:vimtex_view_general_viewer = 'okular'
@@ -560,13 +585,14 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
 " }}}
 " Plug 'vim-auto-save' " To use with Latex files: :AutoSaveToggle
 "   let g:auto_save_in_insert_mode = 0  " do not save while in insert mode
-" Plug 'Konfekt/FastFold' " auto fold is slow
+Plug 'Konfekt/FastFold' " auto fold is slow
 " FastFold Setup {{{
-  " let g:tex_fold_enabled = 1
+  let g:fastfold_savehook = 0 " Only update manually with keys: zuz, or when :FastFoldUpdate
+  let g:tex_fold_enabled = 1
+  let g:vimsyn_folding='af'
   " let g:cpp_folding = 1
   " let g:vim_folding = 1
   " let g:python_folding = 1
-  " let g:vimsyn_folding='af'
 " }}}
 " }}}
 
@@ -671,9 +697,6 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
   " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
   let g:UltiSnipsListSnippets="<Leader>11" "list ,l
-  " Because remap of Tab, ctrl-i does not work as a jumplist-forward
-  nnoremap <Leader>o <C-o>
-  nnoremap <Leader>i :echo "jump list forward does not work, because TAB is remapped!"<CR>
 " }}}
 
 " Supertab Setup {{{
@@ -800,7 +823,7 @@ set lazyredraw
 " }}}
 " Basic {{{
 set number           " Show line numbers
-set autochdir        " Set cd to current file directory.
+" set autochdir        " Set cd to current file directory. Mess with plugins
 set pastetoggle=<F8> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
 set textwidth=0
@@ -1051,7 +1074,7 @@ function! SetDispatchToCTest()
   if exists("g:buildFolder")
     let b:dispatch='make test --no-print-directory' . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '') . ' -C ' . (g:buildFolder)
   else
-    call BuildFolderSearch()
+    call BuildFolderSearch() " Sets g:buildFolder // Set buildFolder. Call only if buildFolder undefined.
     call SetDispatchToCTest()
   endif
 endfunction
@@ -1187,9 +1210,11 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
               \ '%-G%f:%s:,' .
               \ '%f:%l:%c: %trror: %m,' .
               \ '%f:%l:%c: %tarning: %m,' .
+              \ '%I%f:%l:%c: note: %m,' .
               \ '%f:%l:%c: %m,'.
               \ '%f:%l: %trror: %m,'.
               \ '%f:%l: %tarning: %m,'.
+              \ '%I%f:%l: note: %m,'.
               \ '%f:%l: %m'
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
   endfunction
@@ -1203,9 +1228,11 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
               \ '%-G %#from %f:%l\,,' .
               \ '%f:%l:%c: %trror: %m,' .
               \ '%f:%l:%c: %tarning: %m,' .
+              \ '%I%f:%l:%c: note: %m,' .
               \ '%f:%l:%c: %m,' .
               \ '%f:%l: %trror: %m,' .
               \ '%f:%l: %tarning: %m,'.
+              \ '%I%f:%l: note: %m,'.
               \ '%f:%l: %m'
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
   endfunction
@@ -1221,7 +1248,9 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 
   function! NeomakeBuildPrepare()
     call SetNThreads()       " Sets g:n_threads
-    call BuildFolderSearch() " Sets g:buildFolder // TODO and overrides it, which is bad.
+    if !exists("g:buildFolder")
+      call BuildFolderSearch() " Sets g:buildFolder // Set buildFolder. Call only if buildFolder undefined.
+    endif
     call NeomakeBuildSetBuildFolder()
   endfunction
 

@@ -15,7 +15,7 @@ if initialize_session "dgtal"; then
   split_h 50
   run_cmd "cd ./build"
   # load_window "org"
-  load_window "eclimd"
+  # load_window "eclimd"
   # Select the default active window on session creation.
   select_window 2
 

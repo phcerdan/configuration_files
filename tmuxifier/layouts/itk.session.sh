@@ -12,7 +12,7 @@ if initialize_session "itk"; then
   run_cmd "vim -S Session.vim"
   load_window "buildITK"
   load_window "org"
-  load_window "eclimd"
+  # load_window "eclimd"
   # Select the default active window on session creation.
   select_window 2
 
