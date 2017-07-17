@@ -8,7 +8,7 @@ let maplocalleader=";"
 
 " Because remap of TAB (== <C-I>) in Supertab, or Ultisnips. ctrl-i does not work as a jumplist-forward
 " Note: Now <C-i> works?
-nnoremap <C-s> <C-I>
+" nnoremap <C-s> <C-I>
 
 " Plug manager {{{
 " Vim-Plug Automatic installation {{{
@@ -39,7 +39,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
 Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
-Plug 'Raimondi/delimitMate'             " Auto-pair like script
+" Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
@@ -59,7 +59,7 @@ Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
 " Align and Tabularize: {{{
-Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Good!
+" Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
 Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
 " }}}
@@ -98,6 +98,7 @@ Plug 'benmills/vimux'                   " Call tmux from vim (used for calling e
 " Switch to latest used buffer
 Plug 'vim-scripts/BufOnly.vim'          " :BOnly deltes all buffers except current one.
 Plug 'moll/vim-bbye'                    " Bdelete, as Bclose, deleting buffers without deleting windows.
+Plug 'phcerdan/a.vim'                   " :A to switch between h, c files. Fork to switch between h and hxx (ITK)
 "}}}
 " Diff tools {{{
 Plug 'AndrewRadev/linediff.vim' " :Linediff in v-selection (x2) will compare chunks
@@ -133,7 +134,7 @@ Plug 'petRUShka/vim-opencl'
 Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 "}}}
 " Rails (Ruby) {{{
-Plug 'tpope/vim-rails'
+" Plug 'tpope/vim-rails'
 " Plug 'vim-ruby/vim-ruby'
 " }}}
 "Docker {{{
@@ -153,7 +154,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 " AUTOCOMPLETERS {{{
 Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'               " Merged cmake changes!
-Plug 'ervandew/supertab'                " Tab to autocomplete.
+" Plug 'ervandew/supertab'                " Tab to autocomplete.
 " YCM {{{
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
@@ -281,7 +282,6 @@ call plug#end()            " required
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>n :NERDTreeToggle<CR>
   nnoremap <silent> <Leader>N :NERDTree<CR>
 " }}}
 
@@ -310,6 +310,7 @@ call plug#end()            " required
 "}}}
 
 " fzf Setup {{{
+let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 let g:fzf_command_prefix = 'F'
 " Enable per-command history.
@@ -338,7 +339,7 @@ function! s:with_git_root()
   return v:shell_error ? {} : {'dir': root}
 endfunction
 command! -nargs=* GAg
-  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
+  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf_layout))
 " Use rg (ripgrep, Faster!)
 " --column: Show column number
 " --line-number: Show line number
@@ -352,7 +353,7 @@ command! -nargs=* GAg
 " --color: Search color options
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
 command! -nargs=* GAg
-  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf#vim#default_layout))
+  \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf_layout))
 " Specialized for ITK.
 let g:ITKFolder = '~/Software/ITK/ITK-development'
 function! s:with_itk_git_root()
@@ -360,9 +361,9 @@ function! s:with_itk_git_root()
   return v:shell_error ? {} : {'dir': root}
 endfunction
 command! -nargs=* IAg
-  \ call fzf#vim#ag(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
+  \ call fzf#vim#ag(<q-args>, extend(s:with_itk_git_root(), g:fzf_layout))
 command! -nargs=* IFiles
-  \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf#vim#default_layout))
+  \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf_layout))
 " Map C-p to override CtrlP plugin.
 nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
 nnoremap <silent> <Leader>b :FBuffers<CR>
@@ -450,6 +451,8 @@ endfunction
  " let g:loaded_taboo = 1
  let g:taboo_tabline=0
  set sessionoptions+=tabpages,globals
+ nnoremap <silent> <Leader>n :NERDTree<CR>
+ nnoremap <silent> <Leader>m :NERDTree<CR>
 " }}}
 
 " vim-slime Setup {{{
@@ -499,7 +502,7 @@ endfunction
   command! -bang -complete=buffer -nargs=? Bclose Bdelete<bang> <args>
   nnoremap <Leader>d :Bdelete<CR>
   " Close buffer and window (split)
-  noremap <Leader>q :Bclose<CR><c-W>c
+  " noremap <Leader>q :Bclose<CR><c-W>c
 "}}}
 
 " Gitgutter Setup {{{
@@ -524,7 +527,6 @@ let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
         \ }
   nmap <localleader>. <Plug>(grammarous-open-info-window)
 " }}}
-
 " LaTeX Setup {{{
 let g:tex_comment_nospell=1
 let g:tex_conceal = ""
@@ -596,7 +598,7 @@ Plug 'Konfekt/FastFold' " auto fold is slow
 " }}}
 " }}}
 
-" R plugins Setup {{{
+" Nvim-R plugins Setup {{{
   " install.packages("~/.vim/bundle/VimCom", type = "source", repos = NULL)
   " Recommended in R:
   " colourout and set with
@@ -609,12 +611,16 @@ Plug 'Konfekt/FastFold' " auto fold is slow
   let R_assign = "<LocalLeader>_"     " To avoid replacement from _ to <-, to disable = 0
   " To lunch in split tmux. It needs in .tmux.conf to export R_LIBS
   " set -g update-environment "R_LIBS_USER R_LIBS"
-  let R_vsplit = 1
   let R_rconsole_width = 80
   let R_objbr_place = "script,left"
-  let R_in_buffer = 0
-  let R_applescript = 0
-  let R_tmux_split = 1
+
+  if !has('nvim')
+    " if tmux preffered (or vim)
+    let R_in_buffer = 0
+    let R_applescript = 0
+    let R_tmux_split = 1
+  endif
+
   " let vimrplugin_r_path = "~/devtoolset/R/bin"
   if has("gui_running")
       inoremap <C-Space> <C-x><C-o>
@@ -626,6 +632,10 @@ Plug 'Konfekt/FastFold' " auto fold is slow
 " }}}
 
 " Python Setup {{{
+  if has('nvim')
+    let g:python_host_prog  = '/usr/bin/python2'
+    let g:python3_host_prog = '/usr/bin/python3'
+  endif
 " To run current file.
 au FileType python nnoremap <buffer> <Leader>e :exec '!python' shellescape(@%, 1)<cr>
 " python-mode Setup {{{
@@ -679,29 +689,42 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 " Eclim Setup {{{
 " installation: http://eclim.org/install.html and
 " dotfile: .eclimrc
-  " let g:EclimLogLevel                    = 'debug'
-  " Options: split, vsplit, edit
-  let g:EclimDefaultFileOpenAction       = 'edit'
-  let g:EclimCSearchSingleResult         = 'edit'
-  let g:EclimBuffersDefaultAction        = 'edit'
-  let g:EclimLocateFileDefaultAction     = 'edit'
-  let g:EclimCCallHierarchyDefaultAction = 'edit'
-  let g:EclimKeepLocalHistory            = 0
-  let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
-  au FileType c,cpp nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
+  "" let g:EclimLogLevel                    = 'debug'
+  "" Options: split, vsplit, edit
+  " let g:EclimDefaultFileOpenAction       = 'edit'
+  " let g:EclimCSearchSingleResult         = 'edit'
+  " let g:EclimBuffersDefaultAction        = 'edit'
+  " let g:EclimLocateFileDefaultAction     = 'edit'
+  " let g:EclimCCallHierarchyDefaultAction = 'edit'
+  " let g:EclimKeepLocalHistory            = 0
+  " let g:EclimFileTypeValidate = 0 " Avoid validation on save (memory expensive)
+  " au FileType c,cpp nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 " }}}
 " }}}
 
 " UltiSnips Setup {{{
   let g:UltiSnipsEditSplit="vertical"
   let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
-  " let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-  let g:UltiSnipsListSnippets="<Leader>11" "list ,l
+  let g:UltiSnipsExpandTrigger="<C-s>"
+  let g:UltiSnipsJumpForwardTrigger="<C-s>"
+  let g:UltiSnipsJumpBackwardTrigger="<C-e>"
+  let g:UltiSnipsListSnippets="<F4>"
+  " From: https://github.com/Valloric/YouCompleteMe/issues/420
+"   let g:ulti_expand_or_jump_res = 0
+"   function ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"       return snippet
+"     else
+"       return "\<CR>"
+"     endif
+"   endfunction
+" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 " }}}
 
 " Supertab Setup {{{
   " TIP: Ctrl-E to return to original without auto-complete
-  let g:SuperTabDefaultCompletionType = 'context'
+  " let g:SuperTabDefaultCompletionType = 'context'
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 
@@ -716,13 +739,16 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   "}
   " let g:ycm_confirm_extra_conf = 0
   let g:ycm_seed_identifiers_with_syntax = 1
-  let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+  " The default: let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
+  " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+  " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_min_num_of_chars_for_completion = 4
   " let g:ycm_autoclose_preview_window_after_completion = 1
   let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
   let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
+  nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>                " turn off YCM
+  nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>                " turn  on YCM
 
   "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
   let g:ycm_key_invoke_completion = '<C-b>'
@@ -750,12 +776,10 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 " }}}
 
 " YCM+UltiSnips+SuperTab {{{
-  let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
-  let g:SuperTabCrMapping = 0
-  let g:UltiSnipsExpandTrigger = "<tab>"
-  let g:UltiSnipsJumpForwardTrigger = "<tab>"
-  let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+  " let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
+  " let g:SuperTabCrMapping = 0
 " }}}
+
 
 " Multiple-Cursors setup {{{
   function! Multiple_cursors_before()
@@ -830,6 +854,7 @@ set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
 set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
+set belloff=all      " Disable all kind of bells, including beep in gVim.
 " set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
 set clipboard+=unnamedplus
 set title
@@ -840,6 +865,10 @@ set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc)
 set hid            " Send files to buffer instead of closing them -- e,n ... commands.
 set wildmode=list:longest,full
 "}}}
+" Utils/Buffers {{{
+" <Leader><Enter> in quickfix to open a vertical split.
+autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
+" }}}
 " Searching {{{
 " Search visual selection (problems with end of line ^M character)
 vnoremap // y/<C-R>"<CR>
@@ -914,7 +943,7 @@ vnoremap <C-c> <Esc>
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 " TimeStamps
-nnoremap <leader>ts "=strftime("%F")<CR>P
+" nnoremap <leader>ts "=strftime("%F")<CR>P
 inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 " Copy filename to clipboard {{{
   " absolute path (/something/src/foo.txt)
@@ -938,7 +967,7 @@ noremap <leader>7 7gt
 noremap <leader>8 8gt
 noremap <leader>9 9gt
 let g:lasttab = 1
-nmap <leader>0 :exe "tabn ".g:lasttab<CR>
+nmap <leader>t :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 "}}}
 " setlocal foldmethod {{{
@@ -1093,6 +1122,7 @@ endfunction
 " end of makeprg functions }}}
 " Neomake Setup {{{
   " let g:neomake_open_list   = 2 " Open automatically quick/loc list conserving cursor position. vim-togglelist plugin provides <Leader>q / l to toggle lists.
+  let g:neomake_verbose = 2       " Loud messages, default 1 (quiet)
   let g:neomake_list_height = 6
   hi NeomakeWarningMsg ctermfg=black ctermbg=yellow cterm=bold
   hi NeomakeErrorMsg ctermfg=white ctermbg=red cterm=bold
@@ -1202,25 +1232,55 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
         \ 'append_file': 0,
         \ 'errorformat': '%f:%l:%c: %m',
         \ 'buffer_output': 1 }
+
+  let g:neomake_ninja_maker = {
+        \ 'exe': 'ninja',
+        \ 'args': [],
+        \ 'append_file': 0,
+        \ 'errorformat': '%f:%l:%c: %m',
+        \ 'buffer_output': 1 }
+
 " }}}
+  " let g:neomake_build_remove_invalid_entries = 1
+  " let g:neomake_remove_invalid_entries = 1
 " NeomakeBuild functions {{{
   let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
-  function! NeomakeBuildErrorFormatClang()
-    let g:neomake_build_maker['errorformat'] =
-              \ '%-G%f:%s:,' .
-              \ '%f:%l:%c: %trror: %m,' .
-              \ '%f:%l:%c: %tarning: %m,' .
-              \ '%I%f:%l:%c: note: %m,' .
-              \ '%f:%l:%c: %m,'.
-              \ '%f:%l: %trror: %m,'.
-              \ '%f:%l: %tarning: %m,'.
-              \ '%I%f:%l: note: %m,'.
-              \ '%f:%l: %m'
-    let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
+
+  function! ErrorFormatCMake()
+    let efmt =
+            \ '%-DDIR : %f,%-XENDDIR : %f,' .
+            \ '%-G,' .
+            \ '%+G-- %.%#,' .
+            \ '%E%>CMake Error at %f:%l (%[%^)]%#):,' .
+            \ '%Z  %m,' .
+            \ '%E%>CMake Error: Error in cmake code at,' .
+            \ '%C%>%f:%l:,' .
+            \ '%Z%m,' .
+            \ '%E%>CMake Error in %.%#:,' .
+            \ '%C%>  %m,' .
+            \ '%C%>,' .
+            \ '%C%>    %f:%l (if),' .
+            \ '%C%>,' .
+            \ '%Z  %m,'
+    return efmt
   endfunction
 
-  function! NeomakeBuildErrorFormatGCC()
-    let g:neomake_build_maker['errorformat'] =
+  function! ErrorFormatClang()
+      let efmt =
+            \ '%-G%f:%s:,' .
+            \ '%f:%l:%c: %trror: %m,' .
+            \ '%f:%l:%c: %tarning: %m,' .
+            \ '%I%f:%l:%c: note: %m,' .
+            \ '%f:%l:%c: %m,'.
+            \ '%f:%l: %trror: %m,'.
+            \ '%f:%l: %tarning: %m,'.
+            \ '%I%f:%l: note: %m,'.
+            \ '%f:%l: %m'
+      return efmt
+  endfunction
+
+  function! ErrorFormatGCC()
+    let efmt =
               \ '%-G%f:%s:,' .
               \ '%-G%f:%l: %#error: %#(Each undeclared identifier is reported only%.%#,' .
               \ '%-G%f:%l: %#error: %#for each function it appears%.%#,' .
@@ -1234,16 +1294,38 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
               \ '%f:%l: %tarning: %m,'.
               \ '%I%f:%l: note: %m,'.
               \ '%f:%l: %m'
+    return efmt
+  endfunction
+
+  function! NeomakeErrorFormatClang()
+    let g:neomake_build_maker['errorformat'] = ErrorFormatClang . ',' . ErrorFormatCMake()
     let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
+    let g:neomake_ninja_maker['errorformat'] = ErrorFormatClang . ',' . ErrorFormatCMake()
+    let g:neomake_ninja_errorformat = g:neomake_ninja_maker['errorformat']
+  endfunction
+
+  function! NeomakeErrorFormatGCC()
+    let g:neomake_build_maker['errorformat'] = ErrorFormatGCC() . ',' . ErrorFormatCMake()
+    let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
+    let g:neomake_ninja_maker['errorformat'] = ErrorFormatGCC() . ',' . ErrorFormatCMake()
+    let g:neomake_ninja_errorformat = g:neomake_ninja_maker['errorformat']
   endfunction
 
   function! NeomakeBuildDefault()
     let g:neomake_build_maker['args'] = [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C']
   endfunction
 
+  function! NeomakeNinjaDefault()
+    let g:neomake_ninja_maker['args'] = []
+  endfunction
+
   function! NeomakeBuildSetBuildFolder()
     call NeomakeBuildDefault()
     let g:neomake_build_args = g:neomake_build_maker['args'] + [g:buildFolder]
+  endfunction
+
+  function! NeomakeNinjaSetBuildFolder()
+    let g:neomake_ninja_maker['args'] = ['-C', g:buildFolder]
   endfunction
 
   function! NeomakeBuildPrepare()
@@ -1256,13 +1338,13 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 
   function! NeomakeBuildPrepareClang()
     call NeomakeBuildPrepare()
-    call NeomakeBuildErrorFormatClang()
+    call NeomakeErrorFormatClang()
     let g:NeomakeBuildOnSave = 0
   endfunction
 
   function! NeomakeBuildPrepareGCC()
     call NeomakeBuildPrepare()
-    call NeomakeBuildErrorFormatGCC()
+    call NeomakeErrorFormatGCC()
     let g:NeomakeBuildOnSave = 0
   endfunction
 
@@ -1275,6 +1357,11 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   function! NeomakeBuild()
       execute 'echo "NeomakeBuild started..."'
       execute 'Neomake! build'
+  endfunction
+
+  function! NeomakeNinja()
+      execute 'echo "NeomakeNinja started..."'
+      execute 'Neomake! ninja'
   endfunction
 
   function! ToggleNeomakeBuildOnSave()
@@ -1303,10 +1390,10 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:NeomakeBuildOnSave=1
   au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
-  au FileType c,cpp nnoremap <silent> <Leader>nn :call NeomakeBuild()<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>nn :call NeomakeNinja()<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
-  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder()
+  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder() | call NeomakeNinjaSetBuildFolder()
 " }}}
 " Useful commands: {{{
 " write to open file that requires sudo
@@ -1315,7 +1402,7 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 " }}}
 
 function! CommentsLightBlue()
- execute 'highlight Comment ctermfg=LightBlue guifg=LightBlue' 
+ execute 'highlight Comment ctermfg=LightBlue guifg=LightBlue'
 endfunction
 com! ClearQuickFix call setqflist([])
 " vim:foldmethod=marker:foldlevel=2
