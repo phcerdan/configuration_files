@@ -49,10 +49,13 @@ Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based o
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
-Plug 'tpope/vim-dispatch'               " Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
-Plug 'tpope/vim-eunuch'  " Move/Rename/UNIX shell goodies.
+" Plug 'tpope/vim-dispatch'             " Using asyncrun instead. Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
+Plug 'tpope/vim-eunuch'                 " Move/Rename/UNIX shell goodies.
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
-Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
+Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
+Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
+Plug 'w0rp/ale'                         " Linting real-time
+" Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
 Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
@@ -158,9 +161,9 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " YCM {{{
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
-" Plug completer , { 'do': 'python2 ./install.py' }
+"Plug completer , { 'do': 'python2 ./install.py' }
 " Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+" Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " Apply patch to allow c++ completion with templates (slower)
 " Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
@@ -436,11 +439,15 @@ endfunction
   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
   " To show full path: default is %f instead of %F.
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+  " ale
+  let g:airline#extensions#ale#enabled = 1
   " neomake integration:{{{
-  let g:airline#extensions#neomake#enabled = 1
-  let g:airline#extensions#eclim#enabled = 0
+  " let g:airline#extensions#neomake#enabled = 1
+  " let g:airline#extensions#eclim#enabled = 0
   " fzf slow on close: https://github.com/neovim/neovim/issues/4487
   let g:airline#extensions#branch#enabled = 0
+  " asyncrun status:
+  let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
   "}}}
   let g:airline_powerline_fonts = 1
 " }}}
@@ -1097,22 +1104,6 @@ function! SetMakeprg()
     call SetMakeprg()
   endif
 endfunction
-
-function! SetDispatchToCTest()
-  call SetNThreads()
-  if exists("g:buildFolder")
-    let b:dispatch='make test --no-print-directory' . (g:n_threads > 1 ? (' -j'.(g:n_threads)) : '') . ' -C ' . (g:buildFolder)
-  else
-    call BuildFolderSearch() " Sets g:buildFolder // Set buildFolder. Call only if buildFolder undefined.
-    call SetDispatchToCTest()
-  endif
-endfunction
-function! CTestDispatchArgs(args)
-  call SetDispatchToCTest()
-  let b:dispatch = b:dispatch . ' ARGS=''' . a:args . ''''
-" env CTEST_OUTPUT_ON_FAILURE=TRUE
-endfunction
-com! -nargs=* CTestArgs call DispArg(<q-args>)
 "}}}
 " BuildFolderAppend(str) {{{
 function! BuildFolderAppend(str)
@@ -1120,56 +1111,7 @@ function! BuildFolderAppend(str)
 endfunction
 "}}}
 " end of makeprg functions }}}
-" Neomake Setup {{{
-  " let g:neomake_open_list   = 2 " Open automatically quick/loc list conserving cursor position. vim-togglelist plugin provides <Leader>q / l to toggle lists.
-  let g:neomake_verbose = 2       " Loud messages, default 1 (quiet)
-  let g:neomake_list_height = 6
-  hi NeomakeWarningMsg ctermfg=black ctermbg=yellow cterm=bold
-  hi NeomakeErrorMsg ctermfg=white ctermbg=red cterm=bold
-  let g:neomake_error_sign = {
-              \ 'texthl': 'NeomakeErrorMsg',
-              \ }
-  let g:neomake_warning_sign = {
-              \ 'texthl': 'NeomakeWarningMsg',
-              \ }
-"}}}
-" Neomake makers {{{
-" Cppcheck
-function! SetWarningType(entry)
-  if a:entry.type =~? '\m^[SPI]'
-    let a:entry.type = 'I'
-  endif
-endfunction
-
-" local for cpp file.
-let g:neomake_cpp_cppcheck_maker = {
-        \ 'exe': 'cppcheck',
-        \ 'args': ['%:p', '-q', '--enable=style'],
-        \ 'errorformat': '[%f:%l]: (%trror) %m,' .
-        \ '[%f:%l]: (%tarning) %m,' .
-        \ '[%f:%l]: (%ttyle) %m,' .
-        \ '[%f:%l]: (%terformance) %m,' .
-        \ '[%f:%l]: (%tortability) %m,' .
-        \ '[%f:%l]: (%tnformation) %m,' .
-        \ '[%f:%l]: (%tnconclusive) %m,' .
-        \ '%-G%.%#',
-        \ }
-        " \ 'postprocess': function('SetWarningType')
-" Global for project.
-let g:neomake_cppcheck_maker = {
-        \ 'exe': 'cppcheck',
-        \ 'args': ['%:p', '-q', '--enable=style'],
-        \ 'errorformat': '[%f:%l]: (%trror) %m,' .
-        \ '[%f:%l]: (%tarning) %m,' .
-        \ '[%f:%l]: (%ttyle) %m,' .
-        \ '[%f:%l]: (%terformance) %m,' .
-        \ '[%f:%l]: (%tortability) %m,' .
-        \ '[%f:%l]: (%tnformation) %m,' .
-        \ '[%f:%l]: (%tnconclusive) %m,' .
-        \ '%-G%.%#',
-        \ 'buffer_output': 1 }
-
-        " \ 'postprocess': function('SetWarningType'),
+"
 "Vim-grepper Setup {{{
 " initialize g:grepper with defaults
 let g:grepper = {}
@@ -1181,10 +1123,15 @@ nnoremap <leader>GG :Grepper -tool git<cr>
 nnoremap <leader>GA :Grepper -tool ag<cr>
 nnoremap <leader>GS :Grepper -tool agSF<cr>
 "}}}
+" Cppcheck
+function! SetWarningType(entry)
+  if a:entry.type =~? '\m^[SPI]'
+    let a:entry.type = 'I'
+  endif
+endfunction
+
 function! SetSourceFolder(path)
     let g:sourceFolder=a:path
-    " Set neomake (global) cppcheck
-    let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', (g:n_threads > 1 ? ('-j'.(g:n_threads)) : '')]
 
     " Set vim-grepper {{{
     if !has_key(g:grepper, 'tools')
@@ -1215,37 +1162,26 @@ function! SetSourceFolder(path)
 endfunction
 com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 
-" com! -nargs=1 -complete=file SourceFolder let g:sourceFolder=<q-args> |
-"             \ let g:neomake_cppcheck_maker['args'] = [g:sourceFolder, '-q', '--enable=style', '-j3']
+" asyncrun setup {{{
+" For using it with errorformat (display errors)
+let g:asyncrun_auto = "make"
+" augroup QuickfixStatus
+" 	au! BufWinEnter quickfix setlocal 
+" 		\ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
+" augroup END
+let g:asyncrun_trim = 1 " trim empty lines
+" }}}
 
-  function! NeomakeCppcheck()
-      execute 'echo "NeomakeCppCheck on: "g:sourceFolder " started..."'
-      execute 'Neomake! cppcheck'
-  endfunction
-  au FileType c,cpp nnoremap <silent> <Leader>w :call NeomakeCppcheck()<CR>
-  com! CppcheckNeomake call NeomakeCppcheck()
+" Linters {{{
+" Ale {{{
+let g:ale_linters = {'cpp': ['clangtidy']}
+" }}}
+" }}}
 " Build
   call SetNThreads()
-  let g:neomake_build_maker = {
-        \ 'exe': 'make',
-        \ 'args': [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C'],
-        \ 'append_file': 0,
-        \ 'errorformat': '%f:%l:%c: %m',
-        \ 'buffer_output': 1 }
+  let g:BuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
 
-  let g:neomake_ninja_maker = {
-        \ 'exe': 'ninja',
-        \ 'args': [],
-        \ 'append_file': 0,
-        \ 'errorformat': '%f:%l:%c: %m',
-        \ 'buffer_output': 1 }
-
-" }}}
-  " let g:neomake_build_remove_invalid_entries = 1
-  " let g:neomake_remove_invalid_entries = 1
-" NeomakeBuild functions {{{
-  let g:NeomakeBuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
-
+"  Error formats strings {{{
   function! ErrorFormatCMake()
     let efmt =
             \ '%-DDIR : %f,%-XENDDIR : %f,' .
@@ -1296,85 +1232,58 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
               \ '%f:%l: %m'
     return efmt
   endfunction
+"}}}
 
-  function! NeomakeErrorFormatClang()
-    let g:neomake_build_maker['errorformat'] = ErrorFormatClang . ',' . ErrorFormatCMake()
-    let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
-    let g:neomake_ninja_maker['errorformat'] = ErrorFormatClang . ',' . ErrorFormatCMake()
-    let g:neomake_ninja_errorformat = g:neomake_ninja_maker['errorformat']
+  function! SetErrorFormatClang()
+    let &errorformat = ErrorFormatClang() . ',' . ErrorFormatCMake()
   endfunction
 
-  function! NeomakeErrorFormatGCC()
-    let g:neomake_build_maker['errorformat'] = ErrorFormatGCC() . ',' . ErrorFormatCMake()
-    let g:neomake_build_errorformat = g:neomake_build_maker['errorformat']
-    let g:neomake_ninja_maker['errorformat'] = ErrorFormatGCC() . ',' . ErrorFormatCMake()
-    let g:neomake_ninja_errorformat = g:neomake_ninja_maker['errorformat']
+  function! SetErrorFormatGCC()
+    let &errorformat = ErrorFormatGCC() . ',' . ErrorFormatCMake()
   endfunction
 
-  function! NeomakeBuildDefault()
-    let g:neomake_build_maker['args'] = [(g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory', '-C']
+  function! MakeArgumentsDefault()
+      let lst = ['make', (g:n_threads > 1 ? ('-j'.(g:n_threads)) : ''), '--stop', '--no-print-directory']
+      return lst
   endfunction
 
-  function! NeomakeNinjaDefault()
-    let g:neomake_ninja_maker['args'] = []
+  function! AppendBuildFolder(lst)
+    return a:lst + ['-C', g:buildFolder]
   endfunction
 
-  function! NeomakeBuildSetBuildFolder()
-    call NeomakeBuildDefault()
-    let g:neomake_build_args = g:neomake_build_maker['args'] + [g:buildFolder]
+  function! MakeString()
+    let lst = AppendBuildFolder(MakeArgumentsDefault());
+    return string(lst)
   endfunction
 
-  function! NeomakeNinjaSetBuildFolder()
-    let g:neomake_ninja_maker['args'] = ['-C', g:buildFolder]
+  function! NinjaString()
+    let lst = 'ninja -C' . g:buildFolder
+    return lst
   endfunction
 
-  function! NeomakeBuildPrepare()
-    call SetNThreads()       " Sets g:n_threads
-    if !exists("g:buildFolder")
-      call BuildFolderSearch() " Sets g:buildFolder // Set buildFolder. Call only if buildFolder undefined.
+  let g:bCommand = 'make'
+  function! WriteBuild()
+    execute "normal w"
+    if g:bCommand == 'make'
+      execute "AsyncRun! " . MakeString()
     endif
-    call NeomakeBuildSetBuildFolder()
+    if g:bCommand == 'ninja'
+      execute "AsyncRun! " . NinjaString()
+    endif
   endfunction
+  com! -nargs=0 WB call WriteBuild()
 
-  function! NeomakeBuildPrepareClang()
-    call NeomakeBuildPrepare()
-    call NeomakeErrorFormatClang()
-    let g:NeomakeBuildOnSave = 0
-  endfunction
-
-  function! NeomakeBuildPrepareGCC()
-    call NeomakeBuildPrepare()
-    call NeomakeErrorFormatGCC()
-    let g:NeomakeBuildOnSave = 0
-  endfunction
-
-  function! NeomakeBuildUpdate(file_path_append)
-    call NeomakeBuildPrepare()
-    call BuildFolderAppend(a:file_path_append)
-    call NeomakeBuildSetBuildFolder()
-  endfunction
-
-  function! NeomakeBuild()
-      execute 'echo "NeomakeBuild started..."'
-      execute 'Neomake! build'
-  endfunction
-
-  function! NeomakeNinja()
-      execute 'echo "NeomakeNinja started..."'
-      execute 'Neomake! ninja'
-  endfunction
-
-  function! ToggleNeomakeBuildOnSave()
-    if g:NeomakeBuildOnSave == 1
-      let g:NeomakeBuildOnSave = 0
+  function! ToggleBuildOnSave()
+    if g:BuildOnSave == 1
+      let g:BuildOnSave = 0
     else
-      let g:NeomakeBuildOnSave = 1
+      let g:BuildOnSave = 1
     endif
   endfunction
 
-  function! NeomakeAutoBuild()
-    if g:NeomakeBuildOnSave == 1
-      call NeomakeBuild()
+  function! AutoBuild()
+    if g:BuildOnSave == 1
+      call AsyncBuild()
     endif
   endfunction
 
@@ -1388,12 +1297,12 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
-  " Call NeomakeBuild() on save if g:NeomakeBuildOnSave=1
-  au FileType c,cpp au BufWritePre * call NeomakeAutoBuild()
-  au FileType c,cpp nnoremap <silent> <Leader>nn :call NeomakeNinja()<CR>
-  au FileType c,cpp nnoremap <silent> <Leader>e :call NeomakeBuild()<CR>
-  au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleNeomakeBuildOnSave()<CR>
-  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> | call NeomakeBuildSetBuildFolder() | call NeomakeNinjaSetBuildFolder()
+  " Call NeomakeBuild() on save if g:BuildOnSave=1
+  au FileType c,cpp au BufWritePre * call AutoBuild()
+  au FileType c,cpp nnoremap <silent> <Leader>nn :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
+  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
 " }}}
 " Useful commands: {{{
 " write to open file that requires sudo

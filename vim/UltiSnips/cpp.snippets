@@ -238,7 +238,17 @@ else
 }
 endsnippet
 #####  CATCH  #######
-snippet "(?i)test_case" "catch-test-case-method" rb
+snippet "(?i)test_case" "catch-test-case" rb
+TEST_CASE("${1:Description}", "[${2:tag}]"){${0}}
+endsnippet
+
+snippet "(?i)section" "catch-test-section" rb
+SECTION("${1:Description}"){
+${0}
+}
+endsnippet
+
+snippet "(?i)test_case_m" "catch-test-case-method" rb
 TEST_CASE_METHOD(${1:FixtureClass}, "${2:Description}", "[${3:tag}]"){${0}}
 endsnippet
 
