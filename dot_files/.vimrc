@@ -38,7 +38,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
   " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
-Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
+" Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
 " Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
@@ -55,6 +55,7 @@ Plug 'tpope/vim-eunuch'                 " Move/Rename/UNIX shell goodies.
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 Plug 'w0rp/ale'                         " Linting real-time
+" Plug '~/repository_local/vim-dev/ale'                         " Linting real-time
 " Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
@@ -87,9 +88,10 @@ Plug 'justinmk/molokai'
 Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
 " Plug 'itchyny/lightline.vim'
-Plug 'vim-airline/vim-airline'                " Colourful status-line.
+Plug 'vim-airline/vim-airline' " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
-Plug 'gcmt/taboo.vim'   " Rename tabs
+Plug 'gcmt/taboo.vim'          " Rename tabs
+Plug 'ryanoasis/vim-devicons'  " powerline icons in vim.
 "}}}
 " TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
@@ -136,6 +138,9 @@ Plug 'petRUShka/vim-opencl'
 " snipmate-snippets-cuda/snippets/cu.snippets, and rename it as cuda.snippets.
 Plug 'cmaureir/snipmate-snippets-cuda' " snippets and simple syntax.
 "}}}
+" HTML {{{
+Plug 'mattn/emmet-vim'
+" }}}
 " Rails (Ruby) {{{
 " Plug 'tpope/vim-rails'
 " Plug 'vim-ruby/vim-ruby'
@@ -161,9 +166,9 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " YCM {{{
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
-"Plug completer , { 'do': 'python2 ./install.py' }
+" Plug completer , { 'do': 'python2 ./install.py' }
 " Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-" Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " Apply patch to allow c++ completion with templates (slower)
 " Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
@@ -437,11 +442,16 @@ endfunction
   let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
   let g:airline#extensions#tabline#formatter = 'unique_tail'
   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+
+  " Slow integrations disabled:
+  let g:airline#extensions#wordcount#enabled = 0
+  let g:airline#extensions#tagbar#enabled = 0
+  let g:airline#extensions#ycm#enabled = 0
   " To show full path: default is %f instead of %F.
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
   " ale
   let g:airline#extensions#ale#enabled = 1
-  " neomake integration:{{{
+  " integration:{{{
   " let g:airline#extensions#neomake#enabled = 1
   " let g:airline#extensions#eclim#enabled = 0
   " fzf slow on close: https://github.com/neovim/neovim/issues/4487
@@ -452,6 +462,10 @@ endfunction
   let g:airline_powerline_fonts = 1
 " }}}
 
+" vim-devicons Options {{{
+  let g:WebDevIconsOS="Linux"
+  " set guifont=Droid\ Sans\ Mono\ Awesome\ Regular\ 11
+" }}}
 " Taboo Options {{{ :TabooRename, TabooOpen aname
 " To restore tab names.
  " let g:airline#extensions#taboo#enabled = 0
@@ -754,6 +768,11 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   " let g:ycm_autoclose_preview_window_after_completion = 1
   let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
   let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
+  " This completely removes ycm.
+  " let g:ycm_filetype_specific_completion_to_disable = {
+  "             \ 'gitcommit': 1 ,
+  "             \ 'cpp': 1
+  "             \}
   nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>                " turn off YCM
   nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>                " turn  on YCM
 
@@ -873,6 +892,9 @@ set hid            " Send files to buffer instead of closing them -- e,n ... com
 set wildmode=list:longest,full
 "}}}
 " Utils/Buffers {{{
+" Workaround to avoid setting autochdir:
+" typyng zc in command mode expand to e current_directory.
+cnoremap zc e <c-r>=expand("%:h")<cr>/
 " <Leader><Enter> in quickfix to open a vertical split.
 autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
 " }}}
@@ -882,7 +904,7 @@ vnoremap // y/<C-R>"<CR>
 vnoremap s y:%s/<C-R>"/
 set gdefault   " avoid to /g at the end of search.
 set ignorecase " ignore case
-set smartcase  " expcept when there is a case on the query
+set smartcase  " except when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
@@ -1166,15 +1188,28 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 " For using it with errorformat (display errors)
 let g:asyncrun_auto = "make"
 " augroup QuickfixStatus
-" 	au! BufWinEnter quickfix setlocal 
+" 	au! BufWinEnter quickfix setlocal
 " 		\ statusline=%t\ [%{g:asyncrun_status}]\ %{exists('w:quickfix_title')?\ '\ '.w:quickfix_title\ :\ ''}\ %=%-15(%l,%c%V%)\ %P
 " augroup END
 let g:asyncrun_trim = 1 " trim empty lines
+" better quickfix toogle:
+noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
+let g:toggle_list_copen_command="call asyncrun#quickfix_toggle(8)"
+" vim-fugive (using Make) async, from: https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
+command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
+com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 " }}}
 
 " Linters {{{
 " Ale {{{
-let g:ale_linters = {'cpp': ['clangtidy']}
+let g:ale_linters = {'cpp': []}
+com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcefile=<q-args> | let b:ale_cpp_clangtidy_header_sourcefile=<q-args>
+" let g:ale_pattern_options = {
+"       \   '\.h$': {
+"       \       'ale_linters': {'cpp': ['clangtidy']},
+"       \       'ale_cpp_clangtidy_options': '~/repository_local/FFT-from-image-compute-radial-intensity/src/apps/RadialIntensity/test/test_saxs_sim_functional.cpp',
+"       \   },
+"       \}
 " }}}
 " }}}
 " Build

@@ -293,9 +293,19 @@ AND_WHEN( "${1:description}" ){${0}}
 endsnippet
 
 snippet "foru" "for unsigned" rb
-for (unsigned int ${1:i} = 0; $1<${2:ImageDimension}; ++$1)${0}
+for (unsigned int ${1:i} = 0; $1 < ${2:ImageDimension}; ++$1)${0}
 endsnippet
 
 snippet "foriterc" "for const iterator std=c++98" rb
 for (${1:Type}::const_iterator it = ${2:vector}.begin(); it != $2.end(); ++it)${0}
+endsnippet
+
+snippet "ctr" "const type &" rs
+const ${1:Type} & ${0}
+endsnippet
+snippet "csr" "const std::string &" rs
+const std::string & ${0}
+endsnippet
+snippet "cvr" "const std::vector &" rs
+const std::vector<${1:Type}> & ${0}
 endsnippet

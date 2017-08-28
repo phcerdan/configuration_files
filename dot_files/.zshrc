@@ -7,6 +7,45 @@ export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
 # export TERMINFO="$HOME/.terminfo"
+####### POWERLEVEL9K CONFIGURATION ########### {{{
+# POWERLEVEL9K_MODE='awesome-patched'
+# POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_MODE='awesome-fontconfig'
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir_writable dir rbenv vcs)
+# You can also use different prompts in different environments, e.g. for TMUX, you might use
+if [[ "${TERM}" =~ "tmux" || "${TERM}" =~ "screen" ]]; then
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
+else
+    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time time)
+fi
+
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="↱"
+# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="↳ "
+# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='\u256D\U2500'     # ╭─
+# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX='\u2570\U2500 '   # ╰─
+# To apply color: preppend: \033[32m , 32 is green, 37 is white...
+# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='\u250F\U2501'     # ┏━
+# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX='\u2517\U2501 '   # ┗━
+
+### segments ###
+# context:
+DEFAULT_USER="$USER" #Avoid showing context when no need (SSH, other user)
+# dir:
+# truncate: ~/repository_local/build/hola/ -> ~/r/b/hola
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+POWERLEVEL9K_SHORTEN_DELIMITER=""
+POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+# remove symbols
+POWERLEVEL9K_HOME_ICON=''
+POWERLEVEL9K_HOME_SUB_ICON=''
+POWERLEVEL9K_FOLDER_ICON=''
+
+#### END POWERLEVEL9K CONFIGURATION #### }}}
+
 # Clone zgen if you haven't already
 if [ ! -f ~/zgen/zgen.zsh ]; then
     pushd ~
@@ -56,7 +95,11 @@ if ! zgen saved; then
     # zgen oh-my-zsh themes/arrow
     # zgen load arialdomartini/oh-my-git
     # zgen load arialdomartini/oh-my-git-themes oppa-lana-style
-    zgen load phcerdan/fishy-gentoo fishy-gentoo
+    # zgen load phcerdan/fishy-gentoo fishy-gentoo
+    ## pure
+    # zgen load mafredri/zsh-async
+    # zgen load sindresorhus/pure
+    zgen load bhilburn/powerlevel9k powerlevel9k
     zgen save
 fi
 # Tmux
@@ -131,3 +174,6 @@ alias launch="launch " # expand aliases
 # vim: set filetype=sh:
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# added by travis gem
+[ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh

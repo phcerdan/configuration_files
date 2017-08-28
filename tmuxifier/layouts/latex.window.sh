@@ -5,8 +5,8 @@
 # Create new window. If no argument is given, window name will be based on
 # layout file name.
 new_window "latex"
-run_cmd "sdev"
-run_cmd "cd ~/repository_local/overleaf/"
+# run_cmd "sdev"
+run_cmd "cd ~/repository_local/latex"
 
 # Split window into panes.
 #split_v 20

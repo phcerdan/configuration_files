@@ -14,7 +14,7 @@ if initialize_session "dev"; then
   new_window "other"
   # run_cmd "emacs --daemon ; orgclient"
   # Select the default active window on session creation.
-  # select_window 1
+  select_window 1
 
 fi
 
