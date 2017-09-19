@@ -50,7 +50,10 @@ Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
 " Plug 'tpope/vim-dispatch'             " Using asyncrun instead. Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
-Plug 'tpope/vim-eunuch'                 " Move/Rename/UNIX shell goodies.
+Plug 'tpope/vim-eunuch' " Adds helpers for UNIX shell commands
+                        " :Remove Delete buffer and file at same time
+                        " :Unlink Delete file, keep buffer
+                        " :Move Rename buffer and file
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
@@ -65,6 +68,7 @@ Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
 " Align and Tabularize: {{{
 " Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
 Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-peekaboo'              " Expand when using registers (Pretty optional)
 Plug 'Yggdroot/indentLine'
 " }}}
 " File Navigation and Search: {{{
@@ -88,10 +92,11 @@ Plug 'justinmk/molokai'
 Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
 " Plug 'itchyny/lightline.vim'
-Plug 'vim-airline/vim-airline' " Colourful status-line.
+Plug 'vim-airline/vim-airline'     " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
-Plug 'gcmt/taboo.vim'          " Rename tabs
-Plug 'ryanoasis/vim-devicons'  " powerline icons in vim.
+Plug 'gcmt/taboo.vim'              " Rename tabs
+Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
+Plug 'drzel/vim-line-no-indicator' " Save character in status line to report relative position in file.
 "}}}
 " TMUX {{{
 Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
@@ -127,7 +132,9 @@ Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " }}}
 " Python {{{
 " Plug 'klen/python-mode', { 'branch': 'develop'} " python-mode is just too heavy, you don't really need rope.
-Plug 'nvie/vim-flake8'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'fs111/pydoc.vim'
+" Plug 'nvie/vim-flake8'
 " , has('flake8') ? {} : { 'on': [] } " lint for python. Require flake8 installation
 " }}}
 " OpenCL {{{
@@ -150,6 +157,7 @@ Plug 'ekalinin/Dockerfile.vim'
 " }}}
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
+Plug 'JamshedVesuna/vim-markdown-preview'
 "}}}
 " CMake {{{
 Plug 'phcerdan/vim-cmake-syntax'
@@ -163,6 +171,10 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'               " Merged cmake changes!
 " Plug 'ervandew/supertab'                " Tab to autocomplete.
+" javascript {{{
+" Not needed if ycm has --tern-completer
+" Plug 'ternjs/tern_for_vim'
+" }}}
 " YCM {{{
 let completer = 'oblitum/YouCompleteMe'
 " let completer = 'Valloric/YouCompleteMe'
@@ -177,8 +189,10 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " BUG in ycm about memory consuption with ctags, put it 0
 " meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
 " }}}
+" Plug 'davidhalter/jedi-vim'
+" Plug 'tenfyzhong/CompleteParameter.vim'
 " }}} End autocompleters
-Plug 'lyuts/vim-rtags'     " Require rtags server: rc
+Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
 call plug#end()            " required
 " vim-plug END }}}
 
@@ -443,10 +457,16 @@ endfunction
   let g:airline#extensions#tabline#formatter = 'unique_tail'
   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 
+  let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+  let g:line_no_indicator_chars = ['⎺', '⎻', '─', '⎼', '⎽']
+  " let g:airline_section_y = '%{LineNoIndicator()}'
+  let g:airline_section_z = '%{LineNoIndicator()}'
   " Slow integrations disabled:
   let g:airline#extensions#wordcount#enabled = 0
   let g:airline#extensions#tagbar#enabled = 0
   let g:airline#extensions#ycm#enabled = 0
+  " if exists("g:loaded_line_no_indicator")
+  " endif
   " To show full path: default is %f instead of %F.
   " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
   " ale
@@ -531,15 +551,23 @@ endfunction
 " }}}
 
 " neoformat Setup {{{
-" C++, itk
+inoremap <Leader>ff :Neoformat
+
+" C++ {{{
+" itk {{{
 let g:neoformat_cpp_itk = {
       \ 'exe': 'uncrustify',
       \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
       \ 'stdin': 1,
       \ }
 " }}}
-
 let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
+"}}}
+
+" Python {{
+" need to install yapf/autopep in system.
+let g:neoformat_enabled_python = ['autopep8']
+" }}}
 "}}}
 " vim-grammarous Setup {{{
   let g:grammarous#disabled_rules = {
@@ -653,6 +681,9 @@ Plug 'Konfekt/FastFold' " auto fold is slow
 " }}}
 
 " Python Setup {{{
+  autocmd FileType python set sw=4
+  autocmd FileType python set ts=4
+  autocmd FileType python set sts=4
   if has('nvim')
     let g:python_host_prog  = '/usr/bin/python2'
     let g:python3_host_prog = '/usr/bin/python3'
@@ -684,6 +715,15 @@ autocmd Filetype gitcommit setlocal spell textwidth=72
 "}}}
 
 " Markdown Setup {{{
+" vim-markdown-preview {{{
+let vim_markdown_preview_toggle=0
+let vim_markdown_preview_hotkey='<Leader>v'
+" let vim_markdown_preview_browser='firefox'
+" let vim_markdown_preview_browser='google-chrome-stable'
+let vim_markdown_preview_use_xdg_open=1
+" Requires python-grip and network (query gh servers)
+let vim_markdown_preview_github=1
+" }}}
 autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 " au FileType markdown setlocal conceallevel=0
 " }}}
@@ -749,6 +789,27 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 
+" CompleterParameter Setup {{{
+  " inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+  " let g:complete_parameter_use_ultisnips_mapping = 1
+" }}}
+"
+" Jedi Setup {{{
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#auto_initialization = 1
+" let g:jedi#show_call_signatures = 2
+" let g:jedi#auto_vim_configuration = 0
+" let g:jedi#show_call_signatures_delay = 0
+" if &rtp =~ '\<jedi\>'
+"     augroup JediSetup
+"         au!
+"         au FileType python
+"             \ setlocal omnifunc=jedi#completions  |
+"             \ call jedi#configure_call_signatures()
+"     augroup END
+" endif
+" }}}
+
 " YouCompleteMe Setup {{{
   " let g:loaded_youcompleteme = 1
   let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
@@ -788,7 +849,11 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   nnoremap <leader>jt :YcmCompleter GetType<cr>
   "close preview
   nnoremap <leader>jc :pc<cr>
-
+" if using Jedi, disable ycm python
+let g:ycm_filetype_specific_completion_to_disable = {
+ \ 'gitcommit': 1,
+ \ }
+"  \ 'python': 1
 " YCM+eclim {{{
   " Use default completefunc (<c-x><c-u>) to work with both YCM, and eclim.
   " From the docs.
@@ -890,6 +955,7 @@ set splitbelow
 set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
 set hid            " Send files to buffer instead of closing them -- e,n ... commands.
 set wildmode=list:longest,full
+set noshowmode " Don't show INSERT/VISUAL in command line.
 "}}}
 " Utils/Buffers {{{
 " Workaround to avoid setting autochdir:
@@ -1202,7 +1268,14 @@ com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 
 " Linters {{{
 " Ale {{{
-let g:ale_linters = {'cpp': []}
+let g:ale_linters = {
+      \ 'cpp': [],
+      \ 'python':['flake8'],
+      \}
+" flake8 {{{
+" E302: comment/lines (expected 2 lines...)
+let g:ale_python_flake8_options='--ignore E302'
+"}}}
 com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcefile=<q-args> | let b:ale_cpp_clangtidy_header_sourcefile=<q-args>
 " let g:ale_pattern_options = {
 "       \   '\.h$': {

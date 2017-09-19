@@ -20,6 +20,7 @@ mkdir -p $HOME/.tmuxifier ; cd $_
 ln -s $SCRIPT_DIR/tmuxifier/layouts .
 mkdir -p $HOME/.vim ; cd $_
 ln -s $SCRIPT_DIR/vim/UltiSnips .
+ln -s $SCRIPT_DIR/vim/ftplugin .
 mkdir -p $HOME/.config/cower ; cd $_
 ln -s $SCRIPT_DIR/dot_files/config/cower/config .
 mkdir -p $HOME/.config/nyaovim ; cd $_
