@@ -120,6 +120,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'sbdchd/neoformat'
 Plug 'rhysd/vim-grammarous'
 " }}}
+" Docs navigation {{{
+" Also see Cppman for c++
+Plug 'KabbAmine/zeavim.vim'
+" }}}
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
@@ -273,7 +277,7 @@ call plug#end()            " required
 
 " ZoomWinTab Setup {{{
 " Default: <C-w>o
-  map <Leader>z :ZoomWinTabToggle<CR>
+  map <Leader>zzz :ZoomWinTabToggle<CR>
 " }}}
 
 " Easy-Align Setup {{{
@@ -644,6 +648,20 @@ Plug 'Konfekt/FastFold' " auto fold is slow
   " let g:cpp_folding = 1
   " let g:vim_folding = 1
   " let g:python_folding = 1
+" }}}
+" }}}
+" Docs navigation {{{
+" zeavim {{{
+nmap <leader>z <Plug>Zeavim
+vmap <leader>z <Plug>ZVVisSelection
+nmap gz <Plug>ZVMotion
+nmap <leader><leader>z <Plug>ZVKeyDocset
+let g:zv_file_types = {
+      \ 'cpp'                : 'cpp',
+      \ 'help'               : 'vim',
+      \ 'djangohtml'         : 'django, html',
+      \ }
+let g:zv_zeal_args = has('unix') ? '--style=gtk+' : ''
 " }}}
 " }}}
 

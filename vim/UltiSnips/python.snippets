@@ -27,3 +27,10 @@ snippet comsep "Comment Separator, with fixed length" !b
 `!p snip.rv = commentLine()`
 $0
 endsnippet
+
+snippet getabs "Django: get_absolute_url"
+def get_absolute_url(self):
+	from django.urls import reverse
+	return reverse('${1:my_model}.views.details', args=[str(self.id)])
+
+endsnippet

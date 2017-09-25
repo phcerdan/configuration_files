@@ -1,7 +1,7 @@
 #!/bin/zsh
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # Require: mkdir ~/.npm_global ; npm config set prefix '~/.npm-global'
-export PATH=~/.npm-global/bin:$PATH
+export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 # Python pip --user (at the end)
 export PATH="$PATH:$HOME/.local/bin"
@@ -140,6 +140,16 @@ setopt interactivecomments  # allow comments, even in interactive shells
 setopt pushdignoredups      # don't push multiple copies of same dir onto stack
 setopt pushdsilent          # don't print dir stack after pushing/popping
 setopt sharehistory         # share history across shells
+
+# #### bash: `complete` compatibility ####
+# autoload +X bashcompinit && bashcompinit
+#
+# # clang_complete
+# clang_completion="/usr/share/clang/bash-autocomplete.sh"
+# if [ -f $clang_completion ]; then
+#     source $clang_completion
+# fi
+# export hola=$(echo "hola" | sed "s/hola/adios/g")
 
 #### color prompt (ugly as hell)####
 # autoload -Uz promptinit
