@@ -9,6 +9,6 @@ sub makeglossaries {
 }
 
 $out_dir = 'output';
-$pdflatex = 'pdflatex -synctex=1 --shell-escape %O %S';
+# $pdflatex = 'pdflatex -synctex=1 --shell-escape %O %S';
 # $pdflatex = 'lualatex --interaction=nonstopmode --synctex=1 --shell-escape %O %S';
 # $pdflatex = 'xelatex -synctex=1 -shell-escape %O %S';

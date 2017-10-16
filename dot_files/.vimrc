@@ -42,7 +42,11 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
-Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+" Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+Plug 'machakann/vim-sandwich'           " sa{motion/textobject}{addition}
+                                        " sd{deletion}
+                                        " srb{addition}, sr{deletion}{addition} ie: srb' or sr(' changes (foo) -> 'foo'
+
 Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
 Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
 Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based on current file or folder files with same extension.
@@ -62,9 +66,15 @@ Plug 'w0rp/ale'                         " Linting real-time
 " Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
-Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
+" Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
+Plug 'Valloric/ListToggle'                " Default mapping to <Leader>q, <Leader>l
+" Plug 'romainl/vim-qf'
+" vim-qf Setup {{{
+"  nmap <Leader>q <Plug>qf_qf_stay_toggle
+"  nmap <Leader>l <Plug>qf_loc_stay_toggle
+" }}}
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
-Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
+" Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
 " Align and Tabularize: {{{
 " Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
 Plug 'junegunn/vim-easy-align'
@@ -199,6 +209,22 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
 call plug#end()            " required
 " vim-plug END }}}
+" vim-sandwich Setup {{{
+  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
+  "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
+  " Textobjects to select the nearest surrounded text automatically:
+    xmap iss <Plug>(textobj-sandwich-auto-i)
+    xmap ass <Plug>(textobj-sandwich-auto-a)
+    omap iss <Plug>(textobj-sandwich-auto-i)
+    omap ass <Plug>(textobj-sandwich-auto-a)
+
+  " Textobjects to select a text surrounded by same characters user input.
+    xmap im <Plug>(textobj-sandwich-literal-query-i)
+    xmap am <Plug>(textobj-sandwich-literal-query-a)
+    omap im <Plug>(textobj-sandwich-literal-query-i)
+    omap am <Plug>(textobj-sandwich-literal-query-a)
+
+" }}}
 
 " nyaovim Setup {{{
   let g:markdown_preview_auto =1
@@ -558,6 +584,11 @@ endfunction
 inoremap <Leader>ff :Neoformat
 
 " C++ {{{
+let g:neoformat_cpp_clangformat = {
+      \ 'exe': 'clang-format',
+      \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4}"'],
+      \ 'stdin': 1,
+      \ }
 " itk {{{
 let g:neoformat_cpp_itk = {
       \ 'exe': 'uncrustify',
@@ -587,24 +618,25 @@ let g:tex_conceal = ""
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 
 " VimTex Setup {{{
-" Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
-  " let g:vimtex_latexmk_callback = 0
-  " Instead of nvim use: gvim -v --servername vimserver
-  " (aliased to viserver)
   if has('nvim')
+    " Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
+    " Instead of nvim use: gvim -v --servername vimserver
+    " (aliased to viserver)
     let g:vimtex_compiler_progname = 'nvr'
   endif
+  set thesaurus+=~/.vim/thesaurus_moby.txt
   let g:vimtex_fold_enabled=0 " Need to use fastFold with this option or... really slow.
-  let g:vimtex_fold_manual=0 " autofold is slow in vim, use FastFold instead
+  let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead
   " of this option!.
-  let g:vimtex_latexmk_build_dir="output"
-  let g:vimtex_latexmk_async=1 " Require gvim --servername vimserver main.tex
-  let g:vimtex_latexmk_preview_continuosly=1 " -pvc option in latexmk
-  let g:vimtex_quickfix_ignored_warnings = [
-      \ 'Underfull',
-      \ 'Overfull',
-      \ 'specifier changed to',
-    \ ]
+  "
+  let g:vimtex_compiler_latexmk = {
+        \ 'continuous' : 0,
+        \}
+  let g:vimtex_quickfix_latexlog = {
+        \ 'overfull' : 0,
+        \ 'underfull' : 0,
+        \ }
+  let g:vimtex_quickfix_autojump=0
   let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool but xdotool fails in arch (wayland?)
   " let g:vimtex_view_method = 'zathura'
@@ -614,9 +646,12 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
   " Forward:
   let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
   let g:vimtex_view_general_options_latexmk = '--unique'
-  " Backward (Shift + LeftClick) in Okular
-  " Configure Okular first: Settings, Okular Config, Editor:
-  " gvim --servername vimserver --remote-silent +%l "%f"
+  " Backward search:
+    " (Shift + LeftClick) in Browse mode:
+    " Configure Okular first: Settings, Okular Config, Editor:
+    " Open file with 'nviserver file.tex' (alias of:
+    " NVIM_LISTEN_ADDRESS=/tmp/nvimserver nvim
+    " nvr --servername=/tmp/nvimserver --remote-silent %f -c %l
   " }}}
   " let g:vimtex_latexmk_options='-file-line-error -verbose -pdf -interaction="nonstopmode" -pdflatex="lualatex -synctex=1 -shell-escape \%O \%S"'
   " This line works for beamer
@@ -657,7 +692,6 @@ vmap <leader>z <Plug>ZVVisSelection
 nmap gz <Plug>ZVMotion
 nmap <leader><leader>z <Plug>ZVKeyDocset
 let g:zv_file_types = {
-      \ 'cpp'                : 'cpp',
       \ 'help'               : 'vim',
       \ 'djangohtml'         : 'django, html',
       \ }
@@ -852,8 +886,17 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   "             \ 'gitcommit': 1 ,
   "             \ 'cpp': 1
   "             \}
-  nnoremap <leader>y :let g:ycm_auto_trigger=0<CR>                " turn off YCM
-  nnoremap <leader>Y :let g:ycm_auto_trigger=1<CR>                " turn  on YCM
+  "
+  let g:ycm_auto_trigger=0  " This turns off the identifier comp (as you type) and semantic (.,->) auto trigger. Use <C-Space>, or <C-b> for trigger manually
+
+  function! Switch_ycm_auto_trigger()
+    if g:ycm_auto_trigger == 0
+      let g:ycm_auto_trigger = 1
+    else
+      let g:ycm_auto_trigger = 0
+    endfunction
+
+  nnoremap <leader>y :call Switch_ycm_auto_trigger()<CR>
 
   "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
   let g:ycm_key_invoke_completion = '<C-b>'
@@ -888,6 +931,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
   " let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
   " let g:SuperTabCrMapping = 0
 " }}}
+
 
 
 " Multiple-Cursors setup {{{
@@ -965,9 +1009,11 @@ set laststatus=2     " Status line always visible (useful with vim-airline)
 set wrapscan         " Search next/ Search previous are cyclic.
 set belloff=all      " Disable all kind of bells, including beep in gVim.
 " set clipboard=autoselect,unnamed,unnamedplus,exclude:cons\|linux  " Clipboard is copied to unnamed register (")
-set clipboard+=unnamedplus
+" set clipboard+=unnamedplus
 set title
 set diffopt+=vertical " Gdiff open in vertical.
+" wrap on in diffs
+autocmd FilterWritePre * if &diff | setlocal wrap | endif
 set splitright
 set splitbelow
 set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec
@@ -985,15 +1031,15 @@ autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
 " Searching {{{
 " Search visual selection (problems with end of line ^M character)
 vnoremap // y/<C-R>"<CR>
-vnoremap s y:%s/<C-R>"/
+vnoremap S y:%S/<C-R>"/
 set gdefault   " avoid to /g at the end of search.
 set ignorecase " ignore case
 set smartcase  " except when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
-" Inser WhiteSpace in normal mode with ss {{{
-nnoremap ss i<space><esc>
+" Inser White Space in normal mode with s space {{{
+nnoremap s<space> i<space><esc>
 " }}}
 " Aesthetics {{{
 set list
@@ -1001,6 +1047,7 @@ set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
 " set completeopt=preview,menuone,longest,noselect
+set completeopt+=noselect
 set previewheight=20        " omnicompletion and fugitive window.
 set pumheight=30            " limit popup menu height
 set concealcursor=nv        " expand concealed characters in insert mode solely
@@ -1086,6 +1133,8 @@ au TabLeave * let g:lasttab = tabpagenr()
 " setlocal foldmethod {{{
 noremap <leader>ss :setlocal foldmethod=syntax
 " }}}
+" map alternatefile, ctrl-^ ctrl-6  to more comfortable ctrl-;
+nnoremap <C-N> <C-^>
 "End of General Maps}}}
 
 " Return to last edit position when opening files (You want this!) Obsolete:
@@ -1286,13 +1335,19 @@ com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 
 " Linters {{{
 " Ale {{{
+" Disabled by default
+let g:ale_enabled = 0
+" (optional, for completion performance) run linters only when I save files
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 let g:ale_linters = {
       \ 'cpp': [],
-      \ 'python':['flake8'],
+      \ 'python':['flake8']
       \}
+" \ 'javascript': ['eslint'],
 " flake8 {{{
 " E302: comment/lines (expected 2 lines...)
-let g:ale_python_flake8_options='--ignore E302'
+let g:ale_python_flake8_options='--ignore E302 --max-line-length=120'
 "}}}
 com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcefile=<q-args> | let b:ale_cpp_clangtidy_header_sourcefile=<q-args>
 " let g:ale_pattern_options = {
@@ -1378,8 +1433,9 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   endfunction
 
   function! MakeString()
-    let lst = AppendBuildFolder(MakeArgumentsDefault());
-    return string(lst)
+    let lst_default = MakeArgumentsDefault()
+    let lst = AppendBuildFolder(lst_default)
+    return join(lst)
   endfunction
 
   function! NinjaString()

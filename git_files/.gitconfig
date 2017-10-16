@@ -30,6 +30,7 @@
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	pullall = !bash -c \"git pull && git submodule update --init\"
 	prepush = log --graph --stat origin/master..
+	diffwords = diff --color-words
 [color]
 	ui = auto
 [mergetool]
