@@ -67,11 +67,14 @@ Plug 'w0rp/ale'                         " Linting real-time
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
 " Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
-Plug 'Valloric/ListToggle'                " Default mapping to <Leader>q, <Leader>l
-" Plug 'romainl/vim-qf'
+" Plug 'Valloric/ListToggle'              " Default mapping to <Leader>q, <Leader>l
+Plug 'romainl/vim-qf'
 " vim-qf Setup {{{
-"  nmap <Leader>q <Plug>qf_qf_stay_toggle
-"  nmap <Leader>l <Plug>qf_loc_stay_toggle
+" Doesn't play well with asyncrun, vimtex, etc, with auto_open.
+ let g:qf_auto_open_quickfix = 0
+ let g:qf_auto_open_loclist = 0
+ nmap <Leader>q <Plug>qf_qf_stay_toggle
+ nmap <Leader>l <Plug>qf_loc_stay_toggle
 " }}}
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
@@ -618,6 +621,7 @@ let g:tex_conceal = ""
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
 
 " VimTex Setup {{{
+" let g:vimtex_quickfix_mode = 0
   if has('nvim')
     " Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
     " Instead of nvim use: gvim -v --servername vimserver
