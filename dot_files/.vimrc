@@ -1,6 +1,6 @@
 set nocompatible
 set nofoldenable      " disable folding. Slow. Even with fastfold
-" let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
+let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins

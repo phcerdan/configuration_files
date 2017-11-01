@@ -109,6 +109,7 @@ DISABLE_AUTO_TITLE=true
 
 # LOAD general .aliases.
 source $HOME/.aliases
+source $HOME/.devenviron
 # base16stuff (only arch?)
 # BASE16_SHELL=$HOME/.config/base16-shell/
 # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"

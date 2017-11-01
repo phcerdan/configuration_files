@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, and .aliases; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .config/cower/config ; .config/nyaovim/nyaovimrc.html"
+echo "Trying to setup following simlinks: .vimrc ; .tmux.conf ; .zshrc, .aliases, .devenviron; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .config/cower/config ; .config/nyaovim/nyaovimrc.html"
 cd $HOME
 ln -s $SCRIPT_DIR/dot_files/.vimrc .
 ln -s $SCRIPT_DIR/dot_files/.tmux.conf .
@@ -8,6 +8,7 @@ ln -s $SCRIPT_DIR/dot_files/.tmux.lightline .
 ln -s $SCRIPT_DIR/dot_files/.tmux.airline .
 ln -s $SCRIPT_DIR/dot_files/.zshrc .
 ln -s $SCRIPT_DIR/dot_files/.aliases .
+ln -s $SCRIPT_DIR/dot_files/.devenviron .
 ln -s $SCRIPT_DIR/dot_files/.vimperatorrc .
 ln -s $SCRIPT_DIR/dot_files/.ycm_extra_conf.py .
 ln -s $SCRIPT_DIR/dot_files/.colorgcc .
