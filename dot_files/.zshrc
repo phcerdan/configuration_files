@@ -5,6 +5,7 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 # Python pip --user (at the end)
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/bin:$PATH:"
 
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
 # export TERMINFO="$HOME/.terminfo"
@@ -159,6 +160,7 @@ setopt sharehistory         # share history across shells
 ######## CCACHE, colorgcc ######
 # USE ccache for gcc compilers.
 # Check that you have ~/.colorgcc pointing to ccache compilers
+# Based on: https://stackoverflow.com/questions/1995415/g-colorgcc-and-ccache/5854549
 if ( hash ccache 2>/dev/null ) && (hash colorgcc 2>/dev/null); then
     export ccache_loaded="loaded"
     export PATH="/usr/lib/colorgcc/bin:$PATH"

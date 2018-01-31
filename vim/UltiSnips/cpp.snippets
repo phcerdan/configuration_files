@@ -296,6 +296,10 @@ snippet "foru" "for unsigned" rb
 for (unsigned int ${1:i} = 0; $1 < ${2:ImageDimension}; ++$1)${0}
 endsnippet
 
+snippet "fora" "for const auto &" rb
+for(const auto & ${1:i} : ${2})${0}
+endsnippet
+
 snippet "foriterc" "for const iterator std=c++98" rb
 for (${1:Type}::const_iterator it = ${2:vector}.begin(); it != $2.end(); ++it)${0}
 endsnippet

@@ -12,6 +12,7 @@ ln -s $SCRIPT_DIR/dot_files/.devenviron .
 ln -s $SCRIPT_DIR/dot_files/.vimperatorrc .
 ln -s $SCRIPT_DIR/dot_files/.ycm_extra_conf.py .
 ln -s $SCRIPT_DIR/dot_files/.colorgcc .
+ln -s $SCRIPT_DIR/dot_files/.colorgcc .colorgccrc
 ln -s $SCRIPT_DIR/dot_files/.latexmkrc .
 ln -s $SCRIPT_DIR/eclipse/.eclimrc .
 ln -s $SCRIPT_DIR/emacs/.spacemacs .

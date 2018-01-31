@@ -7,7 +7,7 @@
 	email = pablo.hernandez.cerdan@outlook.com
 	mail = pablo.hernandez.cerdan@outlook.com
 [core]
-	editor = gvim -v
+	editor = nvim
 [credential]
 	helper = cache --timeout=36000000000
 [init]

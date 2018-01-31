@@ -1,0 +1,18 @@
+# Set environemntal variables for dev purposes.
+# In other file because high chances of variablity
+#.devenviron to work with bash or zsh
+########## SETUP ##############
+#In bashrc
+#if [ -f ~/.devenviron ]; then
+#    . ~/.devenviron
+#fi
+#In zshrc
+#source $HOME/.devenviron
+
+########## DEVENVIRON ##############
+
+#### NINJA ####
+# CXXFLAGS is read at cmake at configure time, and only first time. Use it here for show colors when using generator: -G Ninja
+# Found at: http://hypernews.slac.stanford.edu/HyperNews/geant4/get/installconfig/1444/1.html
+
+export CXXFLAGS="-fdiagnostics-color=always"

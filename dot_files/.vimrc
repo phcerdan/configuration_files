@@ -1,5 +1,14 @@
 set nocompatible
-set nofoldenable      " disable folding. Slow. Even with fastfold
+" Folding {{{
+" set nofoldenable      " disable folding. Slow, even with fastfold plug
+" Folding is slow, but useful.
+" From wiki: http://vim.wikia.com/wiki/All_folds_open_when_open_a_file
+" These options aims to disable it when opening a new buffer.
+" Use zM and zR to fold/unfold. zA toggle
+set foldlevel=99
+set foldlevelstart=99
+set foldmethod=syntax
+" }}}
 let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
 syntax on
 let mapleader=" "
@@ -41,6 +50,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
 " Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 " Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plug 'machakann/vim-sandwich'           " sa{motion/textobject}{addition}
@@ -210,6 +220,58 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " Plug 'tenfyzhong/CompleteParameter.vim'
 " }}} End autocompleters
 Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
+Plug 'autozimu/LanguageClient-neovim'
+let g:LanguageClient_serverCommands = {
+  \ 'cpp': ['clangd'],
+  \ }
+  " see: clangd --help for options,
+  " or directly: https://github.com/llvm-mirror/clang-tools-extra/blob/master/clangd/tool/ClangdMain.cpp
+  " \ 'cpp': ['clangd']
+  " \ 'python': ['pyls'],
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> grn :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+" List of current buffer's symbols.
+nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <silent> ge :call LanguageClient_textDocument_signatureHelp()<CR>
+vnoremap <silent> gf :call LanguageClient_textDocument_rangeFormatting()<CR>
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+endif
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+" Showing function signature and inline doc.
+" The entry needs to be selected with <C-y> for the doc to echo.
+" Plug 'Shougo/echodoc.vim'
+" let g:echodoc#enable_at_startup = 1
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 1
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+" External sources:
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['buffer', 'ultisnips']
+" Extra deoplete sources {{{
+" Plug 'tweekmonster/deoplete-clang2'
+" Plug 'zchee/deoplete-clang'
+" let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
+" let g:deoplete#sources#clang#clang_header='/usr/lib/clang'
+" let g:deoplete#sources.cpp = ['buffer', 'clang']
+" }}}
+" vim-rtags Setup {{{
+  let g:rtagsUseLocationList = 0
+" }}}
 call plug#end()            " required
 " vim-plug END }}}
 " vim-sandwich Setup {{{
@@ -589,7 +651,7 @@ inoremap <Leader>ff :Neoformat
 " C++ {{{
 let g:neoformat_cpp_clangformat = {
       \ 'exe': 'clang-format',
-      \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4}"'],
+      \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4 }"'],
       \ 'stdin': 1,
       \ }
 " itk {{{
@@ -602,11 +664,11 @@ let g:neoformat_cpp_itk = {
 let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
 "}}}
 
-" Python {{
+" Python {{{
 " need to install yapf/autopep in system.
 let g:neoformat_enabled_python = ['autopep8']
 " }}}
-"}}}
+" }}}
 " vim-grammarous Setup {{{
   let g:grammarous#disabled_rules = {
         \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
@@ -630,11 +692,9 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
   endif
   set thesaurus+=~/.vim/thesaurus_moby.txt
   let g:vimtex_fold_enabled=0 " Need to use fastFold with this option or... really slow.
-  let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead
-  " of this option!.
-  "
+  let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead of this option!.
   let g:vimtex_compiler_latexmk = {
-        \ 'continuous' : 0,
+        \ 'continuous' : 1,
         \}
   let g:vimtex_quickfix_latexlog = {
         \ 'overfull' : 0,
@@ -785,11 +845,13 @@ autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 " }}}
 
 " C++ Setup {{{
+" From :h ft-c-syntax. Avoid folding comments
+let c_no_comment_fold = 1
 " DoxygenToolkit Setup {{{
   let g:DoxygenToolkit_briefTag_pre = '' " Remove @brief tag. (First line will be parsed as brief anyway).
 " }}}
 " Map to reformat 'typedef' to 'using' (c++11)
-let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/ ;/g\<C-m>"
+let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/;/g\<C-m>"
 " set ft in files: {{{
 au BufNewFile,BufRead *.txx setlocal ft=cpp
 au BufNewFile,BufRead *.ih setlocal ft=cpp
@@ -845,7 +907,14 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
 " }}}
 
+"General Completer Options {{{
+" don't give |ins-completion-menu| messages.  For example,
+" -- XXX completion (YYY)', 'match 1 of 2', 'The only match',
+set shortmess+=c
+
+" }}}
 " CompleterParameter Setup {{{
+
   " inoremap <silent><expr> ( complete_parameter#pre_complete("()")
   " let g:complete_parameter_use_ultisnips_mapping = 1
 " }}}
@@ -1419,6 +1488,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   endfunction
 "}}}
 
+" Build/Compiler/Error options {{{
   function! SetErrorFormatClang()
     let &errorformat = ErrorFormatClang() . ',' . ErrorFormatCMake()
   endfunction
@@ -1447,6 +1517,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
     return lst
   endfunction
 
+  " Use make by default
   let g:bCommand = 'make'
   function! WriteBuild()
     execute "normal w"
@@ -1469,11 +1540,11 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
 
   function! AutoBuild()
     if g:BuildOnSave == 1
-      call AsyncBuild()
+      call WriteBuild()
     endif
   endfunction
 
-"}}}
+" }}}
 " Make and Neomake maps and autocommands Setup {{{
   let g:DispArg = ''
   fun! DispArg(args)
@@ -1494,6 +1565,15 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
 " write to open file that requires sudo
 " :w !sudo tee %
 " :earlier 15m
+" }}}
+
+" Task related commands {{{
+com! Task exec "!task"
+com! Tasklog exec "!cat ~/tasks.log | tail -n 10"
+com! Tasknext exec "!task | head -n 1"
+com! -nargs=1 Taskfinish exec "!task -f <q-args>"
+com! Taskedit exec "e ~/tasks"
+com! Tasklogedit exec "e ~/tasks.log"
 " }}}
 
 function! CommentsLightBlue()
