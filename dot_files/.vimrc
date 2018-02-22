@@ -50,6 +50,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
 " Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 " Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
@@ -112,6 +113,7 @@ Plug 'majutsushi/tagbar'
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
 Plug 'justinmk/molokai'
+" Plug 'joshdick/onedark.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
 " Plug 'itchyny/lightline.vim'
@@ -535,6 +537,9 @@ endfunction
 " Jellybeans setup{{{
   let g:jellybeans_use_term_italics = 1
   " let g:jellybeans_use_lowcolor_black = 0
+" }}}
+" Onedark setup{{{
+  " let g:onedark_terminal_italics = 1
 " }}}
 
 " lightline setup {{{
@@ -1514,6 +1519,9 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
 
   function! NinjaString()
     let lst = 'ninja -C' . g:buildFolder
+    if exists("g:buildTarget")
+      let lst = lst . g:buildTarget
+    endif
     return lst
   endfunction
 
@@ -1555,11 +1563,11 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:BuildOnSave=1
-  au FileType c,cpp au BufWritePre * call AutoBuild()
   au FileType c,cpp nnoremap <silent> <Leader>nn :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
+  com! BuildTarget let g:buildTarget=<q-args>
 " }}}
 " Useful commands: {{{
 " write to open file that requires sudo
