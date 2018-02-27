@@ -188,6 +188,8 @@ alias launch="launch " # expand aliases
 # vim: set filetype=sh:
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Fzf options.
+[ -f ~/.fzf.conf ] && source ~/.fzf.conf
 
 # added by travis gem
 [ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
