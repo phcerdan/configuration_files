@@ -857,6 +857,9 @@ let c_no_comment_fold = 1
 " }}}
 " Map to reformat 'typedef' to 'using' (c++11)
 let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/;/g\<C-m>"
+" let @o = '^cf auto '
+let @o = "/Pointer\<C-m>whc^auto"
+" :g/::Pointer\s[0-9a-zA-Z]*\s\?=/norm! @o
 " set ft in files: {{{
 au BufNewFile,BufRead *.txx setlocal ft=cpp
 au BufNewFile,BufRead *.ih setlocal ft=cpp
@@ -1520,7 +1523,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   function! NinjaString()
     let lst = 'ninja -C' . g:buildFolder
     if exists("g:buildTarget")
-      let lst = lst . g:buildTarget
+      let lst = lst . ' ' . g:buildTarget
     endif
     return lst
   endfunction
@@ -1567,7 +1570,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
-  com! BuildTarget let g:buildTarget=<q-args>
+  com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
 " }}}
 " Useful commands: {{{
 " write to open file that requires sudo
