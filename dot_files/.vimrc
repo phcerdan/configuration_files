@@ -9,7 +9,7 @@ set foldlevel=99
 set foldlevelstart=99
 set foldmethod=syntax
 " }}}
-let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
+" let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins
@@ -41,6 +41,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
 "}}}
 " Note-taking utilities Plugins  {{{
+  Plug 'Rykka/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
   " Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
   " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
   " Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
@@ -72,20 +73,53 @@ Plug 'tpope/vim-eunuch' " Adds helpers for UNIX shell commands
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
-Plug 'w0rp/ale'                         " Linting real-time
+" Plug 'w0rp/ale'                         " Linting real-time
+Plug 'phcerdan/ale'                       " my fork with header linting hack (providing .cpp per header)
 " Plug '~/repository_local/vim-dev/ale'                         " Linting real-time
 " Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
+Plug 'yssl/QFEnter'                       " Open items from qf/loc lists in whatever buffer
 " Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
 " Plug 'Valloric/ListToggle'              " Default mapping to <Leader>q, <Leader>l
-Plug 'romainl/vim-qf'
+" Plug 'romainl/vim-qf'
 " vim-qf Setup {{{
 " Doesn't play well with asyncrun, vimtex, etc, with auto_open.
- let g:qf_auto_open_quickfix = 0
- let g:qf_auto_open_loclist = 0
- nmap <Leader>q <Plug>qf_qf_stay_toggle
- nmap <Leader>l <Plug>qf_loc_stay_toggle
+"  let g:qf_auto_open_quickfix = 0
+"  let g:qf_auto_open_loclist = 0
+"  nmap <Leader>q <Plug>qf_qf_stay_toggle
+"  nmap <Leader>l <Plug>qf_loc_stay_toggle
+" quickfix/loc list toggle from vim wiki {{{
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open')
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
+nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
+nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+" }}}
 " }}}
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
@@ -152,6 +186,7 @@ Plug 'KabbAmine/zeavim.vim'
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
+Plug 'brennier/quicktex' " Shortcuts/Abbreviations for latex
 "}}}
 " R {{{
 " Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
@@ -205,11 +240,11 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " Plug 'ternjs/tern_for_vim'
 " }}}
 " YCM {{{
-let completer = 'oblitum/YouCompleteMe'
-" let completer = 'Valloric/YouCompleteMe'
+" let completer = 'oblitum/YouCompleteMe'
+let completer = 'Valloric/YouCompleteMe'
 " Plug completer , { 'do': 'python2 ./install.py' }
 " Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
+Plug completer , { 'do': 'python ./install.py --clang-completer' }
 " Apply patch to allow c++ completion with templates (slower)
 " Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
@@ -222,36 +257,56 @@ Plug completer , { 'do': 'python2 ./install.py --clang-completer' }
 " Plug 'tenfyzhong/CompleteParameter.vim'
 " }}} End autocompleters
 Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
-Plug 'autozimu/LanguageClient-neovim'
-let g:LanguageClient_serverCommands = {
-  \ 'cpp': ['clangd'],
-  \ }
-  " see: clangd --help for options,
-  " or directly: https://github.com/llvm-mirror/clang-tools-extra/blob/master/clangd/tool/ClangdMain.cpp
-  " \ 'cpp': ['clangd']
-  " \ 'python': ['pyls'],
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> grn :call LanguageClient_textDocument_rename()<CR>
-nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
-" List of current buffer's symbols.
-nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <silent> ge :call LanguageClient_textDocument_signatureHelp()<CR>
-vnoremap <silent> gf :call LanguageClient_textDocument_rangeFormatting()<CR>
+" Language Client {{{
+" if has('nvim')
+"   " To install run in shell: nvim +PlugInstall +UpdateRemotePlugins +qa
+"   Plug 'autozimu/LanguageClient-neovim', {
+"         \ 'branch': 'next',
+"         \ 'do': 'bash install.sh',
+"         \ }
+"    " This will make LanguageClient pause 0.5 second to send text changes to server
+"    " after one textDocument_didChange is sent.
+"   let g:LanguageClient_changeThrottle = 0.5
+"   " For clangd:
+"   let g:LanguageClient_serverCommands = {
+"         \ 'cpp': ['clangd'],
+"         \ }
+"   " see: clangd --help for options,
+"   " or directly: https://github.com/llvm-mirror/clang-tools-extra/blob/master/clangd/tool/ClangdMain.cpp
+"   " \ 'cpp': ['clangd']
+"   " \ 'python': ['pyls'],
+"
+"   " For cquery: https://github.com/cquery-project/cquery/wiki/Neovim
+"   " let g:LanguageClient_serverCommands = {
+"   "       \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+"   "       \ }
+"   let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
+"   let g:LanguageClient_settingsPath = expand('~/.config/nvim/settings.json')
+"   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+"   nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
+"   nnoremap <silent> grn :call LanguageClient_textDocument_rename()<CR>
+"   nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
+"   " List of current buffer's symbols.
+"   nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
+"   nnoremap <silent> ge :call LanguageClient_textDocument_signatureHelp()<CR>
+"   vnoremap <silent> gf :call LanguageClient_textDocument_rangeFormatting()<CR>
+" endif
+" }}} Language Client
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plug 'Shougo/deoplete.nvim'
-endif
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
+endif
+  Plug 'zchee/deoplete-jedi'
 " Showing function signature and inline doc.
 " The entry needs to be selected with <C-y> for the doc to echo.
 " Plug 'Shougo/echodoc.vim'
 " let g:echodoc#enable_at_startup = 1
 " Use deoplete.
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 0
 let g:deoplete#disable_auto_complete = 1
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -260,7 +315,7 @@ inoremap <silent><expr> <TAB>
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
+endfunction "}}}
 " External sources:
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['buffer', 'ultisnips']
@@ -273,6 +328,13 @@ let g:deoplete#sources._ = ['buffer', 'ultisnips']
 " }}}
 " vim-rtags Setup {{{
   let g:rtagsUseLocationList = 0
+" }}}
+" web {{{
+
+if has('nvim')
+  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+  Plug 'vyzyv/vimpyter'
+endif
 " }}}
 call plug#end()            " required
 " vim-plug END }}}
@@ -401,7 +463,7 @@ call plug#end()            " required
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>N :NERDTree<CR>
+  nnoremap <silent> <Leader>nn :NERDTree<CR>
 " }}}
 
 " Ack/Ag Setup {{{
@@ -592,8 +654,6 @@ endfunction
  " let g:loaded_taboo = 1
  let g:taboo_tabline=0
  set sessionoptions+=tabpages,globals
- nnoremap <silent> <Leader>n :NERDTree<CR>
- nnoremap <silent> <Leader>m :NERDTree<CR>
 " }}}
 
 " vim-slime Setup {{{
@@ -679,13 +739,20 @@ let g:neoformat_enabled_python = ['autopep8']
         \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
         \ 'help' : ['WHITESPACE_RULE', 'EN_QUOTES', 'SENTENCE_WHITESPACE', 'UPPERCASE_SENTENCE_START'],
         \ }
+  let g:grammarous#show_first_error = 1
   nmap <localleader>. <Plug>(grammarous-open-info-window)
 " }}}
 " LaTeX Setup {{{
+".tex FILE IS ALWAYS LATEX
+let g:tex_flavor = 'tex'
 let g:tex_comment_nospell=1
 let g:tex_conceal = ""
 " au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak breakindent showbreak=..
 au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbreak=..
+" quicktex Setup {{{
+" From: https://github.com/brennier/quicktex#configuration
+" Use default dictionaries from plugin.
+" }}}
 
 " VimTex Setup {{{
 " let g:vimtex_quickfix_mode = 0
@@ -695,6 +762,12 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
     " (aliased to viserver)
     let g:vimtex_compiler_progname = 'nvr'
   endif
+  " Workaround for buggy behaviour where quicktex thinks we are in math mode.
+  function QuickTexDisableMathMode()
+    let g:quicktex_math=g:quicktex_tex
+  endfunction
+  command! QuickTexDisableMathMode call QuickTexDisableMathMode()
+
   set thesaurus+=~/.vim/thesaurus_moby.txt
   let g:vimtex_fold_enabled=0 " Need to use fastFold with this option or... really slow.
   let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead of this option!.
@@ -792,11 +865,11 @@ let g:zv_zeal_args = has('unix') ? '--style=gtk+' : ''
   endif
 
   " let vimrplugin_r_path = "~/devtoolset/R/bin"
-  if has("gui_running")
-      inoremap <C-Space> <C-x><C-o>
-  else
-      inoremap <Nul> <C-x><C-o>
-  endif
+  " if has("gui_running")
+  "     inoremap <C-Space> <C-x><C-o>
+  " else
+  "     inoremap <Nul> <C-x><C-o>
+  " endif
   vmap <Space> <Plug>RDSendSelection
   nmap <Space> <Plug>RDSendLine
 " }}}
@@ -960,21 +1033,22 @@ set shortmess+=c
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_min_num_of_chars_for_completion = 4
   " let g:ycm_autoclose_preview_window_after_completion = 1
-  let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-  let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
+  " let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+  " let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
   " This completely removes ycm.
   " let g:ycm_filetype_specific_completion_to_disable = {
   "             \ 'gitcommit': 1 ,
   "             \ 'cpp': 1
   "             \}
   "
-  let g:ycm_auto_trigger=0  " This turns off the identifier comp (as you type) and semantic (.,->) auto trigger. Use <C-Space>, or <C-b> for trigger manually
+  let g:ycm_auto_trigger=1  " This turns off the identifier comp (as you type) and semantic (.,->) auto trigger. Use <C-Space>, or <C-b> for trigger manually
 
   function! Switch_ycm_auto_trigger()
     if g:ycm_auto_trigger == 0
       let g:ycm_auto_trigger = 1
     else
       let g:ycm_auto_trigger = 0
+    endif
     endfunction
 
   nnoremap <leader>y :call Switch_ycm_auto_trigger()<CR>
@@ -986,9 +1060,16 @@ set shortmess+=c
   " nnoremap <leader> :YcmCompleter GoToDefinition<cr>
   nnoremap <leader>jf :YcmCompleter FixIt<cr>
   nnoremap <leader>jj :YcmCompleter GoTo<cr>
-  " h for help!
+  nnoremap <leader>jr :YcmCompleter GoToReferences<cr>
   nnoremap <leader>jh :YcmCompleter GetDoc<cr>
   nnoremap <leader>jt :YcmCompleter GetType<cr>
+  nnoremap <leader>jp :YcmCompleter GetParent<cr>
+  nnoremap <silent> gf :YcmCompleter FixIt<cr>
+  nnoremap <silent> gd :YcmCompleter GoTo<cr>
+  nnoremap <silent> gr :YcmCompleter GoToReferences<cr>
+  nnoremap <silent> gh :YcmCompleter GetDoc<cr>
+  nnoremap <silent> gt :YcmCompleter GetType<cr>
+  nnoremap <silent> gp :YcmCompleter GetParent<cr>
   "close preview
   nnoremap <leader>jc :pc<cr>
 " if using Jedi, disable ycm python
@@ -1107,7 +1188,7 @@ set noshowmode " Don't show INSERT/VISUAL in command line.
 " typyng zc in command mode expand to e current_directory.
 cnoremap zc e <c-r>=expand("%:h")<cr>/
 " <Leader><Enter> in quickfix to open a vertical split.
-autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
+" autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
 " }}}
 " Searching {{{
 " Search visual selection (problems with end of line ^M character)
@@ -1132,8 +1213,10 @@ set completeopt+=noselect
 set previewheight=20        " omnicompletion and fugitive window.
 set pumheight=30            " limit popup menu height
 set concealcursor=nv        " expand concealed characters in insert mode solely
-" Open QuickFix horizontally with line wrap
+" Open QuickFix horizontally at they very bottom with line wrap
 au FileType qf wincmd J | setlocal wrap
+" au FileType qf wincmd L| setlocal wrap
+" au FileType qf setlocal wrap
 " Preview window with line wrap
 " au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
 au BufWinEnter * if &previewwindow | setlocal wrap | endif
@@ -1421,8 +1504,10 @@ let g:ale_enabled = 0
 " (optional, for completion performance) run linters only when I save files
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+" show loclist vertical
+" let g:ale_list_vertical = 1
 let g:ale_linters = {
-      \ 'cpp': [],
+      \ 'cpp': ['clangtidy'],
       \ 'python':['flake8']
       \}
 " \ 'javascript': ['eslint'],
@@ -1430,6 +1515,18 @@ let g:ale_linters = {
 " E302: comment/lines (expected 2 lines...)
 let g:ale_python_flake8_options='--ignore E302 --max-line-length=120'
 "}}}
+" clangtidy {{{
+" Disable specific projects checks. default: = ['*']
+" Other option is to enable only checks that you are interested, but we might
+" miss new checkers added in the future.
+let g:ale_cpp_clangtidy_checks = [
+      \ '-android-*',
+      \ '-boost-*',
+      \ '-fuchsia-*',
+      \ '-google-*',
+      \ '-llvm-*',
+      \ '-objc-',
+      \ ]
 com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcefile=<q-args> | let b:ale_cpp_clangtidy_header_sourcefile=<q-args>
 " let g:ale_pattern_options = {
 "       \   '\.h$': {
@@ -1437,7 +1534,8 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
 "       \       'ale_cpp_clangtidy_options': '~/repository_local/FFT-from-image-compute-radial-intensity/src/apps/RadialIntensity/test/test_saxs_sim_functional.cpp',
 "       \   },
 "       \}
-" }}}
+" }}} end of tidy
+" }}} end of ale
 " }}}
 " Build
   call SetNThreads()
@@ -1566,7 +1664,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:BuildOnSave=1
-  au FileType c,cpp nnoremap <silent> <Leader>nn :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
+  au FileType c,cpp nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
