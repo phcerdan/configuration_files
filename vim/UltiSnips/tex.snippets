@@ -18,6 +18,14 @@ snippet figpage "PHC:Create a figure with minipages to input multiple images" b
 \end{figure}
 
 endsnippet
+snippet subfig "PHC:subfig (require package subfig)" b
+\begin{subfigure}{0.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{${2:image.xxx}}
+  \caption{}
+  \label{subfig:}
+\end{subfigure}%
+endsnippet
 
 snippet subfloat "PHC:subfloat expand(require subfig)" b
 \subfloat[${1:text}]{

@@ -1,4 +1,24 @@
-snippet liccurrent "Current license" b
+snippet lic "license with my name and reference to LICENSE" b
+/* Copyright (C) 2018 Pablo Hernandez-Cerdan
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+endsnippet
+
+snippet licmpl "License: MPL 2.0 Mozilla Public License " b
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+endsnippet
+
+snippet lichisto "license with my name and reference to LICENSE" b
+/* Copyright (C) 2018 Pablo Hernandez-Cerdan
+ * See LICENSE on https://github.com/phcerdan/histo-header */
+
+endsnippet
+snippet licitk "ITK license" b
 /*=========================================================================
  *
  *  Copyright Insight Software Consortium
@@ -47,9 +67,15 @@ snippet comsep "Comment Separator, with fixed length" !b
 `!p snip.rv = commentLine()`
 $0
 endsnippet
-snippet ifndef "Expand ifdef" !b
+snippet ifndef "Expand ifndef" !b
 #ifndef $1
 #define $1
+	$2
+#endif
+endsnippet
+
+snippet ifdef "Expand ifdef" !b
+#ifdef ${1:VISUALIZE}
 	$2
 #endif
 endsnippet
