@@ -422,8 +422,9 @@ call plug#end()            " required
   " endfunction
 " }}}
 
-" Fugitive Setup {{{
+" Fugitive and vim-rhubarb Setup {{{
   nnoremap <Leader>gs :Gstatus<CR>
+  let g:fugitive_git_executable = 'hub'
 " }}}
 
 " restore_view Setup{{{
@@ -1049,7 +1050,7 @@ set shortmess+=c
     else
       let g:ycm_auto_trigger = 0
     endif
-    endfunction
+  endfunction
 
   nnoremap <leader>y :call Switch_ycm_auto_trigger()<CR>
 

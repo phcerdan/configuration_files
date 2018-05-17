@@ -6,13 +6,16 @@ export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
 # Python pip --user (at the end)
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/bin:$PATH:"
+# Python virtualenvwrapper
+export WORKON_HOME=~/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh
 
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
 # export TERMINFO="$HOME/.terminfo"
 ####### POWERLEVEL9K CONFIGURATION ########### {{{
 # POWERLEVEL9K_MODE='awesome-patched'
-# POWERLEVEL9K_MODE='nerdfont-complete'
-POWERLEVEL9K_MODE='awesome-fontconfig'
+POWERLEVEL9K_MODE='nerdfont-complete'
+# POWERLEVEL9K_MODE='awesome-fontconfig'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir_writable dir rbenv vcs)
 # You can also use different prompts in different environments, e.g. for TMUX, you might use
@@ -118,9 +121,9 @@ source $HOME/.devenviron
 
 
 export EDITOR='vim'
-if hash nvim 2>/dev/null; then
+if type nvim > /dev/null 2>&1; then
     export EDITOR='nvim'
-    # alias vim='nvim'
+    alias vim='nvim'
 fi
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 

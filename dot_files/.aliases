@@ -13,6 +13,7 @@ if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
 alias mux='tmuxifier'
+alias git=hub
 alias gits='git status'
 alias viserver='gvim -v --servername vimserver'
 alias viserver2='gvim -v --servername vimserver2'
