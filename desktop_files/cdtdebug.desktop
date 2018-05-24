@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=cdtdebug
+Exec=bash -c "$(dirname $(readlink -f %k))/cdtdebug -url %U"
+Icon= /home/phc/Software/cdt-stand-alone-debugger/icon.xpm
+Type=Application
+Terminal=false
+Categories=Dev;
+MimeType=text/plain
