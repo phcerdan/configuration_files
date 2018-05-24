@@ -177,6 +177,7 @@ Plug 'airblade/vim-gitgutter'
 "}}}
 " Style / Grammar check {{{
 Plug 'sbdchd/neoformat'
+Plug 'rhysd/vim-clang-format'
 Plug 'rhysd/vim-grammarous'
 " }}}
 " Docs navigation {{{
@@ -331,10 +332,10 @@ let g:deoplete#sources._ = ['buffer', 'ultisnips']
 " }}}
 " web {{{
 
-if has('nvim')
-  Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-  Plug 'vyzyv/vimpyter'
-endif
+" if has('nvim')
+"   Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
+"   Plug 'vyzyv/vimpyter'
+" endif
 " }}}
 call plug#end()            " required
 " vim-plug END }}}
@@ -711,23 +712,35 @@ endfunction
 " let g:loaded_gitgutter=1 " Slow, don't load it.
 " }}}
 
+" vim-clang-format Setup {{{
+let g:clang_format#detect_style_file=1 " Auto detect .clang-format file.
+" When the value is 1, formatexpr option is set by vim-clang-format
+" automatically in C, C++ and ObjC codes.
+" Vim's format mappings (e.g. gq) get to use clang-format to format.
+" This option is not comptabile with Vim's textwidth feature.
+" You must set textwidth to 0 when the formatexpr is set.
+let g:clang_format#auto_formatexpr=1
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
+" }}}
 " neoformat Setup {{{
-inoremap <Leader>ff :Neoformat
+inoremap <Leader>nf :Neoformat
 
 " C++ {{{
-let g:neoformat_cpp_clangformat = {
-      \ 'exe': 'clang-format',
-      \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4 }"'],
-      \ 'stdin': 1,
-      \ }
-" itk {{{
-let g:neoformat_cpp_itk = {
-      \ 'exe': 'uncrustify',
-      \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
-      \ 'stdin': 1,
-      \ }
-" }}}
-let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
+" let g:neoformat_cpp_clangformat = {
+"       \ 'exe': 'clang-format',
+"       \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4 }"'],
+"       \ 'stdin': 1,
+"       \ }
+" " itk {{{
+" let g:neoformat_cpp_itk = {
+"       \ 'exe': 'uncrustify',
+"       \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
+"       \ 'stdin': 1,
+"       \ }
+" " }}}
+" let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
 "}}}
 
 " Python {{{
@@ -1271,14 +1284,36 @@ vnoremap <c-]> g<c-]>
 " nnoremap <leader>ts "=strftime("%F")<CR>P
 inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 " Copy filename to clipboard {{{
+  function CopyAbsolutePath()
+    " absolute path (/something/src/foo.txt)
+    let @+=expand("%:p")
+  endfunction
+
+  function CopyRelativePath()
+   " relative path (src/foo.txt)
+    let @+=expand("%")
+  endfunction
+
+  function CopyFilename()
+    " filename (foo.txt)
+    let @+=expand("%:t")
+  endfunction
+
+  function CopyDirectoryPath()
+    " directory name (/something/src)
+    let @+=expand("%:p:h")
+  endfunction
+
   " absolute path (/something/src/foo.txt)
-  nnoremap <leader>cf :let @+=expand("%:p")<CR>
+  nnoremap <leader>cf :call CopyAbsolutePath()<CR>
  " relative path (src/foo.txt)
-  nnoremap <leader>cfr :let @+=expand("%")<CR>
+  nnoremap <leader>cfr :call CopyRelativePath()<CR>
   " filename (foo.txt)
-  nnoremap <leader>cfl :let @+=expand("%:t")<CR>
+  nnoremap <leader>cfl :call CopyFilename()<CR>
   " directory name (/something/src)
-  nnoremap <leader>cfd :let @+=expand("%:p:h")<CR>
+  nnoremap <leader>cfd :call CopyDirectoryPath()<CR>
+  com! -nargs=0 CopyFilename call CopyFilename()
+
 "}}}
 " Move between tabs {{{
 " Go to tab by number
