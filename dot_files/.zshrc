@@ -1,5 +1,8 @@
 #!/bin/zsh
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# Add python scripts of clang to path
+export PATH="/usr/share/clang:$PATH"
+# Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/.rvm/bin"
 # Require: mkdir ~/.npm_global ; npm config set prefix '~/.npm-global'
 export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
@@ -168,6 +171,8 @@ if ( hash ccache 2>/dev/null ) && (hash colorgcc 2>/dev/null); then
     export ccache_loaded="loaded"
     export PATH="/usr/lib/colorgcc/bin:$PATH"
     export CCACHE_PATH="/usr/bin"
+    # Disable it for a shell with:
+    # export CCACHE_DISABLE=1
 fi
 
 ###### FUNCTIONS ######
