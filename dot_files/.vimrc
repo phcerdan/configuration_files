@@ -243,6 +243,8 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " YCM {{{
 " let completer = 'oblitum/YouCompleteMe'
 let completer = 'Valloric/YouCompleteMe'
+" In ARCH libtinfo is missing. Install with cower -d ncurses5-compat-libs
+" More info in issue: https://github.com/Valloric/YouCompleteMe/issues/778
 " Plug completer , { 'do': 'python2 ./install.py' }
 " Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
 Plug completer , { 'do': 'python ./install.py --clang-completer' }
