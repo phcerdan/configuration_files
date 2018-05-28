@@ -184,6 +184,9 @@ Plug 'rhysd/vim-grammarous'
 " Also see Cppman for c++
 Plug 'KabbAmine/zeavim.vim'
 " }}}
+" Tools/Utilities {{{
+Plug 'qpkorr/vim-renamer'
+" }}}
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
