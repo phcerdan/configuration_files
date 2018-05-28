@@ -19,6 +19,7 @@ ln -s $SCRIPT_DIR/eclipse/.eclimrc .
 ln -s $SCRIPT_DIR/emacs/.spacemacs .
 ln -s $SCRIPT_DIR/git_files/.gitconfig .
 ln -s $SCRIPT_DIR/git_files/.git_template .
+ln -s $SCRIPT_DIR/git_files/.gitignore .
 mkdir -p $HOME/.tmuxifier ; cd $_
 ln -s $SCRIPT_DIR/tmuxifier/layouts .
 mkdir -p $HOME/.vim ; cd $_
