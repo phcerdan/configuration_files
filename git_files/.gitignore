@@ -1,4 +1,4 @@
 # Generated with -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON
 # in build folder, then symlink in src folder for auto-
 # completers to work automatically
-comepile_commands.json
+compile_commands.json
