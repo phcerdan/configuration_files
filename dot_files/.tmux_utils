@@ -15,3 +15,13 @@ _send_bash_command_to_session() {
         fi
     done
 }
+
+tmux_set_venv() {
+    if [[ $# -eq 0 || $# -gt 1 || "$1" = "--help" ]] ; then
+        echo 'Usage: tmux_set_venv virtual_env \n
+        example: tmux_set_venv slicer'
+        return
+    fi
+    _current_session=$(tmux display-message -p '#{session_name}')
+    _send_bash_command_to_session ${_current_session} workon $1
+}
