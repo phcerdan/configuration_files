@@ -8,7 +8,7 @@
 #source $HOME/.aliases
 
 ########## ALIASES ##############
-# if nvim
+# Alias vim to nvim.
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
@@ -45,14 +45,5 @@ alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 # CMAKE
 # Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
 alias ccmake='TERM=xterm-256color ccmake'
-alias cmakeEclipseSource='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccmakeEclipseSource='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias cmakeEclipse='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccmakeEclipse='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias cmakeEclipseC11='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias cmakeEclipseC11Source='cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccmakeEclipseC11='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccmakeEclipseC11Source='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-
-alias ccmakeEclipseC14='ccmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_CXX_COMPILER_ARG1=-std=c++14 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccmakeNinja='ccmake -GNinja -DCMAKE_CXX_COMPILER_ARG1=-std=c++11 -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias cninja='cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias ccninja='ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'

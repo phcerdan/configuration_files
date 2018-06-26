@@ -9,7 +9,7 @@ set foldlevel=99
 set foldlevelstart=99
 set foldmethod=syntax
 " }}}
-" let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
+let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
 syntax on
 let mapleader=" "
 " For R (and latex?) plugins
@@ -121,6 +121,8 @@ nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 " }}}
 " }}}
+Plug 'simnalamburt/vim-mundo'           " Navigate undo history.
+nnoremap <F5> :MundoToggle<CR>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
 " Align and Tabularize: {{{
@@ -138,7 +140,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " }}}
 " Search/Grep {{{
 Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
-Plug 'rking/ag.vim'   " Silver searcher integration (similar to ack / grep), search in directory for words. To install silver_searcher: https://github.com/ggreer/the_silver_searcher
+Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
 Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
 Plug 'junegunn/fzf.vim'
@@ -146,7 +148,9 @@ Plug 'majutsushi/tagbar'
 " }}}
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
-Plug 'justinmk/molokai'
+" Plug 'justinmk/molokai'
+" Include inversion of fg/bg in MatchParen (PR opened upstream)
+Plug 'phcerdan/molokai'
 " Plug 'joshdick/onedark.vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
@@ -187,6 +191,46 @@ Plug 'KabbAmine/zeavim.vim'
 " Tools/Utilities {{{
 Plug 'qpkorr/vim-renamer'
 " }}}
+" Language Clients {{{
+" vim-lsp {{{
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_async_completion = 1
+" au FileType c,c++ setlocal omnifunc=lsp#complete
+" au FileType python setlocal omnifunc=lsp#complete
+
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
+" }}}
+" vim-lsp-cquery{{{
+autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
+autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
+autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
+autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
+if executable('cquery')
+   au User lsp_setup call lsp#register_server({
+      \ 'name': 'cquery',
+      \ 'cmd': {server_info->['cquery']},
+      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+      \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
+      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+      \ })
+endif
+" }}}
+" python-language-server {{{
+if (executable('pyls'))
+    au User lsp_setup call lsp#register_server({
+    \ 'name': 'pyls',
+    \ 'cmd': {server_info->['pyls']},
+    \ 'whitelist': ['python']
+    \ })
+endif
+" }}}
+" }}} Language Client
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
 Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to view, xpdf/zathura recommended.
@@ -262,8 +306,9 @@ Plug completer , { 'do': 'python ./install.py --clang-completer' }
 " Plug 'davidhalter/jedi-vim'
 " Plug 'tenfyzhong/CompleteParameter.vim'
 " }}} End autocompleters
-Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
-" Language Client {{{
+" Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
+" Language Client {{
+" LanguageClient-Neovim {{{
 " if has('nvim')
 "   " To install run in shell: nvim +PlugInstall +UpdateRemotePlugins +qa
 "   Plug 'autozimu/LanguageClient-neovim', {
@@ -297,16 +342,37 @@ Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
 "   nnoremap <silent> ge :call LanguageClient_textDocument_signatureHelp()<CR>
 "   vnoremap <silent> gf :call LanguageClient_textDocument_rangeFormatting()<CR>
 " endif
-" }}} Language Client
+" }}} LanguageClient-neovim
+" vim-lsp {{{
+" First install vim-lsp, this plugin relies on it:
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'pdavydov108/vim-lsp-cquery'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+let g:asyncomplete_remove_duplicates = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction "}}}
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-  Plug 'zchee/deoplete-jedi'
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+  " Plug 'zchee/deoplete-jedi'
 " Showing function signature and inline doc.
 " The entry needs to be selected with <C-y> for the doc to echo.
 " Plug 'Shougo/echodoc.vim'
@@ -314,17 +380,17 @@ endif
 " Use deoplete.
 let g:deoplete#enable_at_startup = 0
 let g:deoplete#disable_auto_complete = 1
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction "}}}
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#disable_auto_complete = 0
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ deoplete#mappings#manual_complete()
+
+
 " External sources:
 let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer', 'ultisnips']
+let g:deoplete#sources._ = ['ultisnips']
 " Extra deoplete sources {{{
 " Plug 'tweekmonster/deoplete-clang2'
 " Plug 'zchee/deoplete-clang'
@@ -470,16 +536,16 @@ call plug#end()            " required
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>nn :NERDTree<CR>
+  nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
 " }}}
 
 " Ack/Ag Setup {{{
   if executable('ag')
-    " let g:ackprg = 'ag --vimgrep --smart-case'
+    let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
-    nnoremap <silent> <Leader>/ :execute 'Ag ' . input('Ag/')<CR>
+    nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   endif
 "}}}
@@ -580,7 +646,7 @@ command! -bang -nargs=? -complete=dir PFiles
 
 
 function! SearchWordWithAg()
-  let ag_command = 'Ag!'
+  let ag_command = 'Ack!'
   execute ag_command expand('<cword>')
 endfunction
 
@@ -941,6 +1007,16 @@ autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 " au FileType markdown setlocal conceallevel=0
 " }}}
 
+" XML Setup {{{
+augroup XML
+    autocmd!
+    autocmd FileType xml let g:xml_syntax_folding=1
+    autocmd FileType xml setlocal foldmethod=syntax
+    autocmd FileType xml :syntax on
+    autocmd FileType xml normal zR
+augroup END
+" }}}
+
 " C++ Setup {{{
 " From :h ft-c-syntax. Avoid folding comments
 let c_no_comment_fold = 1
@@ -1073,7 +1149,7 @@ set shortmess+=c
   nnoremap <leader>y :call Switch_ycm_auto_trigger()<CR>
 
   "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
-  let g:ycm_key_invoke_completion = '<C-b>'
+  let g:ycm_key_invoke_completion = '<C-w>'
   " nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
   " nnoremap <leader>kd :YcmCompleter GoToDefinitionElseDeclaration<cr>
   " nnoremap <leader> :YcmCompleter GoToDefinition<cr>
@@ -1094,8 +1170,8 @@ set shortmess+=c
 " if using Jedi, disable ycm python
 let g:ycm_filetype_specific_completion_to_disable = {
  \ 'gitcommit': 1,
+ \ 'python': 1,
  \ }
-"  \ 'python': 1
 " YCM+eclim {{{
   " Use default completefunc (<c-x><c-u>) to work with both YCM, and eclim.
   " From the docs.
@@ -1128,7 +1204,7 @@ let g:ycm_filetype_specific_completion_to_disable = {
 
 " Neovim options {{{
 if has('nvim')
-  set inccommand=nosplit
+  set inccommand=split
 endif
 " }}}
 " COLOUR OPTIONS: {{{
@@ -1137,10 +1213,10 @@ endif
 " colorscheme desert-warm-256
 " let base16colorspace=256
 " colorscheme base16-default-dark
-" colorscheme molokai
-" let g:molokai_original=1
-" let g:rehash256=1
-colorscheme jellybeans
+colorscheme molokai
+let g:molokai_original=1
+let g:rehash256=1
+" colorscheme jellybeans
 set background=dark
 if has('termguicolors') " Truecolor. modern vim or nvim only.
   set termguicolors
@@ -1705,7 +1781,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:BuildOnSave=1
-  au FileType c,cpp nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
+  nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
@@ -1715,6 +1791,16 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcef
 " write to open file that requires sudo
 " :w !sudo tee %
 " :earlier 15m
+
+" search {{{
+" search current word under the cursor on normal mode.
+" search in visual mode the yank register (/)
+" Useful for:
+" - Replace
+" - A handy way to show all occurrences with inccomand=split in neovim
+nnoremap <Leader>k :%s/\<<C-r><C-w>\>/<C-r><C-w>
+vnoremap <Leader>k :s/<C-r>"/<C-r>"/
+" }}}
 " }}}
 
 " Task related commands {{{
