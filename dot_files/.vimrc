@@ -162,7 +162,7 @@ Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
 Plug 'drzel/vim-line-no-indicator' " Save character in status line to report relative position in file.
 "}}}
 " TMUX {{{
-Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
+" Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
@@ -272,6 +272,8 @@ Plug 'phcerdan/vim-flavored-markdown'
 Plug 'JamshedVesuna/vim-markdown-preview'
 "}}}
 " CMake {{{
+" Plug 'pboettch/vim-cmake-syntax'
+" Add one commit with ITK-specific functions
 Plug 'phcerdan/vim-cmake-syntax'
 " }}}
 " C++ {{{

@@ -132,6 +132,8 @@ if type nvim > /dev/null 2>&1; then
 fi
 export PATH="$HOME/.tmuxifier/bin:$PATH"
 
+# Workaround for tmp loaded only at the end of tmux.conf
+export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins"
 ######## Options ###### from: https://github.com/wincent/wincent/blob/master/roles/dotfiles/files/.zshrc
 # setopt autocd               # .. is shortcut for cd .. (etc)
 setopt autoparamslash       # tab completing directory appends a slash

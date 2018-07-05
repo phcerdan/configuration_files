@@ -4,8 +4,9 @@ echo "Trying to setup following simlinks: .vimrc ; .tmux.conf .tmux_utils ; .zsh
 cd $HOME
 ln -s $SCRIPT_DIR/dot_files/.vimrc .
 ln -s $SCRIPT_DIR/dot_files/.tmux.conf .
-ln -s $SCRIPT_DIR/dot_files/.tmux.lightline .
-ln -s $SCRIPT_DIR/dot_files/.tmux.airline .
+ln -s $SCRIPT_DIR/dot_files/.tmux_simple.airline
+ln -s $SCRIPT_DIR/dot_files/.tmux_mem-cpu-load.airline .
+ln -s .tmux_mem-cpu-load.airline .tmux.airline
 ln -s $SCRIPT_DIR/dot_files/.tmux_utils .
 ln -s $SCRIPT_DIR/dot_files/.zshrc .
 ln -s $SCRIPT_DIR/dot_files/.fzf.conf .
