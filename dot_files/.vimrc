@@ -296,7 +296,7 @@ let completer = 'Valloric/YouCompleteMe'
 " More info in issue: https://github.com/Valloric/YouCompleteMe/issues/778
 " Plug completer , { 'do': 'python2 ./install.py' }
 " Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-Plug completer , { 'do': 'python ./install.py --clang-completer' }
+" Plug completer , { 'do': 'python ./install.py --clang-completer' }
 " Apply patch to allow c++ completion with templates (slower)
 " Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
 " Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }

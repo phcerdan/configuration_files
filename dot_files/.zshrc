@@ -5,7 +5,9 @@ export PATH="/usr/share/clang:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin"
 # Require: mkdir ~/.npm_global ; npm config set prefix '~/.npm-global'
 export PATH="$HOME/.npm-global/bin:$PATH"
-export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+if type ruby > /dev/null 2>&1; then
+    export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
+fi
 # Python pip --user (at the end)
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/bin:$PATH:"
