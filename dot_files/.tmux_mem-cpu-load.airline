@@ -25,7 +25,7 @@ setw -g window-status-separator ""
 setw -g window-status-bg "colour235"
 set -g status-left "#[fg=colour232,bg=colour192] #S #[fg=colour192,bg=colour235,nobold,nounderscore,noitalics]"
 set -g status-interval 2
-set -g status-right "#[fg=colour238,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour192,bg=colour238]#($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load --colors --powerline-right --interval 2 --averages-count 0) #[fg=colour238,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour192,bg=colour238] %a %h %d | %H:%M #[fg=colour192,bg=colour238,nobold,nounderscore,noitalics]#[fg=colour232,bg=colour192] #h "
+set -g status-right "#[fg=colour238,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour192,bg=colour238]#($TMUX_PLUGIN_MANAGER_PATH/tmux-mem-cpu-load/tmux-mem-cpu-load --colors --powerline-right --interval 2 --averages-count 0 --graph-lines 0) #[fg=colour238,bg=colour235,nobold,nounderscore,noitalics]#[fg=colour192,bg=colour238] %a %h %d | %H:%M #[fg=colour192,bg=colour238,nobold,nounderscore,noitalics]#[fg=colour232,bg=colour192] #h "
 set -g status-right-length "100"
 setw -g window-status-format "#[fg=colour192,bg=colour235] #I |#[fg=colour192,bg=colour235] #W "
 setw -g window-status-current-format "#[fg=colour235,bg=colour238,nobold,nounderscore,noitalics]#[fg=colour192,bg=colour238] #I |#[fg=colour192,bg=colour238] #W #[fg=colour238,bg=colour235,nobold,nounderscore,noitalics]"
