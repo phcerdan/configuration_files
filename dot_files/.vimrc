@@ -784,6 +784,10 @@ endfunction
 " Gitgutter Setup {{{
 " let g:loaded_gitgutter=1 " Slow, don't load it.
 " }}}
+"
+" git commit {{{
+autocmd FileType gitcommit setlocal spell
+" }}}
 
 " vim-clang-format Setup {{{
 let g:clang_format#detect_style_file=1 " Auto detect .clang-format file.

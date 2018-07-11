@@ -45,5 +45,5 @@ alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 # CMAKE
 # Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
 alias ccmake='TERM=xterm-256color ccmake'
-alias cninja='cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
-alias ccninja='ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON'
+alias cninja='cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND'
+alias ccninja='ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND'
