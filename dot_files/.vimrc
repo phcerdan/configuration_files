@@ -196,6 +196,10 @@ Plug 'qpkorr/vim-renamer'
 let g:lsp_signs_enabled = 1         " enable signs
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:lsp_async_completion = 1
+function! LSPEnableLog() "{{{
+  let g:lsp_log_verbose = 1
+  let g:lsp_log_file = expand('/tmp/vim-lsp.log')
+endfunction "}}}
 " au FileType c,c++ setlocal omnifunc=lsp#complete
 " au FileType python setlocal omnifunc=lsp#complete
 
