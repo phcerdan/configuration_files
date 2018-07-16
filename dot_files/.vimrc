@@ -71,6 +71,7 @@ Plug 'tpope/vim-eunuch' " Adds helpers for UNIX shell commands
                         " :Unlink Delete file, keep buffer
                         " :Move Rename buffer and file
 " Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
+Plug 'wsdjeg/vim-fetch' " Enable opening files with format: vim file_name.xxx:line,column
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
