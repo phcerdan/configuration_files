@@ -275,6 +275,16 @@ Plug 'ekalinin/Dockerfile.vim'
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
 Plug 'JamshedVesuna/vim-markdown-preview'
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 "}}}
 " CMake {{{
 " Plug 'pboettch/vim-cmake-syntax'
@@ -856,7 +866,11 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
     " Neovim support: https://github.com/lervag/vimtex/issues/262 NOT READY
     " Instead of nvim use: gvim -v --servername vimserver
     " (aliased to viserver)
-    let g:vimtex_compiler_progname = 'nvr'
+    if executable('nvr')
+      let g:vimtex_compiler_progname = 'nvr'
+    else
+      echoerr 'Please install nvr (neovim-remote)'
+    endif
   endif
   " Workaround for buggy behaviour where quicktex thinks we are in math mode.
   function QuickTexDisableMathMode()
@@ -874,8 +888,8 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
         \ 'overfull' : 0,
         \ 'underfull' : 0,
         \ }
-  let g:vimtex_quickfix_autojump=0
-  let g:vimtex_quickfix_open_on_warning=0
+  " let g:vimtex_quickfix_autojump=0
+  " let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool but xdotool fails in arch (wayland?)
   " let g:vimtex_view_method = 'zathura'
   " let g:vimtex_view_general_viewer = 'mupdf'
