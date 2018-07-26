@@ -18,7 +18,9 @@ export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/bin:$PATH:"
 # Python virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
+if [ -f /usr/bin/virtualenvwrapper.sh ]; then
+    source /usr/bin/virtualenvwrapper.sh
+fi
 
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
 # export TERMINFO="$HOME/.terminfo"
