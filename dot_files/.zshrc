@@ -1,4 +1,9 @@
 #!/bin/zsh
+# Disable warning in mac and oh-my-zsh autocompletion plugin
+platform=$(uname -s)
+if [[ "${platform}" == "Darwin" ]]; then
+    ZSH_DISABLE_COMPFIX=true
+fi
 # Add python scripts of clang to path
 export PATH="/usr/share/clang:$PATH"
 # Add RVM to PATH for scripting
