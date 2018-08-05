@@ -888,8 +888,8 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
         \ 'overfull' : 0,
         \ 'underfull' : 0,
         \ }
-  " let g:vimtex_quickfix_autojump=0
-  " let g:vimtex_quickfix_open_on_warning=0
+  let g:vimtex_quickfix_autojump=0
+  let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool but xdotool fails in arch (wayland?)
   " let g:vimtex_view_method = 'zathura'
   " let g:vimtex_view_general_viewer = 'mupdf'
