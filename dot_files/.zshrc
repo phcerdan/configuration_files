@@ -1,9 +1,9 @@
 #!/bin/zsh
 # Disable warning in mac and oh-my-zsh autocompletion plugin
-platform=$(uname -s)
-if [[ "${platform}" == "Darwin" ]]; then
-    ZSH_DISABLE_COMPFIX=true
-fi
+# platform=$(uname -s)
+# if [[ "${platform}" == "Darwin" ]]; then
+#     ZSH_DISABLE_COMPFIX=true
+# fi
 # Add python scripts of clang to path
 export PATH="/usr/share/clang:$PATH"
 # Add RVM to PATH for scripting
@@ -30,12 +30,13 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir_writable dir rbenv vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
 # You can also use different prompts in different environments, e.g. for TMUX, you might use
-if [[ "${TERM}" =~ "tmux" || "${TERM}" =~ "screen" ]]; then
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
-else
-    POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time time)
-fi
+# if [[ "${TERM}" =~ "tmux" || "${TERM}" =~ "screen" ]]; then
+#     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
+# else
+#     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time time)
+# fi
 
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
@@ -53,9 +54,9 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 DEFAULT_USER="$USER" #Avoid showing context when no need (SSH, other user)
 # dir:
 # truncate: ~/repository_local/build/hola/ -> ~/r/b/hola
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-POWERLEVEL9K_SHORTEN_DELIMITER=""
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+# POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
+# POWERLEVEL9K_SHORTEN_DELIMITER=""
+# POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
 # remove symbols
 POWERLEVEL9K_HOME_ICON=''
 POWERLEVEL9K_HOME_SUB_ICON=''
