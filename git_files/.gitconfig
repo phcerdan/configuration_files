@@ -30,7 +30,9 @@
 	rebase = true
 [alias]
 	ctags = !.git/hooks/ctags
-	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	# Pretty log
+	lg =  log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lol = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
 	pullall = !bash -c \"git pull && git submodule update --init\"
 	prepush = log --graph --stat origin/master..
 	diffwords = diff --color-words

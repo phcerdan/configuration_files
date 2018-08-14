@@ -12,6 +12,7 @@
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
+
 alias mux='tmuxifier'
 alias git=hub
 alias gits='git status'
@@ -47,3 +48,6 @@ alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 alias ccmake='TERM=xterm-256color ccmake'
 alias cninja='cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND'
 alias ccninja='ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND'
+
+# Allow gdb to attach to running processes
+alias gdb-enable-attach='echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope'
