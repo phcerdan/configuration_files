@@ -274,17 +274,17 @@ Plug 'ekalinin/Dockerfile.vim'
 " }}}
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
-Plug 'JamshedVesuna/vim-markdown-preview'
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+"Plug 'JamshedVesuna/vim-markdown-preview'
+" function! BuildComposer(info)
+"   if a:info.status != 'unchanged' || a:info.force
+"     if has('nvim')
+"       !cargo build --release
+"     else
+"       !cargo build --release --no-default-features --features json-rpc
+"     endif
+"   endif
+" endfunction
+"Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 "}}}
 " CMake {{{
 " Plug 'pboettch/vim-cmake-syntax'
