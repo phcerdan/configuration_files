@@ -45,17 +45,3 @@ alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
 
 # Allow gdb to attach to running processes
 alias gdb-enable-attach='echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope'
-
-# CMAKE
-# Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
-ccmake() {
-    TERM=xterm-256color command ccmake "$@"
-}
-
-cninja() {
-    cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
-}
-
-ccninja() {
-    ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
-}

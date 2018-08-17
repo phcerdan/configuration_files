@@ -124,6 +124,8 @@ fi
 # Automatic rename at "cd /to/folder/" when tmux is set to screen-256color. Harmless workaround here in zsh.:
 DISABLE_AUTO_TITLE=true
 
+# LOAD handy functions
+source $HOME/.functions
 # LOAD general .aliases.
 source $HOME/.aliases
 # Set some handy CXX_FLAGS

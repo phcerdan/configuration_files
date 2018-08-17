@@ -1,0 +1,23 @@
+# CMAKE
+# Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
+ccmake() {
+    TERM=xterm-256color command ccmake "$@"
+}
+
+cninja() {
+    cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
+}
+
+ccninja() {
+    ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
+}
+
+# RG
+# color always (for piping multiple rg commands)
+# example rgc Hola | rgc -v ThirdParty | rg hello
+# the last command will detect that output is a terminal
+# and will be colored
+rgc(){
+    rg --color=always "$@"
+}
+

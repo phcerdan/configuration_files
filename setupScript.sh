@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-echo "Trying to setup following simlinks: .vimrc ; .tmux.conf .tmux_utils ; .zshrc, .aliases, .devenviron; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .fzf.conf ; .config/cower/config ; .config/nyaovim/nyaovimrc.html ; .config/pycodestyle "
+echo "Trying to setup following simlinks: .vimrc ; .tmux.conf .tmux_utils ; .zshrc, .aliases, .functions, .devenviron; .vimperatorrc ; .tmuxifier/layouts; .vim/UltiSnips ; .eclimrc ; ycm_extra_conf.py ; colorgcc ; .spacemacs ; .gitconfig ; .git_template ; .fzf.conf ; .config/cower/config ; .config/nyaovim/nyaovimrc.html ; .config/pycodestyle "
 cd $HOME
 ln -s $SCRIPT_DIR/dot_files/.vimrc .
 ln -s $SCRIPT_DIR/dot_files/.tmux.conf .
@@ -11,6 +11,7 @@ ln -s $SCRIPT_DIR/dot_files/.tmux_utils .
 ln -s $SCRIPT_DIR/dot_files/.zshrc .
 ln -s $SCRIPT_DIR/dot_files/.fzf.conf .
 ln -s $SCRIPT_DIR/dot_files/.aliases .
+ln -s $SCRIPT_DIR/dot_files/.functions .
 ln -s $SCRIPT_DIR/dot_files/.devenviron .
 ln -s $SCRIPT_DIR/dot_files/.vimperatorrc .
 ln -s $SCRIPT_DIR/dot_files/.ycm_extra_conf.py .
