@@ -159,8 +159,8 @@ Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'     " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
 Plug 'gcmt/taboo.vim'              " Rename tabs
-Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
-Plug 'drzel/vim-line-no-indicator' " Save character in status line to report relative position in file.
+" Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
+" Plug 'drzel/vim-line-no-indicator' " Save character in status line to report relative position in file.
 "}}}
 " TMUX {{{
 " Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
@@ -553,7 +553,7 @@ call plug#end()            " required
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
+  nnoremap <silent> <Leader>nn :NERDTreeToggle<CR>
 " }}}
 
 " Ack/Ag Setup {{{
@@ -710,9 +710,12 @@ endfunction
   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
 
   let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-  let g:line_no_indicator_chars = ['⎺', '⎻', '─', '⎼', '⎽']
+  " let g:line_no_indicator_chars = ['⎺', '⎻', '─', '⎼', '⎽']
   " let g:airline_section_y = '%{LineNoIndicator()}'
-  let g:airline_section_z = '%{LineNoIndicator()}'
+  function! AirlineInit()
+    let g:airline_section_z = airline#section#create(['%2l:%c'])
+  endfunction
+  autocmd User AirlineAfterInit call AirlineInit()
   " Slow integrations disabled:
   let g:airline#extensions#wordcount#enabled = 0
   let g:airline#extensions#tagbar#enabled = 0
