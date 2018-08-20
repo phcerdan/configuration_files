@@ -1656,6 +1656,12 @@ let g:ale_linters = {
       \ 'python':['flake8']
       \}
 " \ 'javascript': ['eslint'],
+let g:ale_fixers = {
+\   'python': [
+\           'autopep8'
+\   ],
+\}
+let g:ale_python_autopep8_options = '--aggressive'
 " flake8 {{{
 " E302: comment/lines (expected 2 lines...)
 let g:ale_python_flake8_options='--ignore E302 --max-line-length=120'
