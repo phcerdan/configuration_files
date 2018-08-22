@@ -55,6 +55,7 @@ Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 " Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
+Plug 'jlanzarotta/bufexplorer'          " Show list of buffers with <Leader>be, bs, bv.
 Plug 'machakann/vim-sandwich'           " sa{motion/textobject}{addition}
                                         " sd{deletion}
                                         " srb{addition}, sr{deletion}{addition} ie: srb' or sr(' changes (foo) -> 'foo'
@@ -209,6 +210,8 @@ autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefini
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
 " }}}
 " vim-lsp-cquery{{{
@@ -683,7 +686,9 @@ endfunction
 
 " Tagbar Setup {{{
   nnoremap <silent> <Leader>bb :TagbarToggle<CR>
-  let g:tagbar_sort=0 "Keep order of file.
+  let g:tagbar_sort=0 " Keep order of file.
+  " updatetime is a general vim option (default 4000), too low and glitches happens
+  set updatetime=500 " Control the time to update highlight of the closest tag to current cursor position.
 " }}}
 
 " Jellybeans setup{{{
