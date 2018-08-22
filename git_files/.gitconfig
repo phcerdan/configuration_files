@@ -22,7 +22,7 @@
 	compactionHeuristic = true
 	indentHeuristic = true
 [merge]
-	tool = vimdiff
+	tool = meld
 [difftool]
 	prompt = false
 	trustExitCode = true
