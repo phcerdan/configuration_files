@@ -643,8 +643,8 @@ nnoremap <silent> <Leader>; :FCommands<CR>
 nnoremap <silent> <Leader>fhl :FHelptags<CR>
 nnoremap <silent> <Leader>fl :FLines<CR>
 nnoremap <silent> <Leader>fL :FBLines<CR>
-nnoremap <silent> K :call SearchWordWithAg()<CR>
-vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <Leader>w :call SearchWord()<CR>
+vnoremap <silent> K :call SearchWordVisualSelection()<CR>
 nnoremap <silent> <Leader>ft :FTags<CR>
 nnoremap <silent> <Leader>fT :FBTags<CR>
 nnoremap <silent> <Leader>gl :FCommits<CR>
@@ -662,13 +662,13 @@ command! -bang -nargs=? -complete=dir PFiles
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 
-function! SearchWordWithAg()
-  let ag_command = 'Ack!'
-  execute ag_command expand('<cword>')
+function! SearchWord()
+  let grep_command = 'Rg'
+  execute grep_command expand('<cword>')
 endfunction
 
-function! SearchVisualSelectionWithAg() range
-  let ag_command = 'Ag!'
+function! SearchWordVisualSelection() range
+  let grep_command = 'Rg'
   let old_reg = getreg('"')
   let old_regtype = getregtype('"')
   let old_clipboard = &clipboard
@@ -677,7 +677,7 @@ function! SearchVisualSelectionWithAg() range
   let selection = getreg('"')
   call setreg('"', old_reg, old_regtype)
   let &clipboard = old_clipboard
-  execute ag_command selection
+  execute grep_command selection
 endfunction
 " }}}
 
@@ -1066,7 +1066,7 @@ au BufNewFile,BufRead *.ih setlocal ft=cpp
 " }}}
 " Cppman in tmux pane {{{
 command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
-autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
+" autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
 "}}}
 au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 " Eclim Setup {{{
@@ -1658,7 +1658,7 @@ let g:ale_linters = {
 " \ 'javascript': ['eslint'],
 let g:ale_fixers = {
 \   'python': [
-\           'autopep8'
+\           'flake8'
 \   ],
 \}
 let g:ale_python_autopep8_options = '--aggressive'
