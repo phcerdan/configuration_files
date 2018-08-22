@@ -34,7 +34,7 @@ mkdir -p $HOME/.config/nyaovim ; cd $_
 ln -s $SCRIPT_DIR/dot_files/config/nyaovim/nyaovimrc.html .
 cd $HOME/.config
 ln -s $SCRIPT_DIR/dot_files/config/pycodestyle .
-ln -s $SCRIPT_DIR/dot_files/config/flake8.cfg .
+ln -s $SCRIPT_DIR/dot_files/config/flake8 .
 
 echo "Cloning (git) Plugin managers in .vim (Vundle) and .tmux (tpm)"
 # zsh manager zgen, should be handled in .zshrc
