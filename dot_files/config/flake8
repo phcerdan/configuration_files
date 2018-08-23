@@ -24,6 +24,8 @@ ignore =
     E114,
     # E121: Continuation line under-indented for hanging indent
     E121,
+    # E127:continuation line over-indented for visual indent
+    E127,
     # E226: missing whitespace around arithmetic operator
     E226,
     # E261: at least two spaces before inline comment
@@ -32,6 +34,8 @@ ignore =
     E302,
     # E305: expected 2 blank lines after class or function definition
     E305,
+    # E401: multiple imports on one line
+    E401,
     # # F812: list comprehension redefines ...
     # F812,
     # H101: Use TODO(NAME)

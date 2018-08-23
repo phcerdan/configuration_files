@@ -230,11 +230,15 @@ if executable('cquery')
 endif
 " }}}
 " python-language-server {{{
+" prefer flake8 than pycodestyle. flake8 configuration file is in
+" ~/.config/flake8
 if (executable('pyls'))
+    "\ 'cmd': {server_info->['python', '-m', 'pyls', '-vvv']},
     au User lsp_setup call lsp#register_server({
     \ 'name': 'pyls',
     \ 'cmd': {server_info->['python', '-m', 'pyls']},
-    \ 'whitelist': ['python']
+    \ 'whitelist': ['python'],
+    \ 'workspace_config': {'pyls': {'configurationSources': ['flake8', 'pycodestyle']}}
     \ })
 endif
 " }}}
