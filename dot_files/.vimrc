@@ -560,7 +560,7 @@ call plug#end()            " required
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>nn :NERDTreeToggle<CR>
+  nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
 " }}}
 
 " Ack/Ag Setup {{{
