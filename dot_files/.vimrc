@@ -33,6 +33,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'rhysd/nyaovim-markdown-preview'
 " }}}
 " Debuggers: {{{
+Plug 'sakhnik/nvim-gdb'
 " Plug 'phcerdan/minimal_gdb'
 " Plug '~/repository_local/minimal_gdb'
 Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever. Updated to v0.16.
@@ -232,6 +233,7 @@ endif
 " python-language-server {{{
 " prefer flake8 than pycodestyle. flake8 configuration file is in
 " ~/.config/flake8
+" You need to install flake8 for getting Diagnostic
 if (executable('pyls'))
     "\ 'cmd': {server_info->['python', '-m', 'pyls', '-vvv']},
     au User lsp_setup call lsp#register_server({
@@ -563,13 +565,22 @@ call plug#end()            " required
   nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
 " }}}
 
-" Ack/Ag Setup {{{
+" Ack/Ag/Rg Setup {{{
   if executable('ag')
     let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
     nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  endif
+" Ack/Ag Setup {{{
+  if executable('rg')
+    let g:ackprg = 'ag --vimgrep --smart-case'
+    " cnoreabbrev Ag Ack
+    " Use rg over Grep
+    set grepprg=rg\ --no-heading\ --nocolor
+    " nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   endif
 "}}}
@@ -590,7 +601,7 @@ call plug#end()            " required
 " fzf Setup {{{
 let g:fzf_layout = { 'down': '~40%' }
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
-let g:fzf_command_prefix = 'F'
+" let g:fzf_command_prefix = 'F'
 " Enable per-command history.
 " CTRL-N and CTRL-P will be automatically bound to next-history and
 " previous-history instead of down and up. If you don't like the change,
@@ -643,19 +654,25 @@ command! -nargs=* IAg
 command! -nargs=* IFiles
   \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf_layout))
 " Map C-p to override CtrlP plugin.
-nnoremap <silent> <C-p> :exe 'FFiles ' . <SID>fzf_root()<CR>
-nnoremap <silent> <Leader>b :FBuffers<CR>
-nnoremap <silent> <Leader>bB :FWindows<CR>
-nnoremap <silent> <Leader>; :FCommands<CR>
-nnoremap <silent> <Leader>fhl :FHelptags<CR>
-nnoremap <silent> <Leader>fl :FLines<CR>
-nnoremap <silent> <Leader>fL :FBLines<CR>
+nnoremap <silent> <C-p> :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>bB :Windows<CR>
+nnoremap <silent> <Leader>; :Commands<CR>
+nnoremap <silent> <Leader>fhl :Helptags<CR>
+nnoremap <silent> <Leader>fl :BLines<CR>
+nnoremap <silent> <Leader>fL :Lines<CR>
 nnoremap <silent> <Leader>w :call SearchWord()<CR>
 vnoremap <silent> K :call SearchWordVisualSelection()<CR>
-nnoremap <silent> <Leader>ft :FTags<CR>
-nnoremap <silent> <Leader>fT :FBTags<CR>
-nnoremap <silent> <Leader>gl :FCommits<CR>
-nnoremap <silent> <Leader>ga :FBCommits<CR>
+nnoremap <silent> <Leader>ft :BTags<CR>
+nnoremap <silent> <Leader>fT :Tags<CR>
+nnoremap <silent> <Leader>gl :Commits<CR>
+nnoremap <silent> <Leader>ga :BCommits<CR>
+" History Search
+nnoremap <silent> <Leader>gs :History/<CR>
+" History Commands
+nnoremap <silent> <Leader>gc :History:<CR>
+" History Files
+nnoremap <silent> <Leader>gf :History:<CR>
 
 command! -bang -nargs=* PAg
   \ call fzf#vim#ag(<q-args>,
@@ -1594,7 +1611,7 @@ let g:grepper.git =
 \ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
 nnoremap <leader>GG :Grepper -tool git<cr>
 nnoremap <leader>GA :Grepper -tool ag<cr>
-nnoremap <leader>GS :Grepper -tool agSF<cr>
+nnoremap <leader>GS :Grepper -tool rgSF<cr>
 "}}}
 " Cppcheck
 function! SetWarningType(entry)
@@ -1610,6 +1627,15 @@ function! SetSourceFolder(path)
     if !has_key(g:grepper, 'tools')
       let g:grepper.tools = []
     endif
+    " Rg
+    if index(g:grepper.tools,'rgSF') == -1
+      let g:grepper.tools = g:grepper.tools + ['rgSF']
+    endif
+    let g:grepper.rgSF = g:grepper.rg
+    let g:grepper.rgSF =
+          \ { 'grepprg': 'rg --vimgrep $* ' . g:sourceFolder }
+    execute 'command! -nargs=+ -complete=file GrepperRgSF'
+          \ 'Grepper -noprompt -tool rgSF -query <args>'
     " Ag
     if index(g:grepper.tools,'agSF') == -1
       let g:grepper.tools = g:grepper.tools + ['agSF']
