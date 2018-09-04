@@ -1331,6 +1331,9 @@ set timeoutlen=500 " timeoutlen : time to wait for chain character (leader, etc)
 set hid            " Send files to buffer instead of closing them -- e,n ... commands.
 set wildmode=list:longest,full
 set noshowmode " Don't show INSERT/VISUAL in command line.
+" Hit '%' on 'if' to jump to 'else'.
+runtime macros/matchit.vim
+"
 "}}}
 " Utils/Buffers {{{
 " Workaround to avoid setting autochdir:
