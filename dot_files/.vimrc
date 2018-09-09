@@ -905,7 +905,7 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
     endif
   endif
   " Workaround for buggy behaviour where quicktex thinks we are in math mode.
-  function QuickTexDisableMathMode()
+  function! QuickTexDisableMathMode()
     let g:quicktex_math=g:quicktex_tex
   endfunction
   command! QuickTexDisableMathMode call QuickTexDisableMathMode()
@@ -1879,12 +1879,25 @@ vnoremap <Leader>k :s/<C-r>"/<C-r>"/
 " }}}
 
 " Task related commands {{{
-com! Task exec "!task"
+com! -nargs=? Task exec "!task " . <q-args>
 com! Tasklog exec "!cat ~/tasks.log | tail -n 10"
 com! Tasknext exec "!task | head -n 1"
 com! -nargs=1 Taskfinish exec "!task -f <q-args>"
 com! Taskedit exec "e ~/tasks"
 com! Tasklogedit exec "e ~/tasks.log"
+com! Taskhelp echo g:Taskhelp_string
+let g:Taskhelp_string="# Simple todo list manager.\n
+            \# Tasks will be written to ~/tasks.\n
+            \# Finished tasks, plus a timestamp, will be written to ~/tasks.log.\n
+            \#\n
+            \# usage: task [-e] [-f [line]]\n
+            \#\n
+            \#   task        list tasks\n
+            \#   task ...    add task\n
+            \#   task -e     edit tasks using $EDITOR\n
+            \#   task -f 3   finish task on line 3\n
+            \#   task 3      finish task on line 3\n
+            \#   task -f     finish all tasks"
 " }}}
 
 function! CommentsLightBlue()
