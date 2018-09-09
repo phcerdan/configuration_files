@@ -51,6 +51,7 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " }}}
 " Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
 " Plug 'Raimondi/delimitMate'             " Auto-pair like script
+Plug 'rhysd/committia.vim'              " More pleasant commit layout
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
@@ -520,6 +521,12 @@ call plug#end()            " required
   " endfunction
 " }}}
 
+" commitia Setup {{{
+  " Open commitia if COMMIT buffer
+  let g:committia_open_only_vim_starting = 0
+  " Use single column always
+  let g:committia_use_singlecolumn = 'always'
+" }}}
 " Fugitive and vim-rhubarb Setup {{{
   nnoremap <Leader>gs :Gstatus<CR>
   let g:fugitive_git_executable = 'hub'
@@ -828,10 +835,6 @@ endfunction
 " Gitgutter Setup {{{
 " let g:loaded_gitgutter=1 " Slow, don't load it.
 " }}}
-"
-" git commit {{{
-autocmd FileType gitcommit setlocal spell
-" }}}
 
 " vim-clang-format Setup {{{
 let g:clang_format#detect_style_file=1 " Auto detect .clang-format file.
@@ -1044,7 +1047,7 @@ au BufNewFile,BufRead *.cu  setlocal ft=cuda.cpp
 " }}}
 
 " Git Setup {{{
-autocmd Filetype gitcommit setlocal spell textwidth=72
+autocmd Filetype gitcommit setlocal spell
 "}}}
 
 " Markdown Setup {{{
@@ -1422,22 +1425,22 @@ vnoremap <c-]> g<c-]>
 " nnoremap <leader>ts "=strftime("%F")<CR>P
 inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 " Copy filename to clipboard {{{
-  function CopyAbsolutePath()
+  function! CopyAbsolutePath()
     " absolute path (/something/src/foo.txt)
     let @+=expand("%:p")
   endfunction
 
-  function CopyRelativePath()
+  function! CopyRelativePath()
    " relative path (src/foo.txt)
     let @+=expand("%")
   endfunction
 
-  function CopyFilename()
+  function! CopyFilename()
     " filename (foo.txt)
     let @+=expand("%:t")
   endfunction
 
-  function CopyDirectoryPath()
+  function! CopyDirectoryPath()
     " directory name (/something/src)
     let @+=expand("%:p:h")
   endfunction
