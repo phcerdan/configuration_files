@@ -21,6 +21,10 @@ export WORKON_HOME=~/.virtualenvs
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     source /usr/bin/virtualenvwrapper.sh
 fi
+# git clone https://github.com/fbudin69500/terminal.workspace.git $HOME/.terminal.workspace
+if [ -f $HOME/.terminal.workspace/workspace.config ]; then
+    source ~/.terminal.workspace/workspace.config
+fi
 
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
 # export TERMINFO="$HOME/.terminfo"
