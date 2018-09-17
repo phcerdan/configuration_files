@@ -101,7 +101,21 @@ function! GetBufferList()
   return buflist
 endfunction
 
+function! PreviewWindowOpened()
+  for nr in range(1, winnr('$'))
+    if getwinvar(nr, "&pvw") == 1
+      " found a preview
+      return 1
+    endif
+  endfor
+  return 0
+endfun
+
 function! ToggleList(bufname, pfx)
+  if PreviewWindowOpened() == 1
+    exec('pclose')
+    return
+  endif
   let buflist = GetBufferList()
   for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
     if bufwinnr(bufnum) != -1
