@@ -2,3 +2,4 @@
 # in build folder, then symlink in src folder for auto-
 # completers to work automatically
 compile_commands.json
+Session.vim
