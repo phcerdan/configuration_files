@@ -1,0 +1,97 @@
+set nocompatible
+
+" Plug manager {{{
+" Vim-Plug Automatic installation {{{
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !mkdir -p ~/.vim/autoload
+  silent !curl -fLo ~/.vim/autoload/plug.vim
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  au VimEnter * PlugInstall
+endif
+" }}}
+call plug#begin('~/.vim/plugged')
+" COLORS {{{
+Plug 'rainux/vim-desert-warm-256' "Colorscheme
+Plug 'phcerdan/molokai' " Colorscheme
+" }}}
+
+Plug 'wsdjeg/vim-fetch' " Enable opening files with format: vim file_name.xxx:line,column
+Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
+Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
+Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
+Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
+
+" FZF {{{
+Plug 'junegunn/fzf' " Fuzzy searcher. Gold. Better than CtrlP
+Plug 'junegunn/fzf.vim'
+" }}
+
+" GIT {{{
+Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
+Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
+" }}}
+
+" TMUX {{{
+Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
+" }}}
+
+" AUTOCOMPLETERS {{{
+Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
+Plug 'honza/vim-snippets'               " Merged cmake changes!
+" }}}
+call plug#end()
+" }}}
+
+syntax on
+set pastetoggle=<F12>
+set autoindent
+set backspace=indent,eol,start
+" Undofile {{{
+set undofile  " Maintain a undofile to keep changes between sessions.
+set undodir=~/.vim/undo/
+" }}}
+
+" Tab/Indent {{{
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+" }}}
+
+colorscheme molokai
+let g:molokai_original=1
+let g:rehash256=1
+" colorscheme jellybeans
+set background=dark
+if has('termguicolors') " Truecolor. modern vim or nvim only.
+  set termguicolors
+  " vim only: RGB colors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+" UltiSnips Setup {{{
+  let g:UltiSnipsEditSplit="vertical"
+  let g:UltiSnipsSnippetDir='~/.vim/UltiSnips'
+  let g:UltiSnipsSnippetDirectories=['UltiSnips',"plugged/vim-snippets/UltiSnips"]
+  let g:UltiSnipsExpandTrigger="<tab>"
+  let g:UltiSnipsJumpForwardTrigger="<tab>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
+  function! OpenSnippets()
+  	execute 'edit ~/.vim/plugged/vim-snippets/snippets/' . &filetype . '.snippets'
+  endfunction
+"}}}
+
+" restore_view Setup{{{
+  set viewoptions=cursor,folds,slash,unix
+" }}}
+
+
+" autocommands {{{
+autocmd Filetype gitcommit setlocal spell
+"}}}
+
+" Expand in command mode to current directory
+cnoremap zc e <c-r>=expand("%:h")<cr>/
