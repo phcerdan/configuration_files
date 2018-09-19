@@ -1130,11 +1130,16 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 
 " UltiSnips Setup {{{
   let g:UltiSnipsEditSplit="vertical"
-  let g:UltiSnipsSnippetDirectories=['UltiSnips',"bundle/vim-snippets/UltiSnips"]
-  let g:UltiSnipsExpandTrigger="<C-s>"
-  let g:UltiSnipsJumpForwardTrigger="<C-s>"
-  let g:UltiSnipsJumpBackwardTrigger="<C-e>"
+  let g:UltiSnipsSnippetDir='~/.vim/UltiSnips'
+  let g:UltiSnipsSnippetDirectories=['UltiSnips',"plug/vim-snippets/UltiSnips"]
+  let g:UltiSnipsExpandTrigger="<tab>"
+  let g:UltiSnipsJumpForwardTrigger="<tab>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
   let g:UltiSnipsListSnippets="<F4>"
+  function! OpenSnippets()
+	execute 'edit ~/.vim/plugged/vim-snippets/snippets/' . &filetype . '.snippets'
+  endfunction
+
   " From: https://github.com/Valloric/YouCompleteMe/issues/420
 "   let g:ulti_expand_or_jump_res = 0
 "   function ExpandSnippetOrCarriageReturn()
