@@ -18,6 +18,20 @@ snippet figpage "PHC:Create a figure with minipages to input multiple images" b
 \end{figure}
 
 endsnippet
+
+snippet subcaptionbox "PHC:subcaptionbox (require package subcaption)" b
+\begin{figure}[!htb]
+  \centering
+  \subcaptionbox{\label{subfig:femur-sagitalA}}%
+    {\includegraphics[height=5cm]{figures/screen_851-L_sagital_-76mm.png}}%
+  \hspace{0.8em}% fixed space between figures, requires centering
+  \subcaptionbox{\label{subfig:femur-sagitalB}}%
+    {\includegraphics[height=5cm]{figures/screen_851-L_3D_Sagital_-76mm.png}}
+  \caption{(\subref{subfig:femur-sagitalA}) Sagital view. (\subref{subfig:femur-sagitalB}) 3D view}
+  \label{fig:femur-sagital}
+\end{figure}
+endsnippet
+
 snippet subfig "PHC:subfig (require package subfig)" b
 \begin{subfigure}{0.5\textwidth}
   \centering

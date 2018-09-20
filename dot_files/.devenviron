@@ -10,6 +10,7 @@
 #source $HOME/.devenviron
 
 ########## DEVENVIRON ##############
+export GTEST_COLOR=1
 
 #### NINJA ####
 # CXXFLAGS is read at cmake at configure time, and only first time. Use it here for show colors when using generator: -G Ninja
