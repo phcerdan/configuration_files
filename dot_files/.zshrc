@@ -67,6 +67,14 @@ POWERLEVEL9K_HOME_ICON=''
 POWERLEVEL9K_HOME_SUB_ICON=''
 POWERLEVEL9K_FOLDER_ICON=''
 
+# vcs
+POWERLEVEL9K_HIDE_BRANCH_ICON=true
+POWERLEVEL9K_SHOW_CHANGESET=true
+POWERLEVEL9K_CHANGESET_HASH_LENGTH=8
+# # Default is slow... too many git commands. There is a PR with async vcs status, might be worth to restore when merged.
+# POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes) # git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+
 #### END POWERLEVEL9K CONFIGURATION #### }}}
 
 # Clone zgen if you haven't already
