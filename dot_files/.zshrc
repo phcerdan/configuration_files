@@ -35,7 +35,7 @@ POWERLEVEL9K_MODE='nerdfont-complete'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(virtualenv context dir_writable dir rbenv vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time command_execution_time)
 # You can also use different prompts in different environments, e.g. for TMUX, you might use
 # if [[ "${TERM}" =~ "tmux" || "${TERM}" =~ "screen" ]]; then
 #     POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
