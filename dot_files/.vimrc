@@ -218,8 +218,8 @@ function! LSPEnableLog() "{{{
   let g:lsp_log_verbose = 1
   let g:lsp_log_file = expand('/tmp/vim-lsp.log')
 endfunction "}}}
-" au FileType c,c++ setlocal omnifunc=lsp#complete
-" au FileType python setlocal omnifunc=lsp#complete
+au FileType c,c++ setlocal omnifunc=lsp#complete
+au FileType python setlocal omnifunc=lsp#complete
 
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
 autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
@@ -244,6 +244,15 @@ if executable('cquery')
       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
 endif
+
+" if executable('clangd')
+"    au User lsp_setup call lsp#register_server({
+"       \ 'name': 'clangd',
+"       \ 'cmd': {server_info->['clangd']},
+"       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+"       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+"       \ })
+" endif
 " }}}
 " python-language-server {{{
 " prefer flake8 than pycodestyle. flake8 configuration file is in
@@ -730,7 +739,7 @@ endfunction
   nnoremap <silent> <Leader>bb :TagbarToggle<CR>
   let g:tagbar_sort=0 " Keep order of file.
   " updatetime is a general vim option (default 4000), too low and glitches happens
-  set updatetime=500 " Control the time to update highlight of the closest tag to current cursor position.
+  set updatetime=1500 " Control the time to update highlight of the closest tag to current cursor position.
 " }}}
 
 " Jellybeans setup{{{
@@ -1712,9 +1721,10 @@ let g:ale_lint_on_enter = 0
 " show loclist vertical
 " let g:ale_list_vertical = 1
 let g:ale_linters = {
-      \ 'cpp': ['clangtidy'],
+      \ 'cpp': ['cquery','clangtidy'],
       \ 'python':['flake8']
       \}
+let g:ale_cpp_cquery_cache_directory='~/tmp/cquery_cache'
 " \ 'javascript': ['eslint'],
 let g:ale_fixers = {
 \   'python': [
