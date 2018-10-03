@@ -1721,7 +1721,7 @@ let g:ale_lint_on_enter = 0
 " show loclist vertical
 " let g:ale_list_vertical = 1
 let g:ale_linters = {
-      \ 'cpp': ['cquery','clangtidy'],
+      \ 'cpp': ['cquery','clangtidyheader'],
       \ 'python':['flake8']
       \}
 let g:ale_cpp_cquery_cache_directory='~/tmp/cquery_cache'
@@ -1748,7 +1748,8 @@ let g:ale_cpp_clangtidy_checks = [
       \ '-llvm-*',
       \ '-objc-',
       \ ]
-com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidy_header_sourcefile=<q-args> | let b:ale_cpp_clangtidy_header_sourcefile=<q-args>
+let g:ale_cpp_clangtidyheader_checks = g:ale_cpp_clangtidy_checks
+com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefile=<q-args> | let b:ale_cpp_clangtidyheader_sourcefile=<q-args>
 " let g:ale_pattern_options = {
 "       \   '\.h$': {
 "       \       'ale_linters': {'cpp': ['clangtidy']},
