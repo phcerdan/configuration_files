@@ -1,5 +1,8 @@
 set nocompatible
-
+syntax on
+let mapleader=" "
+" For latex and R plugins
+let maplocalleader=";"
 
 " Folding {{{
 " set nofoldenable      " disable folding. Slow, even with fastfold plug
@@ -11,15 +14,6 @@ set foldlevel=99
 set foldlevelstart=99
 set foldmethod=syntax
 " }}}
-let g:loaded_youcompleteme = 1 " YCM slow? Usually no...
-syntax on
-let mapleader=" "
-" For R (and latex?) plugins
-let maplocalleader=";"
-
-" Because remap of TAB (== <C-I>) in Supertab, or Ultisnips. ctrl-i does not work as a jumplist-forward
-" Note: Now <C-i> works?
-" nnoremap <C-s> <C-I>
 
 " Plug manager {{{
 " Vim-Plug Automatic installation {{{
@@ -51,8 +45,6 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   " Plug 'mattn/calendar-vim'             " Calendar <localleader>cal
   " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
-" Plug 'metakirby5/codi.vim'              " Interactive scratchpad. Needs real time interpreter. Cling in c++.
-" Plug 'Raimondi/delimitMate'             " Auto-pair like script
 Plug 'rhysd/committia.vim'              " More pleasant commit layout
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
@@ -81,8 +73,6 @@ Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using er
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
 Plug 'phcerdan/ale'                       " my fork with header linting hack (providing .cpp per header)
-" Plug '~/repository_local/vim-dev/ale'                         " Linting real-time
-" Plug 'benekastah/neomake', has('nvim') ? {} : { 'on': [] } " Async building for neovim. :Make, :Make! GOLD
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 " Plug 'vim-scripts/delview'              " Delete stored view with :delview.
 Plug 'yssl/QFEnter'                       " Open items from qf/loc lists in whatever buffer
@@ -170,18 +160,13 @@ Plug 'rainux/vim-desert-warm-256'
 " Plug 'justinmk/molokai'
 " Include inversion of fg/bg in MatchParen (PR opened upstream)
 Plug 'phcerdan/molokai'
-" Plug 'joshdick/onedark.vim'
 Plug 'nanotech/jellybeans.vim'
-Plug 'chriskempson/base16-vim'
-" Plug 'itchyny/lightline.vim'
 Plug 'vim-airline/vim-airline'     " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
 Plug 'gcmt/taboo.vim'              " Rename tabs
 " Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
-" Plug 'drzel/vim-line-no-indicator' " Save character in status line to report relative position in file.
 "}}}
 " TMUX {{{
-" Plug 'edkolev/tmuxline.vim'             " Status line for tmux (Airline compatible)
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
@@ -212,6 +197,23 @@ Plug 'qpkorr/vim-renamer'
 " }}}
 " Language Clients {{{
 " vim-lsp {{{
+set completeopt+=preview
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+let g:asyncomplete_auto_popup = 0
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+let g:asyncomplete_remove_duplicates = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+function! s:check_back_space() abort "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction "}}}
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 let g:lsp_signs_enabled = 1         " enable signs
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:lsp_async_completion = 1
@@ -333,32 +335,10 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 " AUTOCOMPLETERS {{{
 Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'               " Merged cmake changes!
-" Plug 'ervandew/supertab'                " Tab to autocomplete.
 " javascript {{{
 " Not needed if ycm has --tern-completer
 " Plug 'ternjs/tern_for_vim'
 " }}}
-" YCM {{{
-" let completer = 'oblitum/YouCompleteMe'
-let completer = 'Valloric/YouCompleteMe'
-" In ARCH libtinfo is missing. Install with cower -d ncurses5-compat-libs
-" More info in issue: https://github.com/Valloric/YouCompleteMe/issues/778
-" Plug completer , { 'do': 'python2 ./install.py' }
-" Plug completer , { 'do': 'cd ./third_party/ycmd ; patch -p1 < ~/repository_local/configuration_files/vim/cpp_trigger_patch.txt ; cd ../../ ; python2 ./install.py' }
-" Plug completer , { 'do': 'python ./install.py --clang-completer' }
-" Apply patch to allow c++ completion with templates (slower)
-" Plug completer , { 'do': ' cd ./third_party/ycmd ; git apply ~/repository_local/configuration_files/vim/patch_cpp_incomplete.diff ; cd ../../ ; python2 ./install.py --clang-completer' }
-" Plug completer , { 'do': 'python2 ./install.py --clang-completer --system-libclang' }
-" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
-" ctags must be called with --fields=+l (modified in git_templates/ctags)
-" BUG in ycm about memory consuption with ctags, put it 0
-" meanwhile: https://github.com/Valloric/YouCompleteMe/issues/595
-" }}}
-" Plug 'davidhalter/jedi-vim'
-" Plug 'tenfyzhong/CompleteParameter.vim'
-" }}} End autocompleters
-" Plug 'lyuts/vim-rtags'                  " Require rtags server: rc
-" Language Client {{
 " LanguageClient-Neovim {{{
 " if has('nvim')
 "   " To install run in shell: nvim +PlugInstall +UpdateRemotePlugins +qa
@@ -395,73 +375,15 @@ let completer = 'Valloric/YouCompleteMe'
 " endif
 " }}} LanguageClient-neovim
 " vim-lsp {{{
-" First install vim-lsp, this plugin relies on it:
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'pdavydov108/vim-lsp-cquery'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-let g:asyncomplete_remove_duplicates = 1
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-function! s:check_back_space() abort "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction "}}}
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-  " Plug 'zchee/deoplete-jedi'
-" Showing function signature and inline doc.
-" The entry needs to be selected with <C-y> for the doc to echo.
-" Plug 'Shougo/echodoc.vim'
-" let g:echodoc#enable_at_startup = 1
-" Use deoplete.
-let g:deoplete#enable_at_startup = 0
-let g:deoplete#disable_auto_complete = 1
-" let g:deoplete#enable_at_startup = 1
-" let g:deoplete#disable_auto_complete = 0
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ deoplete#mappings#manual_complete()
-
-
-" External sources:
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['ultisnips']
-" Extra deoplete sources {{{
-" Plug 'tweekmonster/deoplete-clang2'
-" Plug 'zchee/deoplete-clang'
-" let g:deoplete#sources#clang#libclang_path='/usr/lib/libclang.so'
-" let g:deoplete#sources#clang#clang_header='/usr/lib/clang'
-" let g:deoplete#sources.cpp = ['buffer', 'clang']
 " }}}
-" vim-rtags Setup {{{
-  let g:rtagsUseLocationList = 0
-" }}}
-" web {{{
-
-" if has('nvim')
-"   Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
-"   Plug 'vyzyv/vimpyter'
-" endif
-" }}}
+" AUTOCOMPLETERS }}}
 call plug#end()            " required
 " vim-plug END }}}
-" }}}
 " vim-sandwich Setup {{{
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
   "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
@@ -482,7 +404,6 @@ call plug#end()            " required
 " nyaovim Setup {{{
   let g:markdown_preview_auto =1
 " }}}
-"
 " Debuggers Setup {{{
 " Conque-GDB Setup {{{
 " Set localsyntax of ConqueGDB buffer to cpp
@@ -518,33 +439,6 @@ call plug#end()            " required
 " nnoremap <Leader>dll :LLsession load
 " " }}}
 " Debuggers End }}}
-
-" Organization/Note taking
-" vimwiki Setup {{{
-  " let g:vimwiki_conceallevel = 0
-  " let g:vimwiki_list = [{'path': '~/Dropbox/vimwiki',
-  "                       \ 'syntax': 'markdown', 'ext': '.md',
-  "                       \ 'nested_syntaxes': {'cpp': 'cpp'}}]
-  " function! VimwikiLinkHandler(link)
-  "   " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
-  "   "   1) [[vfile:~/Code/PythonProject/abc123.py]]
-  "   "   2) [[vfile:./|Wiki Home]]
-  "   let link = a:link
-  "   if link =~# '^vfile:'
-  "     let link = link[1:]
-  "   else
-  "     return 0
-  "   endif
-  "   let link_infos = vimwiki#base#resolve_link(link)
-  "   if link_infos.filename == ''
-  "     echomsg 'Vimwiki Error: Unable to resolve link!'
-  "     return 0
-  "   else
-  "     exe 'tabnew ' . fnameescape(link_infos.filename)
-  "     return 1
-  "   endif
-  " endfunction
-" }}}
 
 " commitia Setup {{{
   " Open commitia if COMMIT buffer
@@ -724,16 +618,6 @@ endfunction
 " Jellybeans setup{{{
   let g:jellybeans_use_term_italics = 1
   " let g:jellybeans_use_lowcolor_black = 0
-" }}}
-
-" Onedark setup{{{
-  " let g:onedark_terminal_italics = 1
-" }}}
-
-" lightline setup {{{
-" let g:lightline = {
-"       \ 'colorscheme': 'wombat',
-"       \ }
 " }}}
 
 " Airline Setup {{{
@@ -1149,12 +1033,6 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 " inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
 " }}}
 
-" Supertab Setup {{{
-  " TIP: Ctrl-E to return to original without auto-complete
-  " let g:SuperTabDefaultCompletionType = 'context'
-  " let g:SuperTabClosePreviewOnPopupClose = 1 " close scratch window on autocompletion
-" }}}
-
 "General Completer Options {{{
 " don't give |ins-completion-menu| messages.  For example,
 " -- XXX completion (YYY)', 'match 1 of 2', 'The only match',
@@ -1183,97 +1061,6 @@ set shortmess+=c
 " endif
 " }}}
 
-" YouCompleteMe Setup {{{
-  " let g:loaded_youcompleteme = 1
-  let g:ycm_python_binary_path = 'python' " For JediHTTP using the right (virtualenv) python. :YcmCompleter RestartServer <path_to_python_bin>
-  let g:ycm_collect_identifiers_from_tags_files = 0 " Seems ycmd is 70% faster at these. Switch to 0 if massive python memory consumption
-  " let g:ycm_add_preview_to_completeopt = 1
-  "if preview is slow {
-  let g:ycm_add_preview_to_completeopt = 0
-  set completeopt-=preview
-  "}
-  " let g:ycm_confirm_extra_conf = 0
-  let g:ycm_seed_identifiers_with_syntax = 1
-  " The default: let g:ycm_key_list_select_completion = ['<TAB>', '<Down>']
-  " let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  " let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  let g:ycm_autoclose_preview_window_after_insertion = 1
-  let g:ycm_min_num_of_chars_for_completion = 4
-  " let g:ycm_autoclose_preview_window_after_completion = 1
-  " let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
-  " let g:ycm_extra_conf_globlist = ['~/Software/*', '~/repository_local/*']
-  " This completely removes ycm.
-  " let g:ycm_filetype_specific_completion_to_disable = {
-  "             \ 'gitcommit': 1 ,
-  "             \ 'cpp': 1
-  "             \}
-  "
-  let g:ycm_auto_trigger=1  " This turns off the identifier comp (as you type) and semantic (.,->) auto trigger. Use <C-Space>, or <C-b> for trigger manually
-
-  function! Switch_ycm_auto_trigger()
-    if g:ycm_auto_trigger == 0
-      let g:ycm_auto_trigger = 1
-    else
-      let g:ycm_auto_trigger = 0
-    endif
-  endfunction
-
-  nnoremap <leader>y :call Switch_ycm_auto_trigger()<CR>
-
-  "DEFAULT: let g:ycm_key_invoke_completion = '<C-Space>'
-  let g:ycm_key_invoke_completion = '<C-w>'
-  " nnoremap <leader>jd :YcmCompleter GoToDeclaration<cr>
-  " nnoremap <leader>kd :YcmCompleter GoToDefinitionElseDeclaration<cr>
-  " nnoremap <leader> :YcmCompleter GoToDefinition<cr>
-  nnoremap <leader>jf :YcmCompleter FixIt<cr>
-  nnoremap <leader>jj :YcmCompleter GoTo<cr>
-  nnoremap <leader>jr :YcmCompleter GoToReferences<cr>
-  nnoremap <leader>jh :YcmCompleter GetDoc<cr>
-  nnoremap <leader>jt :YcmCompleter GetType<cr>
-  nnoremap <leader>jp :YcmCompleter GetParent<cr>
-  nnoremap <silent> gf :YcmCompleter FixIt<cr>
-  nnoremap <silent> gd :YcmCompleter GoTo<cr>
-  nnoremap <silent> gr :YcmCompleter GoToReferences<cr>
-  nnoremap <silent> gh :YcmCompleter GetDoc<cr>
-  nnoremap <silent> gt :YcmCompleter GetType<cr>
-  nnoremap <silent> gp :YcmCompleter GetParent<cr>
-  "close preview
-  nnoremap <leader>jc :pc<cr>
-" if using Jedi, disable ycm python
-let g:ycm_filetype_specific_completion_to_disable = {
- \ 'gitcommit': 1,
- \ 'python': 1,
- \ }
-" YCM+eclim {{{
-  " Use default completefunc (<c-x><c-u>) to work with both YCM, and eclim.
-  " From the docs.
-  " let g:EclimCompletionMethod = 'omnifunc'
-  " But it is too intrusive/slow calling eclipse indexer all the time, so we disable semantic completion.
-  " We can still call it manually with <C-X><C-O> or the key in g:ycm_key_invoke_completion
-" To remove clang_completer move hooks.py to hooks.py.BACKUP
-  " let g:ycm_filetype_specific_completion_to_disable = {
-  "       \ 'cpp': 1
-  "       \}
-" }}}
-
-" YCM+UltiSnips+SuperTab {{{
-  " let g:SuperTabDefaultCompletionType = '<C-n>'  " This overrides the default 'Context' for SuperTab+UltiSnips+Eclim
-  " let g:SuperTabCrMapping = 0
-" }}}
-
-
-
-" Multiple-Cursors setup {{{
-  function! Multiple_cursors_before()
-      let g:ycm_auto_trigger = 0
-  endfunction
-
-  function! Multiple_cursors_after()
-      let g:ycm_auto_trigger = 1
-  endfunction
-" }}}
-" }}} End YCM related
-
 " Neovim options {{{
 if has('nvim')
   set inccommand=split
@@ -1283,8 +1070,6 @@ endif
 " set t_Co=256
 " colorscheme desert256
 " colorscheme desert-warm-256
-" let base16colorspace=256
-" colorscheme base16-default-dark
 colorscheme molokai
 let g:molokai_original=1
 let g:rehash256=1
@@ -1296,14 +1081,6 @@ if has('termguicolors') " Truecolor. modern vim or nvim only.
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   " colorscheme base16-monokai
-"   source ~/.vimrc_background
-"   " modified this in base16-monokai
-"   " call <sid>hi("IncSearch",    s:gui00, s:gui03, s:cterm00, s:cterm03,  "undercurl", "")
-" endif
 "}}}
 " SYNTAX {{{
 syntax spell toplevel
@@ -1593,8 +1370,7 @@ noremap <leader>ss :setlocal foldmethod=syntax
 nnoremap <C-N> <C-^>
 "End of General Maps}}}
 
-" Return to last edit position when opening files (You want this!) Obsolete:
-" plugin:restore_view does this. {{{
+" Return to last edit position when opening files (You want this!) Obsolete: plugin:restore_view does this. {{{
 " autocmd BufReadPost *
 "      \ if line("'\"") > 0 && line("'\"") <= line("$") |
 "      \   exe "normal! g`\"" |
@@ -1722,7 +1498,7 @@ function! BuildFolderAppend(str)
 endfunction
 "}}}
 " end of makeprg functions }}}
-"
+
 "Vim-grepper Setup {{{
 " initialize g:grepper with defaults
 let g:grepper = {}
@@ -1733,16 +1509,17 @@ let g:grepper.git =
 nnoremap <leader>GG :Grepper -tool git<cr>
 nnoremap <leader>GS :Grepper -tool rgSF<cr>
 "}}}
-" Cppcheck
+" Cppcheck WarningType {{{
 function! SetWarningType(entry)
   if a:entry.type =~? '\m^[SPI]'
     let a:entry.type = 'I'
   endif
 endfunction
+" }}}
 
+" SourceFolder {{{
 function! SetSourceFolder(path)
     let g:sourceFolder=a:path
-
     " Set vim-grepper {{{
     if !has_key(g:grepper, 'tools')
       let g:grepper.tools = []
@@ -1771,6 +1548,7 @@ function! SetSourceFolder(path)
     " }}}
 endfunction
 com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
+" }}}
 
 " asyncrun setup {{{
 " For using it with errorformat (display errors)
@@ -2008,8 +1786,10 @@ let g:Taskhelp_string="# Simple todo list manager.\n
             \#   task -f     finish all tasks"
 " }}}
 
+" Other {{{
 function! CommentsLightBlue()
  execute 'highlight Comment ctermfg=LightBlue guifg=LightBlue'
 endfunction
 com! ClearQuickFix call setqflist([])
-" vim:foldmethod=marker:foldlevel=2
+" }}}
+" vim:foldmethod=marker:foldlevel=0
