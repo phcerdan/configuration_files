@@ -1,4 +1,6 @@
 set nocompatible
+
+
 " Folding {{{
 " set nofoldenable      " disable folding. Slow, even with fastfold plug
 " Folding is slow, but useful.
@@ -159,7 +161,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Search/Grep {{{
 Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
 Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim', has('fzf') ? {} : { 'off': [] } " Ctrlp to search for / open files. Worse than zfz.
 Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
 Plug 'junegunn/fzf.vim'
 Plug 'majutsushi/tagbar'
@@ -460,6 +461,7 @@ let g:deoplete#sources._ = ['ultisnips']
 " }}}
 call plug#end()            " required
 " vim-plug END }}}
+" }}}
 " vim-sandwich Setup {{{
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
   "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
@@ -596,36 +598,13 @@ call plug#end()            " required
 " }}}
 
 " Ack/Ag/Rg Setup {{{
-  if executable('ag')
-    let g:ackprg = 'ag --vimgrep --smart-case'
-    " cnoreabbrev Ag Ack
-    " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  endif
-" Ack/Ag Setup {{{
   if executable('rg')
-    let g:ackprg = 'ag --vimgrep --smart-case'
+    " let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
     " Use rg over Grep
     set grepprg=rg\ --no-heading\ --nocolor
     " nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   endif
-"}}}
-
-"CtrlP Setup{{{
-  if executable('ag')
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-      " ag is fast enough that CtrlP doesn't need to cache
-      let g:ctrlp_use_caching = 0
-      let g:ctrlp_map=''
-  endif
-  " nnoremap <Leader>t :CtrlPTag<cr>
-  let g:ctrlp_custom_ignore = '\v[\/](cache|cached)|(\.(swp|ico|git|svn))$'
-  let g:ctrlp_max_files=0
-  let g:ctrlp_max_depth=40
 "}}}
 
 " fzf Setup {{{
@@ -670,7 +649,7 @@ command! -nargs=* GAg
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, { 'options': '--bind=ctrl-e:select-all,ctrl-d:deselect-all' }, <bang>0)
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf_layout))
 " Specialized for ITK.
@@ -746,6 +725,7 @@ endfunction
   let g:jellybeans_use_term_italics = 1
   " let g:jellybeans_use_lowcolor_black = 0
 " }}}
+
 " Onedark setup{{{
   " let g:onedark_terminal_italics = 1
 " }}}
@@ -797,6 +777,7 @@ endfunction
   let g:WebDevIconsOS="Linux"
   " set guifont=Droid\ Sans\ Mono\ Awesome\ Regular\ 11
 " }}}
+
 " Taboo Options {{{ :TabooRename, TabooOpen aname
 " To restore tab names.
  " let g:airline#extensions#taboo#enabled = 0
@@ -871,6 +852,7 @@ let g:clang_format#auto_formatexpr=1
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
 " }}}
+
 " neoformat Setup {{{
 inoremap <Leader>nf :Neoformat
 
@@ -895,6 +877,7 @@ inoremap <Leader>nf :Neoformat
 let g:neoformat_enabled_python = ['autopep8']
 " }}}
 " }}}
+
 " vim-grammarous Setup {{{
   let g:grammarous#disabled_rules = {
         \ 'tex' : ['WHITESPACE_RULE', 'EN_QUOTES', 'COMMA_PARENTHESIS_WHITESPACE', 'CURRENCY', 'EN_UNPAIRED_BRACKETS'],
@@ -903,6 +886,8 @@ let g:neoformat_enabled_python = ['autopep8']
   let g:grammarous#show_first_error = 1
   nmap <localleader>. <Plug>(grammarous-open-info-window)
 " }}}
+
+" Languages SETUP {{{
 " LaTeX Setup {{{
 ".tex FILE IS ALWAYS LATEX
 let g:tex_flavor = 'tex'
@@ -992,6 +977,7 @@ Plug 'Konfekt/FastFold' " auto fold is slow
   " let g:python_folding = 1
 " }}}
 " }}}
+
 " Docs navigation {{{
 " zeavim {{{
 nmap <leader>z <Plug>Zeavim
@@ -1136,6 +1122,7 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   " au FileType c,cpp nnoremap <silent> <buffer> <cr> :CSearchContext<cr>
 " }}}
 " }}}
+" Languages SETUP }}}
 
 " UltiSnips Setup {{{
   let g:UltiSnipsEditSplit="vertical"
@@ -1179,7 +1166,7 @@ set shortmess+=c
   " inoremap <silent><expr> ( complete_parameter#pre_complete("()")
   " let g:complete_parameter_use_ultisnips_mapping = 1
 " }}}
-"
+
 " Jedi Setup {{{
 " let g:jedi#popup_on_dot = 0
 " let g:jedi#auto_initialization = 1
@@ -1336,10 +1323,6 @@ if version >= 702
 endif
 "}}}
 
-" Render options (for Slow machines) {{{
-" set relativenumber " In relative way (SLOW rendering!!!!!) :((
-set lazyredraw
-" }}}
 " Basic {{{
 set number           " Show line numbers
 " set autochdir        " Set cd to current file directory. Mess with plugins
@@ -1366,26 +1349,39 @@ set noshowmode " Don't show INSERT/VISUAL in command line.
 runtime macros/matchit.vim
 "
 "}}}
+" Render options (for Slow machines) {{{
+" set relativenumber " In relative way (SLOW rendering!!!!!) :((
+set lazyredraw
+" }}}
+" Indent {{{
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+" Indent commands {{{
+command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
+command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
+command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
+command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
+command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
+command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
+command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
+" Indent commands }}}
+" Indent }}}
 " Utils/Buffers {{{
 " Workaround to avoid setting autochdir:
-" typyng zc in command mode expand to e current_directory.
+" typing zc in command mode expand to e current_directory.
 cnoremap zc e <c-r>=expand("%:h")<cr>/
 " <Leader><Enter> in quickfix to open a vertical split.
 " autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
 " }}}
 " Searching {{{
-" Search visual selection (problems with end of line ^M character)
-vnoremap // y/<C-R>"<CR>
-vnoremap S y:%S/<C-R>"/
 set gdefault   " avoid to /g at the end of search.
 set ignorecase " ignore case
 set smartcase  " except when there is a case on the query
 set hlsearch   " highlight search
 set incsearch  " incremental search
 "}}}
-" Inser White Space in normal mode with s space {{{
-nnoremap s<space> i<space><esc>
-" }}}
 " Aesthetics {{{
 set list
 set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
@@ -1408,28 +1404,119 @@ au BufWinEnter * if &previewwindow | setlocal wrap | endif
 set undofile  " Maintain a undofile to keep changes between sessions.
 set undodir=~/.vim/undo/
 " }}}
-
 " Tabs and whitespaces {{{
 set autoindent
 set backspace=indent,eol,start
 " set matchpairs+=<:>
 "}}}
-" Indent {{{
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-" Indent specific commands {{{
-command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
-command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
-command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
-command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
-command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
-command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
-command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
+" Taken from https://bitbucket.org/sjl/dotfiles/src/tip/vim/vimrc?fileviewer=file-view-default {{{
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*"
+" Don't move when pressing * (highlight current word)
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
+" Use H to move to the beginning of the line. h moves one, H moves big.
+nnoremap H ^
+" Use L to move to the end of the line. l moves one, L moves big.
+nnoremap L g_
+" Populate the quicklist with the hits of the word over the cursor for just the current file.
+command! GREP :execute 'normal *' | :execute 'vimgrep /'.expand('<cword>').'/j '.expand('%') | :copen | :wincmd p
+nnoremap <leader>/ :GREP<CR>
+" Highlight Word {{{
+" This mini-plugin provides a few mappings for highlighting words temporarily.
+"
+" Sometimes you're looking at a hairy piece of code and would like a certain
+" word or two to stand out temporarily.  You can search for it, but that only
+" gives you one color of highlighting.  Now you can use <leader>N where N is
+" a number from 1-6 to highlight the current word in a specific color.
+
+function! HiInterestingWord(n) " {{{
+    " Save our location.
+    normal! mz
+    " Yank the current word into the z register.
+    normal! "zyiw
+    " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
+    let mid = 86750 + a:n
+    " Clear existing matches, but don't worry if they don't exist.
+    silent! call matchdelete(mid)
+    " Construct a literal pattern that has to match at boundaries.
+    let pat = '\V\<' . escape(@z, '\') . '\>'
+    " Actually match the words.
+    call matchadd("InterestingWord" . a:n, pat, 1, mid)
+    " Move back to our original location.
+    normal! `z
+endfunction " }}}
+
+" Mappings {{{
+nnoremap <silent> <leader>hh :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>h1 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>h2 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>h3 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>h4 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>h5 :call HiInterestingWord(6)<cr>
+" }}}
+
+" Default Highlights {{{
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+" }}}
+noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+" }}}
+" Visual Mode */# from Scrooloose {{{
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+" }}}
+" Ack motions {{{
+
+" Motions to Ack for things.  Works with pretty much everything, including:
+"
+"   w, W, e, E, b, B, t*, f*, i*, a*, and custom text objects
+"
+" Awesome.
+"
+" Note: If the text covered by a motion contains a newline it won't work.  Ack
+" searches line-by-line.
+
+nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
+" xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
+
+nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
+xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
+
+function! s:CopyMotionForType(type)
+    if a:type ==# 'v'
+        silent execute "normal! `<" . a:type . "`>y"
+    elseif a:type ==# 'char'
+        silent execute "normal! `[v`]y"
+    endif
+endfunction
+
+function! s:AckMotion(type) abort
+    let reg_save = @@
+    call s:CopyMotionForType(a:type)
+    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
+    let @@ = reg_save
+endfunction
+
 " }}}
 " }}}
+
 " General Maps: {{{
+" Insert White Space in normal mode with s space
+nnoremap s<space> i<space><esc>
+" Search visual selection (problems with end of line ^M character)
+vnoremap // y/<C-R>"<CR>
+vnoremap S y:%S/<C-R>"/
 " Escape remap (Ctrl-C doesnt work well in some plugins) (not reliable)
 noremap <C-c> <Esc>
 " Smash Escape
@@ -1644,7 +1731,6 @@ runtime autoload/grepper.vim
 let g:grepper.git =
 \ { 'grepprg': 'git grep -nI $* -- `git rev-parse --show-toplevel`' }
 nnoremap <leader>GG :Grepper -tool git<cr>
-nnoremap <leader>GA :Grepper -tool ag<cr>
 nnoremap <leader>GS :Grepper -tool rgSF<cr>
 "}}}
 " Cppcheck
@@ -1668,17 +1754,8 @@ function! SetSourceFolder(path)
     let g:grepper.rgSF = g:grepper.rg
     let g:grepper.rgSF =
           \ { 'grepprg': 'rg --vimgrep $* ' . g:sourceFolder }
-    execute 'command! -nargs=+ -complete=file GrepperRgSF'
+    execute 'command! -nargs=+ -complete=file GrepSF'
           \ 'Grepper -noprompt -tool rgSF -query <args>'
-    " Ag
-    if index(g:grepper.tools,'agSF') == -1
-      let g:grepper.tools = g:grepper.tools + ['agSF']
-    endif
-    let g:grepper.agSF = g:grepper.ag
-    let g:grepper.agSF =
-          \ { 'grepprg': 'ag --vimgrep $* ' . g:sourceFolder }
-    execute 'command! -nargs=+ -complete=file GrepperAgSF'
-          \ 'Grepper -noprompt -tool agSF -query <args>'
     " git
     " let root = systemlist('git -C ' . g:sourceFolder . ' rev-parse --show-toplevel')[0]
     if !v:shell_error
@@ -1689,7 +1766,7 @@ function! SetSourceFolder(path)
       let g:grepper.gitSF =
             \ { 'grepprg': 'git -C ' . g:sourceFolder . ' grep -nI $* | sed s:^:' . g:sourceFolder .'/: --' }
     endif
-    execute 'command! -nargs=+ -complete=file GrepperGitSF'
+    execute 'command! -nargs=+ -complete=file GrepGitSF'
           \ 'Grepper -noprompt -tool gitSF -query <args>'
     " }}}
 endfunction
@@ -1721,7 +1798,7 @@ let g:ale_lint_on_enter = 0
 " show loclist vertical
 " let g:ale_list_vertical = 1
 let g:ale_linters = {
-      \ 'cpp': ['cquery','clangtidyheader'],
+      \ 'cpp': ['clangtidyheader'],
       \ 'python':['flake8']
       \}
 let g:ale_cpp_cquery_cache_directory='~/tmp/cquery_cache'
@@ -1758,8 +1835,8 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
 "       \}
 " }}} end of tidy
 " }}} end of ale
-" }}}
-" Build
+" }}} end of linters
+" Build functions {{{
   call SetNThreads()
   let g:BuildOnSave  = 0 " To lunch 'Neomake! build' on save (only cpp,c)
 
@@ -1892,6 +1969,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
 " }}}
+" End Build functions }}}
 " Useful commands: {{{
 " write to open file that requires sudo
 " :w !sudo tee %
