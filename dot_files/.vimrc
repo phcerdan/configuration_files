@@ -211,39 +211,44 @@ Plug 'qpkorr/vim-renamer'
 " }}}
 " Language Clients {{{
 " vim-lsp {{{
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_async_completion = 1
-function! LSPEnableLog() "{{{
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = expand('/tmp/vim-lsp.log')
-endfunction "}}}
-au FileType c,c++ setlocal omnifunc=lsp#complete
-au FileType python setlocal omnifunc=lsp#complete
+" let g:lsp_signs_enabled = 1         " enable signs
+" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+" let g:lsp_async_completion = 1
+" function! LSPEnableLog() "{{{
+"   let g:lsp_log_verbose = 1
+"   let g:lsp_log_file = expand('/tmp/vim-lsp.log')
+" endfunction "}}}
+" au FileType c,c++ setlocal omnifunc=lsp#complete
+" au FileType python setlocal omnifunc=lsp#complete
+"}}
 
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
+" ale-lsp {{{
+" let b:ale_set_balloons = 1
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :ALEHover<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :ALEGoToDefinition<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fD :ALEGoToDefinitionInTab<cr>
+autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :ALEFindReferences<cr>
 " }}}
-" vim-lsp-cquery{{{
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
-if executable('cquery')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'cquery',
-      \ 'cmd': {server_info->['cquery']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
-      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
-endif
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
+" " }}}
+" " vim-lsp-cquery{{{
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
+" if executable('cquery')
+"    au User lsp_setup call lsp#register_server({
+"       \ 'name': 'cquery',
+"       \ 'cmd': {server_info->['cquery']},
+"       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+"       \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
+"       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+"       \ })
+" endif
 
 " if executable('clangd')
 "    au User lsp_setup call lsp#register_server({
@@ -394,13 +399,6 @@ let completer = 'Valloric/YouCompleteMe'
 " endif
 " }}} LanguageClient-neovim
 " vim-lsp {{{
-" First install vim-lsp, this plugin relies on it:
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'pdavydov108/vim-lsp-cquery'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-let g:asyncomplete_remove_duplicates = 1
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
@@ -1203,7 +1201,7 @@ set shortmess+=c
   " let g:ycm_add_preview_to_completeopt = 1
   "if preview is slow {
   let g:ycm_add_preview_to_completeopt = 0
-  set completeopt-=preview
+  " set completeopt-=preview
   "}
   " let g:ycm_confirm_extra_conf = 0
   let g:ycm_seed_identifiers_with_syntax = 1
@@ -1715,6 +1713,12 @@ com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 " Ale {{{
 " Disabled by default
 let g:ale_enabled = 0
+let g:ale_completion_enabled = 1
+let g:ale_completion_delay = 500
+let g:ale_warn_about_trailing_whitespace = 0
+let g:ale_maximum_file_size = 1024 * 1024
+let g:ale_set_balloons_legacy_echo = 1
+let g:ale_c_parse_compile_commands = 1
 " (optional, for completion performance) run linters only when I save files
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
@@ -1724,19 +1728,17 @@ let g:ale_linters = {
       \ 'cpp': ['cquery','clangtidyheader'],
       \ 'python':['flake8']
       \}
-let g:ale_cpp_cquery_cache_directory='~/tmp/cquery_cache'
-" \ 'javascript': ['eslint'],
+" let g:ale_cpp_cquery_cache_directory='~/.cache/cquery'
 let g:ale_fixers = {
-\   'python': [
-\           'flake8'
-\   ],
+\   'cpp': ['clang-format'],
+\   'python': ['flake8'],
 \}
 let g:ale_python_autopep8_options = '--aggressive'
 " flake8 {{{
 " E302: comment/lines (expected 2 lines...)
 let g:ale_python_flake8_options='--ignore E302 --max-line-length=120'
 "}}}
-" clangtidy {{{
+" clangtidyheader {{{
 " Disable specific projects checks. default: = ['*']
 " Other option is to enable only checks that you are interested, but we might
 " miss new checkers added in the future.
