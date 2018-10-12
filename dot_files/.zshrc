@@ -30,6 +30,7 @@ fi
 # export TERMINFO="$HOME/.terminfo"
 
 ####### POWERLEVEL9K CONFIGURATION ########### {{{
+# P9K_IGNORE_VAR_WARNING=true
 # POWERLEVEL9K_MODE='awesome-patched'
 POWERLEVEL9K_MODE='nerdfont-complete'
 # POWERLEVEL9K_MODE='awesome-fontconfig'
@@ -87,13 +88,6 @@ source "${HOME}/zgen/zgen.zsh"
 
 if ! zgen saved; then
     echo "Creating a zgen save"
-    # autosuggestions should be loaded last (annoying!)
-    # zgen load tarruda/zsh-autosuggestions
-    # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
-    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
-
-    # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
-    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
     # Most fav plugins ever.
     zgen load jimmijj/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
@@ -132,6 +126,15 @@ if ! zgen saved; then
     # zgen load sindresorhus/pure
     zgen load bhilburn/powerlevel9k powerlevel9k
     # zgen load denysdovhan/spaceship-prompt spaceship
+
+    # autosuggestions should be loaded last (annoying!)
+    zgen load zsh-users/zsh-autosuggestions
+    # zgen load tarruda/zsh-autosuggestions
+    # Add history-substring-search-* widgets to list of widgets that clear the autosuggestion
+    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(history-substring-search-up history-substring-search-down)
+
+    # Remove *-line-or-history widgets from list of widgets that clear the autosuggestion to avoid conflict with history-substring-search-* widgets
+    # ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
     zgen save
 fi
 # Tmux
