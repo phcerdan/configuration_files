@@ -1767,6 +1767,7 @@ vnoremap <Leader>k :s/<C-r>"/<C-r>"/
 " Task related commands {{{
 com! -nargs=? Task exec "!task " . <q-args>
 com! Tasklog exec "!cat ~/tasks.log | tail -n 10"
+com! Taskecho exec "!cat ~/tasks | tail -n 10"
 com! Tasknext exec "!task | head -n 1"
 com! -nargs=1 Taskfinish exec "!task -f <q-args>"
 com! Taskedit exec "e ~/tasks"

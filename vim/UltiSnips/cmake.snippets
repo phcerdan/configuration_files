@@ -1,3 +1,7 @@
+snippet sep "Create a separator" bm
+################# ${1} ##################
+endsnippet
+
 snippet init "Init a basic cmake" bm
 cmake_minimum_required(VERSION 3.1)
 project(${1:projectName})
@@ -100,4 +104,28 @@ IF(ENABLE_GOOGLE_TEST)
     add_executable(${1:exeTestName} $1.cpp)
     target_link_libraries($1 ${GMOCK_LIBRARY_MAIN} ${GTEST_LIBRARY_MAIN})
 ENDIF()
+endsnippet
+
+snippet version "Init project version" bm
+set(${1}_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
+set($1_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
+set($1_VERSION_PATCH 0 CACHE STRING "patch version" FORCE)
+set($1_VERSION ${$1_VERSION_MAJOR}.${$1_VERSION_MINOR}.${$1_VERSION_PATCH} CACHE STRING "version" FORCE)
+endsnippet
+
+snippet configHelper "Init  CMakePackageConfigHelpers" bm
+################# Config ##################
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    ${1}Config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/$1Config.cmake
+    INSTALL_DESTINATION ${LIB_INSTALL_DIR}/$1/cmake
+    PATH_VARS $1_INCLUDE_INSTALL_DIR)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/$1ConfigVersion.cmake
+    VERSION ${$1}
+    COMPATIBILITY SameMajorVersion )
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/$1Config.cmake
+              ${CMAKE_CURRENT_BINARY_DIR}/$1ConfigVersion.cmake
+    DESTINATION ${LIB_INSTALL_DIR}/$1/cmake )
 endsnippet
