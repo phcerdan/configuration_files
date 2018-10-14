@@ -1,14 +1,14 @@
-URxvt.font: xft:MesloLGM-Regular
-URxvt.externalBorder: 0
-URxvt.scrollBar: false
-URxvt.saveLines: 10000
-URxvt.cursorBlink: false
-URxvt.iso14755 : false
-URxvt.urgentOnBell: true
-URxvt.visualBell: true
-URxvt.keysym.C-S-C: perl:clipboard:copy
-URxvt.keysym.C-S-V: perl:clipboard:paste
-URxvt.perl-ext-common: selection-to-clipboard
+! URxvt.font: xft:MesloLGM-Regular
+! URxvt.externalBorder: 0
+! URxvt.scrollBar: false
+! URxvt.saveLines: 10000
+! URxvt.cursorBlink: false
+! URxvt.iso14755 : false
+! URxvt.urgentOnBell: true
+! URxvt.visualBell: true
+! URxvt.keysym.C-S-C: perl:clipboard:copy
+! URxvt.keysym.C-S-V: perl:clipboard:paste
+! URxvt.perl-ext-common: selection-to-clipboard
 
 ! Xft.antialias: true
 ! #include ".Xresources.d/base16/base16-monokai-256.Xresources"

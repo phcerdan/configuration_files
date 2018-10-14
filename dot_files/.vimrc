@@ -160,6 +160,7 @@ Plug 'rainux/vim-desert-warm-256'
 " Plug 'justinmk/molokai'
 " Include inversion of fg/bg in MatchParen (PR opened upstream)
 Plug 'phcerdan/molokai'
+Plug 'chriskempson/base16-vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'vim-airline/vim-airline'     " Colourful status-line.
 Plug 'vim-airline/vim-airline-themes'
@@ -1070,17 +1071,23 @@ endif
 " set t_Co=256
 " colorscheme desert256
 " colorscheme desert-warm-256
+" molokai {
 colorscheme molokai
 let g:molokai_original=1
 let g:rehash256=1
+" }
 " colorscheme jellybeans
+" if has('termguicolors') " Truecolor. modern vim or nvim only.
+"   set termguicolors
+"   " vim only: RGB colors
+"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
+" if filereadable(expand("~/.vimrc_background"))
+"   let base16colorspace=256
+"   source ~/.vimrc_background
+" endif
 set background=dark
-if has('termguicolors') " Truecolor. modern vim or nvim only.
-  set termguicolors
-  " vim only: RGB colors
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
 "}}}
 " SYNTAX {{{
 syntax spell toplevel
@@ -1090,7 +1097,7 @@ setlocal spell spelllang=en_us
 set nospell
 map <F12> :setlocal spell! spelllang=en_us<CR>
 " hi stuff must be after syntax (not colour)
-hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
+" hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
 au FileType c,cpp setlocal colorcolumn=81
 " hi CursorLine cterm=NONE ctermbg=darkgray ctermfg=white guibg=darkred guifg=white
 nnoremap <Leader>cl :set cursorline!<CR>

@@ -1,0 +1,33 @@
+URxvt.perl-ext-common:      default,matcher,tabbed,selection-to-clipboard
+URxvt.matcher.button: 3
+URxvt.urlLauncher: firefox
+URxvt*reverseVideo: false
+URxvt*fading:      20
+URxvt*scrollBar: false
+!URxvt*font:	  xft:Anonymous Pro:pixelsize=11:antialiasing=true
+!URxvt*font:	  xft:Inconsolata:pixelsize=13:antialiasing=false
+!URxvt*font:	  xft:InconsolataForPowerline NF:pixelsize=17:antialiasing=true
+!URxvt*font:	  xft:Inconsolata:pixelsize=17:antialiasing=false
+!URxvt*font:	  xft:Hack:size=14
+! URxvt*font:	  xft:Hack Nerd Font Mono:style=Regular:size=14:antialiasing=true
+! URxvt*font:	  xft:Hack Nerd Font:style=Regular:size=14:antialiasing=true
+! URxvt*font:	  xft:Hack:size=14:antialiasing=true
+URxvt*font:     xft:Hack:style=Regular:size=12:antialiasing=false
+! URxvt*font:     xft:Hack Nerd Font:style=Regular:size=12:antialiasing=false
+! URxvt*inheritPixmap: true
+URxvt*transparent: true
+URxvt*shading: 150
+! prevent wasted paper
+URxvt.print-pipe: cat > $(mktemp --tmpdir urxvt.XXXXXX)
+URxvt*colorULMode: on
+URxvt*colorUL: green3
+URxvt*colorIT: yellow3
+URxvt*colorBD: #DB6E00
+URxvt*colorRV: #ff3333
+URxvt.cursorColor: #22cc22
+
+xterm*background: black
+xterm*foreground: white
+xterm*faceName:      Inconsolata
+! xterm*faceName:      Anonymous Pro
+xterm*faceSize: 16
