@@ -18,6 +18,9 @@ ln -s $SCRIPT_DIR/dot_files/.ycm_extra_conf.py .
 ln -s $SCRIPT_DIR/dot_files/.colorgcc .
 ln -s $SCRIPT_DIR/dot_files/.colorgcc .colorgccrc
 ln -s $SCRIPT_DIR/dot_files/.latexmkrc .
+ln -s $SCRIPT_DIR/dot_files/.Xdefaults .
+ln -s $SCRIPT_DIR/dot_files/.Xresources .
+ln -s $SCRIPT_DIR/dot_files/.Xresources.d .
 ln -s $SCRIPT_DIR/eclipse/.eclimrc .
 ln -s $SCRIPT_DIR/emacs/.spacemacs .
 ln -s $SCRIPT_DIR/git_files/.gitconfig .
