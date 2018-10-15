@@ -157,6 +157,7 @@ Plug 'majutsushi/tagbar'
 " }}}
 "Color Schemes and status-line {{{
 Plug 'rainux/vim-desert-warm-256'
+Plug 'morhetz/gruvbox'
 " Plug 'justinmk/molokai'
 " Include inversion of fg/bg in MatchParen (PR opened upstream)
 Plug 'phcerdan/molokai'
@@ -171,6 +172,7 @@ Plug 'gcmt/taboo.vim'              " Rename tabs
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
+Plug 'edkolev/tmuxline.vim'             " Generate
 " }}}
 " Buffer Related {{{
 " Switch to latest used buffer
@@ -622,7 +624,11 @@ endfunction
 " }}}
 
 " Airline Setup {{{
-  let g:airline_theme='wombat'
+  " let g:airline_theme='wombat'
+  " let g:airline_theme='peaksea'
+  " let g:airline_theme='base16_spacemacs'
+  " let g:airline_theme='tomorrow'
+  let g:airline_theme='gruvbox'
   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
   let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
   let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
@@ -705,7 +711,7 @@ endfunction
 " }}}
 
 " Tmuxline Setup {{{
-  let g:tmuxline_powerline_separators = 0
+  let g:tmuxline_powerline_separators = 1
   " Tmux Navigator tips {{{
   " <Ctrl-w b> to go to bottom right window (TagBar). Or <Ctrl-w 2j>
   " <Ctrl-w t> to go to top left window.(NERDtree). Or <Ctrl-w 2h>
@@ -1072,22 +1078,25 @@ endif
 " colorscheme desert256
 " colorscheme desert-warm-256
 " molokai {
-colorscheme molokai
-let g:molokai_original=1
-let g:rehash256=1
+" colorscheme molokai
+" let g:molokai_original=1
+" let g:rehash256=1
 " }
 " colorscheme jellybeans
-" if has('termguicolors') " Truecolor. modern vim or nvim only.
-"   set termguicolors
-"   " vim only: RGB colors
-"   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
+if has('termguicolors') " Truecolor. modern vim or nvim only.
+  set termguicolors
+  " vim only: RGB colors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+set background=dark
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
 " if filereadable(expand("~/.vimrc_background"))
 "   let base16colorspace=256
 "   source ~/.vimrc_background
 " endif
-set background=dark
 "}}}
 " SYNTAX {{{
 syntax spell toplevel
