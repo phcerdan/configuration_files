@@ -172,7 +172,7 @@ Plug 'gcmt/taboo.vim'              " Rename tabs
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
-Plug 'edkolev/tmuxline.vim'             " Generate
+" Plug 'edkolev/tmuxline.vim'             " Generate tmux status bar from airline theme
 " }}}
 " Buffer Related {{{
 " Switch to latest used buffer
@@ -626,9 +626,9 @@ endfunction
 " Airline Setup {{{
   " let g:airline_theme='wombat'
   " let g:airline_theme='peaksea'
-  " let g:airline_theme='base16_spacemacs'
+  let g:airline_theme='base16_spacemacs'
   " let g:airline_theme='tomorrow'
-  let g:airline_theme='gruvbox'
+  " let g:airline_theme='gruvbox'
   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
   let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
   let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
