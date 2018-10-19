@@ -1223,20 +1223,21 @@ nnoremap <leader>/ :GREP<CR>
 " a number from 1-6 to highlight the current word in a specific color.
 
 function! HiInterestingWord(n) " {{{
+    " Uses b marker
     " Save our location.
-    normal! mz
-    " Yank the current word into the z register.
-    normal! "zyiw
+    normal! mb
+    " Yank the current word into the b register.
+    normal! "byiw
     " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
     let mid = 86750 + a:n
     " Clear existing matches, but don't worry if they don't exist.
     silent! call matchdelete(mid)
     " Construct a literal pattern that has to match at boundaries.
-    let pat = '\V\<' . escape(@z, '\') . '\>'
+    let pat = '\V\<' . escape(@b, '\') . '\>'
     " Actually match the words.
     call matchadd("InterestingWord" . a:n, pat, 1, mid)
     " Move back to our original location.
-    normal! `z
+    normal! `b
 endfunction " }}}
 
 " Mappings {{{
