@@ -1,5 +1,5 @@
 [options]
-allow_bold = true
+#allow_bold = true
 #audible_bell = false
 clickable_url = true
 #dynamic_title = true
@@ -53,7 +53,7 @@ scrollback_lines = 1000000
 #background = rgba(63, 63, 63, 0.8)
 
 # If unset, will reverse foreground and background
-highlight = #2f2f2f
+# highlight = #2f2f2f
 
 # Colors from color0 to color254 can be set
 # color0 = #3f3f3f
@@ -92,8 +92,8 @@ highlight = #2f2f2f
 
 foreground          = #d5c4a1
 foreground_bold     = #ebdbb2
-cursor              = #ebdbb2
-cursor_foreground   = #1d2021
+# cursor              = #ebdbb2
+# cursor_foreground   = #1d2021
 background          = rgba(29, 32, 33, 0.95)
 
 # 16 color space
