@@ -1152,12 +1152,12 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 " Indent commands {{{
-command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2
-command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4
-command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8
-command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2
-command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4
-command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8
+command! Indent2 set tabstop=2 | set shiftwidth=2 | set softtabstop=2 | set expandtab
+command! Indent4 set tabstop=4 | set shiftwidth=4 | set softtabstop=4 | set expandtab
+command! Indent8 set tabstop=8 | set shiftwidth=8 | set softtabstop=8 | set expandtab
+command! Indent2L setlocal tabstop=2 | setlocal shiftwidth=2 | setlocal softtabstop=2 | setlocal expandtab
+command! Indent4L setlocal tabstop=4 | setlocal shiftwidth=4 | setlocal softtabstop=4 | setlocal expandtab
+command! Indent8L setlocal tabstop=8 | setlocal shiftwidth=8 | setlocal softtabstop=8 | setlocal expandtab
 command! IndentITK execute 'Indent2' | set cinoptions={1s,:0,l1,g0,c0,(0,(s,m1 | call SetClangFormatITK()
 " Indent commands }}}
 " Indent }}}
