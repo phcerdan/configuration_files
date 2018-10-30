@@ -1596,7 +1596,7 @@ let g:ale_linters = {
       \ 'cpp': ['clangtidyheader'],
       \ 'python':['flake8']
       \}
-let g:ale_cpp_cquery_cache_directory='~/tmp/cquery_cache'
+let g:ale_cpp_cquery_cache_directory='/home/phc/tmp/cquery_cache'
 " \ 'javascript': ['eslint'],
 let g:ale_fixers = {
 \   'python': [
