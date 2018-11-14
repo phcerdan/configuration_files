@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Octobox
+Exec=bash -c "/home/phc/tmp/octobox-linux-x64/octobox"
+Icon= /home/phc/tmp/octobiwan.jpg
+Type=Application
+Terminal=false
+Categories=Dev;
+MimeType=text/plain
