@@ -1140,6 +1140,15 @@ set wildmode=list:longest,full
 set noshowmode " Don't show INSERT/VISUAL in command line.
 " Hit '%' on 'if' to jump to 'else'.
 runtime macros/matchit.vim
+set autoread
+" Rely on undo instead
+" set noswapfile
+" set nobackup
+" Undofile {{{
+set undofile  " Maintain a undofile to keep changes between sessions.
+set undodir=~/.vim/undo/
+" }}}
+
 "
 "}}}
 " Render options (for Slow machines) {{{
@@ -1192,10 +1201,6 @@ au FileType qf wincmd J | setlocal wrap
 " Preview window with line wrap
 " au BufWinEnter * if &previewwindow | setlocal wrap | resize line('$') | endif
 au BufWinEnter * if &previewwindow | setlocal wrap | endif
-" }}}
-" Undofile {{{
-set undofile  " Maintain a undofile to keep changes between sessions.
-set undodir=~/.vim/undo/
 " }}}
 " Tabs and whitespaces {{{
 set autoindent

@@ -11,11 +11,13 @@
 # Alias vim to nvim.
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
+    alias vi='nvim'
 fi
 
 alias mux='tmuxifier'
 alias git=hub
 alias gits='git status'
+alias vimfzf='vim $(fzf)'
 alias viserver='gvim -v --servername vimserver'
 alias viserver2='gvim -v --servername vimserver2'
 alias nviserver='NVIM_LISTEN_ADDRESS=/tmp/nvimserver nvim'
