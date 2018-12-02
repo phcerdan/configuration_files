@@ -1211,7 +1211,11 @@ set backspace=indent,eol,start
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 " Don't move when pressing * (highlight current word)
+" Also use g* instead of *, to avoid searching for whole words.
+" This is usefult when using the register "/, to avoid re-using 
+" whole words brackets \<, \>
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
+nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(stay_star_view)<cr>
 " Use H to move to the beginning of the line. h moves one, H moves big.
 nnoremap H ^
 " Use L to move to the end of the line. l moves one, L moves big.
