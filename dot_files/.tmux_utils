@@ -1,4 +1,21 @@
 #!/bin/bash
+tmux_split_gdb() {
+    if [[ $# -gt 0 || "$1" = "--help" ]] ; then
+        echo 'Split current window in panes for usage with gdb-dashboard.\n
+        check ~/.gdbinit.d/tmux-dashboard.py for the layout'
+        return
+    fi
+    # d and b are important, we want the olderst pane to be the pane where we
+    # exectute gdb --for layout purposes in the python file.
+    tmux split-window -dh
+    tmux split-window -dbv
+    # This will create:
+    # s  |o   #
+    # ___|    #
+    #    |    #
+    # c  |    #
+    # where c: gdb command line, s: source, o: output, the rest of gdb-dashboard
+}
 
 _send_bash_command_to_session() {
     if [[ $# -eq 0 || "$1" = "--help" ]] ; then
