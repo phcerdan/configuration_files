@@ -15,6 +15,7 @@ tmux_split_gdb() {
     #    |    #
     # c  |    #
     # where c: gdb command line, s: source, o: output, the rest of gdb-dashboard
+    export TMUX_SPLIT_GDB_ON=1
 }
 
 _send_bash_command_to_session() {

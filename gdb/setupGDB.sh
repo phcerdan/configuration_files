@@ -20,7 +20,7 @@ if [ ! -d "$HOME/.gdb" ]; then
     SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
     ln -s $SCRIPT_DIR/.gdb $HOME
     # install external git pretty-printers. External repos are ignored from .gitignore
-    git clone https://github.com/mateidavid/Boost-Pretty-Printer ~/.gdb/Boost-Pretty-Printer
+    git clone https://github.com/ruediger/Boost-Pretty-Printer ~/.gdb/Boost-Pretty-Printer
 else
     echo "$HOME/.gdb folder exists. Do Nothing."
 fi

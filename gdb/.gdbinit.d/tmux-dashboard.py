@@ -1,4 +1,5 @@
 import subprocess
+import os
 def tmux_layout_options():
     gdb.execute("dashboard source -style context 8")
 
@@ -31,7 +32,9 @@ def tmux_layout():
         pane_source_height = subprocess.getoutput(["tmux lsp -F'#{pane_height}'"]).split('\n')[up_index]
         gdb.execute("dashboard source -style context " + str(int(int(pane_source_height)/2.1)))
 
-        
     # Not needed, should be in .gdbinit.d/auto already
     # tmux_layout_options()
 
+def execute_if_environment_tmux_layout():
+    if os.getenv("TMUX_SPLIT_GDB_ON") == '1':
+        tmux_layout()
