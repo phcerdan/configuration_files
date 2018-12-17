@@ -161,6 +161,7 @@ Plug 'morhetz/gruvbox'
 " Plug 'justinmk/molokai'
 " Include inversion of fg/bg in MatchParen (PR opened upstream)
 Plug 'phcerdan/molokai'
+Plug 'patstockwell/vim-monokai-tasty'
 Plug 'chriskempson/base16-vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'vim-airline/vim-airline'     " Colourful status-line.
@@ -1091,9 +1092,15 @@ if has('termguicolors') " Truecolor. modern vim or nvim only.
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 set background=dark
+" gruvbox {{{
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
+" }}}
+" monokai-tasy {{{
+  " let g:vim_monokai_tasty_italic = 1
+  " colorscheme vim-monokai-tasty
+" }}}
 " if filereadable(expand("~/.vimrc_background"))
 "   let base16colorspace=256
 "   source ~/.vimrc_background
