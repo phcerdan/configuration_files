@@ -499,7 +499,7 @@ call plug#end()            " required
     " let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
     " Use rg over Grep
-    set grepprg=rg\ --no-heading\ --nocolor
+    set grepprg=rg\ --no-heading\ --color=never
     " nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
   endif
 "}}}
@@ -550,7 +550,7 @@ command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-hea
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf_layout))
 " Specialized for ITK.
-let g:ITKFolder = '~/Software/ITK/ITK-development'
+let g:ITKFolder = '~/Software/ITK/src-ITK-master'
 function! s:with_itk_git_root()
   let root = systemlist('git -C '. g:ITKFolder . ' rev-parse --show-toplevel')[0]
   return v:shell_error ? {} : {'dir': root}
@@ -561,6 +561,7 @@ command! -nargs=* IFiles
   \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf_layout))
 " Map C-p to override CtrlP plugin.
 nnoremap <silent> <C-p> :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <C-s> :Rg<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>bB :Windows<CR>
 nnoremap <silent> <Leader>; :Commands<CR>
@@ -1293,8 +1294,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
 " xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
-xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
+nnoremap <leader>m :Ack! '\b<c-r><c-w>\b'<cr>
+xnoremap <silent> <leader>m :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
