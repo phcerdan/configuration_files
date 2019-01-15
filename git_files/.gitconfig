@@ -19,7 +19,7 @@
 [push]
 	default = simple
 [diff]
-	tool = vimdiff
+	tool = meld
 	compactionHeuristic = true
 	indentHeuristic = true
 [merge]

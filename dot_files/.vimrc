@@ -200,57 +200,105 @@ Plug 'KabbAmine/zeavim.vim'
 Plug 'qpkorr/vim-renamer'
 " }}}
 " Language Clients {{{
-" vim-lsp {{{
-set completeopt+=preview
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-let g:asyncomplete_auto_popup = 0
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-let g:asyncomplete_remove_duplicates = 1
+" Autocompletion common utils {{{
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" Enter select. Note: \<C-g>u is used to break undo level.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction "}}}
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+" }}}
+" coc : https://github.com/neoclide/coc.nvim {{{
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
+imap  <leader>dp <Plug>(coc-snippets-expand)
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_async_completion = 1
-function! LSPEnableLog() "{{{
-  let g:lsp_log_verbose = 1
-  let g:lsp_log_file = expand('/tmp/vim-lsp.log')
-endfunction "}}}
-au FileType c,c++ setlocal omnifunc=lsp#complete
-au FileType python setlocal omnifunc=lsp#complete
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <silent><expr> <c-space> coc#refresh()
+" }}}
+" coc-ccls : https://github.com/MaskRay/ccls/wiki/coc.nvim {{{
+" Check configuration file in ~/.config/nvim/coc-settings.json
+nmap <silent> <leader>fd <Plug>(coc-definition)
+nmap <silent> <leader>fr <Plug>(coc-references)
+nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
 
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
-autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
+" Cross references extension
+" bases
+nnoremap <silent> xb :call CocLocations('ccls','$ccls/inheritance')<cr>
+" bases of up to 3 levels
+nnoremap <silent> xB :call CocLocations('ccls','$ccls/inheritance',{'levels':3})<cr>
+" derived
+nnoremap <silent> xd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
+" derived of up to 3 levels
+nnoremap <silent> xD :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true,'levels':3})<cr>
+
+" caller
+nnoremap <silent> xc :call CocLocations('ccls','$ccls/call')<cr>
+" callee
+nnoremap <silent> xC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
+
+" $ccls/member
+" member variables / variables in a namespace
+nnoremap <silent> xm :call CocLocations('ccls','$ccls/member')<cr>
+" member functions / functions in a namespace
+nnoremap <silent> xf :call CocLocations('ccls','$ccls/member',{'kind':3})<cr>
+" nested classes / types in a namespace
+nnoremap <silent> xs :call CocLocations('ccls','$ccls/member',{'kind':2})<cr>
+
+nmap <silent> xt <Plug>(coc-type-definition)<cr>
+nnoremap <silent> xv :call CocLocations('ccls','$ccls/vars')<cr>
+nnoremap <silent> xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
+
+nnoremap xx x
+" }}}
+" vim-lsp {{{
+" set completeopt+=preview
+" let g:asyncomplete_auto_popup = 0
+" let g:asyncomplete_remove_duplicates = 1
+" " inoremap <silent><expr> <TAB>
+" "   \ pumvisible() ? "\<C-n>" :
+" "   \ <SID>check_back_space() ? "\<TAB>" :
+" "   \ asyncomplete#force_refresh()
+" " imap <c-space> <Plug>(asyncomplete_force_refresh)
+" let g:lsp_signs_enabled = 1         " enable signs
+" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+" let g:lsp_async_completion = 1
+" function! LSPEnableLog() "{{{
+"   let g:lsp_log_verbose = 1
+"   let g:lsp_log_file = expand('/tmp/vim-lsp.log')
+" endfunction "}}}
+" au FileType c,c++ setlocal omnifunc=lsp#complete
+" au FileType python setlocal omnifunc=lsp#complete
+
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
+" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
 " }}}
 " vim-lsp-cquery{{{
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
-autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
-if executable('cquery')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'cquery',
-      \ 'cmd': {server_info->['cquery']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
-      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
-endif
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
+" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
+" if executable('cquery')
+"    au User lsp_setup call lsp#register_server({
+"       \ 'name': 'cquery',
+"       \ 'cmd': {server_info->['cquery']},
+"       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+"       \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
+"       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+"       \ })
+" endif
 
 " if executable('clangd')
 "    au User lsp_setup call lsp#register_server({
@@ -265,15 +313,15 @@ endif
 " prefer flake8 than pycodestyle. flake8 configuration file is in
 " ~/.config/flake8
 " You need to install flake8 for getting Diagnostic
-if (executable('pyls'))
-    "\ 'cmd': {server_info->['python', '-m', 'pyls', '-vvv']},
-    au User lsp_setup call lsp#register_server({
-    \ 'name': 'pyls',
-    \ 'cmd': {server_info->['python', '-m', 'pyls']},
-    \ 'whitelist': ['python'],
-    \ 'workspace_config': {'pyls': {'configurationSources': ['flake8', 'pycodestyle']}}
-    \ })
-endif
+" if (executable('pyls'))
+"     "\ 'cmd': {server_info->['python', '-m', 'pyls', '-vvv']},
+"     au User lsp_setup call lsp#register_server({
+"     \ 'name': 'pyls',
+"     \ 'cmd': {server_info->['python', '-m', 'pyls']},
+"     \ 'whitelist': ['python'],
+"     \ 'workspace_config': {'pyls': {'configurationSources': ['flake8', 'pycodestyle']}}
+"     \ })
+" endif
 " }}}
 " }}} Language Client
 " Language Specific Plugins and Settings {{{
@@ -379,11 +427,11 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " endif
 " }}} LanguageClient-neovim
 " vim-lsp {{{
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'pdavydov108/vim-lsp-cquery'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'pdavydov108/vim-lsp-cquery'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " }}}
 " AUTOCOMPLETERS }}}
 call plug#end()            " required

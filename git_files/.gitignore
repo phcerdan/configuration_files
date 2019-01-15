@@ -3,3 +3,9 @@
 # completers to work automatically
 compile_commands.json
 Session*.vim
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
