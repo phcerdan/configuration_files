@@ -171,6 +171,7 @@ Plug 'gcmt/taboo.vim'              " Rename tabs
 "}}}
 " TMUX {{{
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
+let g:tmux_navigator_disable_when_zoomed=1
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
 " Plug 'edkolev/tmuxline.vim'             " Generate tmux status bar from airline theme

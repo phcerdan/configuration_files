@@ -22,3 +22,6 @@ rgc(){
     rg --color=always "$@"
 }
 
+githash(){
+    git rev-parse HEAD | tr -d '\n' | xsel --clipboard; echo $(xsel -b);
+}

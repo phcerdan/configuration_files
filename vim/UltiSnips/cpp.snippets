@@ -1,5 +1,5 @@
 snippet lic "license with my name and reference to LICENSE" b
-/* Copyright (C) 2018 Pablo Hernandez-Cerdan
+/* Copyright (C) 2019 Pablo Hernandez-Cerdan
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -14,7 +14,7 @@ snippet licmpl "License: MPL 2.0 Mozilla Public License " b
 endsnippet
 
 snippet lichisto "license with my name and reference to LICENSE" b
-/* Copyright (C) 2018 Pablo Hernandez-Cerdan
+/* Copyright (C) 2019 Pablo Hernandez-Cerdan
  * See LICENSE on https://github.com/phcerdan/histo-header */
 
 endsnippet
@@ -338,4 +338,12 @@ const std::string & ${0}
 endsnippet
 snippet "cvr" "const std::vector &" rs
 const std::vector<${1:Type}> & ${0}
+endsnippet
+
+snippet "RO5poly" "rule of 5 for base class with virtual destructor" rb
+$1(const $1&) = default;
+$1($1&&) = default;
+$1& operator=(const $1&) = default;
+$1& operator=($1&&) = default;
+virtual ~$1() = default
 endsnippet

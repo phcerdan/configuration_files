@@ -37,6 +37,7 @@
 	pullall = !bash -c \"git pull && git submodule update --init\"
 	prepush = log --graph --stat origin/master..
 	diffwords = diff --color-words
+	last = log -1 HEAD
 [color]
 	ui = auto
 [mergetool]
