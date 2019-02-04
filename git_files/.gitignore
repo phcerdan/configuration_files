@@ -3,6 +3,7 @@
 # completers to work automatically
 compile_commands.json
 Session*.vim
+.bash_parameters.sh
 
 .vscode/*
 !.vscode/settings.json
