@@ -1829,6 +1829,8 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
+  com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
+  nnoremap <silent> <Leader>nd :execute "AsyncRun! " . g:dockerBuild<CR>
 " }}}
 " End Build functions }}}
 " Useful commands: {{{
