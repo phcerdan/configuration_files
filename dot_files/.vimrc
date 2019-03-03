@@ -1830,6 +1830,8 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
   com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
+  com! -nargs=1 TestArgs let g:testArgs=<q-args>
+  nnoremap <silent> <Leader>r :execute "AsyncRun! (cd " . g:buildFolder . "; ctest " . g:testArgs . ")"<CR>
   nnoremap <silent> <Leader>nd :execute "AsyncRun! " . g:dockerBuild<CR>
 " }}}
 " End Build functions }}}
