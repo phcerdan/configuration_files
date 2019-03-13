@@ -1779,7 +1779,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   endfunction
 
   function! NinjaString()
-    let lst = 'ninja -C' . g:buildFolder
+    let lst = 'ninja -C ' . g:buildFolder
     if exists("g:buildTarget")
       let lst = lst . ' ' . g:buildTarget
     endif
@@ -1824,6 +1824,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:BuildOnSave=1
+
   nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
@@ -1832,6 +1833,9 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
   com! -nargs=1 TestArgs let g:testArgs=<q-args>
   nnoremap <silent> <Leader>r :execute "AsyncRun! (cd " . g:buildFolder . "; ctest " . g:testArgs . ")"<CR>
+  " TODO, refactor strings to variables for reusability/avoid repetition
+  " Compile with ninja and run the test, requires buildFolder and testArgs defined
+  nnoremap <silent> <Leader>c :execute "AsyncRun! " . NinjaString() . " && (cd " . g:buildFolder . "; ctest " . g:testArgs . ")"<CR>
   nnoremap <silent> <Leader>nd :execute "AsyncRun! " . g:dockerBuild<CR>
 " }}}
 " End Build functions }}}
