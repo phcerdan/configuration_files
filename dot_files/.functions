@@ -25,3 +25,7 @@ rgc(){
 githash(){
     git rev-parse HEAD | tr -d '\n' | xsel --clipboard; echo $(xsel -b);
 }
+
+gitlcm(){
+    git log -1 --pretty=%B | xsel --clipboard; xsel -b;
+}
