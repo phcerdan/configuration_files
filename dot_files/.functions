@@ -22,10 +22,14 @@ rgc(){
     rg --color=always "$@"
 }
 
-githash(){
+githash(){ # copy hash of HEAD commit
     git rev-parse HEAD | tr -d '\n' | xsel --clipboard; echo $(xsel -b);
 }
 
-gitlcm(){
+gitlcm(){ # git last commit message
     git log -1 --pretty=%B | xsel --clipboard; xsel -b;
+}
+
+gitgc(){ # git grep changes
+    grep -sn $@ $(git diff --name-only)
 }
