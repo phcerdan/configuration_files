@@ -50,7 +50,6 @@ Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
-" Plug 'tpope/vim-surround'               " cs\"' to change \" for ', or yss) putting the sentence into brackets. The first s is for surround.
 Plug 'jlanzarotta/bufexplorer'          " Show list of buffers with <Leader>be, bs, bv.
 Plug 'machakann/vim-sandwich'           " sa{motion/textobject}{addition}
                                         " sd{deletion}
@@ -62,29 +61,17 @@ Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based o
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
-" Plug 'tpope/vim-dispatch'             " Using asyncrun instead. Async building. :Make, :Make!, Dispatch for running things.https://github.com/tpope/vim-dispatch
-Plug 'tpope/vim-eunuch' " Adds helpers for UNIX shell commands
-                        " :Remove Delete buffer and file at same time
-                        " :Unlink Delete file, keep buffer
-                        " :Move Rename buffer and file
-" Plug 'radenling/vim-dispatch-neovim'    " STILL TOO EXPERIMENTAL Add support to running in a nvim :terminal
-Plug 'wsdjeg/vim-fetch' " Enable opening files with format: vim file_name.xxx:line,column
+Plug 'tpope/vim-eunuch'     " Adds helpers for UNIX shell commands
+                            " :Remove Delete buffer and file at same time
+                            " :Unlink Delete file, keep buffer
+                            " :Move Rename buffer and file
+Plug 'wsdjeg/vim-fetch'     " Enable opening files with format: vim file_name.xxx:line,column
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
 Plug 'phcerdan/ale'                       " my fork with header linting hack (providing .cpp per header)
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
-" Plug 'vim-scripts/delview'              " Delete stored view with :delview.
 Plug 'yssl/QFEnter'                       " Open items from qf/loc lists in whatever buffer
-" Plug 'milkypostman/vim-togglelist'      " Default mapping to <Leader>q, <Leader>l GOLD
-" Plug 'Valloric/ListToggle'              " Default mapping to <Leader>q, <Leader>l
-" Plug 'romainl/vim-qf'
-" vim-qf Setup {{{
-" Doesn't play well with asyncrun, vimtex, etc, with auto_open.
-"  let g:qf_auto_open_quickfix = 0
-"  let g:qf_auto_open_loclist = 0
-"  nmap <Leader>q <Plug>qf_qf_stay_toggle
-"  nmap <Leader>l <Plug>qf_loc_stay_toggle
 " quickfix/loc list toggle from vim wiki {{{
 function! GetBufferList()
   redir =>buflist
@@ -134,7 +121,6 @@ nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
 Plug 'simnalamburt/vim-mundo'           " Navigate undo history.
 nnoremap <F5> :MundoToggle<CR>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
-" Plug 'troydm/zoomwintab.vim'             " Does not work well in neovim.
 " Align and Tabularize: {{{
 " Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
 Plug 'junegunn/vim-easy-align'
@@ -189,8 +175,9 @@ Plug 'AndrewRadev/linediff.vim' " :Linediff in v-selection (x2) will compare chu
 Plug 'airblade/vim-gitgutter'
 "}}}
 " Style / Grammar check {{{
-Plug 'sbdchd/neoformat'
+" Plug 'kana/vim-operator-user' " vim-clang-format dependency to map = (equalprg) to ClangFormat
 Plug 'rhysd/vim-clang-format'
+
 Plug 'rhysd/vim-grammarous'
 " }}}
 " Docs navigation {{{
@@ -258,72 +245,6 @@ nnoremap <silent> xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
 
 nnoremap xx x
 " }}}
-" vim-lsp {{{
-" set completeopt+=preview
-" let g:asyncomplete_auto_popup = 0
-" let g:asyncomplete_remove_duplicates = 1
-" " inoremap <silent><expr> <TAB>
-" "   \ pumvisible() ? "\<C-n>" :
-" "   \ <SID>check_back_space() ? "\<TAB>" :
-" "   \ asyncomplete#force_refresh()
-" " imap <c-space> <Plug>(asyncomplete_force_refresh)
-" let g:lsp_signs_enabled = 1         " enable signs
-" let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-" let g:lsp_async_completion = 1
-" function! LSPEnableLog() "{{{
-"   let g:lsp_log_verbose = 1
-"   let g:lsp_log_file = expand('/tmp/vim-lsp.log')
-" endfunction "}}}
-" au FileType c,c++ setlocal omnifunc=lsp#complete
-" au FileType python setlocal omnifunc=lsp#complete
-
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fh :LspHover<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fd :LspDefinition<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fr :LspReferences<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fn :LspDocumentFormat<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspImplementation<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F1> :LspPreviousError<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F2> :LspNextError<cr>
-" autocmd FileType python,c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <F3> :LspRename<cr>
-" }}}
-" vim-lsp-cquery{{{
-" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fv :LspCqueryDerived<CR>
-" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fc :LspCqueryCallers<CR>
-" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fb :LspCqueryBase<CR>
-" autocmd FileType c,cc,cpp,cxx,h,hh,hpp,hxx nnoremap <leader>fi :LspCqueryVars<CR>
-" if executable('cquery')
-"    au User lsp_setup call lsp#register_server({
-"       \ 'name': 'cquery',
-"       \ 'cmd': {server_info->['cquery']},
-"       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-"       \ 'initialization_options': { 'cacheDirectory': '/home/phc/tmp/cquery_cache' },
-"       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-"       \ })
-" endif
-
-" if executable('clangd')
-"    au User lsp_setup call lsp#register_server({
-"       \ 'name': 'clangd',
-"       \ 'cmd': {server_info->['clangd']},
-"       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-"       \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-"       \ })
-" endif
-" }}}
-" python-language-server {{{
-" prefer flake8 than pycodestyle. flake8 configuration file is in
-" ~/.config/flake8
-" You need to install flake8 for getting Diagnostic
-" if (executable('pyls'))
-"     "\ 'cmd': {server_info->['python', '-m', 'pyls', '-vvv']},
-"     au User lsp_setup call lsp#register_server({
-"     \ 'name': 'pyls',
-"     \ 'cmd': {server_info->['python', '-m', 'pyls']},
-"     \ 'whitelist': ['python'],
-"     \ 'workspace_config': {'pyls': {'configurationSources': ['flake8', 'pycodestyle']}}
-"     \ })
-" endif
-" }}}
 " }}} Language Client
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
@@ -331,9 +252,6 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
 Plug 'brennier/quicktex' " Shortcuts/Abbreviations for latex
 "}}}
 " R {{{
-" Plug 'jalvesaq/R-Vim-runtime' " Included in vim,nvim binaries. But just in case...
-" Plug 'jalvesaq/VimCom'      " Communication vim - R
-" Plug 'jcfaria/Vim-R-plugin' " Too many <Leader> shortcuts???
 Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " }}}
 " Python {{{
@@ -364,16 +282,6 @@ Plug 'ekalinin/Dockerfile.vim'
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
 "Plug 'JamshedVesuna/vim-markdown-preview'
-" function! BuildComposer(info)
-"   if a:info.status != 'unchanged' || a:info.force
-"     if has('nvim')
-"       !cargo build --release
-"     else
-"       !cargo build --release --no-default-features --features json-rpc
-"     endif
-"   endif
-" endfunction
-"Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 "}}}
 " CMake {{{
 " Plug 'pboettch/vim-cmake-syntax'
@@ -391,48 +299,6 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " javascript {{{
 " Not needed if ycm has --tern-completer
 " Plug 'ternjs/tern_for_vim'
-" }}}
-" LanguageClient-Neovim {{{
-" if has('nvim')
-"   " To install run in shell: nvim +PlugInstall +UpdateRemotePlugins +qa
-"   Plug 'autozimu/LanguageClient-neovim', {
-"         \ 'branch': 'next',
-"         \ 'do': 'bash install.sh',
-"         \ }
-"    " This will make LanguageClient pause 0.5 second to send text changes to server
-"    " after one textDocument_didChange is sent.
-"   let g:LanguageClient_changeThrottle = 0.5
-"   " For clangd:
-"   let g:LanguageClient_serverCommands = {
-"         \ 'cpp': ['clangd'],
-"         \ }
-"   " see: clangd --help for options,
-"   " or directly: https://github.com/llvm-mirror/clang-tools-extra/blob/master/clangd/tool/ClangdMain.cpp
-"   " \ 'cpp': ['clangd']
-"   " \ 'python': ['pyls'],
-"
-"   " For cquery: https://github.com/cquery-project/cquery/wiki/Neovim
-"   " let g:LanguageClient_serverCommands = {
-"   "       \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-"   "       \ }
-"   let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings
-"   let g:LanguageClient_settingsPath = expand('~/.config/nvim/settings.json')
-"   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-"   nnoremap <silent> gh :call LanguageClient_textDocument_hover()<CR>
-"   nnoremap <silent> grn :call LanguageClient_textDocument_rename()<CR>
-"   nnoremap <silent> gr :call LanguageClient_textDocument_references()<CR>
-"   " List of current buffer's symbols.
-"   nnoremap <silent> gs :call LanguageClient_textDocument_documentSymbol()<CR>
-"   nnoremap <silent> ge :call LanguageClient_textDocument_signatureHelp()<CR>
-"   vnoremap <silent> gf :call LanguageClient_textDocument_rangeFormatting()<CR>
-" endif
-" }}} LanguageClient-neovim
-" vim-lsp {{{
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'pdavydov108/vim-lsp-cquery'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " }}}
 " AUTOCOMPLETERS }}}
 call plug#end()            " required
@@ -508,10 +374,23 @@ call plug#end()            " required
   set viewoptions=cursor,folds,slash,unix
 " }}}
 
-" ZoomWinTab Setup {{{
-" Default: <C-w>o
-  map <Leader>zzz :ZoomWinTabToggle<CR>
-" }}}
+" Zoom windows {{{
+" From: https://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
+nnoremap <silent> <Leader>z :ZoomToggle<CR>
+"}}}
 
 " Easy-Align Setup {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -784,40 +663,16 @@ endfunction
 
 " vim-clang-format Setup {{{
 let g:clang_format#detect_style_file=1 " Auto detect .clang-format file.
+let g:clang_format#enable_fallback_style=0 " Does nothing if .clang-format is not found
 " When the value is 1, formatexpr option is set by vim-clang-format
 " automatically in C, C++ and ObjC codes.
 " Vim's format mappings (e.g. gq) get to use clang-format to format.
 " This option is not comptabile with Vim's textwidth feature.
 " You must set textwidth to 0 when the formatexpr is set.
-let g:clang_format#auto_formatexpr=1
+" let g:clang_format#auto_formatexpr=1 " BUGGY, creates extra indent...?
 " map to <Leader>cf in C++ code
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
-" }}}
-
-" neoformat Setup {{{
-inoremap <Leader>nf :Neoformat
-
-" C++ {{{
-" let g:neoformat_cpp_clangformat = {
-"       \ 'exe': 'clang-format',
-"       \ 'args': ['-style="{IndentWidth: 4,TabWidth: 4 }"'],
-"       \ 'stdin': 1,
-"       \ }
-" " itk {{{
-" let g:neoformat_cpp_itk = {
-"       \ 'exe': 'uncrustify',
-"       \ 'args': ['-c ' . expand(g:ITKFolder) . '/Utilities/Maintenance/uncrustify_itk_aggressive.cfg', '-q', '-l CPP', '--frag'],
-"       \ 'stdin': 1,
-"       \ }
-" " }}}
-" let g:neoformat_enabled_cpp = ['itk', 'uncrustify', 'clangformat', 'astyle']
-"}}}
-
-" Python {{{
-" need to install yapf/autopep in system.
-let g:neoformat_enabled_python = ['autopep8']
-" }}}
 " }}}
 
 " vim-grammarous Setup {{{
@@ -922,8 +777,8 @@ Plug 'Konfekt/FastFold' " auto fold is slow
 
 " Docs navigation {{{
 " zeavim {{{
-nmap <leader>z <Plug>Zeavim
-vmap <leader>z <Plug>ZVVisSelection
+" nmap <leader>z <Plug>Zeavim
+" vmap <leader>z <Plug>ZVVisSelection
 nmap gz <Plug>ZVMotion
 nmap <leader><leader>z <Plug>ZVKeyDocset
 let g:zv_file_types = {
@@ -1821,7 +1676,6 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   endfunction
   " Hack to have file autocompletion in command line (or in q:)
   com! -nargs=* -complete=file DispArgs call DispArg(<q-args>)
-  " nnoremap <silent> <Leader>r :execute 'Dispatch ' . g:DispArg<CR>
   " au FileType c,cpp au BufWinEnter * call SetNThreads()
   " Call NeomakeBuild() on save if g:BuildOnSave=1
 
