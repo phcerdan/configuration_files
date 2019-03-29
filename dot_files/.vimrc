@@ -433,7 +433,8 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 " }}}
 
 " NerdTREE Setup {{{
-  nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
+  " Replaced for Defx
+  " nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
 " }}}
 
 " Ack/Ag/Rg Setup {{{
@@ -1784,7 +1785,7 @@ let g:defx_icons_root_opened_tree_icon = ''
 let g:defx_icons_nested_opened_tree_icon = ''
 let g:defx_icons_nested_closed_tree_icon = ''
 
-nnoremap <leader>tv :Defx -split=vertical -winwidth=35 -direction=topleft -columns=git:icons:filename:type<CR>
+nnoremap <leader>nn :Defx -split=vertical -winwidth=35 -direction=topleft -columns=git:icons:filename:type -toggle -search=`expand('%:p')` `getcwd()`<CR>
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
     " Define mappings
@@ -1845,7 +1846,7 @@ function! s:defx_my_settings() abort
                 \ line('.') == line('$') ? 'gg' : 'j'
     nnoremap <silent><buffer><expr> k
                 \ line('.') == 1 ? 'G' : 'k'
-    nnoremap <silent><buffer><expr> <C-l>
+    nnoremap <silent><buffer><expr> <C-r>
                 \ defx#do_action('redraw')
     nnoremap <silent><buffer><expr> <C-g>
                 \ defx#do_action('print')
