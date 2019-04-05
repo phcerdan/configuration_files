@@ -229,6 +229,11 @@ nmap <silent> <leader>fd <Plug>(coc-definition)
 nmap <silent> <leader>fr <Plug>(coc-references)
 nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
 
+" Find symbol of current document
+nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
+
 " Cross references extension
 " bases
 nnoremap <silent> xb :call CocLocations('ccls','$ccls/inheritance')<cr>
