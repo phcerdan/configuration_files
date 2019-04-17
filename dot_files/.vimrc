@@ -316,7 +316,11 @@ Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'               " Merged cmake changes!
 " javascript {{{
 " Not needed if ycm has --tern-completer
+Plug 'pangloss/vim-javascript'
 " Plug 'ternjs/tern_for_vim'
+" }}}
+" graphql {{{
+Plug 'jparise/vim-graphql'
 " }}}
 " AUTOCOMPLETERS }}}
 call plug#end()            " required
