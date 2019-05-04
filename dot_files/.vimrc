@@ -46,6 +46,11 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
   " Plug 'vim-scripts/SyntaxRange'        " Syntax Highlighting in code blocks
 " }}}
 Plug 'rhysd/committia.vim'              " More pleasant commit layout
+Plug 'rhysd/git-messenger.vim'          " Show git commit diff in pop-up window: <Leader>gm
+" git-messenger {{{
+let g:git_messenger_no_default_mappings=v:true
+nmap <Leader>m <Plug>(git-messenger)
+" }}}
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
 Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
@@ -315,9 +320,10 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'               " Merged cmake changes!
 " javascript {{{
-" Not needed if ycm has --tern-completer
+" Highlighters: {{{
 Plug 'pangloss/vim-javascript'
-" Plug 'ternjs/tern_for_vim'
+Plug 'mxw/vim-jsx' " React, js and jsx files
+" }}}
 " }}}
 " graphql {{{
 Plug 'jparise/vim-graphql'
@@ -1228,8 +1234,8 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
 " xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-nnoremap <leader>m :Ack! '\b<c-r><c-w>\b'<cr>
-xnoremap <silent> <leader>m :<C-U>call <SID>AckMotion(visualmode())<CR>
+nnoremap <leader>a :Ack! '\b<c-r><c-w>\b'<cr>
+xnoremap <silent> <leader>a :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
