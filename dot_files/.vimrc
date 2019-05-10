@@ -38,6 +38,17 @@ Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Be
 " " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
 "}}}
 " Note-taking utilities Plugins  {{{
+  Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
+  if filereadable(expand("~/.simplenoterc"))
+    source ~/.simplenoterc
+  endif
+  let g:SimplenoteFiletype="markdown"
+  " let g:SimplenoteVertical=1
+  let g:SimplenoteSingleWindow=1
+  " Commands to open simplenote specific notes
+  command! Todo SimplenoteOpen 0d1d94d49dbc46b780bf86a047da1b65
+  command! Projects SimplenoteOpen 4c739a854243b3d7caabddda1340bcbb
+
   Plug 'Rykka/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
   " Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
   " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
@@ -304,6 +315,10 @@ Plug 'ekalinin/Dockerfile.vim'
 " }}}
 " Markdown / vimwiki {{{
 Plug 'phcerdan/vim-flavored-markdown'
+" If you don't have nodejs and yarn. use pre build Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+" If you have nodejs and yarn
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+let g:mkdp_command_for_global = 1
 "Plug 'JamshedVesuna/vim-markdown-preview'
 "}}}
 " CMake {{{
@@ -322,7 +337,9 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 " javascript {{{
 " Highlighters: {{{
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx' " React, js and jsx files
+Plug 'maxmellon/vim-jsx-pretty' " like vim-jsx but add indent
+Plug 'leafgarland/typescript-vim' "ts files
+" Plug 'mxw/vim-jsx' " React, js and jsx files
 " }}}
 " }}}
 " graphql {{{
