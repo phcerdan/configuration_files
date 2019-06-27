@@ -25,9 +25,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 " }}}
 call plug#begin('~/.vim/plugged')
-" Nyaovim Plugs {{{
-Plug 'rhysd/nyaovim-markdown-preview'
-" }}}
 " Debuggers: {{{
 Plug 'sakhnik/nvim-gdb'
 " Plug 'phcerdan/minimal_gdb'
@@ -365,9 +362,6 @@ call plug#end()            " required
 
 " }}}
 
-" nyaovim Setup {{{
-  let g:markdown_preview_auto =1
-" }}}
 " Debuggers Setup {{{
 " Conque-GDB Setup {{{
 " Set localsyntax of ConqueGDB buffer to cpp
