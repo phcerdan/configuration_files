@@ -27,13 +27,6 @@ endif
 call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
 Plug 'sakhnik/nvim-gdb'
-" Plug 'phcerdan/minimal_gdb'
-" Plug '~/repository_local/minimal_gdb'
-Plug 'phcerdan/Conque-GDB' " ConqueGdb embeds a gdb terminal in a vim buffer. Best approach ever. Updated to v0.16.
-" let $PYTHONPATH.=":/usr/lib/python2.7/site-packages/lldb"
-" Plug 'critiqjo/lldb.nvim'
-" " , has('nvim') ? {} : { 'on': [] } " lldb improved (require nvim)
-"}}}
 " Note-taking utilities Plugins  {{{
   Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
   if filereadable(expand("~/.simplenoterc"))
@@ -361,42 +354,6 @@ call plug#end()            " required
     omap am <Plug>(textobj-sandwich-literal-query-a)
 
 " }}}
-
-" Debuggers Setup {{{
-" Conque-GDB Setup {{{
-" Set localsyntax of ConqueGDB buffer to cpp
-  let g:ConqueTerm_Syntax = 'cpp'
-  let g:ConqueGdb_Leader='\'
-  let g:ConqueTerm_Color = 2         " 1: strip color after 200 lines, 2: always with color
-  let g:ConqueTerm_CloseOnEnd = 0    " close conque when program ends running
-  let g:ConqueTerm_StartMessages = 1 " display warning messages if conqueTerm is configured incorrectly
-" let g:ConqueGdb_SrcSplit = 'right' " Split the source code 'xxx' of GDB window.
-" Delete all buffers opened by Conque
-" nnoremap <silent> <Leader>// :ConqueGdbBDelete<CR>
-" nnoremap <silent> <Leader>/Y :ConqueGdbCommand y<CR>
-" nnoremap <silent> <Leader>/N :ConqueGdbCommand n<CR>
-" }}}
-"
-" lldb Setup {{{
-" nmap <Leader>db <Plug>LLBreakSwitch
-" nnoremap <Leader>dd :LLmode debug<CR>
-" nnoremap <Leader>dD :LLmode code<CR>
-" nnoremap <Leader>dc :LL continue<CR>
-" nnoremap <Leader>dn :LL next<CR>
-" nnoremap <Leader>dni :LL thread step-over-inst<CR>
-" nnoremap <Leader>ds :LL step<CR>
-" nnoremap <Leader>dsi :LL thread step-inst<CR>
-" nnoremap <Leader>df :LL finish<CR>
-" nnoremap <Leader>dI :LL process interrupt<CR>
-" nnoremap <Leader>dK :LL process kill<CR>
-" nnoremap <Leader>dp :LL print <C-R>=expand('<cword>')<CR>
-" vnoremap <Leader>dp :<C-U>LL print <C-R>=lldb#util#get_selection()<CR><CR>
-" nnoremap <Leader>dle :LLsession bp-set<CR>
-" nnoremap <Leader>dlw :LLsession bp-save<CR>
-" nnoremap <Leader>dlr :LLsession reload<CR>
-" nnoremap <Leader>dll :LLsession load
-" " }}}
-" Debuggers End }}}
 
 " commitia Setup {{{
   " Open commitia if COMMIT buffer
