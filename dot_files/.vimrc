@@ -134,10 +134,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Yggdroot/indentLine'
 " }}}
 " File Navigation and Search: {{{
-" Plug 'francoiscabrol/ranger.vim'        " Ranger example converted to a plugin. :Ranger
-" Plug 'justinmk/vim-dirvish'             " Minimalist file-explorer, aims to replace vim-built-in netwr.
-"      Incompatible with autochdir option: https://github.com/justinmk/vim-dirvish/issues/19
-
 if has('nvim')
   Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -150,7 +146,6 @@ Plug 'kristijanhusak/defx-git'
 
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
 
 " }}}
 " Search/Grep {{{
@@ -824,8 +819,8 @@ let g:zv_zeal_args = has('unix') ? '--style=gtk+' : ''
   autocmd FileType python set ts=4
   autocmd FileType python set sts=4
   if has('nvim')
-    let g:python_host_prog  = '/usr/bin/python2'
-    let g:python3_host_prog = '/usr/bin/python3'
+    " let g:python_host_prog  = '/usr/bin/python2'
+    " let g:python3_host_prog = '/usr/bin/python3'
   endif
 " To run current file.
 au FileType python nnoremap <buffer> <Leader>e :exec '!python' shellescape(@%, 1)<cr>
