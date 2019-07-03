@@ -216,25 +216,40 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " }}}
 " coc : https://github.com/neoclide/coc.nvim {{{
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
-imap  <leader>dp <Plug>(coc-snippets-expand)
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" coc extensions {{{
+" Install with :CocInstall coc-xxx
+" List with :CocList extensions
+" coc-ultisnips
+" coc-snippets
+" coc-json
+" coc-css
+" coc-tsserver
+" coc-prettier
+" *coc-ccls (in ~/.config/nvim/coc-settings.json
+" }}}
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <silent><expr> <c-space> coc#refresh()
-" }}}
-" coc-ccls : https://github.com/MaskRay/ccls/wiki/coc.nvim {{{
-" Check configuration file in ~/.config/nvim/coc-settings.json
+
 nmap <silent> <leader>fd <Plug>(coc-definition)
 nmap <silent> <leader>fr <Plug>(coc-references)
 nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
-
 " Find symbol of current document
 nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
 nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
-
+" Format in visual and normal mode
+vmap <Leader>f  <Plug>(coc-format-selected)
+nmap <Leader>f  <Plug>(coc-format-selected)
+" }}}
+" coc-snippets {{{
+imap  <leader>dp <Plug>(coc-snippets-expand)
+" }}}
+" coc-ccls : https://github.com/MaskRay/ccls/wiki/coc.nvim {{{
+" Check configuration file in ~/.config/nvim/coc-settings.json
 " Cross references extension
 " bases
 nnoremap <silent> xb :call CocLocations('ccls','$ccls/inheritance')<cr>
@@ -244,12 +259,10 @@ nnoremap <silent> xB :call CocLocations('ccls','$ccls/inheritance',{'levels':3})
 nnoremap <silent> xd :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true})<cr>
 " derived of up to 3 levels
 nnoremap <silent> xD :call CocLocations('ccls','$ccls/inheritance',{'derived':v:true,'levels':3})<cr>
-
 " caller
 nnoremap <silent> xc :call CocLocations('ccls','$ccls/call')<cr>
 " callee
 nnoremap <silent> xC :call CocLocations('ccls','$ccls/call',{'callee':v:true})<cr>
-
 " $ccls/member
 " member variables / variables in a namespace
 nnoremap <silent> xm :call CocLocations('ccls','$ccls/member')<cr>
@@ -257,13 +270,15 @@ nnoremap <silent> xm :call CocLocations('ccls','$ccls/member')<cr>
 nnoremap <silent> xf :call CocLocations('ccls','$ccls/member',{'kind':3})<cr>
 " nested classes / types in a namespace
 nnoremap <silent> xs :call CocLocations('ccls','$ccls/member',{'kind':2})<cr>
-
 nmap <silent> xt <Plug>(coc-type-definition)<cr>
 nnoremap <silent> xv :call CocLocations('ccls','$ccls/vars')<cr>
 nnoremap <silent> xV :call CocLocations('ccls','$ccls/vars',{'kind':1})<cr>
-
 nnoremap xx x
-" }}}
+" }}} end coc-ccls
+" coc-prettier {{{
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" }}} end coc-prettier
+" }}} end coc
 " }}} Language Client
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
