@@ -9,13 +9,13 @@
 
 ########## ALIASES ##############
 # Alias vim to nvim.
-vim() {
-    /home/phc/Software/neovim/build/install/bin/nvim "$@"
-}
-# if hash nvim 2>/dev/null; then
-#     alias vim='nvim'
-#     alias vi='nvim'
-# fi
+# vim() {
+#     /home/phc/Software/neovim/build/install/bin/nvim "$@"
+# }
+if hash nvim 2>/dev/null; then
+    alias vim='nvim'
+    alias vi='nvim'
+fi
 
 alias mux='tmuxifier'
 alias git=hub
