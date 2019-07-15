@@ -226,6 +226,7 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " coc-css
 " coc-tsserver
 " coc-prettier
+" coc-python
 " *coc-ccls (in ~/.config/nvim/coc-settings.json
 " }}}
 inoremap <silent><expr> <TAB>
@@ -278,6 +279,10 @@ nnoremap xx x
 " coc-prettier {{{
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " }}} end coc-prettier
+" coc-python {{{
+au FileType python nnoremap <silent> cr :CocCommand python.execInTerminal<cr>
+au FileType python vnoremap <silent> cr :CocCommand python.execSelectionInTerminal<cr>
+" }}}
 " }}} end coc
 " }}} Language Client
 " Language Specific Plugins and Settings {{{
@@ -1314,6 +1319,9 @@ noremap <leader>ss :setlocal foldmethod=syntax
 " map alternatefile, ctrl-^ ctrl-6  to more comfortable ctrl-;
 nnoremap <C-N> <C-^>
 "End of General Maps}}}
+":term maps {{{
+tnoremap <Esc> <C-\><C-n>
+"}}}
 
 " Return to last edit position when opening files (You want this!) Obsolete: plugin:restore_view does this. {{{
 " autocmd BufReadPost *
