@@ -33,6 +33,7 @@ Plug 'sakhnik/nvim-gdb'
     source ~/.simplenoterc
   endif
   let g:SimplenoteFiletype="markdown"
+  let g:SimplenoteNoteFormat="%15N%_%D"
   " let g:SimplenoteVertical=1
   let g:SimplenoteSingleWindow=1
   " Commands to open simplenote specific notes
@@ -73,6 +74,7 @@ Plug 'tpope/vim-eunuch'     " Adds helpers for UNIX shell commands
                             " :Move Rename buffer and file
 Plug 'wsdjeg/vim-fetch'     " Enable opening files with format: vim file_name.xxx:line,column
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
+Plug 'powerman/vim-plugin-AnsiEsc'      " For escaping terminal colors in vim
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
 Plug 'phcerdan/ale'                       " my fork with header linting hack (providing .cpp per header)
@@ -122,6 +124,7 @@ endfunction
 
 nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+au FileType qf nnoremap <silent> <leader>x :AnsiEsc<CR>
 " }}}
 " }}}
 Plug 'simnalamburt/vim-mundo'           " Navigate undo history.
@@ -193,6 +196,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/vim-clang-format'
 
 Plug 'rhysd/vim-grammarous'
+" Python autopep8
+Plug 'tell-k/vim-autopep8'
 " }}}
 " Docs navigation {{{
 " Also see Cppman for c++
@@ -238,6 +243,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 nmap <silent> <leader>fd <Plug>(coc-definition)
 nmap <silent> <leader>fr <Plug>(coc-references)
 nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
+nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
 " Find symbol of current document
 nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
@@ -335,6 +341,12 @@ Plug 'phcerdan/vim-cmake-syntax'
 Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " }}}
+" jupyter {{{
+" Opening a ipynb file creates a .py buffer for easy editing (temporarily)
+" Use '# +' and '# -' to enclose cells in .py
+Plug 'goerz/jupytext.vim'
+let g:jupytext_fmt = 'py'
+" }}}
 "End of Language specifics }}}
 " AUTOCOMPLETERS {{{
 Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
@@ -377,6 +389,7 @@ call plug#end()            " required
   let g:committia_use_singlecolumn = 'always'
 " }}}
 " Fugitive and vim-rhubarb Setup {{{
+  set tags^=./.git/tags;
   nnoremap <Leader>gs :Gstatus<CR>
   let g:fugitive_git_executable = 'hub'
 " }}}
@@ -487,7 +500,11 @@ command! -nargs=* GAg
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
-command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>), 1, { 'options': '--bind=ctrl-e:select-all,ctrl-d:deselect-all' }, <bang>0)
+
+" Define Rg but remove shellscape for passing options. From https://github.com/junegunn/fzf.vim/issues/596
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".(<q-args>), 1, <bang>0)
+" Rgc uses Rg in current buffer directory!
+command! -bang -nargs=* Rgc call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color=always '.(<q-args>).' '.expand("%:h"), 1, { 'options': '--bind=ctrl-e:select-all,ctrl-d:deselect-all' }, <bang>0)
 command! -nargs=* GAg
   \ call fzf#vim#ag(<q-args>, extend(s:with_git_root(), g:fzf_layout))
 " Specialized for ITK.
@@ -551,6 +568,22 @@ function! SearchWordVisualSelection() range
   let &clipboard = old_clipboard
   execute grep_command selection
 endfunction
+
+" Open all files in qlist: https://github.com/junegunn/fzf.vim/issues/40
+function! QuickFixOpenAll()
+    if empty(getqflist())
+        return
+    endif
+    let s:prev_val = ""
+    for d in getqflist()
+        let s:curr_val = bufname(d.bufnr)
+        if (s:curr_val != s:prev_val)
+            exec "edit " . s:curr_val
+        endif
+        let s:prev_val = s:curr_val
+    endfor
+endfunction
+command! QuickFixOpenAll call QuickFixOpenAll()
 " }}}
 
 " Tagbar Setup {{{
@@ -683,8 +716,17 @@ let g:clang_format#enable_fallback_style=0 " Does nothing if .clang-format is no
 " You must set textwidth to 0 when the formatexpr is set.
 " let g:clang_format#auto_formatexpr=1 " BUGGY, creates extra indent...?
 " map to <Leader>cf in C++ code
-autocmd FileType c,cpp,objc nnoremap <buffer><Leader>ff :<C-u>ClangFormat<CR>
-autocmd FileType c,cpp,objc vnoremap <buffer><Leader>ff :ClangFormat<CR>
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>x :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>x :ClangFormat<CR>
+" }}}
+"
+" vim-autopep8 Setup {{{
+autocmd FileType python nnoremap <buffer><Leader>x :call Autopep8()<CR>
+autocmd FileType python vnoremap <buffer><Leader>x :call Autopep8()<CR>
+" 88 is Black style, why not
+let g:autopep8_max_line_length=88
+" let b:autopep8_on_save = 1
+
 " }}}
 
 " vim-grammarous Setup {{{
@@ -1246,6 +1288,7 @@ vnoremap // y/<C-R>"<CR>
 vnoremap S y:%S/<C-R>"/
 " Escape remap (Ctrl-C doesnt work well in some plugins) (not reliable)
 noremap <C-c> <Esc>
+au FileType fzf noremap <C-c> <C-C>
 " Smash Escape
 inoremap jk <ESC>
 inoremap kj <ESC>
@@ -1504,6 +1547,11 @@ com! -nargs=1 -complete=file SourceFolder call SetSourceFolder(<q-args>)
 " }}}
 
 " asyncrun setup {{{
+" ring the bell to notify you job finished
+" let g:asyncrun_bell = 1
+" automatically open quickfix window when AsyncRun command is executed
+" the number is the number of lines height.
+let g:asyncrun_open = 10
 " For using it with errorformat (display errors)
 let g:asyncrun_auto = "make"
 " augroup QuickfixStatus
@@ -1786,7 +1834,7 @@ let g:defx_icons_root_opened_tree_icon = ''
 let g:defx_icons_nested_opened_tree_icon = ''
 let g:defx_icons_nested_closed_tree_icon = ''
 
-nnoremap <leader>nn :Defx -split=vertical -winwidth=35 -direction=topleft -columns=git:icons:filename:type -toggle -search=`expand('%:p')` `getcwd()`<CR>
+nnoremap <leader>nn :Defx -split=vertical -winwidth=35 -direction=topleft -columns=git:indent:icons:filename:type -toggle -search=`expand('%:p')` `getcwd()`<CR>
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
     " Define mappings

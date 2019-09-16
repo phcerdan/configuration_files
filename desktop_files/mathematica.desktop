@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=mathematica
+Exec=bash -c /home/phc/Software/Mathematica/9.0/Executables/Mathematica
+Icon=/home/phc/Software/Mathematica/9.0/SystemFiles/FrontEnd/SystemResources/X/Mathematica-64.png
+Type=Application
+Terminal=false
+Categories=Office;
+MimeType=text/plain

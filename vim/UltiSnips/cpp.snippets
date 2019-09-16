@@ -6,6 +6,10 @@ snippet lic "license with my name and reference to LICENSE" b
 
 endsnippet
 
+snippet ifnotndebug "If not defined NDEBUG"
+#if !defined(NDEBUG)
+#endif
+endsnippet
 snippet licmpl "License: MPL 2.0 Mozilla Public License " b
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -158,6 +162,13 @@ snippet ass "ASSERT_THAT Google Mock" b
 ASSERT_THAT($1,$2);
 endsnippet
 
+snippet testfixture "Class fixture Google Mock" !b
+class ${1:FixtureClass} : public ::testing::Test {
+public:
+void SetUp() override {
+}
+};
+endsnippet
 snippet TEST_F "TEST_F Google Mock" !b
 TEST_F(${1:FixtureClass}, ${2:TestName}) {
 	$3
@@ -340,10 +351,17 @@ snippet "cvr" "const std::vector &" rs
 const std::vector<${1:Type}> & ${0}
 endsnippet
 
+snippet "RO5" "rule of 5 for base class with virtual destructor" rb
+$1(const $1&) = default;
+$1($1&&) = default;
+$1& operator=(const $1&) = default;
+$1& operator=($1&&) = default;
+~$1() = default
+endsnippet
 snippet "RO5poly" "rule of 5 for base class with virtual destructor" rb
 $1(const $1&) = default;
 $1($1&&) = default;
 $1& operator=(const $1&) = default;
 $1& operator=($1&&) = default;
-virtual ~$1() = default
+virtual ~$1() = default;
 endsnippet
