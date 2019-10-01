@@ -156,6 +156,8 @@ Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'do': './install --all' } " Command line (zsh, etc) fuzzy searcher. Better than CtrlP (only unix)
 Plug 'junegunn/fzf.vim'
+Plug 'jesseleite/vim-agriculture' " Add AgRaw and RgRaw when using FZF to pass options to rg and ag
+
 Plug 'majutsushi/tagbar'
 " }}}
 "Color Schemes and status-line {{{
@@ -500,9 +502,11 @@ command! -nargs=* GAg
 " --follow: Follow symlinks
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
+" vim-agriculture{{{
+command -nargs=0 Todos AgRawBuf '(TODO|XXX|FIXME)'
+let g:agriculture#rg_options = '--column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color=always'
+" }}}
 
-" Define Rg but remove shellscape for passing options. From https://github.com/junegunn/fzf.vim/issues/596
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".(<q-args>), 1, <bang>0)
 " Rgc uses Rg in current buffer directory!
 command! -bang -nargs=* Rgc call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color=always '.(<q-args>).' '.expand("%:h"), 1, { 'options': '--bind=ctrl-e:select-all,ctrl-d:deselect-all' }, <bang>0)
 command! -nargs=* GAg
@@ -1363,7 +1367,10 @@ noremap <leader>ss :setlocal foldmethod=syntax
 nnoremap <C-N> <C-^>
 "End of General Maps}}}
 ":term maps {{{
-tnoremap <Esc> <C-\><C-n>
+if has("nvim")
+    au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+    au FileType fzf tunmap <buffer> <Esc>
+endif
 "}}}
 
 " Return to last edit position when opening files (You want this!) Obsolete: plugin:restore_view does this. {{{
