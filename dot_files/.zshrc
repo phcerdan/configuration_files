@@ -77,7 +77,7 @@ POWERLEVEL9K_SHOW_CHANGESET=true
 POWERLEVEL9K_CHANGESET_HASH_LENGTH=8
 # # Default is slow... too many git commands. There is a PR with async vcs status, might be worth to restore when merged.
 # POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
-POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes) # git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+# POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes) # FAST VERSION
 POWERLEVEL9K_VCS_GIT_ICON=''
 POWERLEVEL9K_VCS_GIT_GITHUB_ICON=''
 POWERLEVEL9K_VCS_GIT_GITLAB_ICON=''
@@ -130,7 +130,8 @@ if ! zgen saved; then
     ## pure
     # zgen load mafredri/zsh-async
     # zgen load sindresorhus/pure
-    zgen load bhilburn/powerlevel9k powerlevel9k
+    # zgen load bhilburn/powerlevel9k powerlevel9k
+    zgen load romkatv/powerlevel10k powerlevel10k
     # zgen load denysdovhan/spaceship-prompt spaceship
 
     # autosuggestions should be loaded last (annoying!)
