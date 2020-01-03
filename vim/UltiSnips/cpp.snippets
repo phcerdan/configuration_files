@@ -42,6 +42,12 @@ snippet licitk "ITK license" b
  *=========================================================================*/
 
 endsnippet
+
+snippet nameSG "namespace SG" b
+namespace SG {$1
+} // end namespace SG
+endsnippet
+
 global !p
 import vim
 def commentLine(ll = 40):
@@ -163,10 +169,9 @@ ASSERT_THAT($1,$2);
 endsnippet
 
 snippet testfixture "Class fixture Google Mock" !b
-class ${1:FixtureClass} : public ::testing::Test {
-public:
-void SetUp() override {
-}
+struct ${1:FixtureClass} : public ::testing::Test {
+    void SetUp() override {
+    }
 };
 endsnippet
 snippet TEST_F "TEST_F Google Mock" !b

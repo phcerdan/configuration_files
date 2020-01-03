@@ -1,4 +1,4 @@
-export MANPAGER="less -x"
+# export MANPAGER="less -x"
 # CMAKE
 # Fix for work with term=tmux (from tmux 2.1). It is fixed in cmake 3.8
 ccmake() {
@@ -11,6 +11,14 @@ cninja() {
 
 ccninja() {
     ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
+}
+
+cninja-clang() {
+    CC=clang CXX=clang++ cmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
+}
+
+ccninja-clang() {
+    CC=clang CXX=clang++ ccmake -GNinja -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DOpenGL_GL_PREFERENCE:STRING=GLVND "$@"
 }
 
 # RG
@@ -32,4 +40,9 @@ gitlcm(){ # git last commit message
 
 gitgc(){ # git grep changes
     grep -sn $@ $(git diff --name-only)
+}
+
+# cower is outdated, replaced by auracle, use it with default target install directory
+cower(){
+    auracle -C ~/AUR/ "$@"
 }

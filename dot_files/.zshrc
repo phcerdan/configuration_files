@@ -1,4 +1,5 @@
 #!/bin/zsh
+
 # Disable warning in mac and oh-my-zsh autocompletion plugin
 # platform=$(uname -s)
 # if [[ "${platform}" == "Darwin" ]]; then
@@ -226,6 +227,9 @@ fi
 # https://github.com/grml/grml-etc-core/blob/master/etc/zsh/zshrc
 bk() {
     cp -a "$1" "${1}_$(date --iso-8601=seconds)"
+}
+disable_ow_color() {
+    export LS_COLORS="$LS_COLORS:ow="
 }
 
 # print a separator banner, as wide as the terminal

@@ -249,7 +249,7 @@ nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
 " Find symbol of current document
 nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
 " Search workspace symbols
-nnoremap <silent> <leader>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent> <leader>s  :<C-u>CocList --strict -I symbols<cr>
 " Format in visual and normal mode
 vmap <Leader>f  <Plug>(coc-format-selected)
 nmap <Leader>f  <Plug>(coc-format-selected)
@@ -421,6 +421,8 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 " Easy-Align Setup {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
   vmap <Enter> <Plug>(LiveEasyAlign)
+  " Start interactive EasyAlign in visual mode (e.g. vipga)
+  xmap ga <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. gaip)
   nmap ga <Plug>(EasyAlign)
   " To align c++ definitions.
@@ -455,7 +457,7 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
     " let g:ackprg = 'ag --vimgrep --smart-case'
     " cnoreabbrev Ag Ack
     " Use rg over Grep
-    set grepprg=rg\ --no-heading\ --color=never
+    set grepprg=rg\ --vimgrep
     " nnoremap <silent> <Leader>/ :execute 'Ack ' . input('Ack/')<CR>
   endif
 "}}}
@@ -480,6 +482,22 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <C-x><C-j> <plug>(fzf-complete-file-ag)
 imap <C-x><C-l> <plug>(fzf-complete-line)
 
+" fzf: Delete selected buffers {{{
+function! Bufs()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': Bufs(),
+  \ 'sink*': { lines -> execute('bwipeout '.join(map(lines, {_, line -> split(line)[0]}))) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
+
+"}}}
+
 fun! s:fzf_root()
   let path = finddir(".git", expand("%:p:h").";")
   return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
@@ -503,8 +521,20 @@ command! -nargs=* GAg
 " --glob: Additional conditions for search (in this case ignore everything in the .git/ folder)
 " --color: Search color options
 " vim-agriculture{{{
-command -nargs=0 Todos AgRawBuf '(TODO|XXX|FIXME)'
+command! -nargs=0 Todos AgRaw '(TODO|XXX|FIXME)'
 let g:agriculture#rg_options = '--column --line-number --no-heading --fixed-strings --smart-case --hidden --follow --glob "!.git/*" --color=always'
+" }}}
+
+" advanced RG fzf {{{
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 " }}}
 
 " Rgc uses Rg in current buffer directory!
