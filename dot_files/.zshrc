@@ -230,6 +230,9 @@ bk() {
 }
 disable_ow_color() {
     export LS_COLORS="$LS_COLORS:ow="
+    # Removes all colors for zsh-autocomplete
+    zstyle ':completion:*' list-colors
+    # zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 }
 
 # print a separator banner, as wide as the terminal

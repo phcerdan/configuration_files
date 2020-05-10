@@ -26,7 +26,16 @@ endif
 " }}}
 call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
-Plug 'sakhnik/nvim-gdb'
+" Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
+let g:termdebug_wide = 10
+" Useful for python, for gdb use termdebug
+Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python'}
+" You need pip install neovim in any virtualenv to Ultisnips to work
+" Force vim to load python3 before python2
+if has('python3')
+endif
+let g:vimspector_enable_mappings = 'HUMAN'
+" }}}
 " Note-taking utilities Plugins  {{{
   Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
   if filereadable(expand("~/.simplenoterc"))
@@ -40,7 +49,11 @@ Plug 'sakhnik/nvim-gdb'
   command! Todo SimplenoteOpen 0d1d94d49dbc46b780bf86a047da1b65
   command! Projects SimplenoteOpen 4c739a854243b3d7caabddda1340bcbb
 
-  Plug 'Rykka/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
+  Plug 'gu-fan/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
+  Plug 'phcerdan/InstantRst' " reStructuredText preview in browser.
+  " Requires pip install https://github.com/gu-fan/instant-rst.py/archive/master.zip
+  " My fork modify the option g:instant_rst_slow to only refresh preview on BufWrite
+  let g:instant_rst_slow=1
   " Plug 'vimwiki/vimwiki'  " vim-wiki, natural substitute of org-mode in vim.
   " Plug 'vim-scripts/utl.vim'            " Universal Text Linking (for urls and text linking)
   " Plug 'tpope/vim-speeddating'          " Modify dates with C-A, C-X (like integers)
@@ -68,18 +81,19 @@ Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based o
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
-Plug 'tpope/vim-eunuch'     " Adds helpers for UNIX shell commands
-                            " :Remove Delete buffer and file at same time
-                            " :Unlink Delete file, keep buffer
-                            " :Move Rename buffer and file
-Plug 'wsdjeg/vim-fetch'     " Enable opening files with format: vim file_name.xxx:line,column
+Plug 'tpope/vim-eunuch'                 " Adds helpers for UNIX shell commands
+                                        " :Remove Delete buffer and file at same time
+                                        " :Unlink Delete file, keep buffer
+                                        " :Move Rename buffer and file
+Plug 'wsdjeg/vim-fetch'                 " Enable opening files with format: vim file_name.xxx:line,column
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'powerman/vim-plugin-AnsiEsc'      " For escaping terminal colors in vim
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
-Plug 'phcerdan/ale'                       " my fork with header linting hack (providing .cpp per header)
+" Plug 'phcerdan/ale'                     " my fork with header linting hack (providing .cpp per header)
+Plug 'junegunn/goyo.vim'                " Distraction free. :Goyo
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
-Plug 'yssl/QFEnter'                       " Open items from qf/loc lists in whatever buffer
+Plug 'yssl/QFEnter'                     " Open items from qf/loc lists in whatever buffer
 " quickfix/loc list toggle from vim wiki {{{
 function! GetBufferList()
   redir =>buflist
@@ -128,7 +142,7 @@ au FileType qf nnoremap <silent> <leader>x :AnsiEsc<CR>
 " }}}
 " }}}
 Plug 'simnalamburt/vim-mundo'           " Navigate undo history.
-nnoremap <F5> :MundoToggle<CR>
+" nnoremap <F5> :MundoToggle<CR>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Align and Tabularize: {{{
 " Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
@@ -161,6 +175,8 @@ Plug 'jesseleite/vim-agriculture' " Add AgRaw and RgRaw when using FZF to pass o
 Plug 'majutsushi/tagbar'
 " }}}
 "Color Schemes and status-line {{{
+Plug 'luochen1990/rainbow'
+let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
 Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
 " Plug 'justinmk/molokai'
@@ -178,6 +194,7 @@ Plug 'gcmt/taboo.vim'              " Rename tabs
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 let g:tmux_navigator_disable_when_zoomed=1
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
+Plug 'tmux-plugins/vim-tmux-focus-events' " Allow FocusGained and FocusLost to work in vim running inside tmux. set autoread
 Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
 " Plug 'edkolev/tmuxline.vim'             " Generate tmux status bar from airline theme
 " }}}
@@ -299,10 +316,9 @@ Plug 'lervag/vimtex' " Fork from Latex-box. Minimalistic ll to compile, lv to vi
 Plug 'brennier/quicktex' " Shortcuts/Abbreviations for latex
 "}}}
 " R {{{
-Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
+" Plug 'jalvesaq/Nvim-R' " Includes VimCom functionalities.
 " }}}
 " Python {{{
-" Plug 'klen/python-mode', { 'branch': 'develop'} " python-mode is just too heavy, you don't really need rope.
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'fs111/pydoc.vim'
 " Plug 'nvie/vim-flake8'
@@ -561,7 +577,7 @@ nnoremap <silent> <Leader>fhl :Helptags<CR>
 nnoremap <silent> <Leader>fl :BLines<CR>
 nnoremap <silent> <Leader>fL :Lines<CR>
 nnoremap <silent> <Leader>w :call SearchWord()<CR>
-vnoremap <silent> K :call SearchWordVisualSelection()<CR>
+" vnoremap <silent> K :call SearchWordVisualSelection()<CR>
 nnoremap <silent> <Leader>ft :BTags<CR>
 nnoremap <silent> <Leader>fT :Tags<CR>
 nnoremap <silent> <Leader>gl :Commits<CR>
@@ -920,9 +936,6 @@ let g:zv_zeal_args = has('unix') ? '--style=gtk+' : ''
   endif
 " To run current file.
 au FileType python nnoremap <buffer> <Leader>e :exec '!python' shellescape(@%, 1)<cr>
-" python-mode Setup {{{
-  " let g:pymode_rope_completion = 0 " Use YCM instead
-" }}}
 " vim-flake8 Setup {{{
 " Default mapping is <F7>
   let g:flake8_show_in_gutter=1
@@ -1021,19 +1034,6 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
 	execute 'edit ~/.vim/plugged/vim-snippets/snippets/' . &filetype . '.snippets'
   endfunction
 
-  " From: https://github.com/Valloric/YouCompleteMe/issues/420
-"   let g:ulti_expand_or_jump_res = 0
-"   function ExpandSnippetOrCarriageReturn()
-"     let snippet = UltiSnips#ExpandSnippetOrJump()
-"     if g:ulti_expand_or_jump_res > 0
-"       return snippet
-"     else
-"       return "\<CR>"
-"     endif
-"   endfunction
-" inoremap <expr> <CR> pumvisible() ? "<C-R>=ExpandSnippetOrCarriageReturn()<CR>" : "\<CR>"
-" }}}
-
 "General Completer Options {{{
 " don't give |ins-completion-menu| messages.  For example,
 " -- XXX completion (YYY)', 'match 1 of 2', 'The only match',
@@ -1044,22 +1044,6 @@ set shortmess+=c
 
   " inoremap <silent><expr> ( complete_parameter#pre_complete("()")
   " let g:complete_parameter_use_ultisnips_mapping = 1
-" }}}
-
-" Jedi Setup {{{
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#auto_initialization = 1
-" let g:jedi#show_call_signatures = 2
-" let g:jedi#auto_vim_configuration = 0
-" let g:jedi#show_call_signatures_delay = 0
-" if &rtp =~ '\<jedi\>'
-"     augroup JediSetup
-"         au!
-"         au FileType python
-"             \ setlocal omnifunc=jedi#completions  |
-"             \ call jedi#configure_call_signatures()
-"     augroup END
-" endif
 " }}}
 
 " Neovim options {{{
@@ -1104,7 +1088,7 @@ syntax enable
 set synmaxcol=400 " syntax highlight is really slow for monstruously long lines.
 setlocal spell spelllang=en_us
 set nospell
-map <F12> :setlocal spell! spelllang=en_us<CR>
+" map <F12> :setlocal spell! spelllang=en_us<CR>
 " hi stuff must be after syntax (not colour)
 " hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
 au FileType c,cpp setlocal colorcolumn=81
@@ -1119,7 +1103,7 @@ endif
 " Basic {{{
 set number           " Show line numbers
 " set autochdir        " Set cd to current file directory. Mess with plugins
-set pastetoggle=<F8> " Paste without autoindent
+set pastetoggle=<F2> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
 set textwidth=0
 set wrapmargin=0     " Turns off physical line wrapping (automatic insertion of newlines)
@@ -1342,7 +1326,7 @@ nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 " TimeStamps
 " nnoremap <leader>ts "=strftime("%F")<CR>P
-inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
+" inoremap <F8> <C-R>=strftime("%a %d %b %Y")<CR>
 " Copy filename to clipboard {{{
   function! CopyAbsolutePath()
     " absolute path (/something/src/foo.txt)
@@ -1597,7 +1581,7 @@ let g:asyncrun_auto = "make"
 " augroup END
 let g:asyncrun_trim = 1 " trim empty lines
 " better quickfix toogle:
-noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
+" noremap <F9> :call asyncrun#quickfix_toggle(8)<cr>
 let g:toggle_list_copen_command="call asyncrun#quickfix_toggle(8)"
 " vim-fugive (using Make) async, from: https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>

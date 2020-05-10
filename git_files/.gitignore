@@ -4,6 +4,11 @@
 compile_commands.json
 Session*.vim
 .bash_parameters.sh
+# Configuration file of vimspector
+.vimspector.json
+# DGtal files generating when running tests from vim
+.qglviewer.xml
+
 
 .vscode/*
 !.vscode/settings.json
