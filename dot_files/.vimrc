@@ -1103,6 +1103,7 @@ endif
 " Basic {{{
 set number           " Show line numbers
 " set autochdir        " Set cd to current file directory. Mess with plugins
+command! Cdc cd %:p:h
 set pastetoggle=<F2> " Paste without autoindent
 set mouse=a          " Automatic enable mouse
 set textwidth=0
