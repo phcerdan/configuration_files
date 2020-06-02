@@ -28,13 +28,10 @@ call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
 " Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
 let g:termdebug_wide = 10
-" Useful for python, for gdb use termdebug
-Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python'}
 " You need pip install neovim in any virtualenv to Ultisnips to work
 " Force vim to load python3 before python2
 if has('python3')
 endif
-let g:vimspector_enable_mappings = 'HUMAN'
 " }}}
 " Note-taking utilities Plugins  {{{
   Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
@@ -185,8 +182,10 @@ Plug 'phcerdan/molokai'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'chriskempson/base16-vim'
 Plug 'nanotech/jellybeans.vim'
-Plug 'vim-airline/vim-airline'     " Colourful status-line.
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'     " Colourful status-line.
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
 Plug 'gcmt/taboo.vim'              " Rename tabs
 " Plug 'ryanoasis/vim-devicons'      " powerline icons in vim.
 "}}}
@@ -648,46 +647,103 @@ command! QuickFixOpenAll call QuickFixOpenAll()
   " let g:jellybeans_use_lowcolor_black = 0
 " }}}
 
-" Airline Setup {{{
-  " let g:airline_theme='wombat'
-  " let g:airline_theme='peaksea'
-  let g:airline_theme='base16_spacemacs'
-  " let g:airline_theme='tomorrow'
-  " let g:airline_theme='gruvbox'
-  let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-  let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
-  let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
-  let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-  let g:airline#extensions#tabline#formatter = 'unique_tail'
-  let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+" Lightline Setup {{{
+set showtabline=2
+let g:lightline#bufferline#show_number  = 1
+let g:lightline#bufferline#shorten_path = 1
+let g:lightline#bufferline#unnamed      = '[No Name]'
 
-  let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-  " let g:line_no_indicator_chars = ['⎺', '⎻', '─', '⎼', '⎽']
-  " let g:airline_section_y = '%{LineNoIndicator()}'
-  function! AirlineInit()
-    let g:airline_section_z = airline#section#create(['%2l:%c'])
-  endfunction
-  autocmd User AirlineAfterInit call AirlineInit()
-  " Slow integrations disabled:
-  let g:airline#extensions#wordcount#enabled = 0
-  let g:airline#extensions#tagbar#enabled = 0
-  let g:airline#extensions#ycm#enabled = 0
-  " if exists("g:loaded_line_no_indicator")
-  " endif
-  " To show full path: default is %f instead of %F.
-  " let g:airline_section_c = '%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-  " ale
-  let g:airline#extensions#ale#enabled = 1
-  " integration:{{{
-  " let g:airline#extensions#neomake#enabled = 1
-  " let g:airline#extensions#eclim#enabled = 0
-  " fzf slow on close: https://github.com/neovim/neovim/issues/4487
-  let g:airline#extensions#branch#enabled = 0
-  " asyncrun status:
-  let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-  "}}}
-  let g:airline_powerline_fonts = 1
+let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \   'filename': 'LightlineFilename',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
+      \ },
+      \ 'component_expand': {
+      \   'buffers': 'lightline#bufferline#buffers',
+      \   'asyncrun_status': 'LightlineAsyncrunstatus',
+      \ },
+      \ 'component_type': {
+      \   'buffers': 'tabsel',
+      \ },
+      \ 'component': {
+      \   'lineinfo': '%3l:%-2v%<',
+      \ },
+      \ 'tab': {
+      \   'active': [ 'tabnum' ],
+      \   'inactive': [ 'tabnum' ],
+      \ },
+      \ 'tabline': {
+      \   'left': [['buffers']],
+      \   'right': [['asyncrun_status', 'tabs']]
+      \ },
+      \ }
+
+let g:lightline.mode_map = {
+        \ 'n' : 'N',
+        \ 'i' : 'I',
+        \ 'R' : 'R',
+        \ 'v' : 'V',
+        \ 'V' : 'VL',
+        \ "\<C-v>": 'VB',
+        \ 'c' : 'C',
+        \ 's' : 'S',
+        \ 'S' : 'SL',
+        \ "\<C-s>": 'SB',
+        \ 't': 'T',
+        \ }
+" only show buffer name in lightline-bufferline (no path)
+let g:lightline#bufferline#filename_modifier = ':t'
+
+function! LightlineAsyncrunstatus()
+  return ['%{g:asyncrun_status}']
+endfunction
+
+function! LightlineFilename()
+  let filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+  let modified = &modified ? ' +' : ''
+  return filename . modified
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
 " }}}
+" " Airline Setup {{{
+"   let g:airline_theme='base16_spacemacs'
+"   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
+"   let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
+"   let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
+"   let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
+"   let g:airline#extensions#tabline#formatter = 'unique_tail'
+"   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
+"
+"   let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+"   function! AirlineInit()
+"     let g:airline_section_z = airline#section#create(['%2l:%c'])
+"   endfunction
+"   autocmd User AirlineAfterInit call AirlineInit()
+"   " Slow integrations disabled:
+"   let g:airline#extensions#wordcount#enabled = 0
+"   let g:airline#extensions#tagbar#enabled = 0
+"   let g:airline#extensions#ycm#enabled = 0
+"   let g:airline#extensions#ale#enabled = 1
+"   let g:airline#extensions#branch#enabled = 0
+"   " asyncrun status:
+"   let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+"   "}}}
+"   let g:airline_powerline_fonts = 1
+" " }}}
 
 " vim-devicons Options {{{
   let g:WebDevIconsOS="Linux"
