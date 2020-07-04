@@ -88,7 +88,8 @@ Plug 'powerman/vim-plugin-AnsiEsc'      " For escaping terminal colors in vim
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 " Plug 'w0rp/ale'                         " Linting real-time
 " Plug 'phcerdan/ale'                     " my fork with header linting hack (providing .cpp per header)
-Plug 'junegunn/goyo.vim'                " Distraction free. :Goyo
+" Plug 'junegunn/goyo.vim'                " Distraction free. :Goyo
+Plug 'mhinz/vim-startify'               " Start screen, and SSave SSLoad for sessions
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 Plug 'yssl/QFEnter'                     " Open items from qf/loc lists in whatever buffer
 " quickfix/loc list toggle from vim wiki {{{
@@ -135,6 +136,7 @@ endfunction
 
 nmap <silent> <leader>q :call ToggleList("Quickfix List", 'c')<CR>
 nmap <silent> <leader>l :call ToggleList("Location List", 'l')<CR>
+" Escape colour characters. Used for google test.
 au FileType qf nnoremap <silent> <leader>x :AnsiEsc<CR>
 " }}}
 " }}}
@@ -157,6 +159,8 @@ else
 endif
 Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
+
+" Plug 'wellle/context.vim'
 
 Plug 'scrooloose/nerdtree'              " Folder structure viewer
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -258,9 +262,13 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <silent><expr> <c-space> coc#refresh()
 
+nmap <silent> <leader>ff <Plug>(coc-fix-current)
 nmap <silent> <leader>fd <Plug>(coc-definition)
 nmap <silent> <leader>fr <Plug>(coc-references)
 nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
+"  Reopen last list
+nnoremap <silent> <leader>y  :<C-u>CocListResume<cr>
+" Show diagnostics
 nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
 " Find symbol of current document
 nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
@@ -308,6 +316,8 @@ au FileType python nnoremap <silent> cr :CocCommand python.execInTerminal<cr>
 au FileType python vnoremap <silent> cr :CocCommand python.execSelectionInTerminal<cr>
 " }}}
 " }}} end coc
+" Plug 'jackguo380/vim-lsp-cxx-highlight'  " Use ccls (or clangd) for syntax based highlights
+" "     Requires ` "highlight": { "lsRanges" : true } ` in coc-settings.json
 " }}} Language Client
 " Language Specific Plugins and Settings {{{
 " LATEX {{{
@@ -399,6 +409,9 @@ call plug#end()            " required
 
 " }}}
 
+" startify {{{
+  let g:startify_bookmarks = [ {'c': '~/.vimrc'} ]
+" }}}
 " commitia Setup {{{
   " Open commitia if COMMIT buffer
   let g:committia_open_only_vim_starting = 0
@@ -478,7 +491,8 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
 "}}}
 
 " fzf Setup {{{
-let g:fzf_layout = { 'down': '~40%' }
+" let g:fzf_layout = { 'down': '~40%' }
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.4, 'yoffset': 0.9, 'xoffset': 0.5, } }
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 " let g:fzf_command_prefix = 'F'
 " Enable per-command history.
@@ -635,8 +649,17 @@ endfunction
 command! QuickFixOpenAll call QuickFixOpenAll()
 " }}}
 
+" context.vim setup {{{
+  " " Really laggy, only update on CursorHold
+  " let g:context_add_autocmds = 0
+  " autocmd CursorHold   * call context#update('CursorHold')
+  " autocmd VimResized   * call context#update('VimResized')
+  " autocmd User GitGutter call context#update('GitGutter')
+" }}}
+
 " Tagbar Setup {{{
   nnoremap <silent> <Leader>bb :TagbarToggle<CR>
+  nnoremap <silent> <Leader>bp :TagbarTogglePause<CR>
   let g:tagbar_sort=0 " Keep order of file.
   " updatetime is a general vim option (default 4000), too low and glitches happens
   set updatetime=1500 " Control the time to update highlight of the closest tag to current cursor position.
