@@ -144,9 +144,7 @@ Plug 'simnalamburt/vim-mundo'           " Navigate undo history.
 " nnoremap <F5> :MundoToggle<CR>
 Plug 'ntpeters/vim-better-whitespace'   " Highlight whitespaces and provide StripWhiteSpaces()
 " Align and Tabularize: {{{
-" Plug 'terryma/vim-multiple-cursors'     " <C-n> to select next word for multiple modification. Sublime style. Not used. Colliding default keys.
 Plug 'junegunn/vim-easy-align'
-" Plug 'junegunn/vim-peekaboo'              " Expand when using registers (Pretty optional)
 Plug 'Yggdroot/indentLine'
 " }}}
 " File Navigation and Search: {{{
@@ -159,11 +157,6 @@ else
 endif
 Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
-
-" Plug 'wellle/context.vim'
-
-Plug 'scrooloose/nerdtree'              " Folder structure viewer
-Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " }}}
 " Search/Grep {{{
@@ -186,8 +179,6 @@ Plug 'phcerdan/molokai'
 Plug 'patstockwell/vim-monokai-tasty'
 Plug 'chriskempson/base16-vim'
 Plug 'nanotech/jellybeans.vim'
-" Plug 'vim-airline/vim-airline'     " Colourful status-line.
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'gcmt/taboo.vim'              " Rename tabs
@@ -198,8 +189,6 @@ Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. De
 let g:tmux_navigator_disable_when_zoomed=1
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
 Plug 'tmux-plugins/vim-tmux-focus-events' " Allow FocusGained and FocusLost to work in vim running inside tmux. set autoread
-Plug 'benmills/vimux'                   " Call tmux from vim (used for calling emacs org-mode)
-" Plug 'edkolev/tmuxline.vim'             " Generate tmux status bar from airline theme
 " }}}
 " Buffer Related {{{
 " Switch to latest used buffer
@@ -475,11 +464,6 @@ nnoremap <silent> <Leader>z :ZoomToggle<CR>
   let g:indentLine_enabled = 1
 " }}}
 
-" NerdTREE Setup {{{
-  " Replaced for Defx
-  " nnoremap <silent> <Leader>nn :NERDTreeFind<CR>
-" }}}
-
 " Ack/Ag/Rg Setup {{{
   if executable('rg')
     " let g:ackprg = 'ag --vimgrep --smart-case'
@@ -742,31 +726,6 @@ function! LightlineFiletype()
   return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
 endfunction
 " }}}
-" " Airline Setup {{{
-"   let g:airline_theme='base16_spacemacs'
-"   let g:airline#extensions#tabline#enabled = 1 "Show tabs if only one is enabled.
-"   let g:airline#extensions#tabline#show_splits = 1 "enable/disable displaying open splits per tab (only when tabs are opened). >
-"   let g:airline#extensions#tabline#show_buffers = 1 " enable/disable displaying buffers with a single tab
-"   let g:airline#extensions#tabline#tab_nr_type = 1 " tab number
-"   let g:airline#extensions#tabline#formatter = 'unique_tail'
-"   let g:airline#extensions#tabline#switch_buffers_and_tabs = 1
-"
-"   let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-"   function! AirlineInit()
-"     let g:airline_section_z = airline#section#create(['%2l:%c'])
-"   endfunction
-"   autocmd User AirlineAfterInit call AirlineInit()
-"   " Slow integrations disabled:
-"   let g:airline#extensions#wordcount#enabled = 0
-"   let g:airline#extensions#tagbar#enabled = 0
-"   let g:airline#extensions#ycm#enabled = 0
-"   let g:airline#extensions#ale#enabled = 1
-"   let g:airline#extensions#branch#enabled = 0
-"   " asyncrun status:
-"   let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-"   "}}}
-"   let g:airline_powerline_fonts = 1
-" " }}}
 
 " vim-devicons Options {{{
   let g:WebDevIconsOS="Linux"
@@ -788,30 +747,6 @@ endfunction
   " send to: :5.2 <- Window 5, second pane. or :5.%45, if you know the PaneId
   " from echo $TMUX_PANE
   command! TmuxSockets silent! !lsof -U | grep "^tmux"
-" }}}
-
-" Vimux Setup {{{
-  let g:VimuxHeight = "25" " Default is 20
-  let g:VimuxUseNearest = 1  " With 0 always split, with 1 attach if pane exist
-  map <Leader>xc :VimuxCloseRunner<CR>
-  map <Leader>xx :VimuxRunLastCommand<CR>
-  " Calling Emacs from vim for org-mode
-  " org is an alias (in .aliases) similar or equal to:'emacs -nw ~/path/to/organizer.org'
-
-  function! VimuxSwitchOrRun(command)
-    if exists("g:VimuxRunnerIndex")
-      call _VimuxTmux("select-"._VimuxRunnerType()." -t ".g:VimuxRunnerIndex)
-    else
-      call VimuxRunCommand(a:command)
-    endif
-  endfunction
-  fun! VimuxCloseOrgMode()
-    " Save all buffers, and quit.
-    :call VimuxSendKeys(":xa")
-    :call VimuxCloseRunner()
-  endfunction
-  nnoremap <Leader>vy :call VimuxSwitchOrRun("orgclient")<CR>
-  nnoremap <Leader>vY :call VimuxCloseOrgMode()<CR>
 " }}}
 
 " Tmuxline Setup {{{
