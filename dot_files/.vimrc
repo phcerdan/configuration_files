@@ -1528,6 +1528,9 @@ endfunction
 function! BuildFolderAppend(str)
   let g:buildFolder = g:buildFolder . (a:str)
 endfunction
+function! TestFolderAppend(str)
+  let g:testFolder = g:testFolder . (a:str)
+endfunction
 "}}}
 " end of makeprg functions }}}
 
@@ -1781,14 +1784,15 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
-  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args>
+  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> <bar> let g:testFolder=<q-args>
+  com! -nargs=1 -complete=file TestFolder let g:testFolder=<q-args>
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
   com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
   com! -nargs=1 TestArgs let g:testArgs=<q-args>
-  nnoremap <silent> <Leader>r :execute "AsyncRun! (cd " . g:buildFolder . "; ctest " . g:testArgs . ")"<CR>
+  nnoremap <silent> <Leader>r :execute "AsyncRun! (cd " . g:testFolder . "; ctest " . g:testArgs . ")"<CR>
   " TODO, refactor strings to variables for reusability/avoid repetition
   " Compile with ninja and run the test, requires buildFolder and testArgs defined
-  nnoremap <silent> <Leader>c :execute "AsyncRun! " . NinjaString() . " && (cd " . g:buildFolder . "; ctest " . g:testArgs . ")"<CR>
+  nnoremap <silent> <Leader>c :execute "AsyncRun! " . NinjaString() . " && (cd " . g:testFolder . "; ctest " . g:testArgs . ")"<CR>
   nnoremap <silent> <Leader>nd :execute "AsyncRun! " . g:dockerBuild<CR>
 " }}}
 " End Build functions }}}
