@@ -86,7 +86,6 @@ Plug 'wsdjeg/vim-fetch'                 " Enable opening files with format: vim 
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'powerman/vim-plugin-AnsiEsc'      " For escaping terminal colors in vim
 Plug 'mh21/errormarker.vim'             " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
-" Plug 'w0rp/ale'                         " Linting real-time
 " Plug 'phcerdan/ale'                     " my fork with header linting hack (providing .cpp per header)
 " Plug 'junegunn/goyo.vim'                " Distraction free. :Goyo
 Plug 'mhinz/vim-startify'               " Start screen, and SSave SSLoad for sessions
@@ -230,6 +229,8 @@ function! s:check_back_space() abort "{{{
 endfunction "}}}
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 " }}}
+" Ale
+Plug 'dense-analysis/ale'
 " coc : https://github.com/neoclide/coc.nvim {{{
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -243,6 +244,7 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " coc-tsserver
 " coc-prettier
 " coc-python
+" coc-pyright
 " *coc-ccls (in ~/.config/nvim/coc-settings.json
 " }}}
 inoremap <silent><expr> <TAB>
@@ -1609,14 +1611,19 @@ com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 " Linters {{{
 " Ale {{{
 " Disabled by default
-let g:ale_enabled = 0
+let g:ale_enabled = 1
+" Disable lsp (use coc instead)
+let g:ale_disable_lsp = 1
 " (optional, for completion performance) run linters only when I save files
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
+" run it when exiting insert
+let g:ale_lint_on_insert_leave = 1
 " show loclist vertical
 " let g:ale_list_vertical = 1
+      " \ 'cpp': ['clangtidyheader'],
 let g:ale_linters = {
-      \ 'cpp': ['clangtidyheader'],
+      \ 'cpp': ['clangtidy'],
       \ 'python':['flake8']
       \}
 let g:ale_cpp_cquery_cache_directory='/home/phc/tmp/cquery_cache'
@@ -1632,17 +1639,34 @@ let g:ale_python_autopep8_options = '--aggressive'
 let g:ale_python_flake8_options='--ignore E302 --max-line-length=120'
 "}}}
 " clangtidy {{{
-" Disable specific projects checks. default: = ['*']
+" Disable specific projects checks. default: = ['']
 " Other option is to enable only checks that you are interested, but we might
 " miss new checkers added in the future.
 let g:ale_cpp_clangtidy_checks = [
-      \ '-android-*',
-      \ '-boost-*',
-      \ '-fuchsia-*',
-      \ '-google-*',
-      \ '-llvm-*',
-      \ '-objc-',
+      \ 'bugprone-*',
+      \ '-bugprone-exception-escape*',
+      \ 'misc-*',
+      \ '-misc-non-private-member-variables-in-classes*',
+      \ 'clang-analyzer-*',
+      \ 'modernize-*',
+      \ '-modernize-use-trailing-return-type*',
+      \ '-modernize-avoid-c-arrays*',
+      \ 'performance-*',
+      \ 'portability-*',
+      \ 'readability-*',
+      \ '-readability-magic-numbers*',
+      \ '-readability-qualified-auto*',
+      \ '-readability-isolate-declaration*',
       \ ]
+      " cplusplus static analyzer are slow
+      " \ 'cppcoreguidelines-*',
+      " \ 'clang-analyzer-*',
+      " \ '-android-*',
+      " \ '-boost-*',
+      " \ '-fuchsia-*',
+      " \ '-google-*',
+      " \ '-llvm-*',
+      " \ '-objc-',
 let g:ale_cpp_clangtidyheader_checks = g:ale_cpp_clangtidy_checks
 com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefile=<q-args> | let b:ale_cpp_clangtidyheader_sourcefile=<q-args>
 " let g:ale_pattern_options = {
