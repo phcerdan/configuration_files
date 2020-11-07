@@ -1611,7 +1611,7 @@ com! ClearErrorSigns execute "sign unplace * buffer=" . bufnr("%")
 " Linters {{{
 " Ale {{{
 " Disabled by default
-let g:ale_enabled = 1
+let g:ale_enabled = 0
 " Disable lsp (use coc instead)
 let g:ale_disable_lsp = 1
 " (optional, for completion performance) run linters only when I save files
