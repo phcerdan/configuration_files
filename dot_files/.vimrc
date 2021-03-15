@@ -463,7 +463,6 @@ Plug 'honza/vim-snippets'               " Merged cmake changes!
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty' " like vim-jsx but add indent
 Plug 'leafgarland/typescript-vim' "ts files
-" Plug 'mxw/vim-jsx' " React, js and jsx files
 " }}}
 " }}}
 " graphql {{{
@@ -1854,6 +1853,15 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
               \ '%f:%l: %m'
     return efmt
   endfunction
+  function! ErrorFormatJavascriptJest()
+    " From https://github.com/craigdallimore/vim-jest-cli/blob/master/compiler/jest-cli.vim
+    let efmt = '%.%#\ at\ %f:%l:%c,%.%#\ at\ %.%#(%f:%l:%c)'
+    return efmt
+  endfunction
+
+  augroup FileType javascript
+    let &errorformat=ErrorFormatJavascriptJest()
+  augroup end
 "}}}
 
 " Build/Compiler/Error options {{{
