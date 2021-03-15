@@ -514,18 +514,27 @@ endif
 " vim-sandwich Setup {{{
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
   "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
-  " Textobjects to select the nearest surrounded text automatically:
-    xmap iss <Plug>(textobj-sandwich-auto-i)
-    xmap ass <Plug>(textobj-sandwich-auto-a)
-    omap iss <Plug>(textobj-sandwich-auto-i)
-    omap ass <Plug>(textobj-sandwich-auto-a)
+  " runtime macros/sandwich/keymap/surround.vim
 
-  " Textobjects to select a text surrounded by same characters user input.
-    xmap im <Plug>(textobj-sandwich-literal-query-i)
-    xmap am <Plug>(textobj-sandwich-literal-query-a)
-    omap im <Plug>(textobj-sandwich-literal-query-i)
-    omap am <Plug>(textobj-sandwich-literal-query-a)
+  " xmap is <Plug>(textobj-sandwich-query-i)
+  " xmap as <Plug>(textobj-sandwich-query-a)
+  " omap is <Plug>(textobj-sandwich-query-i)
+  " omap as <Plug>(textobj-sandwich-query-a)
+  "
+  " xmap iss <Plug>(textobj-sandwich-auto-i)
+  " xmap ass <Plug>(textobj-sandwich-auto-a)
+  " omap iss <Plug>(textobj-sandwich-auto-i)
+  " omap ass <Plug>(textobj-sandwich-auto-a)
+  "
+  " xmap im <Plug>(textobj-sandwich-literal-query-i)
+  " xmap am <Plug>(textobj-sandwich-literal-query-a)
+  " omap im <Plug>(textobj-sandwich-literal-query-i)
+  " omap am <Plug>(textobj-sandwich-literal-query-a)
+" }}}
 
+" emmet setup {{{
+" Default <C-Y> is too far away. Use :Maps to see mappings. <C-Z>, to expand
+let g:user_emmet_leader_key='<C-Z>'
 " }}}
 
 " startify {{{
@@ -776,7 +785,11 @@ command! QuickFixOpenAll call QuickFixOpenAll()
   nnoremap <silent> <Leader>bp :TagbarTogglePause<CR>
   let g:tagbar_sort=0 " Keep order of file.
   " updatetime is a general vim option (default 4000), too low and glitches happens
-  set updatetime=1500 " Control the time to update highlight of the closest tag to current cursor position.
+  set updatetime=300 " Control the time to update highlight of the closest tag to current cursor position.
+  function! TagbarPauseAndStopAutoUpdate()
+    execute 'TagbarTogglePause'
+    call tagbar#StopAutoUpdate()
+  endfunction
 " }}}
 
 " Jellybeans setup{{{
