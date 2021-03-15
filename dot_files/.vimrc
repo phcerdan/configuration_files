@@ -173,6 +173,7 @@ Plug 'luochen1990/rainbow'
 let g:rainbow_active = 0 "set to 0 if you want to enable it later via :RainbowToggle
 Plug 'rainux/vim-desert-warm-256'
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 " Plug 'justinmk/molokai'
 " Include inversion of fg/bg in MatchParen (PR opened upstream)
 Plug 'phcerdan/molokai'
@@ -1086,6 +1087,13 @@ if has('termguicolors') " Truecolor. modern vim or nvim only.
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 set background=dark
+" gruvbox-material {{{
+" let g:gruvbox_material_better_performance = 1
+" let g:gruvbox_material_palette = 'original'
+" let g:gruvbox_material_enable_italic = 1
+" let g:gruvbox_material_enable_bold = 1
+" colorscheme gruvbox-material
+" }}}
 " gruvbox {{{
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark='hard'
