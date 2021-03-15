@@ -105,7 +105,7 @@ snippet licitk "ITK license" b
 
 endsnippet
 
-snippet licd "license dgtal" b
+snippet licdgtal "license dgtal" b
 /**
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as
@@ -464,3 +464,222 @@ $1& operator=(const $1&) = default;
 $1& operator=($1&&) = default;
 virtual ~$1() = default;
 endsnippet
+
+############################################################
+##################### DGTAL ################################
+############################################################
+
+global !p
+def header_guard():
+    return fn.replace('.', '_').upper()
+
+def dgtal_py_class_name(str_to_remove):
+    return snip.basename.replace(str_to_remove, '')
+
+def dgtal_py_class_name_with_suffix(str_to_remove):
+    return dgtal_py_class_name(str_to_remove) + '.h'
+
+def dgtal_header_from_current_file(str_to_remove):
+    from pathlib import Path; path_python = Path(path)
+    dgtal_header = str(path_python.parent.joinpath(dgtal_py_class_name_with_suffix(str_to_remove))).replace('wrap', 'DGtal')
+    return dgtal_header
+
+endglobal
+
+snippet dgtal_init_py "license plus headers in _py.cpp file" b
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+#include "dgtal_pybind11_common.h"
+
+#include "`!p snip.rv = dgtal_py_class_name('_py')`_types_py.h"
+#include "`!p snip.rv = dgtal_py_class_name('_py')`_declare_py.h"
+
+namespace py = pybind11;
+using namespace DGtal;
+
+void init_`!p snip.rv = snip.basename.replace('_py', '')`(py::module & m) {
+    using X = `!p snip.rv = snip.basename.replace('_py', '')`;
+    auto py_class_X = declare_`!p snip.rv = snip.basename.replace('_py', '')`<X>(m, "X");
+}
+endsnippet
+
+snippet dgtal_init_declare "license plus headers in _declare_py.h" b
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+#ifndef DGTAL_`!p snip.rv = header_guard()`
+#define DGTAL_`!p snip.rv = header_guard()`
+
+#include "dgtal_pybind11_common.h"
+
+#include "`!p snip.rv = dgtal_header_from_current_file("_declare_py")`"
+#include "`!p snip.rv = dgtal_py_class_name('_declare_py')`_types_py.h"
+
+template<typename T`!p snip.rv = dgtal_py_class_name("_declare_py")`>
+pybind11::class_<T`!p snip.rv = dgtal_py_class_name("_declare_py")`> declare_`!p snip.rv = dgtal_py_class_name("_declare_py")`(pybind11::module &m,
+	const std::string &typestr) {
+    namespace py = pybind11;
+    using TT = T`!p snip.rv = dgtal_py_class_name("_declare_py")`;
+    using TTPoint = typename TT::Point;
+
+    const std::string docs = R"(Docs for this class)";
+    auto py_class = py::class_<TT>(m, typestr.c_str(), docs.c_str());
+
+    // ----------------------- Constructors -----------------------------------
+    py_class.def(py::init());
+    py_class.def(py::init<const TT &>());
+
+    // ----------------------- Python operators -------------------------------
+    py_class.def("__len__", &TT::size);
+    py_class.def("__getitem__", [](const TT &self, const size_t index) {
+        if (index >= self.size()) throw py::index_error();
+        return self[index];
+        });
+    py_class.def("__setitem__", [](TT &self, const size_t index,
+            const typename TT::Component value) {
+        if (index >= self.size()) throw py::index_error();
+        self[index] = value;
+        });
+    py_class.def("__iter__", [](const TT & self) {
+        return py::make_iterator(self.begin(), self.end()); },
+         py::keep_alive<0, 1>() /* Keep object alive while iterator exists */);
+
+    // ----------------------- Class operators --------------------------------
+
+    // Arithmetic
+    py_class.def(py::self + py::self);
+    py_class.def(py::self - py::self);
+    py_class.def(py::self * py::self);
+    py_class.def(py::self / py::self);
+    py_class.def(py::self += py::self);
+    py_class.def(py::self -= py::self);
+    py_class.def(py::self *= py::self);
+    py_class.def(py::self /= py::self);
+
+    py_class.def(py::self + TT::TValue());
+    py_class.def(py::self - TT::TValue());
+    py_class.def(py::self * TT::TValue());
+    py_class.def(py::self / TT::TValue());
+    py_class.def(TT::TValue() + py::self);
+    py_class.def(TT::TValue() - py::self);
+    py_class.def(TT::TValue() * py::self);
+    py_class.def(TT::TValue() / py::self);
+
+    py_class.def(py::self *= TT::TValue());
+    py_class.def(py::self /= TT::TValue());
+
+    // Negation
+    py_class.def(-py::self);
+
+    // Comparisons
+    py_class.def(py::self == py::self);
+    py_class.def(py::self != py::self);
+
+    // py_class.def(py::hash(py::self));
+
+    // ----------------------- Class functions --------------------------------
+
+    // ----------------------- Class data -------------------------------------
+    py_class.def_property_readonly_static("TPoint",
+            [](py::object /* self */) {
+            return py::type::of<TTPoint>();
+            });
+
+    // ----------------------- Print / Display --------------------------------
+    py_class.def("__str__", [](const TT & self) {
+        std::stringstream os;
+        self.selfDisplay(os);
+        return os.str();
+    });
+
+    py_class.def("__repr__", [typestr](const TT & self) {
+        std::stringstream os;
+        os << typestr;
+        os << "(";
+        auto py_X = py::cast(self.myX);
+        os << py_X.attr("__repr__")();
+        os << ", ";
+        os << ")";
+        return os.str();
+    });
+
+    return py_class;
+}
+#endif
+endsnippet
+
+snippet dgtal_init_types "license plus headers in _types_py.h" b
+/**
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Lesser General Public License as
+ *  published by the Free Software Foundation, either version 3 of the
+ *  License, or  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ **/
+
+#ifndef DGTAL_`!p snip.rv = header_guard()`
+#define DGTAL_`!p snip.rv = header_guard()`
+
+#include "`!p snip.rv = dgtal_header_from_current_file("_types_py")`"
+
+namespace DGtal {
+    namespace Python {
+        using X = DGtal::;
+    } // namespace Python
+} // namespace DGtal
+#endif
+endsnippet
+
+snippet pydoc "docs for pybind" b
+    const std::string $1_docs =
+R"($0
+
+Parameters
+----------
+name : type
+    description
+
+Returns
+-------
+$1: type
+    description
+)";
+endsnippet
+############################################################
+####################  END DGTAL ############################
+############################################################
