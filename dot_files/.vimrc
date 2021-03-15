@@ -64,6 +64,7 @@ let g:git_messenger_no_default_mappings=v:true
 nmap <Leader>m <Plug>(git-messenger)
 " }}}
 Plug 'tpope/vim-fugitive'               " Git,G<command>. Gcommit
+Plug 'shumphrey/fugitive-gitlab.vim'    " Gbrowse works in gitlab
 Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
@@ -409,10 +410,11 @@ call plug#end()            " required
   " Use single column always
   let g:committia_use_singlecolumn = 'always'
 " }}}
-" Fugitive and vim-rhubarb Setup {{{
+" Fugitive and vim-rhubarb, fugitive-gitlab Setup {{{
   set tags^=./.git/tags;
   nnoremap <Leader>gs :Gstatus<CR>
   let g:fugitive_git_executable = 'hub'
+  let g:fugitive_gitlab_domains = ['https://gitlab.kitware.com']
 " }}}
 
 " restore_view Setup{{{
