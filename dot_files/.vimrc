@@ -4,17 +4,6 @@ let mapleader=" "
 " For latex and R plugins
 let maplocalleader=";"
 
-" Folding {{{
-" set nofoldenable      " disable folding. Slow, even with fastfold plug
-" Folding is slow, but useful.
-" From wiki: http://vim.wikia.com/wiki/All_folds_open_when_open_a_file
-" These options aims to disable it when opening a new buffer.
-" Use zM and zR to fold/unfold. zA toggle
-set foldlevel=99
-set foldlevelstart=99
-set foldmethod=syntax
-" }}}
-
 " Plug manager {{{
 " Vim-Plug Automatic installation {{{
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -92,6 +81,11 @@ Plug 'mh21/errormarker.vim'             " errormarker to display errors of async
 Plug 'mhinz/vim-startify'               " Start screen, and SSave SSLoad for sessions
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 Plug 'yssl/QFEnter'                     " Open items from qf/loc lists in whatever buffer
+
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
+
 " quickfix/loc list toggle from vim wiki {{{
 function! GetBufferList()
   redir =>buflist
@@ -478,6 +472,45 @@ Plug 'jparise/vim-graphql'
 " AUTOCOMPLETERS }}}
 call plug#end()            " required
 " vim-plug END }}}
+" nvim-treesitter Setup {{{
+if has('nvim')
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  -- highlight = {
+    -- enable = true,              -- false will disable the whole extension
+    -- disable = { "c", "rust" },  -- list of language that will be disabled
+  -- },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "fn",
+      node_incremental = "fn",
+      scope_incremental = "fs",
+      node_decremental = "fr",
+    },
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF
+" Folding {{{
+  set foldmethod=expr
+  set foldlevel=99
+  set foldexpr=nvim_treesitter#foldexpr()
+else
+  " set nofoldenable      " disable folding. Slow, even with fastfold plug
+  " Folding is slow, but useful.
+  " From wiki: http://vim.wikia.com/wiki/All_folds_open_when_open_a_file
+  " These options aims to disable it when opening a new buffer.
+  " Use zM and zR to fold/unfold. zA toggle
+  set foldlevel=99
+  set foldlevelstart=99
+  set foldmethod=syntax
+" }}}
+endif
+" }}}
 " vim-sandwich Setup {{{
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
   "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
