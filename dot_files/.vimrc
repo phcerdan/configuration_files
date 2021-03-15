@@ -236,6 +236,12 @@ Plug 'dense-analysis/ale'
 " coc : https://github.com/neoclide/coc.nvim {{{
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" https://github.com/antoinemadec/coc-fzf. Basically I want references preview
+" with FZF style (coc does a double horizontal split which is meh)
+Plug 'antoinemadec/coc-fzf'
+" Q: CocFzf looks different from my other Fzf commands. How to make it the same?
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
 " coc extensions {{{
 " Install with :CocInstall coc-xxx
 " List with :CocList extensions
@@ -245,6 +251,7 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " coc-css
 " coc-tsserver
 " coc-prettier
+" coc-eslint
 " coc-python
 " coc-pyright
 " *coc-ccls (in ~/.config/nvim/coc-settings.json
@@ -255,21 +262,107 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <silent><expr> <c-space> coc#refresh()
 
-nmap <silent> <leader>ff <Plug>(coc-fix-current)
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Deprecated, use gd instead
 nmap <silent> <leader>fd <Plug>(coc-definition)
-nmap <silent> <leader>fr <Plug>(coc-references)
 nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
-"  Reopen last list
-nnoremap <silent> <leader>y  :<C-u>CocListResume<cr>
-" Show diagnostics
-nnoremap <silent> <leader>g  :<C-u>CocList diagnostics<cr>
-" Find symbol of current document
-nnoremap <silent> <leader>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <leader>s  :<C-u>CocList --strict -I symbols<cr>
-" Format in visual and normal mode
-vmap <Leader>f  <Plug>(coc-format-selected)
-nmap <Leader>f  <Plug>(coc-format-selected)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <leader>ga  :<C-u>CocList diagnostics<cr>
+" Show commands.
+nnoremap <silent><nowait> <leader>gc  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <leader>go  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <leader>gs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <leader>gj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <leader>gk  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <leader>gp  :<C-u>CocListResume<CR>
+
+
 " }}}
 " coc-snippets {{{
 imap  <leader>dp <Plug>(coc-snippets-expand)
@@ -571,7 +664,6 @@ command! -nargs=* IFiles
   \ call fzf#vim#files(<q-args>, extend(s:with_itk_git_root(), g:fzf_layout))
 " Map C-p to override CtrlP plugin.
 nnoremap <silent> <C-p> :exe 'Files ' . <SID>fzf_root()<CR>
-nnoremap <silent> <C-s> :Rg<CR>
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <Leader>bB :Windows<CR>
 nnoremap <silent> <Leader>; :Commands<CR>
@@ -669,9 +761,10 @@ let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'cocstatus', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
+      \   'cocstatus': 'coc#status',
       \   'gitbranch': 'FugitiveHead',
       \   'filename': 'LightlineFilename',
       \   'fileformat': 'LightlineFileformat',
@@ -730,6 +823,9 @@ endfunction
 function! LightlineFiletype()
   return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
 endfunction
+
+" Update with coc
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 " }}}
 
 " vim-devicons Options {{{
