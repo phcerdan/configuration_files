@@ -46,3 +46,9 @@ gitgc(){ # git grep changes
 cower(){
     auracle -C ~/AUR/ "$@"
 }
+
+create_dgtal_python_files() {
+    touch "$1_py.cpp"
+    touch "$1_declare_py.h"
+    touch "$1_types_py.h"
+}
