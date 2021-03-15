@@ -12,7 +12,7 @@ export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
 export PATH="/usr/share/clang:$PATH"
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin"
-# Require: mkdir ~/.npm_global ; npm config set prefix '~/.npm-global'
+# Require: mkdir ~/.npm-global ; npm config set prefix '~/.npm-global'
 export PATH="$HOME/.npm-global/bin:$PATH"
 if type ruby > /dev/null 2>&1; then
     export PATH="$(ruby -e 'print Gem.user_dir')/bin:$PATH"
