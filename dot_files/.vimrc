@@ -1129,6 +1129,7 @@ let vim_markdown_preview_use_xdg_open=1
 let vim_markdown_preview_github=1
 " }}}
 autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
+autocmd Filetype markdown setlocal spell
 " au FileType markdown setlocal conceallevel=0
 " }}}
 
@@ -1256,6 +1257,7 @@ syntax enable
 set synmaxcol=400 " syntax highlight is really slow for monstruously long lines.
 setlocal spell spelllang=en_us
 set nospell
+au FileType c,cpp setlocal spell
 " map <F12> :setlocal spell! spelllang=en_us<CR>
 " hi stuff must be after syntax (not colour)
 " hi ColorColumn ctermbg=DarkGray guibg=#2c2d27
