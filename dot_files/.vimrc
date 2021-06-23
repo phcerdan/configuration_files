@@ -246,7 +246,6 @@ let g:coc_fzf_opts = []
 " coc-tsserver
 " coc-prettier
 " coc-eslint
-" coc-python
 " coc-pyright
 " *coc-ccls (in ~/.config/nvim/coc-settings.json
 " }}}
@@ -273,6 +272,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> ge <Plug>(coc-declaration)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -536,6 +536,7 @@ call plug#end()            " required
 " Default is 10000, maximum is 100000, set to max
 let scrollback = 100000
 " }}}
+
 " emmet setup {{{
 " Default <C-Y> is too far away. Use :Maps to see mappings. <C-Z>, to expand
 let g:user_emmet_leader_key='<C-Z>'
@@ -2119,3 +2120,4 @@ endfunction
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
+"
