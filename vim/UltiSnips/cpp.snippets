@@ -142,6 +142,11 @@ namespace SG {$1
 } // end namespace SG
 endsnippet
 
+snippet nameWM "namespace WM" b
+namespace WM {$1
+} // end namespace WM
+endsnippet
+
 global !p
 import vim
 def commentLine(ll = 79):
@@ -665,19 +670,19 @@ namespace DGtal {
 #endif
 endsnippet
 
-snippet pydoc "docs for pybind" b
+snippet pydoc "docs for pybind" bm
     const std::string $1_docs =
-R"($0
+R"(${7:One liner}
 
 Parameters
 ----------
-name : type
-    description
+${2:arg1} : ${3:type}
+    ${4:Description}
 
 Returns
 -------
-$1: type
-    description
+${5:type}
+    ${6:Description}
 )";
 endsnippet
 ############################################################
