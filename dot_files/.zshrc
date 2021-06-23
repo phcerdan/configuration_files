@@ -19,7 +19,7 @@ if type ruby > /dev/null 2>&1; then
 fi
 # Python pip --user (at the end)
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$HOME/bin:$PATH:"
+export PATH="$HOME/bin:$PATH"
 # Python virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
