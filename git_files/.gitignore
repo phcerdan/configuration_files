@@ -2,6 +2,7 @@
 # in build folder, then symlink in src folder for auto-
 # completers to work automatically
 compile_commands.json
+pyrightconfig.json
 Session*.vim
 .bash_parameters.sh
 # Configuration file of vimspector
