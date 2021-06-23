@@ -1302,7 +1302,16 @@ runtime macros/matchit.vim
 set autoread
 " Rely on undo instead
 " set noswapfile
-" set nobackup
+"Turn on backup option
+set backup
+" Where to store backups, the folder must be created beforehand
+" It does not work, ~/.config/nvim/backup, but not sure why
+set backupdir=~/tmp/nvim/backup
+"Make backup before overwriting the current buffer
+set writebackup
+"Overwrite the original backup file
+set backupcopy=yes
+set backupext=.bak
 " Undofile {{{
 set undofile  " Maintain a undofile to keep changes between sessions.
 set undodir=~/.vim/undo/
