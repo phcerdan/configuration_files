@@ -531,6 +531,11 @@ endif
   " omap am <Plug>(textobj-sandwich-literal-query-a)
 " }}}
 
+
+" terminal Setup {{{
+" Default is 10000, maximum is 100000, set to max
+let scrollback = 100000
+" }}}
 " emmet setup {{{
 " Default <C-Y> is too far away. Use :Maps to see mappings. <C-Z>, to expand
 let g:user_emmet_leader_key='<C-Z>'
