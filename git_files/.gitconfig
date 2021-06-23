@@ -17,6 +17,7 @@
 	helper = cache --timeout=36000000000
 [init]
 	templatedir = ~/.git_template
+	defaultBranch = main
 [push]
 	default = simple
 [diff]
@@ -59,3 +60,8 @@
   insteadOf = https://gitlab.com/
 # [url "ssh://git@bitbucket.org/"]
 #   insteadOf = https://bitbucket.org/
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
