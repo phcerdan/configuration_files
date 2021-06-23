@@ -35,7 +35,7 @@ endif
   command! Todo SimplenoteOpen 0d1d94d49dbc46b780bf86a047da1b65
   command! Projects SimplenoteOpen 4c739a854243b3d7caabddda1340bcbb
 
-  Plug 'gu-fan/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
+  " Plug 'gu-fan/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
   Plug 'phcerdan/InstantRst' " reStructuredText preview in browser.
   " Requires pip install https://github.com/gu-fan/instant-rst.py/archive/master.zip
   " My fork modify the option g:instant_rst_slow to only refresh preview on BufWrite
@@ -82,9 +82,9 @@ Plug 'mhinz/vim-startify'               " Start screen, and SSave SSLoad for ses
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 Plug 'yssl/QFEnter'                     " Open items from qf/loc lists in whatever buffer
 
-if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-endif
+" if has('nvim')
+"   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" endif
 
 " quickfix/loc list toggle from vim wiki {{{
 function! GetBufferList()
@@ -472,33 +472,33 @@ Plug 'jparise/vim-graphql'
 call plug#end()            " required
 " vim-plug END }}}
 " nvim-treesitter Setup {{{
-if has('nvim')
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  -- highlight = {
-    -- enable = true,              -- false will disable the whole extension
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-  -- },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "fn",
-      node_incremental = "fn",
-      scope_incremental = "fs",
-      node_decremental = "fr",
-    },
-  },
-  indent = {
-    enable = true
-  }
-}
-EOF
-" Folding {{{
-  set foldmethod=expr
-  set foldlevel=99
-  set foldexpr=nvim_treesitter#foldexpr()
-else
+" if has('nvim')
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+"   highlight = {
+"     enable = false,              -- false will disable the whole extension
+"     -- disable = { "c", "rust" },  -- list of language that will be disabled
+"   },
+"   incremental_selection = {
+"     enable = false,
+"     keymaps = {
+"       init_selection = "gnn",
+"       node_incremental = "gnn",
+"       scope_incremental = "gns",
+"       node_decremental = "gnm",
+"     },
+"   },
+"   indent = {
+"     enable = false
+"   }
+" }
+" EOF
+" " Folding {{{
+"   set foldmethod=expr
+"   set foldlevel=99
+"   set foldexpr=nvim_treesitter#foldexpr()
+" else
   " set nofoldenable      " disable folding. Slow, even with fastfold plug
   " Folding is slow, but useful.
   " From wiki: http://vim.wikia.com/wiki/All_folds_open_when_open_a_file
@@ -508,7 +508,7 @@ else
   set foldlevelstart=99
   set foldmethod=syntax
 " }}}
-endif
+" endif
 " }}}
 " vim-sandwich Setup {{{
   let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
