@@ -17,6 +17,8 @@ call plug#begin('~/.vim/plugged')
 " Debuggers: {{{
 " Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
 let g:termdebug_wide = 10
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 " You need pip install neovim in any virtualenv to Ultisnips to work
 " Force vim to load python3 before python2
 if has('python3')
@@ -211,6 +213,12 @@ Plug 'KabbAmine/zeavim.vim'
 " }}}
 " Tools/Utilities {{{
 Plug 'qpkorr/vim-renamer'
+" }}}
+" neovim telescope {{{
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-dap.nvim'
 " }}}
 " Language Clients {{{
 " Autocompletion common utils {{{
@@ -471,6 +479,79 @@ Plug 'jparise/vim-graphql'
 " AUTOCOMPLETERS }}}
 call plug#end()            " required
 " vim-plug END }}}
+
+" Telescope Setup {{{
+lua << EOF
+require('telescope').setup()
+require('telescope').load_extension('dap')
+EOF
+" }}}
+" nvim-dap Setup {{{
+lua <<EOF
+-- From https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+local dap = require('dap')
+dap.adapters.lldb = {
+  type = 'executable',
+  command = '/usr/bin/lldb-vscode', -- adjust as needed
+  name = "lldb"
+}
+dap.configurations.cpp = {
+  {
+    name = "Launch",
+    type = "lldb",
+    request = "launch",
+    -- program = function()
+    --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    -- end,
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.api.nvim_get_var('buildFolder'), 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = false,
+    args = function()
+        s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
+        -- Split by whitespaces
+        split_args = {}
+        for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
+        return split_args
+    end,
+    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+    --
+    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+    --
+    -- Otherwise you might get the following error:
+    --
+    --    Error on launch: Failed to attach to the target process
+    --
+    -- But you should be aware of the implications:
+    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+    runInTerminal = false,
+  },
+}
+-- If you want to use this for rust and c, add something like this:
+dap.configurations.c = dap.configurations.cpp
+dap.configurations.rust = dap.configurations.cpp
+EOF
+
+nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
+nnoremap <silent> <leader>ds :lua require'dap'.step_over()<CR>
+nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
+nnoremap <silent> <leader>do :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>dB :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>dp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open({}, 'vsplit')<CR><C-w>l
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+nnoremap <silent> <leader>dt :lua require'dap'.run_to_cursor()<CR>
+
+nnoremap <silent> <leader>dk :lua require'dap'.up()<CR>
+nnoremap <silent> <leader>dj :lua require'dap'.down()<CR>
+
+nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
+vnoremap <silent> <leader>dh :lua require'dap.ui.variables'.visual_hover()<CR>
+nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"})<CR>
+" }}}
+
 " nvim-treesitter Setup {{{
 " if has('nvim')
 " lua <<EOF
@@ -1957,6 +2038,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
   com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
   com! -nargs=1 TestArgs let g:testArgs=<q-args>
+  com! -nargs=* -complete=file DebugArgs let g:debugArgs=<q-args>
   nnoremap <silent> <Leader>r :execute "AsyncRun! (cd " . g:testFolder . "; ctest " . g:testArgs . ")"<CR>
   " TODO, refactor strings to variables for reusability/avoid repetition
   " Compile with ninja and run the test, requires buildFolder and testArgs defined
