@@ -255,6 +255,7 @@ let g:coc_fzf_opts = []
 " coc-prettier
 " coc-eslint
 " coc-pyright
+" coc-xml
 " *coc-ccls (in ~/.config/nvim/coc-settings.json
 " }}}
 inoremap <silent><expr> <TAB>
@@ -1132,10 +1133,6 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
   let g:vimtex_compiler_latexmk = {
         \ 'continuous' : 1,
         \}
-  let g:vimtex_quickfix_latexlog = {
-        \ 'overfull' : 0,
-        \ 'underfull' : 0,
-        \ }
   let g:vimtex_quickfix_autojump=0
   let g:vimtex_quickfix_open_on_warning=0
   " zathura forwarding require: xdotool but xdotool fails in arch (wayland?)
