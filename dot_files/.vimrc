@@ -531,6 +531,66 @@ dap.configurations.cpp = {
 -- If you want to use this for rust and c, add something like this:
 dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = dap.configurations.cpp
+
+local is_windows = function()
+    return vim.loop.os_uname().sysname:find("Windows", 1, true) and true
+end
+local current_python = function()
+  local venv_path = os.getenv('VIRTUAL_ENV')
+  if venv_path then
+      if is_windows() then
+          return venv_path .. '\\Scripts\\python.exe'
+      else
+          return venv_path .. '/bin/python'
+      end
+  else
+      return '/usr/bin/python'
+  end
+end
+
+dap.adapters.python = {
+  type = 'executable',
+  -- command = '/usr/bin/python', -- Assume debugpy is globally installed
+  command = current_python(),
+  args = {'-m', 'debugpy.adapter'}
+}
+
+dap.configurations.python = {
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch a file",
+    cwd = function()
+        return "${workspaceFolder}"
+    end,
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = function()
+      return vim.fn.input('File to execute: ', "${file}", 'file')
+    end,
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      local venv_path = os.getenv('VIRTUAL_ENV')
+      if venv_path then
+        if is_windows() then
+            return venv_path .. '\\Scripts\\python.exe'
+        else
+            return venv_path .. '/bin/python'
+        end
+      else
+        return '/usr/bin/python'
+      end
+    end,
+    args = function()
+        s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
+        -- Split by whitespaces
+        split_args = {}
+        for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
+        return split_args
+    end,
+  },
+}
 EOF
 
 nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
