@@ -1277,6 +1277,7 @@ let vim_markdown_preview_github=1
 autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown.markdown
 autocmd Filetype markdown setlocal spell
 " au FileType markdown setlocal conceallevel=0
+au FileType json setlocal conceallevel=0
 " }}}
 
 " XML Setup {{{
