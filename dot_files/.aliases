@@ -34,11 +34,7 @@ alias orgclient='TERM=screen-256color emacsclient -t ~/Dropbox/org-mode/organize
 alias orgthesis='TERM=screen-256color emacsclient -t ~/Dropbox/org-mode/thesis.org'
 
 # task aliases: https://github.com/mhinz/dotfiles/commit/9b6ea96d0a3e829d3b1e49d2ead2257e212a2d2a
-alias t='task'
-alias tf='task -f 1'
-alias tn='task | head -n 1'
-alias te='vim ~/tasks'
-alias tl='cat ~/tasks.log | tail -n 10'
+alias t='todo.sh'
 
 # Platform specific aliases.
 alias sdev='source ~/bin/devtoolset-core.sh'
