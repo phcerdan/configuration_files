@@ -23,6 +23,7 @@ Plug 'rcarriga/nvim-dap-ui'
 " Force vim to load python3 before python2
 if has('python3')
 endif
+Plug 'mfussenegger/nvim-dap-python'
 " }}}
 " Note-taking utilities Plugins  {{{
   Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
@@ -36,6 +37,8 @@ endif
   " Commands to open simplenote specific notes
   command! Todo SimplenoteOpen 0d1d94d49dbc46b780bf86a047da1b65
   command! Projects SimplenoteOpen 4c739a854243b3d7caabddda1340bcbb
+
+  Plug 'freitass/todo.txt-vim' " Todo.txt: https://todotxt.org/
 
   " Plug 'gu-fan/riv.vim' " reStructuredText (python markdown). I use it as rst syntax/folding rather than note taker.
   Plug 'phcerdan/InstantRst' " reStructuredText preview in browser.
@@ -60,9 +63,7 @@ Plug 'tpope/vim-rhubarb'                " Gbrowse for github.
 Plug 'junegunn/gv.vim'                  " :GV for commit browser, GV! for one this file, GV? fills location list.
 Plug 'tpope/vim-unimpaired'             " Maps for change buffers, etc using [b ]b etc.
 Plug 'jlanzarotta/bufexplorer'          " Show list of buffers with <Leader>be, bs, bv.
-Plug 'machakann/vim-sandwich'           " sa{motion/textobject}{addition}
-                                        " sd{deletion}
-                                        " srb{addition}, sr{deletion}{addition} ie: srb' or sr(' changes (foo) -> 'foo'
+Plug 'tpope/vim-surround'
 
 Plug 'tpope/vim-obsession'              " Save sessions :Obsess, Restore: vim -S, or :source . Also used by tmux-resurrect
 Plug 'tomtom/tcomment_vim'              " Toggle comment with gcc
@@ -154,6 +155,10 @@ endif
 Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
 
+if has('nvim')
+  Plug 'ggandor/lightspeed.nvim'
+endif
+
 " }}}
 " Search/Grep {{{
 Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
@@ -185,7 +190,7 @@ Plug 'gcmt/taboo.vim'              " Rename tabs
 Plug 'christoomey/vim-tmux-navigator'   " Navigating vim/tmux with same keys. Default keys are <c-hjkl>
 let g:tmux_navigator_disable_when_zoomed=1
 Plug 'jpalardy/vim-slime'               " Slime (emacs). Send/Copy from vim to other pane
-Plug 'tmux-plugins/vim-tmux-focus-events' " Allow FocusGained and FocusLost to work in vim running inside tmux. set autoread
+" Plug 'tmux-plugins/vim-tmux-focus-events' " OBSOLETE vim8.2. Allow FocusGained and FocusLost to work in vim running inside tmux. set autoread
 " }}}
 " Buffer Related {{{
 " Switch to latest used buffer
@@ -458,15 +463,19 @@ Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " }}}
 " jupyter {{{
+" jupytext
 " Opening a ipynb file creates a .py buffer for easy editing (temporarily)
 " Use '# +' and '# -' to enclose cells in .py
 Plug 'goerz/jupytext.vim'
 let g:jupytext_fmt = 'py'
+" jupyter ascending autorefresh notebook
+Plug 'untitled-ai/jupyter_ascending.vim'
 " }}}
 "End of Language specifics }}}
 " AUTOCOMPLETERS {{{
-Plug 'SirVer/ultisnips'                 " Awesomeness. Create your own snippets
-Plug 'honza/vim-snippets'               " Merged cmake changes!
+Plug 'SirVer/ultisnips'          " Awesomeness. Create your own snippets
+Plug 'honza/vim-snippets'        " Merged cmake changes!
+Plug 'github/copilot.vim'        " Copilot (openAI), requires :Copilot setup in each computer
 " javascript {{{
 " Highlighters: {{{
 Plug 'pangloss/vim-javascript'
@@ -652,27 +661,6 @@ nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"}
 " }}}
 " endif
 " }}}
-" vim-sandwich Setup {{{
-  let g:sandwich#recipes = deepcopy(g:sandwich#default_recipes)
-  "From wiki: https://github.com/machakann/vim-sandwich/wiki/Introduce-vim-surround-keymappings
-  " runtime macros/sandwich/keymap/surround.vim
-
-  " xmap is <Plug>(textobj-sandwich-query-i)
-  " xmap as <Plug>(textobj-sandwich-query-a)
-  " omap is <Plug>(textobj-sandwich-query-i)
-  " omap as <Plug>(textobj-sandwich-query-a)
-  "
-  " xmap iss <Plug>(textobj-sandwich-auto-i)
-  " xmap ass <Plug>(textobj-sandwich-auto-a)
-  " omap iss <Plug>(textobj-sandwich-auto-i)
-  " omap ass <Plug>(textobj-sandwich-auto-a)
-  "
-  " xmap im <Plug>(textobj-sandwich-literal-query-i)
-  " xmap am <Plug>(textobj-sandwich-literal-query-a)
-  " omap im <Plug>(textobj-sandwich-literal-query-i)
-  " omap am <Plug>(textobj-sandwich-literal-query-a)
-" }}}
-
 
 " terminal Setup {{{
 " Default is 10000, maximum is 100000, set to max
@@ -1591,7 +1579,7 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " General Maps: {{{
 " Insert White Space in normal mode with s space
-nnoremap s<space> i<space><esc>
+" nnoremap s<space> i<space><esc> # Use a<space> instead, this blocks lightspeed
 " Search visual selection (problems with end of line ^M character)
 vnoremap // y/<C-R>"<CR>
 vnoremap S y:%S/<C-R>"/
