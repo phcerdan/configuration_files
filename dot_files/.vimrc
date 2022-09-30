@@ -291,9 +291,7 @@ nmap <silent> ge <Plug>(coc-declaration)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-" Deprecated, use gd instead
-nmap <silent> <leader>fd <Plug>(coc-definition)
-nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
+nmap <silent> gh :call CocActionAsync('doHover')<CR>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -2093,7 +2091,7 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   nnoremap <silent> <Leader>n :execute "AsyncRun! " . NinjaString()<CR> <bar> let g:bCommand = 'ninja'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>e :execute "AsyncRun! " . MakeString()<CR> <bar> let g:bCommand = 'make'<CR>
   au FileType c,cpp nnoremap <silent> <Leader>nt :call ToggleBuildOnSave()<CR>
-  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=<q-args> <bar> let g:testFolder=<q-args>
+  com! -nargs=1 -complete=file BuildFolder let g:buildFolder=fnamemodify(<q-args>, ':p') <bar> let g:testFolder=fnamemodify(<q-args>, ':p')
   com! -nargs=1 -complete=file TestFolder let g:testFolder=<q-args>
   com! -nargs=1 BuildTarget let g:buildTarget=<q-args>
   com! -nargs=1 DockerBuild let g:dockerBuild=<q-args>
@@ -2104,6 +2102,11 @@ com! -nargs=1 -complete=file HeaderSource let g:ale_cpp_clangtidyheader_sourcefi
   " Compile with ninja and run the test, requires buildFolder and testArgs defined
   nnoremap <silent> <Leader>c :execute "AsyncRun! " . NinjaString() . " && (cd " . g:testFolder . "; ctest " . g:testArgs . ")"<CR>
   nnoremap <silent> <Leader>nd :execute "AsyncRun! " . g:dockerBuild<CR>
+
+  au User TermdebugStartPre echomsg "Changing cwd for the gdb terminal to g:testFolder " . g:testFolder | let g:oldcwd=getcwd() | execute "cd " . g:testFolder
+  " au User TermdebugStopPre  echomsg 'debugging starting'
+  au User TermdebugStopPre echomsg "Changing cwd back to source code: " . g:oldcwd | execute "cd " . g:oldcwd
+
 " }}}
 " End Build functions }}}
 " Useful commands: {{{
@@ -2262,4 +2265,3 @@ endfunction
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
-"
