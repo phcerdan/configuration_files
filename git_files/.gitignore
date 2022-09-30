@@ -10,6 +10,7 @@ Session*.vim
 # DGtal files generating when running tests from vim
 .qglviewer.xml
 
+.gdb_history
 
 .vscode/*
 !.vscode/settings.json

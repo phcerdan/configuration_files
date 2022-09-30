@@ -18,7 +18,10 @@ call plug#begin('~/.vim/plugged')
 " Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
 let g:termdebug_wide = 10
 Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+
 " You need pip install neovim in any virtualenv to Ultisnips to work
 " Force vim to load python3 before python2
 if has('python3')
@@ -71,10 +74,6 @@ Plug 'tpope/vim-sleuth'                 " Automatic detection of indent, based o
 Plug 'tpope/vim-abolish'                " substitutions with plurals, cases, etc.
 Plug 'tpope/vim-repeat'                 " repeat commands(normal mode) with .
 Plug 'vim-scripts/visualrepeat'         " works with visual mode too.
-Plug 'tpope/vim-eunuch'                 " Adds helpers for UNIX shell commands
-                                        " :Remove Delete buffer and file at same time
-                                        " :Unlink Delete file, keep buffer
-                                        " :Move Rename buffer and file
 Plug 'wsdjeg/vim-fetch'                 " Enable opening files with format: vim file_name.xxx:line,column
 Plug 'skywind3000/asyncrun.vim'         " async :! command, read output using error format, or use % raw to ignore.
 Plug 'powerman/vim-plugin-AnsiEsc'      " For escaping terminal colors in vim
@@ -85,9 +84,9 @@ Plug 'mhinz/vim-startify'               " Start screen, and SSave SSLoad for ses
 Plug 'vim-scripts/restore_view.vim'     " Restore file position and FOLDS.
 Plug 'yssl/QFEnter'                     " Open items from qf/loc lists in whatever buffer
 
-" if has('nvim')
-"   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" endif
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+endif
 
 " quickfix/loc list toggle from vim wiki {{{
 function! GetBufferList()
@@ -231,7 +230,9 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " Enter select. Note: \<C-g>u is used to break undo level.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 function! s:check_back_space() abort "{{{
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -499,6 +500,9 @@ EOF
 " nvim-dap Setup {{{
 lua <<EOF
 -- From https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+require("dapui").setup()
+require("nvim-dap-virtual-text").setup()
+require('dap-python').setup()
 local dap = require('dap')
 dap.adapters.lldb = {
   type = 'executable',
@@ -603,6 +607,16 @@ dap.configurations.python = {
 }
 EOF
 
+nnoremap <silent> <F4> :lua require('dapui').toggle()<CR>
+nnoremap <silent> <F5> :lua require('dap').continue()<CR>
+nnoremap <silent> <F6> :lua require('dap').up()<CR>
+nnoremap <silent> <S-F6> :lua require('dap').down()<CR>
+nnoremap <silent> <F7> :lua require('dap').run_to_cursor()<CR>
+nnoremap <silent> <F9> :lua require('dap').toggle_breakpoint()<CR>
+nnoremap <silent> <F10> :lua require('dap').step_over()<CR>
+nnoremap <silent> <F11> :lua require('dap').step_into()<CR>
+nnoremap <silent> <S-F11> :lua require('dap').step_out()<CR>
+
 nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
 nnoremap <silent> <leader>ds :lua require'dap'.step_over()<CR>
 nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
@@ -620,31 +634,34 @@ nnoremap <silent> <leader>dj :lua require'dap'.down()<CR>
 nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
 vnoremap <silent> <leader>dh :lua require'dap.ui.variables'.visual_hover()<CR>
 nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"})<CR>
+autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
 " }}}
 
 " nvim-treesitter Setup {{{
-" if has('nvim')
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-"   highlight = {
-"     enable = false,              -- false will disable the whole extension
-"     -- disable = { "c", "rust" },  -- list of language that will be disabled
-"   },
-"   incremental_selection = {
-"     enable = false,
-"     keymaps = {
-"       init_selection = "gnn",
-"       node_incremental = "gnn",
-"       scope_incremental = "gns",
-"       node_decremental = "gnm",
-"     },
-"   },
-"   indent = {
-"     enable = false
-"   }
-" }
-" EOF
+if has('nvim')
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {"c", "cpp", "python", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  auto_install = true,
+  highlight = {
+    enable = false,              -- false will disable the whole extension
+    -- disable = { "c", "rust" },  -- list of language that will be disabled
+  },
+  incremental_selection = {
+    enable = false,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "gnn",
+      scope_incremental = "gns",
+      node_decremental = "gnm",
+    },
+  },
+  indent = {
+    enable = false
+  }
+}
+EOF
+endif
 " " Folding {{{
 "   set foldmethod=expr
 "   set foldlevel=99
@@ -658,8 +675,6 @@ nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"}
   set foldlevel=99
   set foldlevelstart=99
   set foldmethod=syntax
-" }}}
-" endif
 " }}}
 
 " terminal Setup {{{
@@ -1130,7 +1145,6 @@ au Filetype tex set spell wrap nolist textwidth=0 wrapmargin=0 linebreak showbre
   let g:vimtex_view_general_viewer = 'okular'
   " Forward:
   let g:vimtex_view_general_options = '--unique @pdf\#src:@line@tex'
-  let g:vimtex_view_general_options_latexmk = '--unique'
   " Backward search:
     " (Shift + LeftClick) in Browse mode:
     " Configure Okular first: Settings, Okular Config, Editor:
@@ -1323,7 +1337,7 @@ au FileType c,cpp au BufReadPre,BufNewFile itk execute IndentITK
   let g:UltiSnipsExpandTrigger="<tab>"
   let g:UltiSnipsJumpForwardTrigger="<tab>"
   let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
-  let g:UltiSnipsListSnippets="<F4>"
+  let g:UltiSnipsListSnippets="<F3>"
   function! OpenSnippets()
 	execute 'edit ~/.vim/plugged/vim-snippets/snippets/' . &filetype . '.snippets'
   endfunction
@@ -1486,7 +1500,7 @@ set listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set scrolloff=20                         " 999 keeps the cursos in the middle.
 " Autocomplete window: show preview win, show menu with 1 match, insert longest match
 " set completeopt=preview,menuone,longest,noselect
-set completeopt+=noselect
+" set completeopt+=noselect
 set previewheight=20        " omnicompletion and fugitive window.
 set pumheight=30            " limit popup menu height
 set concealcursor=nv        " expand concealed characters in insert mode solely

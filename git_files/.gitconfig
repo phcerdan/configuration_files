@@ -48,10 +48,10 @@
 [mergetool "vimdiff"]
 	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [hub]
-	protocol = https
+	protocol = ssh
 [gui]
-	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family \"DejaVu Sans Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontui = -family \"Hack Nerd Font\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family \"Hack Nerd Font Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 
 # Enforce SSH
 [url "ssh://git@github.com/"]
