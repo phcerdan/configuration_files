@@ -154,10 +154,6 @@ endif
 Plug 'kristijanhusak/defx-icons'
 Plug 'kristijanhusak/defx-git'
 
-if has('nvim')
-  Plug 'ggandor/lightspeed.nvim'
-endif
-
 " }}}
 " Search/Grep {{{
 Plug 'mhinz/vim-grepper' " Modular approach. Default is ag.
