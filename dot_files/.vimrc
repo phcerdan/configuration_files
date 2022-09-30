@@ -288,6 +288,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gh :call CocActionAsync('doHover')<CR>
+" Deprecated, use gd instead
+nmap <silent> <leader>fd <Plug>(coc-definition)
+nmap <silent> <leader>fh :call CocActionAsync('doHover')<cr>
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
