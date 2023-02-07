@@ -1,3 +1,4 @@
+packer_compiler.lua
 gdb/.gdb/Boost-Pretty-Printer/
 dockbuild-centos7-devtoolset4-gcc5
 slicer-buildenv-qt5-centos7
