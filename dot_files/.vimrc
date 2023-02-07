@@ -14,19 +14,19 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 " }}}
 call plug#begin('~/.vim/plugged')
-" Debuggers: {{{
-" Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
-let g:termdebug_wide = 10
-Plug 'mfussenegger/nvim-dap'
-Plug 'mfussenegger/nvim-dap-python'
-Plug 'rcarriga/nvim-dap-ui'
-Plug 'theHamsta/nvim-dap-virtual-text'
-
-" You need pip install neovim in any virtualenv to Ultisnips to work
 " Force vim to load python3 before python2
 if has('python3')
 endif
-Plug 'mfussenegger/nvim-dap-python'
+" Debuggers: {{{
+" Force vertical split on gdb (packadd termedebug, :TermdebugCommand ...)
+let g:termdebug_wide = 10
+if has('nvim')
+  Plug 'mfussenegger/nvim-dap'
+  " You need pip install neovim in any virtualenv to Ultisnips to work
+  Plug 'mfussenegger/nvim-dap-python'
+  Plug 'rcarriga/nvim-dap-ui'
+  Plug 'theHamsta/nvim-dap-virtual-text'
+endif
 " }}}
 " Note-taking utilities Plugins  {{{
   Plug 'mrtazz/simplenote.vim'           " Simplenote: https://app.simplenote.com/
@@ -215,11 +215,19 @@ Plug 'KabbAmine/zeavim.vim'
 Plug 'qpkorr/vim-renamer'
 " }}}
 " neovim telescope {{{
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-dap.nvim'
+if has('nvim')
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
+  Plug 'nvim-telescope/telescope-dap.nvim'
+endif
 " }}}
+" chatGPT {{{
+" Requires setting env variable OPENAI_API_KEY. Check ~/.secrets
+Plug 'MunifTanjim/nui.nvim'
+Plug 'jackMort/ChatGPT.nvim'
+" }}}
+" jupyter
 " Language Clients {{{
 " Autocompletion common utils {{{
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -287,6 +295,8 @@ nmap <silent> ge <Plug>(coc-declaration)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gs :call CocActionAsync('showSubTypes')<CR>
+nmap <silent> gp :call CocActionAsync('showSuperTypes')<CR>
 nmap <silent> gh :call CocActionAsync('doHover')<CR>
 " Deprecated, use gd instead
 nmap <silent> <leader>fd <Plug>(coc-definition)
@@ -461,15 +471,13 @@ Plug 'octol/vim-cpp-enhanced-highlight' " Cpp improved highlight
 Plug 'vim-scripts/DoxygenToolkit.vim'
 " }}}
 " jupyter {{{
-" jupytext
-" Opening a ipynb file creates a .py buffer for easy editing (temporarily)
-" Use '# +' and '# -' to enclose cells in .py
-Plug 'goerz/jupytext.vim'
-let g:jupytext_fmt = 'py'
-" jupyter ascending autorefresh notebook
-Plug 'untitled-ai/jupyter_ascending.vim'
-" }}}
-"End of Language specifics }}}
+" jupyter notebook autorefresh notebook
+if has('nvim')
+  Plug 'kiyoon/jupynium.nvim', { 'do': 'pip3 install --user .' }
+  Plug 'rcarriga/nvim-notify' " optional
+endif
+" }}} Jupyter
+" }}} Language Specifics
 " AUTOCOMPLETERS {{{
 Plug 'SirVer/ultisnips'          " Awesomeness. Create your own snippets
 Plug 'honza/vim-snippets'        " Merged cmake changes!
@@ -489,174 +497,187 @@ call plug#end()            " required
 " vim-plug END }}}
 
 " Telescope Setup {{{
-lua << EOF
-require('telescope').setup()
-require('telescope').load_extension('dap')
+if has('nvim')
+  lua << EOF
+  require('telescope').setup()
+  require('telescope').load_extension('dap')
 EOF
+endif
 " }}}
+
+" ChatGPT Setup {{{
+if has('nvim')
+lua << EOF
+require('chatgpt').setup()
+EOF
+endif
+" }}}
+
 " nvim-dap Setup {{{
-lua <<EOF
--- From https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
-require("dapui").setup()
-require("nvim-dap-virtual-text").setup()
-require('dap-python').setup()
-local dap = require('dap')
-dap.adapters.lldb = {
-  type = 'executable',
-  command = '/usr/bin/lldb-vscode', -- adjust as needed
-  name = "lldb"
-}
-dap.configurations.cpp = {
-  {
-    name = "Launch",
-    type = "lldb",
-    request = "launch",
-    -- program = function()
-    --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-    -- end,
-    program = function()
-      return vim.fn.input('Path to executable: ', vim.api.nvim_get_var('buildFolder'), 'file')
-    end,
-    cwd = '${workspaceFolder}',
-    stopOnEntry = false,
-    args = function()
-        s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
-        -- Split by whitespaces
-        split_args = {}
-        for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
-        return split_args
-    end,
-    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
-    --
-    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
-    --
-    -- Otherwise you might get the following error:
-    --
-    --    Error on launch: Failed to attach to the target process
-    --
-    -- But you should be aware of the implications:
-    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
-  },
-}
--- If you want to use this for rust and c, add something like this:
-dap.configurations.c = dap.configurations.cpp
-dap.configurations.rust = dap.configurations.cpp
+if has('nvim')
+lua << EOF
+  -- From https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-lldb-vscode
+  require("dapui").setup()
+  require("nvim-dap-virtual-text").setup()
+  require('dap-python').setup()
+  local dap = require('dap')
+  dap.adapters.lldb = {
+    type = 'executable',
+    command = '/usr/bin/lldb-vscode', -- adjust as needed
+    name = "lldb"
+  }
+  dap.configurations.cpp = {
+    {
+      name = "Launch",
+      type = "lldb",
+      request = "launch",
+      -- program = function()
+      --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      -- end,
+      program = function()
+        return vim.fn.input('Path to executable: ', vim.api.nvim_get_var('buildFolder'), 'file')
+      end,
+      cwd = '${workspaceFolder}',
+      stopOnEntry = false,
+      args = function()
+          s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
+          -- Split by whitespaces
+          split_args = {}
+          for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
+          return split_args
+      end,
+      -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+      --
+      --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+      --
+      -- Otherwise you might get the following error:
+      --
+      --    Error on launch: Failed to attach to the target process
+      --
+      -- But you should be aware of the implications:
+      -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+      runInTerminal = false,
+    },
+  }
+  -- If you want to use this for rust and c, add something like this:
+  dap.configurations.c = dap.configurations.cpp
+  dap.configurations.rust = dap.configurations.cpp
 
-local is_windows = function()
-    return vim.loop.os_uname().sysname:find("Windows", 1, true) and true
-end
-local current_python = function()
-  local venv_path = os.getenv('VIRTUAL_ENV')
-  if venv_path then
-      if is_windows() then
-          return venv_path .. '\\Scripts\\python.exe'
-      else
-          return venv_path .. '/bin/python'
-      end
-  else
-      return '/usr/bin/python'
+  local is_windows = function()
+      return vim.loop.os_uname().sysname:find("Windows", 1, true) and true
   end
-end
-
-dap.adapters.python = {
-  type = 'executable',
-  -- command = '/usr/bin/python', -- Assume debugpy is globally installed
-  command = current_python(),
-  args = {'-m', 'debugpy.adapter'}
-}
-
-dap.configurations.python = {
-  {
-    type = "python",
-    request = "launch",
-    name = "Launch a file",
-    cwd = function()
-        return "${workspaceFolder}"
-    end,
-
-    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
-    program = function()
-      return vim.fn.input('File to execute: ', "${file}", 'file')
-    end,
-    pythonPath = function()
-      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-      local venv_path = os.getenv('VIRTUAL_ENV')
-      if venv_path then
+  local current_python = function()
+    local venv_path = os.getenv('VIRTUAL_ENV')
+    if venv_path then
         if is_windows() then
             return venv_path .. '\\Scripts\\python.exe'
         else
             return venv_path .. '/bin/python'
         end
-      else
+    else
         return '/usr/bin/python'
-      end
-    end,
-    args = function()
-        s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
-        -- Split by whitespaces
-        split_args = {}
-        for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
-        return split_args
-    end,
-  },
-}
+    end
+  end
+
+  dap.adapters.python = {
+    type = 'executable',
+    -- command = '/usr/bin/python', -- Assume debugpy is globally installed
+    command = current_python(),
+    args = {'-m', 'debugpy.adapter'}
+  }
+
+  dap.configurations.python = {
+    {
+      type = "python",
+      request = "launch",
+      name = "Launch a file",
+      cwd = function()
+          return "${workspaceFolder}"
+      end,
+
+      -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+      program = function()
+        return vim.fn.input('File to execute: ', "${file}", 'file')
+      end,
+      pythonPath = function()
+        -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+        local venv_path = os.getenv('VIRTUAL_ENV')
+        if venv_path then
+          if is_windows() then
+              return venv_path .. '\\Scripts\\python.exe'
+          else
+              return venv_path .. '/bin/python'
+          end
+        else
+          return '/usr/bin/python'
+        end
+      end,
+      args = function()
+          s = vim.fn.input('Args: ', vim.api.nvim_get_var('debugArgs'), 'file')
+          -- Split by whitespaces
+          split_args = {}
+          for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
+          return split_args
+      end,
+    },
+  }
 EOF
 
-nnoremap <silent> <F4> :lua require('dapui').toggle()<CR>
-nnoremap <silent> <F5> :lua require('dap').continue()<CR>
-nnoremap <silent> <F6> :lua require('dap').up()<CR>
-nnoremap <silent> <S-F6> :lua require('dap').down()<CR>
-nnoremap <silent> <F7> :lua require('dap').run_to_cursor()<CR>
-nnoremap <silent> <F9> :lua require('dap').toggle_breakpoint()<CR>
-nnoremap <silent> <F10> :lua require('dap').step_over()<CR>
-nnoremap <silent> <F11> :lua require('dap').step_into()<CR>
-nnoremap <silent> <S-F11> :lua require('dap').step_out()<CR>
+  nnoremap <silent> <F4> :lua require('dapui').toggle()<CR>
+  nnoremap <silent> <F5> :lua require('dap').continue()<CR>
+  nnoremap <silent> <F6> :lua require('dap').up()<CR>
+  nnoremap <silent> <S-F6> :lua require('dap').down()<CR>
+  nnoremap <silent> <F7> :lua require('dap').run_to_cursor()<CR>
+  nnoremap <silent> <F9> :lua require('dap').toggle_breakpoint()<CR>
+  nnoremap <silent> <F10> :lua require('dap').step_over()<CR>
+  nnoremap <silent> <F11> :lua require('dap').step_into()<CR>
+  nnoremap <silent> <S-F11> :lua require('dap').step_out()<CR>
 
-nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
-nnoremap <silent> <leader>ds :lua require'dap'.step_over()<CR>
-nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>
-nnoremap <silent> <leader>do :lua require'dap'.step_out()<CR>
-nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>dB :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>dp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open({}, 'vsplit')<CR><C-w>l
-nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
-nnoremap <silent> <leader>dt :lua require'dap'.run_to_cursor()<CR>
+  nnoremap <silent> <leader>dc :lua require'dap'.continue()<CR>
+  nnoremap <silent> <leader>ds :lua require'dap'.step_over()<CR>
+  nnoremap <silent> <leader>di :lua require'dap'.step_into()<CR>j
+  nnoremap <silent> <leader>do :lua require'dap'.step_out()<CR>
+  nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+  nnoremap <silent> <leader>dB :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+  nnoremap <silent> <leader>dp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+  nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+  nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
+  nnoremap <silent> <leader>dt :lua require'dap'.run_to_cursor()<CR>
 
-nnoremap <silent> <leader>dk :lua require'dap'.up()<CR>
-nnoremap <silent> <leader>dj :lua require'dap'.down()<CR>
+  nnoremap <silent> <leader>dk :lua require'dap'.up()<CR>
+  nnoremap <silent> <leader>dj :lua require'dap'.down()<CR>
 
-nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
-vnoremap <silent> <leader>dh :lua require'dap.ui.variables'.visual_hover()<CR>
-nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"})<CR>
-autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
+  nnoremap <silent> <leader>dh :lua require'dap.ui.widgets'.hover()<CR>
+  vnoremap <silent> <leader>dh :lua require'dap.ui.variables'.visual_hover()<CR>
+  nnoremap <silent> <leader>de :lua require'dap'.set_exception_breakpoints({"all"})<CR>
+  autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
+endif
 " }}}
 
 " nvim-treesitter Setup {{{
 if has('nvim')
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"c", "cpp", "python", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  auto_install = true,
-  highlight = {
-    enable = false,              -- false will disable the whole extension
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-  },
-  incremental_selection = {
-    enable = false,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "gnn",
-      scope_incremental = "gns",
-      node_decremental = "gnm",
+  lua << EOF
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = {"c", "cpp", "python", "javascript"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    auto_install = true,
+    highlight = {
+      enable = false,              -- false will disable the whole extension
+      -- disable = { "c", "rust" },  -- list of language that will be disabled
     },
-  },
-  indent = {
-    enable = false
+    incremental_selection = {
+      enable = false,
+      keymaps = {
+        init_selection = "gnn",
+        node_incremental = "gnn",
+        scope_incremental = "gns",
+        node_decremental = "gnm",
+      },
+    },
+    indent = {
+      enable = false
+    }
   }
-}
 EOF
 endif
 " " Folding {{{
