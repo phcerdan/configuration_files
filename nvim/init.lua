@@ -18,7 +18,6 @@ vim.opt.rtp:prepend(lazypath)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 vim.o.termguicolors = true
 
 require('lazy').setup({
@@ -34,17 +33,34 @@ require('lazy').setup({
       vim.cmd([[colorscheme gruvbox]])
     end,
   },
+
   -- Tmux related
   { "christoomey/vim-tmux-navigator", lazy = false }, -- Navigate vim/tmux with same keys: <c-hjkl>
   { "jpalardy/vim-slime", lazy = false }, -- Send/Copy from vim to other tmux pane
-  {
-    "folke/which-key.nvim",
-    lazy = true,
-  },
+  { "folke/which-key.nvim", config = true },
   {
     "nvim-neorg/neorg",
     ft = "norg", -- lazy load on filetype
-    config = true,
+    cmd = "Neorg", -- lazy load on command, allows autocomplete :Neorg
+    opts = {
+      load = {
+        ["core.defaults"] = {},
+        ["core.norg.concealer"] = {},
+        ["core.norg.completion"] = {
+          config = { engine = "nvim-cmp" },
+        },
+        ["core.integrations.nvim-cmp"] = {},
+        ["core.norg.dirman"] = {
+          config = {
+            workspaces = {
+              notes = "~/notes/norg",
+            },
+            index = "index.norg",
+            default_workspace = "notes",
+          },
+        },
+      },
+    },
   },
   {
     'neovim/nvim-lspconfig',
@@ -74,6 +90,8 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'lewis6991/gitsigns.nvim',
+  { 'rhysd/committia.vim', lazy = false }, -- More pleasant commit layout
+  'rhysd/git-messenger.vim', -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim", --:GV for commit browser, GV! for one this file, GV? fills location list.
   "shumphrey/fugitive-gitlab.vim", -- Gbrowse works in gitlab
   "tpope/vim-obsession", -- Save sessions :Obsess, Restore vim -S. Also used by tmux-resurrect
@@ -91,10 +109,50 @@ require('lazy').setup({
   'mh21/errormarker.vim', -- " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
 
 
+  "andymass/vim-matchup", -- Extends % functionality
   "wsdjeg/vim-fetch", -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim", -- Restore file position and FOLDS.
   "rhysd/vim-clang-format", -- :ClangFormat
 
+  -- ui
+  { -- floating winbar
+    "b0o/incline.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("incline").setup({
+        window = { margin = { vertical = 0, horizontal = 1 } },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          local icon, color = require("nvim-web-devicons").get_icon_color(filename)
+          return { { icon, guifg = color }, { " " }, { filename } }
+        end,
+      })
+    end,
+  },
+
+  -- IDE options --
+  {
+    "ThePrimeagen/refactoring.nvim",
+    lazy = false,
+    config = function()
+      require("refactoring").setup({
+        -- overriding printf statement for cpp
+        printf_statements = {
+          -- add a custom printf statement for cpp
+          cpp = {
+            'std::cout << "%s" << std::endl;'
+          }
+        },
+        -- overriding printf statement for cpp
+        print_var_statements = {
+          -- add a custom print var statement for cpp
+          cpp = {
+            'std::cout << "%s " << %s << std::endl;'
+          }
+        },
+      })
+    end,
+  },
 
   'nvim-tree/nvim-web-devicons',
   -- Completion --
