@@ -1,3 +1,4 @@
+vim.o.termguicolors = true
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -122,7 +123,6 @@ vim.wo.signcolumn = 'yes'
 require("gruvbox").setup({
     contrast="hard"
 })
-vim.o.termguicolors = true
 vim.cmd [[colorscheme gruvbox]]
 
 -- Set completeopt to have a better completion experience
@@ -457,7 +457,11 @@ cmp.setup {
     { name = 'path' },
     { name = 'buffer' },
   },
-
+  filetype = { "dap-repl", "dapui_watches", "dapui_hover" }, {
+    sources = {
+      { name = "dap" },
+    }
+  },
   sorting = {
     priority_weight = 2,
     comparators = {

@@ -14,6 +14,7 @@ return function(use)
   use {"shumphrey/fugitive-gitlab.vim" } -- Gbrowse works in gitlab
   use {"tpope/vim-obsession"} -- Save sessions :Obsess, Restore vim -S. Also used by tmux-resurrect
   use {"tpope/vim-abolish"} -- Subsitutions with plurals, cases, etc.
+  use {"tpope/vim-unimpaired"} -- Add ][q (cnext), ][b (bnext), ][Space (add new lines)
   use {"wsdjeg/vim-fetch"} -- Enable opening files with format: vim file_name.xxx:line,col
   use {"vim-scripts/restore_view.vim"} -- Restore file position and FOLDS.
   use {"rhysd/vim-clang-format"} -- :ClangFormat
@@ -21,6 +22,7 @@ return function(use)
   use {'skywind3000/asyncrun.vim'} -- async :! command, read output using error format, or use % raw to ignore.
   use {'powerman/vim-plugin-AnsiEsc'} -- For escaping terminal colors in vim
   use {'mh21/errormarker.vim'} -- " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
+  use {'nvim-tree/nvim-web-devicons'}
   -- Completion --
   use { "hrsh7th/cmp-buffer" }
   use { "hrsh7th/cmp-path" }
@@ -30,6 +32,7 @@ return function(use)
   -- DAP (Debug Adapter Protocol) --
   use {'mfussenegger/nvim-dap'}
   use {"rcarriga/nvim-dap-ui"}
+  use {"rcarriga/cmp-dap"} -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   use {'theHamsta/nvim-dap-virtual-text',
   config = function()
     require('nvim-dap-virtual-text').setup()
@@ -41,6 +44,7 @@ return function(use)
   -- Buffer helpers
   use {'vim-scripts/BufOnly.vim'} -- :BOnly deltes all buffers except current one.
   use {'moll/vim-bbye'} -- Bdelete, as Bclose, deleting buffers without deleting windows.
+  use {'romgrk/barbar.nvim', requires = 'nvim-web-devicons'}
   -- File tree
   use { 'nvim-tree/nvim-tree.lua',
     requires = {
