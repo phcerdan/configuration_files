@@ -77,6 +77,4 @@ set_cursorline("FileType", false, "TelescopePrompt")
 opt.foldmethod = "marker"
 opt.foldlevel = 0
 opt.modelines = 1
-
-opt.updatetime = 300 -- CursorHold related time, default to 4000ms
 opt.laststatus = 3

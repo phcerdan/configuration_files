@@ -89,7 +89,19 @@ require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
-  'lewis6991/gitsigns.nvim',
+  { 'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup {
+        signs = {
+          add = { text = '+' },
+          change = { text = '~' },
+          delete = { text = '_' },
+          topdelete = { text = '‾' },
+          changedelete = { text = '~' },
+        },
+      }
+    end,
+  },
   { 'rhysd/committia.vim', lazy = false }, -- More pleasant commit layout
   'rhysd/git-messenger.vim', -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim", --:GV for commit browser, GV! for one this file, GV? fills location list.
@@ -99,9 +111,28 @@ require('lazy').setup({
   "tpope/vim-unimpaired", -- Add ][q (cnext), ][b (bnext), ][Space (add new lines)
   "ntpeters/vim-better-whitespace", -- Highlight whitespaces and provide StripWhiteSpaces()
 
-  'nvim-lualine/lualine.nvim', -- Fancier statusline
-  'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
-  'numToStr/Comment.nvim', -- "gc" to comment visual regions/lines
+  { 'nvim-lualine/lualine.nvim', -- Fancier statusline
+    config = function()
+      require('lualine').setup {
+        options = {
+          theme = 'gruvbox',
+          icons_enabled = false,
+          component_separators = '|',
+          section_separators = '',
+        },
+      }
+    end,
+  },
+  {
+    'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
+    config = function()
+      require('indent_blankline').setup {
+        char = '┊',
+        show_trailing_blankline_indent = false,
+      }
+    end,
+  },
+  { 'numToStr/Comment.nvim', config = true }, -- "gc" to comment visual regions/lines
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   -- Asyncrun
   'skywind3000/asyncrun.vim', -- async :! command, read output using error format, or use % raw to ignore.
@@ -190,7 +221,7 @@ require('lazy').setup({
   },
 
   -- Copilot --
-  "github/copilot.vim",
+  { "github/copilot.vim", lazy = false },
   -- The nvim plugin doesn't handle multiline ghost
   -- use { "zbirenbaum/copilot.lua" ,
   --   config = function()
@@ -266,39 +297,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
-
--- Set lualine as statusline
--- See `:help lualine.txt`
-require('lualine').setup {
-  options = {
-    icons_enabled = false,
-    theme = 'gruvbox',
-    component_separators = '|',
-    section_separators = '',
-  },
-}
-
--- Enable Comment.nvim
-require('Comment').setup()
-
--- Enable `lukas-reineke/indent-blankline.nvim`
--- See `:help indent_blankline.txt`
-require('indent_blankline').setup {
-  char = '┊',
-  show_trailing_blankline_indent = false,
-}
-
--- Gitsigns
--- See `:help gitsigns.txt`
-require('gitsigns').setup {
-  signs = {
-    add = { text = '+' },
-    change = { text = '~' },
-    delete = { text = '_' },
-    topdelete = { text = '‾' },
-    changedelete = { text = '~' },
-  },
-}
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -535,6 +533,7 @@ cmp.setup {
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
     },
+
     -- ['<Tab>'] = cmp.mapping(function(fallback)
     --   if cmp.visible() then
     --     cmp.select_next_item()
