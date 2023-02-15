@@ -39,6 +39,17 @@ require('lazy').setup({
   { "jpalardy/vim-slime", lazy = false }, -- Send/Copy from vim to other tmux pane
   { "folke/which-key.nvim", config = true },
   {
+    "folke/trouble.nvim",
+    config = function()
+      require("trouble").setup {
+        icons = false,
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      }
+    end
+  },
+  {
     "nvim-neorg/neorg",
     ft = "norg", -- lazy load on filetype
     cmd = "Neorg", -- lazy load on command, allows autocomplete :Neorg
@@ -144,7 +155,7 @@ require('lazy').setup({
   "wsdjeg/vim-fetch", -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim", -- Restore file position and FOLDS.
   "rhysd/vim-clang-format", -- :ClangFormat
-
+  "theprimeagen/harpoon", -- Most used files
   -- ui
   { -- floating winbar
     "b0o/incline.nvim",

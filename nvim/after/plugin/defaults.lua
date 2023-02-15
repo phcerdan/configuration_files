@@ -38,6 +38,23 @@ vim.api.nvim_set_keymap("v", "<leader>rv", ":lua require('refactoring').debug.pr
 vim.api.nvim_set_keymap("n", "<leader>rc", ":lua require('refactoring').debug.cleanup({})<CR>", { noremap = true })
 
 ------------ end refactoring ---------------
+
 -- git-messenger
 vim.g["git_messenger_no_default_mappings"] = "true"
 vim.api.nvim_set_keymap("n", "<leader>m", "<Plug>(git-messenger)", {noremap = true})
+
+-- folke/trouble.nvim
+vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
+      {silent = true, noremap = true}
+)
+
+-- harpoon
+local harpoon_mark = require("harpoon.mark")
+local harpoon_ui = require("harpoon.ui")
+vim.keymap.set("n", "<leader>a", harpoon_mark.add_file)
+vim.keymap.set("n", "<C-e>", harpoon_ui.toggle_quick_menu)
+vim.keymap.set("n", "<C-n>", function() harpoon_ui.nav_next() end)
+vim.keymap.set("n", "<leader>1", function() harpoon_ui.nav_file(1) end)
+vim.keymap.set("n", "<leader>2", function() harpoon_ui.nav_file(2) end)
+vim.keymap.set("n", "<leader>3", function() harpoon_ui.nav_file(3) end)
+vim.keymap.set("n", "<leader>4", function() harpoon_ui.nav_file(4) end)
