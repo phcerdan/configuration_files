@@ -1,24 +1,24 @@
-vim.api.nvim_set_keymap("n", "<leader>d", ":Bwipeout<CR>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle<CR>", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>d", ":Bwipeout<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle<CR>", { noremap = true })
 vim.api.nvim_command("cnoremap zc e <c-r>=expand('%:h')<cr>/")
 
 -- Slime
 vim.g["slime_target"] = "tmux"
 vim.g["slime_python_ipython"] = 1
-vim.api.nvim_create_user_command("TmuxSockets", 'silent! !lsof -U | grep "^tmux"', {bang=true})
+vim.api.nvim_create_user_command("TmuxSockets", 'silent! !lsof -U | grep "^tmux"', { bang = true })
 
 -- barbar buffer
-vim.cmd[[
+vim.cmd [[
 let g:bufferline.icons = "both"
 ]]
 
 -- refactoring
 -- prompt for a refactor to apply when the remap is triggered
 vim.api.nvim_set_keymap(
-    "v",
-    "<leader>rr",
-    ":lua require('refactoring').select_refactor()<CR>",
-    { noremap = true, silent = true, expr = false }
+	"v",
+	"<leader>rr",
+	":lua require('refactoring').select_refactor()<CR>",
+	{ noremap = true, silent = true, expr = false }
 )
 -- You can also use below = true here to to change the position of the printf
 -- statement (or set two remaps for either one). This remap must be made in normal mode.
@@ -30,7 +30,8 @@ vim.api.nvim_set_keymap(
 )
 -- Print var
 -- Remap in normal mode and passing { normal = true } will automatically find the variable under the cursor and print it
-vim.api.nvim_set_keymap("n", "<leader>rv", ":lua require('refactoring').debug.print_var({ normal = true })<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>rv", ":lua require('refactoring').debug.print_var({ normal = true })<CR>",
+	{ noremap = true })
 -- Remap in visual mode will print whatever is in the visual selection
 vim.api.nvim_set_keymap("v", "<leader>rv", ":lua require('refactoring').debug.print_var({})<CR>", { noremap = true })
 
@@ -41,12 +42,15 @@ vim.api.nvim_set_keymap("n", "<leader>rc", ":lua require('refactoring').debug.cl
 
 -- git-messenger
 vim.g["git_messenger_no_default_mappings"] = "true"
-vim.api.nvim_set_keymap("n", "<leader>m", "<Plug>(git-messenger)", {noremap = true})
+vim.api.nvim_set_keymap("n", "<leader>m", "<Plug>(git-messenger)", { noremap = true })
 
 -- folke/trouble.nvim
+vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+	{ silent = true, noremap = true })
 vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>",
-      {silent = true, noremap = true}
-)
+	{ silent = true, noremap = true })
+vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>",
+	{ silent = true, noremap = true })
 
 -- harpoon
 local harpoon_mark = require("harpoon.mark")
