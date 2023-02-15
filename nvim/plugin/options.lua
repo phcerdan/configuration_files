@@ -1,6 +1,11 @@
 local opt = vim.opt
 
-opt.mouse = "a" -- Automatic enable mouse
+opt.hlsearch = true -- Set highlight on search
+opt.number = true -- Make line numbers default
+opt.mouse = "a" -- Enable mouse mode
+opt.breakindent = true -- Enable break indent
+opt.updatetime = 50 -- Decrease update time
+opt.signcolumn = "yes"
 
 -- Searching {{{
 opt.gdefault = true -- avoid to /g at the end of search.
@@ -10,7 +15,8 @@ opt.hlsearch = true -- highlight search
 opt.incsearch = true -- incremental search
 opt.scrolloff = 20 -- Make it so
 -- }}}
-
+-- Set completeopt to have a better completion experience
+opt.completeopt = 'menuone,noselect,preview'
 
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
@@ -44,6 +50,8 @@ opt.undodir = { prefix .. "/nvim/undo//" }
 opt.autoindent = true
 opt.cindent = true
 opt.wrap = true
+opt.smartindent = true
+opt.colorcolumn = "81"
 
 -- Indent
 opt.tabstop = 4
