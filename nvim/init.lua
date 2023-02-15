@@ -197,6 +197,7 @@ require('lazy').setup({
   "rcarriga/nvim-dap-ui",
   "rcarriga/cmp-dap", -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   { "theHamsta/nvim-dap-virtual-text", config = true },
+  { "mhinz/vim-grepper" },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -469,7 +470,7 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
 
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
