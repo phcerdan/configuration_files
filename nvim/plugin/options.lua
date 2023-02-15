@@ -78,3 +78,6 @@ opt.foldmethod = "marker"
 opt.foldlevel = 0
 opt.modelines = 1
 opt.laststatus = 3
+
+opt.fixendofline = false -- Don't add a newline at the end of the file
+opt.diffopt:append("vertical") -- Gdiff open in vertical.
