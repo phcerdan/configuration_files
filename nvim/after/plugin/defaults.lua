@@ -62,3 +62,9 @@ vim.keymap.set("n", "<leader>1", function() harpoon_ui.nav_file(1) end)
 vim.keymap.set("n", "<leader>2", function() harpoon_ui.nav_file(2) end)
 vim.keymap.set("n", "<leader>3", function() harpoon_ui.nav_file(3) end)
 vim.keymap.set("n", "<leader>4", function() harpoon_ui.nav_file(4) end)
+
+-- copilot
+-- From: https://github.com/hrsh7th/nvim-cmp/issues/459
+-- vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.api.nvim_set_keymap("i", "<C-_>", "copilot#Accept('<CR>')", { silent = true, expr = true })
