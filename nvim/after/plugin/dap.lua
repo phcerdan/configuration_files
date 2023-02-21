@@ -67,17 +67,39 @@ dap.configurations.python = {
   {
     type = "python",
     request = "launch",
-    name = "Build api",
+    name = "Launch current file from current working directory",
+    cwd = vim.fn.getcwd(),
     program = "${file}",
-    args = { "--target", "api" },
+    args = function()
+      local args_string = vim.fn.input('Arguments: ')
+      return vim.split(args_string, " +")
+    end,
     console = "integratedTerminal",
   },
   {
-    type = "python",
-    request = "launch",
-    name = "lsif",
-    program = "src/lsif/__main__.py",
-    args = {},
+    -- https://github.com/mfussenegger/nvim-dap/wiki/Local-and-Remote-Debugging-with-Docker
+    -- https://github.com/mfussenegger/nvim-dap-python/issues/75
+    -- In the docker container run:
+    --   python -m pydebug --listen 0.0.0.0:5678 --wait-for-client app.py
+    type = 'python',
+    request = 'attach',
+    connect = {
+      host = "127.0.0.1",
+      port = 5678, -- debug port
+    },
+    mode = "remote",
+    name = 'Remote Attached Debugger',
+    cwd = vim.fn.getcwd(),
+    pathMappings = {
+      {
+        localRoot = function()
+          return vim.fn.input("Local code folder > ", vim.fn.getcwd(), "file")
+        end,
+        remoteRoot = function()
+          return vim.fn.input("Container code folder > ", "/", "file")
+        end,
+      },
+    },
     console = "integratedTerminal",
   },
 }
@@ -122,16 +144,6 @@ dap.configurations.rust = {
     --
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
-  },
-  {
-    name = "Launch rust-analyzer lsif",
-    type = "lldb",
-    request = "launch",
-    program = "/home/tjdevries/sourcegraph/rust-analyzer.git/monikers-1/target/debug/rust-analyzer",
-    args = { "lsif", "/home/tjdevries/build/rmpv/" },
-    cwd = "/home/tjdevries/sourcegraph/rust-analyzer.git/monikers-1/",
-    stopOnEntry = false,
     runInTerminal = false,
   },
 }
@@ -188,7 +200,7 @@ local map = function(lhs, rhs, desc)
   vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
 end
 
-map("<F4>", require("dapui").toggle, "dapui-toggle")
+map("<F4>", function() require("dapui").toggle({ reset = true }) end, "dapui-toggle")
 
 map("<F5>", require("dap").continue, "continue")
 map("<F6>", require("dap").up, "up frame")
@@ -273,8 +285,8 @@ local original = {}
 local debug_map = function(lhs, rhs, desc)
   local keymaps = vim.api.nvim_get_keymap "n"
   original[lhs] = vim.tbl_filter(function(v)
-    return v.lhs == lhs
-  end, keymaps)[1] or true
+        return v.lhs == lhs
+      end, keymaps)[1] or true
 
   vim.keymap.set("n", lhs, rhs, { desc = desc })
 end
