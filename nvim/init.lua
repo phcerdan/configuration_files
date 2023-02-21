@@ -33,11 +33,13 @@ require('lazy').setup({
       vim.cmd([[colorscheme gruvbox]])
     end,
   },
-
+  -- vim.ui pretty replacement
+  { "stevearc/dressing.nvim",         config = true, lazy = false }, -- Provide nice vim.ui.select/vim.ui.input
   -- Tmux related
   { "christoomey/vim-tmux-navigator", lazy = false }, -- Navigate vim/tmux with same keys: <c-hjkl>
-  { "jpalardy/vim-slime", lazy = false }, -- Send/Copy from vim to other tmux pane
-  { "folke/which-key.nvim", config = true },
+  { "jpalardy/vim-slime",             lazy = false }, -- Send/Copy from vim to other tmux pane
+  -- Utils
+  { "folke/which-key.nvim",           config = true }, -- WhichKey store information about mappings
   {
     "folke/trouble.nvim",
     config = function()
@@ -87,16 +89,15 @@ require('lazy').setup({
       'folke/neodev.nvim',
     },
   },
-
   { 'hrsh7th/nvim-cmp', dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
-
-  'nvim-treesitter/nvim-treesitter',
-  build = function()
-    pcall(require('nvim-treesitter.install').update { with_sync = true })
-  end,
-  dependencies = 'nvim-treesitter/nvim-treesitter-textobjects',
-
+  {
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = 'nvim-treesitter/nvim-treesitter-textobjects',
+    build = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  },
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -113,7 +114,7 @@ require('lazy').setup({
       }
     end,
   },
-  { 'rhysd/committia.vim', lazy = false }, -- More pleasant commit layout
+  { 'rhysd/committia.vim',   lazy = false }, -- More pleasant commit layout
   'rhysd/git-messenger.vim', -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim", --:GV for commit browser, GV! for one this file, GV? fills location list.
   "shumphrey/fugitive-gitlab.vim", -- Gbrowse works in gitlab
@@ -121,7 +122,6 @@ require('lazy').setup({
   "tpope/vim-abolish", -- Subsitutions with plurals, cases, etc.
   "tpope/vim-unimpaired", -- Add ][q (cnext), ][b (bnext), ][Space (add new lines)
   "ntpeters/vim-better-whitespace", -- Highlight whitespaces and provide StripWhiteSpaces()
-
   { 'nvim-lualine/lualine.nvim', -- Fancier statusline
     config = function()
       require('lualine').setup {
@@ -149,8 +149,6 @@ require('lazy').setup({
   'skywind3000/asyncrun.vim', -- async :! command, read output using error format, or use % raw to ignore.
   'powerman/vim-plugin-AnsiEsc', -- For escaping terminal colors in vim
   'mh21/errormarker.vim', -- " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
-
-
   "andymass/vim-matchup", -- Extends % functionality
   "wsdjeg/vim-fetch", -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim", -- Restore file position and FOLDS.
@@ -171,7 +169,6 @@ require('lazy').setup({
       })
     end,
   },
-
   -- IDE options --
   {
     "ThePrimeagen/refactoring.nvim",
@@ -195,7 +192,6 @@ require('lazy').setup({
       })
     end,
   },
-
   'nvim-tree/nvim-web-devicons',
   -- Completion --
   "hrsh7th/cmp-buffer",
@@ -209,31 +205,31 @@ require('lazy').setup({
   "rcarriga/cmp-dap", -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   { "theHamsta/nvim-dap-virtual-text", config = true },
   { "mhinz/vim-grepper" },
-
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
-
+  { 'nvim-telescope/telescope.nvim',   branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
   --  DAP: Adaparter configuration for specific languages
   "nvim-telescope/telescope-dap.nvim",
   "mfussenegger/nvim-dap-python",
-
   -- Buffer helpers
   'vim-scripts/BufOnly.vim', -- :BOnly deltes all buffers except current one.
   'moll/vim-bbye', -- Bdelete, as Bclose, deleting buffers without deleting windows.
-  { 'romgrk/barbar.nvim', dependencies = 'nvim-web-devicons' },
-
-
   -- File tree
-  { 'nvim-tree/nvim-tree.lua',
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
     dependencies = {
-      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
     },
-    version = "nightly", -- optional, updated every week. (see issue #1193)
-    config = true,
+    config = function()
+      -- Unless you are still migrating, remove the deprecated commands from v1.x
+      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+      require('neo-tree').setup {}
+    end,
   },
-
   -- Copilot --
-  { "github/copilot.vim", lazy = false },
+  { "github/copilot.vim",                       lazy = false },
   -- The nvim plugin doesn't handle multiline ghost
   -- use { "zbirenbaum/copilot.lua" ,
   --   config = function()
@@ -257,7 +253,6 @@ require('lazy').setup({
   },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', cond = vim.fn.executable 'make' == 1 },
-
 })
 
 
@@ -292,6 +287,15 @@ require('telescope').setup {
 
       },
     },
+    preview = {
+      -- truncate the previewer if file is too long:
+      -- https://github.com/nvim-telescope/telescope.nvim/issues/623
+      filesize_hook = function(filepath, bufnr, opts)
+        local max_bytes = 10000
+        local cmd = { "head", "-c", max_bytes, filepath }
+        require('telescope.previewers.utils').job_maker(cmd, bufnr, opts)
+      end
+    }
   },
   -- extensions = {
   --   fzf = {
@@ -444,10 +448,16 @@ end
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
-local servers = {
+local servers_settings = {
   clangd = {},
   -- gopls = {},
-  pyright = {},
+  pyright = {
+    python = {
+      analysis = {
+        reportPrivateImportUsage = false,
+      },
+    },
+  },
   -- rust_analyzer = {},
   -- tsserver = {},
 
@@ -473,7 +483,7 @@ require('mason').setup()
 local mason_lspconfig = require 'mason-lspconfig'
 
 mason_lspconfig.setup {
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.tbl_keys(servers_settings),
 }
 
 mason_lspconfig.setup_handlers {
@@ -481,7 +491,7 @@ mason_lspconfig.setup_handlers {
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
-      settings = servers[server_name],
+      settings = servers_settings[server_name],
     }
   end,
 }
@@ -495,7 +505,6 @@ local luasnip = require 'luasnip'
 local lspkind = require 'lspkind'
 
 local has_words_before = function()
-
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
@@ -508,7 +517,7 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<CR>'] = cmp.mapping.confirm {
@@ -516,29 +525,22 @@ cmp.setup {
       select = false,
     },
 
-    -- ['<Tab>'] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_next_item()
-    --   elseif luasnip.expand_or_jumpable() then
-    --     luasnip.expand_or_jump()
-    --   else
-    --     fallback()
-    --   end
-    -- end, { 'i', 's' }),
-    ["<Tab>"] = vim.schedule_wrap(function(fallback)
-      if cmp.visible() and has_words_before() then
-        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif vim.b._copilot_suggestion ~= nil then
+        vim.fn.feedkeys(vim.api.nvim_replace_termcodes(vim.fn['copilot#Accept'](), true, true, true), '')
       else
         fallback()
       end
-    end),
+    end, { 'i', 's' }),
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif luasnip.jumpable( -1) then
+        luasnip.jump( -1)
       else
         fallback()
       end
@@ -552,10 +554,10 @@ cmp.setup {
     { name = 'buffer' },
   },
   filetype = { "dap-repl", "dapui_watches", "dapui_hover" }, {
-    sources = {
-      { name = "dap" },
-    }
-  },
+  sources = {
+    { name = "dap" },
+  }
+},
   sorting = {
     priority_weight = 2,
     comparators = {
