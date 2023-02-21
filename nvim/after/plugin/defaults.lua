@@ -1,10 +1,19 @@
 vim.keymap.set("i", "<C-c>", "<Esc>")
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {noremap = true})
-
+vim.cmd [[
+	au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+	au FileType fzf tunmap <buffer> <Esc>
+]]
 
 vim.api.nvim_set_keymap("n", "<leader>d", ":Bwipeout<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>nn", ":Neotree<CR>", { noremap = true })
 vim.api.nvim_command("cnoremap zc e <c-r>=expand('%:h')<cr>/")
+
+-- Tab navigation
+vim.g.lasttab = 1
+vim.keymap.set("n", "<leader>t", function() vim.cmd.tabn(vim.g.lasttab) end)
+vim.cmd [[
+au TabLeave * let g:lasttab = tabpagenr()
+]]
 
 -- Slime
 vim.g["slime_target"] = "tmux"
