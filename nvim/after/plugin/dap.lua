@@ -92,6 +92,11 @@ dap_python.setup("python", {
   include_configs = true,
 })
 
+local configurations_python = require('dap').configurations.python
+for _, configuration in pairs(configurations_python) do
+  configuration.justMyCode = false
+end
+
 dap_python.test_runner = "pytest"
 
 -- rust
