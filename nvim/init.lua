@@ -33,13 +33,30 @@ require('lazy').setup({
       vim.cmd([[colorscheme gruvbox]])
     end,
   },
-  -- vim.ui pretty replacement
-  { "stevearc/dressing.nvim",         config = true, lazy = false }, -- Provide nice vim.ui.select/vim.ui.input
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("bufferline").setup({
+        options = {
+          numbers = function(opts)
+            return string.format('%s', opts.id)
+          end,
+        }
+      })
+    end,
+  },
+  { -- Provide nice vim.ui.select/vim.ui.input
+    "stevearc/dressing.nvim",
+    lazy = false,
+    config = true,
+    -- vim.ui.select({'apple', 'banana', 'mango'}, { prompt = "Title"}, function(selected) end)
+  },
   -- Tmux related
   { "christoomey/vim-tmux-navigator", lazy = false }, -- Navigate vim/tmux with same keys: <c-hjkl>
   { "jpalardy/vim-slime",             lazy = false }, -- Send/Copy from vim to other tmux pane
   -- Utils
-  { "folke/which-key.nvim",           config = true }, -- WhichKey store information about mappings
+  { "folke/neodev.nvim",              config = true }, -- Additional lua configuration, makes nvim stuff amazing
   {
     "folke/trouble.nvim",
     config = function()
@@ -51,6 +68,21 @@ require('lazy').setup({
       }
     end
   },
+  -- jupyter notebook
+  { -- install nvim-notify
+    "rcarriga/nvim-notify",
+    config = true,
+  },
+  { -- jupytext
+    "goerz/jupytext.vim", build = "pip3 install --user .",
+  },
+  -- { -- UNUSED
+  --   "kiyoon/jupynium.nvim",
+  --   build = "pip3 install --user .",
+  --   -- build = "conda run --no-capture-output -n jupynium pip install .",
+  --   -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+  -- },
+  -- neorg
   {
     "nvim-neorg/neorg",
     ft = "norg", -- lazy load on filetype
@@ -98,9 +130,13 @@ require('lazy').setup({
       pcall(require('nvim-treesitter.install').update { with_sync = true })
     end,
   },
+  -- qf navigation
+  { "romainl/vim-qf", lazy = false, },
+  { "kevinhwang91/nvim-bqf", config = true, lazy=false },
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
+  { 'kylechui/nvim-surround', config = true },
   { 'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup {
@@ -152,7 +188,8 @@ require('lazy').setup({
   "andymass/vim-matchup", -- Extends % functionality
   "wsdjeg/vim-fetch", -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim", -- Restore file position and FOLDS.
-  "rhysd/vim-clang-format", -- :ClangFormat
+  "rhysd/vim-clang-format", -- :ClangFormat (c,cpp)
+  "psf/black", -- :Black (python)
   "theprimeagen/harpoon", -- Most used files
   -- ui
   { -- floating winbar
@@ -206,7 +243,11 @@ require('lazy').setup({
   { "theHamsta/nvim-dap-virtual-text", config = true },
   { "mhinz/vim-grepper" },
   -- Fuzzy Finder (files, lsp, etc)
-  { 'nvim-telescope/telescope.nvim',   branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'junegunn/fzf',
+    build = { vim.fn['fzf#install'] }
+  },
+  { 'junegunn/fzf.vim' },
+  { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
   --  DAP: Adaparter configuration for specific languages
   "nvim-telescope/telescope-dap.nvim",
   "mfussenegger/nvim-dap-python",
@@ -215,17 +256,12 @@ require('lazy').setup({
   'moll/vim-bbye', -- Bdelete, as Bclose, deleting buffers without deleting windows.
   -- File tree
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    "nvim-tree/nvim-tree.lua",
     dependencies = {
-      "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
     },
     config = function()
-      -- Unless you are still migrating, remove the deprecated commands from v1.x
-      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-      require('neo-tree').setup {}
+      require('nvim-tree').setup {}
     end,
   },
   -- Copilot --
@@ -279,6 +315,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
+    file_ignore_patterns = { -- ignore all files in scratch directory
+      "^scratch/"
+    },
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -335,7 +374,19 @@ require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim' },
 
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    disable = function(lang, bufnr) -- Disable in files with many lines or a really large first line (json)
+      local large_line = vim.api.nvim_strwidth(vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1]) > 1000
+      local large_file = vim.api.nvim_buf_line_count(bufnr) > 50000
+      local disable_it = large_line or large_file
+      if disable_it then
+        vim.opt.syntax = 'off'
+        print('Treesitter disabled for ' .. lang)
+      end
+      return disable_it
+    end,
+  },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
     enable = true,
@@ -396,7 +447,7 @@ require('nvim-treesitter.configs').setup {
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -469,9 +520,6 @@ local servers_settings = {
   },
 }
 
--- Setup neovim lua configuration
-require('neodev').setup()
---
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)

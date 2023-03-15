@@ -59,6 +59,8 @@ opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = true
 
+opt.autoindent = true
+
 opt.splitright = true -- Prefer split right
 opt.splitbelow = true -- Prefer split bottom
 opt.timeoutlen = 500 -- timeoutlen : time to wait for chain character (leader, etc) Default is 1000, 1 sec

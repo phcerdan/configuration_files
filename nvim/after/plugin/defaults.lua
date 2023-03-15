@@ -5,7 +5,7 @@ vim.cmd [[
 ]]
 
 vim.api.nvim_set_keymap("n", "<leader>d", ":Bwipeout<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nn", ":Neotree<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle | NvimTreeRefresh<CR>", { noremap = true })
 vim.api.nvim_command("cnoremap zc e <c-r>=expand('%:h')<cr>/")
 
 -- Tab navigation
@@ -78,3 +78,25 @@ vim.keymap.set("n", "<leader>4", function() harpoon_ui.nav_file(4) end)
 vim.g.copilot_assume_mapped = true
 vim.api.nvim_set_keymap("i", "<C-\\>", "copilot#Accept('<CR>')", { silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-]>", "copilot#Next()", { silent = true, expr = true })
+
+-- jupytext
+vim.g.jupytext_fmt = 'py'
+
+-- fugitive
+-- create user command Gl to open fugitive log with --decorate
+vim.api.nvim_command("command! Gl :Git log --decorate")
+
+-- grepper
+
+vim.keymap.set("n", "<leader>ss", function()
+	local res = vim.fn.input("GrepperRg: ")
+	vim.cmd("GrepperRg " .. res)
+end)
+
+-- current word
+vim.cmd [[
+nnoremap <leader>ss :GrepperRg <C-r><C-w>
+]]
+
+-- quickfix
+vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap = true })
