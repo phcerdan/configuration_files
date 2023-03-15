@@ -85,6 +85,12 @@ POWERLEVEL9K_VCS_GIT_GITLAB_ICON=''
 POWERLEVEL9K_VCS_GIT_BITBUCKET_ICON=''
 #### END POWERLEVEL9K CONFIGURATION #### }}}
 
+# Add zsh completion folder from arch
+arch_completions="/usr/share/zsh/site-functions"
+if [ ! -f $arch_completions ]; then
+    fpath=($arch_completions $fpath)
+fi
+
 # Clone zgen if you haven't already
 if [ ! -f ~/zgen/zgen.zsh ]; then
     pushd ~
@@ -145,6 +151,9 @@ if ! zgen saved; then
     # ZSH_AUTOSUGGEST_CLEAR_WIDGETS=("${(@)ZSH_AUTOSUGGEST_CLEAR_WIDGETS:#(up|down)-line-or-history}")
     zgen save
 fi
+# # Reload the zsh-completions
+autoload -U compinit && compinit
+
 # Tmux
 # Automatic rename at "cd /to/folder/" when tmux is set to screen-256color. Harmless workaround here in zsh.:
 DISABLE_AUTO_TITLE=true
