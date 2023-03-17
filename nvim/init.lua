@@ -82,31 +82,35 @@ require('lazy').setup({
   --   -- build = "conda run --no-capture-output -n jupynium pip install .",
   --   -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
   -- },
+  -- orgmode {{{
   -- neorg
-  {
-    "nvim-neorg/neorg",
-    ft = "norg", -- lazy load on filetype
-    cmd = "Neorg", -- lazy load on command, allows autocomplete :Neorg
-    opts = {
-      load = {
-        ["core.defaults"] = {},
-        ["core.norg.concealer"] = {},
-        ["core.norg.completion"] = {
-          config = { engine = "nvim-cmp" },
-        },
-        ["core.integrations.nvim-cmp"] = {},
-        ["core.norg.dirman"] = {
-          config = {
-            workspaces = {
-              notes = "~/notes/norg",
-            },
-            index = "index.norg",
-            default_workspace = "notes",
-          },
-        },
-      },
-    },
-  },
+  -- {
+  --   "nvim-neorg/neorg",
+  --   ft = "norg", -- lazy load on filetype
+  --   cmd = "Neorg", -- lazy load on command, allows autocomplete :Neorg
+  --   opts = {
+  --     load = {
+  --       ["core.defaults"] = {},
+  --       ["core.norg.concealer"] = {},
+  --       ["core.norg.completion"] = {
+  --         config = { engine = "nvim-cmp" },
+  --       },
+  --       ["core.integrations.nvim-cmp"] = {},
+  --       ["core.norg.dirman"] = {
+  --         config = {
+  --           workspaces = {
+  --             notes = "~/notes/norg",
+  --           },
+  --           index = "index.norg",
+  --           default_workspace = "notes",
+  --         },
+  --       },
+  --     },
+  --   },
+  -- }, -- NOT SURE, going to orgmode instead
+  -- orgmode
+  { 'nvim-orgmode/orgmode', lazy = false, },
+  -- }}}
   {
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -372,7 +376,8 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'help', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'org', },
+    -- , 'orgagenda'},
 
   highlight = {
     enable = true,
@@ -386,6 +391,9 @@ require('nvim-treesitter.configs').setup {
       end
       return disable_it
     end,
+    -- Required for spellcheck, some LaTex highlights and
+    -- code block highlights that do not have ts grammar
+    additional_vim_regex_highlighting = {'org'},
   },
   indent = { enable = true, disable = { 'python' } },
   incremental_selection = {
