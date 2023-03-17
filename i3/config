@@ -10,6 +10,17 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+
+# Scratchpad
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+# Show the first scratchpad window
+bindsym $mod+p scratchpad show
+# Show the sup-mail scratchpad window, if any.
+# bindsym mod4+s [title="^Sup ::"] scratchpad show
+bindsym $mod+shift+o exec  alacritty -t 'alacritty-scratch' -e vim $HOME/notes/org-notes/work.org
+for_window [title="^alacritty-scratch"] floating enable border pixel 1 move scratchpad scratchpad show
+
 # Activate smart borders (always)
 smart_borders on
 # Remove titlebars (keep borders)
