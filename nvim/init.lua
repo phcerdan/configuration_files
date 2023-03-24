@@ -110,6 +110,11 @@ require('lazy').setup({
   -- }, -- NOT SURE, going to orgmode instead
   -- orgmode
   { 'nvim-orgmode/orgmode', lazy = false, },
+  -- { -- highlight for orgmode, md and neorg
+  --   'lukas-reineke/headlines.nvim',
+  --   dependencies = "nvim-treesitter/nvim-treesitter",
+  --   config = true,
+  -- },
   -- }}}
   {
     'neovim/nvim-lspconfig',
