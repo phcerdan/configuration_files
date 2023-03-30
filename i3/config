@@ -11,6 +11,9 @@
 
 set $mod Mod4
 
+exec --no-startup-id dunst
+bindsym $mod+n exec --no-startup-id dunstctl history-pop
+
 # Scratchpad
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -47,9 +50,6 @@ bindsym $mod+shift+g exec --no-startup-id env XDG_CURRENT_DESKTOP=GNOME gnome-co
 # exec --no-startup-id autorandr -c
 # start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
-bindsym $mod+shift+s exec "i3lock -c 000000"
-
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -262,10 +262,10 @@ mode "saveworkspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym s mode "default"
-  bindsym $mod+b mode "default"
+  bindsym $mod+Shift+s mode "default"
 }
 
-bindsym $mod+b mode "saveworkspace"
+bindsym $mod+Shift+s mode "saveworkspace"
 
 # Restore workspace mode.
 mode "restoreworkspace" {
@@ -295,7 +295,7 @@ mode "restoreworkspace" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
   bindsym n mode "default"
-  bindsym $mod+n mode "default"
+  bindsym $mod+Shift+a mode "default"
 }
 
-bindsym $mod+n mode "restoreworkspace"
+bindsym $mod+Shift+a mode "restoreworkspace"
