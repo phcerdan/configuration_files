@@ -257,6 +257,12 @@ require('lazy').setup({
   },
   { 'junegunn/fzf.vim' },
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { -- vim-rooter to avoid telescope to change pwd when grepping or finding files...
+    'airblade/vim-rooter',
+    config = function()
+      vim.g.rooter_patterns = { '.git', '.svn', '.hg', '.project', '.root', 'package.json' }
+    end,
+  },
   --  DAP: Adaparter configuration for specific languages
   "nvim-telescope/telescope-dap.nvim",
   "mfussenegger/nvim-dap-python",
@@ -290,6 +296,9 @@ require('lazy').setup({
   -- ChatGPT
   { "jackMort/ChatGPT.nvim",
     config = true,
+    cond = function()
+      return os.getenv("OPENAI_API_KEY") ~= nil
+    end,
     dependencies = {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
