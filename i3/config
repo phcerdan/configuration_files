@@ -10,7 +10,7 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-
+exec --no-startup-id picom
 exec --no-startup-id dunst
 bindsym $mod+n exec --no-startup-id dunstctl history-pop
 
