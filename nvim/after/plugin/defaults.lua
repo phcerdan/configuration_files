@@ -98,5 +98,14 @@ vim.cmd [[
 nnoremap <leader>ss :GrepperRg <C-r><C-w>
 ]]
 
+vim.cmd [[
+" Don't move when pressing * (highlight current word)
+" Also use g* instead of *, to avoid searching for whole words.
+" This is usefult when using the register "/, to avoid re-using
+" whole words brackets \<, \>
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
+nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(stay_star_view)<cr>
+]]
+
 -- quickfix
 vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap = true })
