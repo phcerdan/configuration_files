@@ -15,10 +15,13 @@ if not has_dap then
   return
 end
 
-vim.fn.sign_define("DapBreakpoint", { text = "ß", texthl = "", linehl = "", numhl = "" })
-vim.fn.sign_define("DapBreakpointCondition", { text = "ü", texthl = "", linehl = "", numhl = "" })
+vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg='#993939', bg='#31353f'})
+vim.api.nvim_set_hl(0, 'DapGreen', { ctermbg = 0, fg='#9ece6a'})
+
+vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+vim.fn.sign_define("DapBreakpointCondition", { text = "ü", texthl = "DapBreakpoint", linehl = "", numhl = "" })
 -- Setup cool Among Us as avatar
-vim.fn.sign_define("DapStopped", { text = "ඞ", texthl = "Error" })
+vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "DapGreen" })
 
 require("nvim-dap-virtual-text").setup {
   enabled = true,
@@ -203,6 +206,8 @@ end
 map("<F4>", function() require("dapui").toggle({ reset = true }) end, "dapui-toggle")
 
 map("<F5>", require("dap").continue, "continue")
+map("<S-F5>", require("dap").terminate, "terminate")
+map("<C-S-F5>", require("dap").restart, "restart")
 map("<F6>", require("dap").up, "up frame")
 map("<S-F6>", require("dap").down, "down frame")
 map("<F7>", require("dap").run_to_cursor, "run_to_cursor")
@@ -221,19 +226,18 @@ map("<leader>dB", function()
   require("dap").set_breakpoint(vim.fn.input "[DAP] Condition > ")
 end)
 
+map("<leader>dm", function()
+ require("dap-python").test_method({config = {justMyCode = false}})
+ end)
+
 map("<leader>de", require("dapui").eval)
 map("<leader>dE", function()
   require("dapui").eval(vim.fn.input "[DAP] Expression > ")
 end)
 
 map("<leader>dh", require('dap.ui.widgets').hover, "dapui hover")
--- You can set trigger characters OR it will default to '.'
--- You can also trigger with the omnifunc, <c-x><c-o>
+-- Close dap-float with q
 vim.cmd [[
-augroup DapRepl
-  au!
-  au FileType dap-repl lua require('dap.ext.autocompl').attach()
-augroup END
 autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
 ]]
 

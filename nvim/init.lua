@@ -600,8 +600,6 @@ cmp.setup {
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif vim.b._copilot_suggestion ~= nil then
-        vim.fn.feedkeys(vim.api.nvim_replace_termcodes(vim.fn['copilot#Accept'](), true, true, true), '')
       else
         fallback()
       end
@@ -619,15 +617,10 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    -- { name = 'copilot' },
     { name = 'path' },
     { name = 'buffer' },
+    { name = 'dap' },
   },
-  filetype = { "dap-repl", "dapui_watches", "dapui_hover" }, {
-  sources = {
-    { name = "dap" },
-  }
-},
   sorting = {
     priority_weight = 2,
     comparators = {
@@ -661,6 +654,11 @@ cmp.setup {
       },
     },
   },
+  -- From cmp_dap
+  enabled = function()
+    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+      or require("cmp_dap").is_dap_buffer()
+  end,
 
   experimental = {
     -- I like the new menu better! Nice work hrsh7th
