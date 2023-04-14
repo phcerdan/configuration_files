@@ -46,6 +46,16 @@ require('lazy').setup({
       })
     end,
   },
+  { -- zoom with Goyo, Goyo! distraction free
+    "junegunn/goyo.vim",
+    config = function()
+      vim.g.goyo_width = 120
+      vim.g.goyo_height = 95
+    end,
+    keys = {
+      { "<leader>z", "<cmd>Goyo<cr>", desc = "Goyo Toggle" },
+    },
+  },
   { -- Provide nice vim.ui.select/vim.ui.input
     "stevearc/dressing.nvim",
     lazy = false,
@@ -141,7 +151,6 @@ require('lazy').setup({
   },
   -- qf navigation
   { "romainl/vim-qf", lazy = false, },
-  { "kevinhwang91/nvim-bqf", config = true, lazy=false },
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
@@ -260,7 +269,7 @@ require('lazy').setup({
   { -- vim-rooter to avoid telescope to change pwd when grepping or finding files...
     'airblade/vim-rooter',
     config = function()
-      vim.g.rooter_patterns = { '.git', '.svn', '.hg', '.project', '.root', 'package.json' }
+      vim.g.rooter_patterns = { '.git', '.svn', '.hg', '.project', '.root', 'package.json', '>site-packages' }
     end,
   },
   --  DAP: Adaparter configuration for specific languages
@@ -340,8 +349,13 @@ require('telescope').setup {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
-        ['<C-q>'] = require('telescope.actions').smart_send_to_qflist
-
+        ['<C-q>'] = function(bufnr)
+          require('telescope.actions').smart_send_to_qflist(bufnr)
+          -- open quickfix list if it's not already open
+          if vim.fn.getqflist({ winid = 0 }).winid == 0 then
+            vim.cmd [[copen]]
+          end
+        end
       },
     },
     preview = {
@@ -383,7 +397,13 @@ end, { desc = '[/] Fuzzily search in current buffer]' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sg', function()
+  require('telescope.builtin').grep_string({ search = vim.fn.input(
+    {
+      prompt = 'Grep: ',
+    }
+  )})
+end, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- [[ Configure Treesitter ]]
