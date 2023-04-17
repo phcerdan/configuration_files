@@ -769,5 +769,11 @@ cmp.setup {
   },
 }
 
+-- Command Abbreviations, I can't release my shift key fast enough
+vim.cmd('cnoreabbrev Q  q')
+vim.cmd('cnoreabbrev Qa qa')
+vim.cmd('cnoreabbrev W  w')
+vim.cmd('cnoreabbrev Wq wq')
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

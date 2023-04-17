@@ -5,6 +5,7 @@ vim.cmd [[
 ]]
 
 vim.api.nvim_set_keymap("n", "<leader>d", ":Bwipeout<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>D", ":Bwipeout!<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle | NvimTreeRefresh<CR>", { noremap = true })
 vim.api.nvim_command("cnoremap zc e <c-r>=expand('%:h')<cr>/")
 
@@ -86,14 +87,7 @@ vim.g.jupytext_fmt = 'py'
 -- create user command Gl to open fugitive log with --decorate
 vim.api.nvim_command("command! Gl :Git log --decorate")
 
--- grepper
-
-vim.keymap.set("n", "<leader>ss", function()
-	local res = vim.fn.input("GrepperRg: ")
-	vim.cmd("GrepperRg " .. res)
-end)
-
--- current word
+-- grepper current word
 vim.cmd [[
 nnoremap <leader>ss :GrepperRg <C-r><C-w>
 ]]
