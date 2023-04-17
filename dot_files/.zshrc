@@ -24,6 +24,8 @@ export PATH="$HOME/bin:$PATH"
 export WORKON_HOME=~/.virtualenvs
 if [ -f /usr/bin/virtualenvwrapper.sh ]; then
     source /usr/bin/virtualenvwrapper.sh
+elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
+    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 fi
 # git clone https://github.com/fbudin69500/terminal.workspace.git $HOME/.terminal.workspace
 if [ -f $HOME/.terminal.workspace/workspace.config ]; then
@@ -265,10 +267,11 @@ function launch {
 alias launch="launch " # expand aliases
 # vim: set filetype=sh:
 #
-zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# # Fzf options.
-# [ -f ~/.fzf.conf ] && source ~/.fzf.conf
+if [ -f ~/fzf.zsh ]; then
+    zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+    zvm_after_init_commands+=('[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
+fi
 
 # added by travis gem
 [ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
