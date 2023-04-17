@@ -280,6 +280,24 @@ require('lazy').setup({
       }
     end,
   },
+  { "princejoogie/chafa.nvim",
+    cond = vim.fn.executable 'chafa' == 1,
+    config = function()
+      require("chafa").setup({
+        render = {
+          min_padding = 5,
+          show_label = true,
+        },
+        events = {
+          update_on_nvim_resize = true,
+        },
+      })
+    end,
+    dependencies ={
+      "nvim-lua/plenary.nvim",
+      "m00qek/baleia.nvim"
+    },
+  },
   { 'junegunn/fzf.vim' }, -- just for :Maps
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
