@@ -102,11 +102,14 @@ source "${HOME}/zgen/zgen.zsh"
 if ! zgen saved; then
     echo "Creating a zgen save"
     # Most fav plugins ever.
-    zgen load jimmijj/zsh-syntax-highlighting
+    # zgen load jimmijj/zsh-syntax-highlighting
+    # Replace by fast-syntax-highlighting, the former is buggy with zsh-vi-mode
+    zgen load zdharma-continuum/fast-syntax-highlighting
+
     zgen load zsh-users/zsh-history-substring-search
     # colorize list of folder with git information.
     zgen load rimraf/k
-    # Notify (require libnotify-bin)
+    # Notify (require libnotify-bin). And wmctrl
     zgen load marzocchi/zsh-notify
     # Pure. Minimalistic prompt.
     # zgen load mafredri/zsh-async
@@ -116,6 +119,8 @@ if ! zgen saved; then
     zgen load chrissicool/zsh-256color
     zgen load zsh-users/zsh-completions src
     zgen load rupa/z
+    # Try good vim mode
+    zgen load jeffreytse/zsh-vi-mode
 
     # You don't require zgen oh-my-zsh for basic plugins.
     zgen oh-my-zsh
@@ -259,10 +264,11 @@ function launch {
 }
 alias launch="launch " # expand aliases
 # vim: set filetype=sh:
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# Fzf options.
-[ -f ~/.fzf.conf ] && source ~/.fzf.conf
+#
+zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# # Fzf options.
+# [ -f ~/.fzf.conf ] && source ~/.fzf.conf
 
 # added by travis gem
 [ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
