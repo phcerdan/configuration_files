@@ -267,8 +267,8 @@ function launch {
 alias launch="launch " # expand aliases
 # vim: set filetype=sh:
 #
-if [ -f ~/fzf.zsh ]; then
-    zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
+if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+    zvm_after_init_commands+=('[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
 elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
     zvm_after_init_commands+=('[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
 fi
