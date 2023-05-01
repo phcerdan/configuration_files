@@ -103,3 +103,5 @@ nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(
 
 -- quickfix
 vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap = true })
+-- Maps, prefer use LfzLua
+vim.api.nvim_command("command! Maps :FzfLua keymaps")
