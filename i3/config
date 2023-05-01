@@ -22,7 +22,7 @@ bindsym $mod+p scratchpad show
 # Show the sup-mail scratchpad window, if any.
 # bindsym mod4+s [title="^Sup ::"] scratchpad show
 
-bindsym $mod+shift+o exec alacritty -t 'alacritty-scratch' -e nvim $HOME/notes/org-notes/work.org
+bindsym $mod+shift+o exec alacritty -t 'alacritty-scratch' -o 'window.dimensions.columns=180' -o 'window.dimensions.lines=60'  -e nvim $HOME/notes/org-notes/work.org
 for_window [title="^alacritty-scratch"] floating enable border pixel 2 move scratchpad scratchpad show
 
 # Activate smart borders (always)
