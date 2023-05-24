@@ -262,7 +262,7 @@ require('lazy').setup({
   { "mhinz/vim-grepper" },
   -- Fuzzy Finder (files, lsp, etc)
   { 'junegunn/fzf',
-    build = { vim.fn['fzf#install'] }
+    build = { ":call fzf#install()" }
   },
   {
     'ibhagwan/fzf-lua',
@@ -277,6 +277,10 @@ require('lazy').setup({
         },
         fzf_layout = 'default',
         -- fzf_preview_window = 'right:60%:hidden',
+        on_create = function()
+          -- enable register <C-r>", to paste registers in term mode, only for fzf-lua terminals
+          vim.keymap.set('t', '<C-r>', [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true })
+        end,
       }
     end,
   },
@@ -718,6 +722,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'orgmode' },
     { name = 'buffer' },
     { name = 'dap' },
   },
