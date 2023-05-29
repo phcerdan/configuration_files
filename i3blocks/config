@@ -1,0 +1,52 @@
+command=~/.config/i3blocks-contrib/$BLOCK_NAME/$BLOCK_NAME
+# separator_block_width=
+markup=none
+
+[keyindicator]
+KEY=CAPS
+markup=pango
+interval=once
+signal=11
+
+[keyindicator]
+KEY=NUM
+markup=pango
+interval=once
+signal=11
+
+[volume]
+LABEL=♪ 
+# LABEL=VOL
+interval=once
+signal=10
+#STEP=5%
+#MIXER=[determined automatically]
+#SCONTROL=[determined automatically]
+#NATURAL_MAPPING=0
+
+[cpu_usage]
+# Need sysstat in archlinux
+label=
+interval=10
+min_width=100.00%
+
+[memory]
+label= 
+interval=5
+
+[calendar]
+label= 
+interval=1
+
+
+[keymap]
+# AUR package: xkb-switch-git
+# Requires:
+# bindsym $mod+Shift+y exec setxkbmap us && pkill -SIGRTMIN+12 i3blocks
+# bindsym $mod+Shift+u exec setxkbmap es && pkill -SIGRTMIN+12 i3blocks
+command=xkb-switch
+signal=12
+font=monospace
+font_weight=bold
+markup=pango
+interval=once

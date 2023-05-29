@@ -49,7 +49,7 @@ bindsym $mod+shift+g exec --no-startup-id env XDG_CURRENT_DESKTOP=GNOME gnome-co
 # autorandr --save <name> # Saved into ~/.config/autorandr/<name>.cfg
 # exec --no-startup-id autorandr -c
 # start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -70,12 +70,6 @@ font pango:monospace 8
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -236,13 +230,47 @@ mode "$mode_system" {
         bindsym Escape mode "default"
 }
 bindsym $mod+u mode "$mode_system"
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3blocks
-#         position top
-# }
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
+
+# Use pactl to adjust volume in PulseAudio.
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
+
+bindsym $mod+Shift+y exec setxkbmap us && pkill -SIGRTMIN+12 i3blocks
+bindsym $mod+Shift+u exec setxkbmap es && pkill -SIGRTMIN+12 i3blocks
+bar {
+  position top
+  status_command i3blocks
+
+  tray_output primary
+  font pango: DejaVu Sans Mono Nerd Font 10
+  # font pango:monospace 10
+  #
+  # height 40
+  separator_symbol " | "
+  #
+  colors {
+    background #222222
+    statusline #fafafa
+    separator #666666
+
+    focused_workspace  #4c78dd #4c78dd #ffffff
+    active_workspace   #285577 #285577 #ffffff
+    inactive_workspace #333333 #333333 #888888
+    urgent_workspace   #2f343a #2f343a #ffffff
+    binding_mode       #2f343a #24343a #ffffff
+  }
+}
 set $i3_resurrect i3-resurrect
 
 # Save workspace mode.
