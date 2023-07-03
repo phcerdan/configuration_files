@@ -12,6 +12,8 @@ Session*.vim
 
 .gdb_history
 
+.cache/
+
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
