@@ -82,8 +82,19 @@ dap.configurations.python = {
   {
     -- https://github.com/mfussenegger/nvim-dap/wiki/Local-and-Remote-Debugging-with-Docker
     -- https://github.com/mfussenegger/nvim-dap-python/issues/75
+    -- In docker-compose file add:
+    --[[
+    ports
+     - "5678:5678"
+     security_opt:
+       - seccomp:unconfined
+     cap_add:
+       - SYS_PTRACE
+    --]]
+    -- If using docker compose run, instead of up, we need the flag: --service-ports
+    -- docker compose -f docker-compose.yaml run --service-ports {service} bash
     -- In the docker container run:
-    --   python -m pydebug --listen 0.0.0.0:5678 --wait-for-client app.py
+    --   python -m debugpy --listen 0.0.0.0:5678 --wait-for-client app.py
     type = 'python',
     request = 'attach',
     connect = {
