@@ -512,7 +512,7 @@ vim.keymap.set('n', '<leader>sw', require('fzf-lua').grep_cword, { desc = '[S]ea
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'typescript', 'help', 'vim', 'org', },
+  ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'typescript', 'vimdoc', 'vim', 'org', },
     -- , 'orgagenda'},
 
   highlight = {
