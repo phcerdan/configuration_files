@@ -36,7 +36,9 @@ interval=5
 
 [calendar]
 label= 
-interval=1
+interval=30
+height=180
+width=220
 
 
 [keymap]

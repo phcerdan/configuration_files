@@ -153,7 +153,7 @@ set $ws10 "10"
 
 assign [class="matplotlib"] $ws8
 # for_window [title="Figure*"] floating enable
-for_window [class="Yad" title="yad-calendar"] floating enable
+for_window [class="Yad"] floating enable
 
 # tab for going to last used workspace
 bindsym $mod+Tab workspace back_and_forth

@@ -15,6 +15,10 @@ if not has_dap then
   return
 end
 
+-- when to stop on exception (uncaught is providing post mortem debugging) (see dap-api)
+dap.set_exception_breakpoints({"raised", "uncaught"})
+
+
 vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg='#993939', bg='#31353f'})
 vim.api.nvim_set_hl(0, 'DapGreen', { ctermbg = 0, fg='#9ece6a'})
 
@@ -130,7 +134,10 @@ dap_python.setup("python", {
 
 local configurations_python = require('dap').configurations.python
 for _, configuration in pairs(configurations_python) do
+  -- Allow to step into external libraries
   configuration.justMyCode = false
+  -- Allow to stop at breakpoints ok. see https://github.com/mfussenegger/nvim-dap/issues/362
+  configuration.subProcess = false
 end
 
 dap_python.test_runner = "pytest"
@@ -238,7 +245,7 @@ map("<leader>dB", function()
 end)
 
 map("<leader>dm", function()
- require("dap-python").test_method({config = {justMyCode = false}})
+ require("dap-python").test_method({config = {justMyCode = false, subProcess = false}})
  end)
 
 map("<leader>de", require("dapui").eval)

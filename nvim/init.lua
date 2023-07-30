@@ -21,6 +21,24 @@ vim.g.maplocalleader = ' '
 vim.o.termguicolors = true
 
 require('lazy').setup({
+  {
+    'lervag/vimtex',
+  config = function()
+    local file = vim.fn.expand('~/.config/nvim/after/plugin/latex.vim')
+    vim.cmd("source " .. file)
+  end,
+  },
+  {
+    'Konfekt/FastFold',
+    config = function()
+      vim.g.fastfold_savehook = 0 -- Only update manually with keys: zuz, or when :FastFoldUpdate
+      vim.g.tex_fold_enabled = 1
+      vim.g.vimsyn_folding='af'
+      -- vim.g.cpp_folding = 1
+      -- vim.g.vim_folding = 1
+      -- vim.g.python_folding = 1
+    end,
+  },
   -- Colorscheme, config needs to be done in init.lua
   {
     "ellisonleao/gruvbox.nvim",
