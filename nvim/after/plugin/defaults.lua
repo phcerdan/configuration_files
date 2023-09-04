@@ -82,6 +82,7 @@ vim.api.nvim_set_keymap("i", "<C-]>", "copilot#Next()", { silent = true, expr = 
 
 -- jupytext
 vim.g.jupytext_fmt = 'py'
+vim.g.jupytext_command = vim.g.python3_host_prog .. ' -m jupytext'
 
 -- fugitive
 -- create user command Gl to open fugitive log with --decorate
