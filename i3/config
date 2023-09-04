@@ -22,8 +22,8 @@ bindsym $mod+p scratchpad show
 # Show the sup-mail scratchpad window, if any.
 # bindsym mod4+s [title="^Sup ::"] scratchpad show
 
-bindsym $mod+shift+o exec alacritty -t 'alacritty-scratch' -o 'window.dimensions.columns=180' -o 'window.dimensions.lines=60'  -e nvim $HOME/notes/org-notes/work.org
-for_window [title="^alacritty-scratch"] floating enable border pixel 2 move scratchpad scratchpad show
+bindsym $mod+shift+o exec kitty --class 'kitty-scratch' -T 'kitty-scratch' -o remember_window_size=no -o initial_window_width=180c -o initial_window_height=60c  nvim $HOME/notes/org-notes/work.org
+for_window [title="^kitty-scratch"] floating enable border pixel 2 move scratchpad scratchpad show
 
 # Activate smart borders (always)
 smart_borders on
@@ -75,7 +75,7 @@ exec --no-startup-id nm-applet
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+q kill
