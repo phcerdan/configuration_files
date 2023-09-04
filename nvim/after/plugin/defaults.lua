@@ -25,7 +25,7 @@ vim.api.nvim_create_user_command("TmuxSockets", 'silent! !lsof -U | grep "^tmux"
 -- prompt for a refactor to apply when the remap is triggered
 vim.api.nvim_set_keymap(
 	"v",
-	"<leader>rr",
+	"<leader>fr",
 	":lua require('refactoring').select_refactor()<CR>",
 	{ noremap = true, silent = true, expr = false }
 )
@@ -33,19 +33,19 @@ vim.api.nvim_set_keymap(
 -- statement (or set two remaps for either one). This remap must be made in normal mode.
 vim.api.nvim_set_keymap(
 	"n",
-	"<leader>rp",
+	"<leader>fp",
 	":lua require('refactoring').debug.printf({below = false})<CR>",
 	{ noremap = true }
 )
 -- Print var
 -- Remap in normal mode and passing { normal = true } will automatically find the variable under the cursor and print it
-vim.api.nvim_set_keymap("n", "<leader>rv", ":lua require('refactoring').debug.print_var({ normal = true })<CR>",
+vim.api.nvim_set_keymap("n", "<leader>fv", ":lua require('refactoring').debug.print_var({ normal = true })<CR>",
 	{ noremap = true })
 -- Remap in visual mode will print whatever is in the visual selection
-vim.api.nvim_set_keymap("v", "<leader>rv", ":lua require('refactoring').debug.print_var({})<CR>", { noremap = true })
+vim.api.nvim_set_keymap("v", "<leader>fv", ":lua require('refactoring').debug.print_var({})<CR>", { noremap = true })
 
 -- Cleanup function: this remap should be made in normal mode
-vim.api.nvim_set_keymap("n", "<leader>rc", ":lua require('refactoring').debug.cleanup({})<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>fc", ":lua require('refactoring').debug.cleanup({})<CR>", { noremap = true })
 
 ------------ end refactoring ---------------
 
@@ -95,7 +95,7 @@ nnoremap <leader>ss :GrepperRg <C-r><C-w>
 vim.cmd [[
 " Don't move when pressing * (highlight current word)
 " Also use g* instead of *, to avoid searching for whole words.
-" This is usefult when using the register "/, to avoid re-using
+
 " whole words brackets \<, \>
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
 nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(stay_star_view)<cr>
@@ -105,3 +105,25 @@ nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(
 vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap = true })
 -- Maps, prefer use LfzLua
 vim.api.nvim_command("command! Maps :FzfLua keymaps")
+
+-- yanky. Also :YankyRingHistory
+vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
+vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
+vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
+vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
+vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
+vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
+
+-- magma: https://github.com/dccsillag/magma-nvim
+vim.cmd [[
+nnoremap <silent><expr> <leader>r  :MagmaEvaluateOperator<CR>
+nnoremap <silent>       <leader>rr :MagmaEvaluateLine<CR>
+xnoremap <silent>       <leader>r  :<C-u>MagmaEvaluateVisual<CR>
+nnoremap <silent>       <leader>rc :MagmaReevaluateCell<CR>
+nnoremap <silent>       <leader>rd :MagmaDelete<CR>
+nnoremap <silent>       <leader>ro :MagmaShowOutput<CR>
+]]
+
+vim.g.magma_automatically_open_output=false
+vim.g.magma_image_provider="kitty"
+---

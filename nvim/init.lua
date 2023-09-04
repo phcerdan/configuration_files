@@ -97,12 +97,18 @@ require('lazy').setup({
     end
   },
   -- jupyter notebook
+  { -- magma, REPL
+    "dccsillag/magma-nvim", build = ":UpdateRemotePlugins",
+  },
   { -- install nvim-notify
     "rcarriga/nvim-notify",
     config = true,
   },
   { -- jupytext
     "goerz/jupytext.vim", build = "pip3 install --user .",
+  },
+  { -- kitty conf highlight
+    "fladson/vim-kitty",
   },
   -- { -- UNUSED
   --   "kiyoon/jupynium.nvim",
@@ -143,6 +149,11 @@ require('lazy').setup({
   --   dependencies = "nvim-treesitter/nvim-treesitter",
   --   config = true,
   -- },
+  -- }}}
+  -- Yank/Cut control {{{
+  -- { "gbprod/cutlass.nvim", },
+  { "gbprod/yanky.nvim", config = true },
+
   -- }}}
   {
     'neovim/nvim-lspconfig',
