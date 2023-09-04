@@ -1,3 +1,6 @@
+-- Set host dependant variables, like python_host_prog
+require("user.local")
+
 -- Install lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
