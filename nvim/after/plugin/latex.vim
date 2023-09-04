@@ -1,13 +1,6 @@
 " For latex and R plugins
 let maplocalleader=";"
 
-" VimTex Setup {{{
-if executable('nvr')
-  let g:vimtex_compiler_progname = 'nvr'
-else
-  echoerr 'Please install nvr (neovim-remote)'
-endif
-
 let g:vimtex_fold_enabled=0 " Need to use fastFold with this option or... really slow.
 let g:vimtex_fold_manual=1 " autofold is slow in vim, use FastFold instead of this option!.
 let g:vimtex_compiler_latexmk = {
