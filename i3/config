@@ -13,6 +13,7 @@ set $mod Mod4
 exec --no-startup-id picom
 exec --no-startup-id dunst
 bindsym $mod+n exec --no-startup-id dunstctl history-pop
+bindsym $mod+m exec --no-startup-id dunstctl close-all
 
 # Scratchpad
 # Make the currently focused window a scratchpad

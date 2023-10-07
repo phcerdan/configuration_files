@@ -31,6 +31,12 @@ require('lazy').setup({
     vim.cmd("source " .. file)
   end,
   },
+  { -- jinja syntax
+    'Glench/Vim-Jinja2-Syntax'
+  },
+  {
+  'phcerdan/a.vim' -- :A to switch between h, c files. Fork to switch between h and hxx (ITK)
+  },
   {
     'Konfekt/FastFold',
     config = function()
@@ -155,8 +161,6 @@ require('lazy').setup({
   -- }}}
   -- Yank/Cut control {{{
   -- { "gbprod/cutlass.nvim", },
-  { "gbprod/yanky.nvim", config = true },
-
   -- }}}
   {
     'neovim/nvim-lspconfig',
@@ -171,6 +175,38 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing
       'folke/neodev.nvim',
     },
+  },
+  {
+    'mfussenegger/nvim-lint', -- Linting
+    config = function()
+      require('lint').linters_by_ft = {
+        python = { 'ruff', 'flake8', },
+        lua = { 'luacheck' },
+        cpp = { 'cppcheck', 'clangtidy' },
+        c = { 'cppcheck', 'clangtidy' },
+        vim = { 'vint' },
+        sh = { 'shellcheck' },
+        markdown = { 'markdownlint' },
+        org = { 'orgcheck' },
+        tex = { 'chktex' },
+        cmake = { 'cmakelint' },
+      }
+    end,
+  },
+  { 'stevearc/conform.nvim', -- Formatting
+    config = function()
+      -- Map of filetype to formatters
+      require('conform').setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "isort", "black" },
+          -- Use a sub-list to run only the first available formatter
+          javascript = { { "prettierd", "prettier" } },
+          cmake = { "cmake_format" },
+          cpp = { "clang_format" },
+        }
+      })
+    end,
   },
   { 'hrsh7th/nvim-cmp', dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   },
@@ -221,12 +257,13 @@ require('lazy').setup({
     end,
   },
   {
-    'lukas-reineke/indent-blankline.nvim', -- Add indentation guides even on blank lines
+    "lukas-reineke/indent-blankline.nvim", -- Add indentation guides even on blank lines
+    main = "ibl",
+    opts = {},
     config = function()
-      require('indent_blankline').setup {
-        char = '┊',
-        show_trailing_blankline_indent = false,
-      }
+      require('ibl').setup {
+        indent = { char = '┊',},
+    }
     end,
   },
   { 'numToStr/Comment.nvim', config = true }, -- "gc" to comment visual regions/lines
@@ -239,7 +276,11 @@ require('lazy').setup({
   "wsdjeg/vim-fetch", -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim", -- Restore file position and FOLDS.
   "rhysd/vim-clang-format", -- :ClangFormat (c,cpp)
-  "psf/black", -- :Black (python)
+  {"psf/black", -- :Black (python)
+    config = function()
+      vim.g.black_use_virtualenv= 0 -- use black from python3_host_prog
+    end,
+  },
   "theprimeagen/harpoon", -- Most used files
   -- ui
   { -- floating winbar
@@ -292,6 +333,37 @@ require('lazy').setup({
   "rcarriga/cmp-dap", -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   { "theHamsta/nvim-dap-virtual-text", config = true },
   { "mhinz/vim-grepper" },
+  {
+    "mangelozzi/rgflow.nvim",
+    config = function()
+      require('rgflow').setup {
+        -- Set the default rip grep flags and options for when running a search via
+        -- RgFlow. Once changed via the UI, the previous search flags are used for
+        -- each subsequent search (until Neovim restarts).
+        cmd_flags = "--smart-case --fixed-strings --ignore --max-columns 200",
+        -- Mappings to trigger RgFlow functions
+        default_trigger_mappings = false,
+        -- These mappings are only active when the RgFlow UI (panel) is open
+        default_ui_mappings = true,
+        -- QuickFix window only mapping
+        default_quickfix_mappings = true,
+        mappings = {
+          -- Mappings that all always present
+          trigger = {
+            -- Normal mode maps
+            n = {
+              ["<leader>rr"] = "open_blank", -- open UI - search pattern = blank
+              ["<leader>rg"] = "open_cword", -- open UI - search pattern = <cword>
+            },
+            -- Visual/select mode maps
+            x = {
+              ["<leader>rg"] = "open_visual", -- open UI - search pattern = current visual selection
+            },
+          },
+        }
+      }
+    end,
+  },
   -- Fuzzy Finder (files, lsp, etc)
   { 'junegunn/fzf',
     build = { ":call fzf#install()" }
@@ -299,7 +371,7 @@ require('lazy').setup({
   {
     'ibhagwan/fzf-lua',
     config = function()
-      require('fzf-lua').setup {
+      require('fzf-lua').setup({
         winopts = {
           vertical = 'up:50%',
           -- win_height = 0.8,
@@ -313,7 +385,7 @@ require('lazy').setup({
           -- enable register <C-r>", to paste registers in term mode, only for fzf-lua terminals
           vim.keymap.set('t', '<C-r>', [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true })
         end,
-      }
+      })
     end,
   },
   { "princejoogie/chafa.nvim",
@@ -532,11 +604,15 @@ require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     disable = function(lang, bufnr) -- Disable in files with many lines or a really large first line (json)
+      local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+      if ft == 'text' then
+        return true
+      end
       local large_line = vim.api.nvim_strwidth(vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1]) > 1000
       local large_file = vim.api.nvim_buf_line_count(bufnr) > 50000
       local disable_it = large_line or large_file
       if disable_it then
-        vim.opt.syntax = 'off'
+        vim.opt.syntax = false
         print('Treesitter disabled for ' .. lang)
       end
       return disable_it
@@ -811,6 +887,8 @@ vim.cmd('cnoreabbrev Q  q')
 vim.cmd('cnoreabbrev Qa qa')
 vim.cmd('cnoreabbrev W  w')
 vim.cmd('cnoreabbrev Wq wq')
+
+vim.cmd.packadd('cfilter')
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -107,24 +107,21 @@ vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap
 -- Maps, prefer use LfzLua
 vim.api.nvim_command("command! Maps :FzfLua keymaps")
 
--- yanky. Also :YankyRingHistory
-vim.keymap.set({"n","x"}, "p", "<Plug>(YankyPutAfter)")
-vim.keymap.set({"n","x"}, "P", "<Plug>(YankyPutBefore)")
-vim.keymap.set({"n","x"}, "gp", "<Plug>(YankyGPutAfter)")
-vim.keymap.set({"n","x"}, "gP", "<Plug>(YankyGPutBefore)")
-vim.keymap.set("n", "<c-n>", "<Plug>(YankyCycleForward)")
-vim.keymap.set("n", "<c-p>", "<Plug>(YankyCycleBackward)")
-
 -- magma: https://github.com/dccsillag/magma-nvim
 vim.cmd [[
-nnoremap <silent><expr> <leader>r  :MagmaEvaluateOperator<CR>
-nnoremap <silent>       <leader>rr :MagmaEvaluateLine<CR>
-xnoremap <silent>       <leader>r  :<C-u>MagmaEvaluateVisual<CR>
-nnoremap <silent>       <leader>rc :MagmaReevaluateCell<CR>
-nnoremap <silent>       <leader>rd :MagmaDelete<CR>
-nnoremap <silent>       <leader>ro :MagmaShowOutput<CR>
+nnoremap <silent><expr> <leader>m  :MagmaEvaluateOperator<CR>
+nnoremap <silent>       <leader>mm :MagmaEvaluateLine<CR>
+xnoremap <silent>       <leader>m  :<C-u>MagmaEvaluateVisual<CR>
+nnoremap <silent>       <leader>mc :MagmaReevaluateCell<CR>
+nnoremap <silent>       <leader>md :MagmaDelete<CR>
+nnoremap <silent>       <leader>mo :MagmaShowOutput<CR>
 ]]
 
 vim.g.magma_automatically_open_output=false
 vim.g.magma_image_provider="kitty"
 ---
+
+-- Undofile {{{
+vim.o.undofile=true  -- Maintain a undofile to keep changes between sessions.
+vim.opt.undodir = vim.fn.stdpath('config') .. '/undo'
+-- }}}
