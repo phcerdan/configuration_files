@@ -69,6 +69,7 @@ dap.configurations.lua = {
   },
 }
 
+local last_args = nil
 -- python
 dap.configurations.python = {
   {
@@ -78,7 +79,7 @@ dap.configurations.python = {
     cwd = vim.fn.getcwd(),
     program = "${file}",
     args = function()
-      local args_string = vim.fn.input('Arguments: ')
+      local args_string = vim.fn.input('Arguments: ', last_args or '', 'file')
       return vim.split(args_string, " +")
     end,
     console = "integratedTerminal",
@@ -169,12 +170,22 @@ dap.configurations.rust = {
   },
 }
 
+dap.adapters.codelldb = {
+  type = 'server',
+  port = "13000",
+  executable = {
+    command = 'codelldb',
+    args = { "--port", "13000" },
+  }
+}
+
 -- cpp
 dap.adapters.lldb = {
   type = 'executable',
   command = '/usr/bin/lldb-vscode', -- adjust as needed
   name = "lldb"
 }
+
 dap.configurations.cpp = {
   {
     name = "Launch",
@@ -195,6 +206,14 @@ dap.configurations.cpp = {
       for arg in s:gmatch("%S+") do table.insert(split_args, arg) end
       return split_args
     end,
+    -- To inherit all environment variables
+    env = function()
+       local variables = {}
+       for k, v in pairs(vim.fn.environ()) do
+         table.insert(variables, string.format("%s=%s", k, v))
+       end
+       return variables
+     end,
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
     --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
@@ -302,55 +321,3 @@ local _ = dap_ui.setup {
   --   position = "bottom", -- Can be "bottom" or "top"
   -- },
 }
-
-local original = {}
-local debug_map = function(lhs, rhs, desc)
-  local keymaps = vim.api.nvim_get_keymap "n"
-  original[lhs] = vim.tbl_filter(function(v)
-        return v.lhs == lhs
-      end, keymaps)[1] or true
-
-  vim.keymap.set("n", lhs, rhs, { desc = desc })
-end
-
-local debug_unmap = function()
-  for k, v in pairs(original) do
-    if v == true then
-      vim.keymap.del("n", k)
-    else
-      local rhs = v.rhs
-
-      v.lhs = nil
-      v.rhs = nil
-      v.buffer = nil
-      v.mode = nil
-      v.sid = nil
-      v.lnum = nil
-
-      vim.keymap.set("n", k, rhs, v)
-    end
-  end
-
-  original = {}
-end
-
-dap.listeners.after.event_initialized["dapui_config"] = function()
-  debug_map("asdf", ":echo 'hello world<CR>", "showing things")
-
-  dap_ui.open()
-end
-
-dap.listeners.before.event_terminated["dapui_config"] = function()
-  debug_unmap()
-
-  dap_ui.close()
-end
-
-dap.listeners.before.event_exited["dapui_config"] = function()
-  dap_ui.close()
-end
-
-local ok, dap_go = pcall(require, "dap-go")
-if ok then
-  dap_go.setup()
-end
