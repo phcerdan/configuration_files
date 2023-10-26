@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=runViewImage
-Exec=bash -c "export runViewFile=%f;echo \"${runViewFile}\";echo /home/phc/tmp/runViewImage \"${runViewFile}\" $(basename \"${runViewFile}\"); /home/phc/tmp/runViewImage \"${runViewFile}\" $(basename \"${runViewFile}\")"
-Icon=/home/phc/bin/runViewImageIcon.png
-Type=Application
-Terminal=false
-Categories=Office;
-MimeType=text/plain

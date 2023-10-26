@@ -1,5 +1,0 @@
-ssh username@it060479 -o "ProxyCommand=nc -X connect -x tur-cache.massey.ac.nz:8080 %h %p"
-
-# To copy:
-From local machine to remote machine:
-scp -o "ProxyCommand=nc -X connect -x tur-cache.massey.ac.nz:8080 %h %p" localpath username@it060479:remote_path
