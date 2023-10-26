@@ -275,5 +275,6 @@ fi
 # added by travis gem
 [ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH"
 export MANPATH="$HOME/.local/share/man:$MANPATH"
 export TERMINFO="$HOME/.local/share/terminfo"  # tmux needs this
