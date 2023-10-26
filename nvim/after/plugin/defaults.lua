@@ -134,24 +134,3 @@ vim.g.magma_image_provider = "kitty"
 vim.o.undofile = true -- Maintain a undofile to keep changes between sessions.
 vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
 -- }}}
-
--- Conform {{{
-vim.g.enable_autoformat = false
-vim.api.nvim_create_user_command("FormatEnable", function(args)
-  if args.bang then
-    -- FormatEnable! will enable formatting on save just for this buffer
-    vim.b.enable_autoformat = true
-  else
-    vim.g.enable_autoformat = true
-  end
-end, {
-  desc = "Enable autoformat-on-save",
-  bang = true,
-})
-vim.api.nvim_create_user_command("FormatDisable", function()
-    vim.g.enable_autoformat = false
-    vim.b.enable_autoformat = false
-end, {
-  desc = "Disable autoformat-on-save",
-})
--- }}}
