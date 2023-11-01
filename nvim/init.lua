@@ -50,6 +50,26 @@ local formatters = {
   cmake = { "cmakelang" },
 }
 
+local function create_cmd_FormatEnable()
+  vim.api.nvim_create_user_command("FormatEnable", function(args)
+    if args.bang then
+      -- FormatEnable! will enable formatting on save just for this buffer
+      vim.b.enable_autoformat = true
+    else
+      vim.g.enable_autoformat = true
+    end
+  end, {
+    desc = "Enable autoformat-on-save",
+    bang = true,
+  })
+  vim.api.nvim_create_user_command("FormatDisable", function()
+      vim.g.enable_autoformat = false
+      vim.b.enable_autoformat = false
+  end, {
+    desc = "Disable autoformat-on-save",
+  })
+end
+
 local function formatterConfig()
   require("conform").setup({
     formatters_by_ft = formatters,
@@ -197,36 +217,43 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    -- markdown preview
+      "iamcco/markdown-preview.nvim",
+      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+      ft = { "markdown" },
+      build = function() vim.fn["mkdp#util#install"]() end,
+  },
   -- jupyter notebook
-  {
-    "benlubas/molten-nvim",
-    dependencies = { "3rd/image.nvim" },
-    build = ":UpdateRemotePlugins",
-    init = function()
-      -- these are examples, not defaults. Please see the readme
-      vim.g.molten_image_provider = "image.nvim"
-      vim.g.molten_output_win_max_height = 20
-      vim.g.molten_auto_open_output = false
-    end,
-  },
-  {
-    -- see the image.nvim readme for more information about configuring this plugin
-    "3rd/image.nvim",
-    opts = {
-      backend = "kitty", -- whatever backend you would like to use
-      -- max_width = 100,
-      -- max_height = 12,
-      -- max_height_window_percentage = math.huge,
-      -- max_width_window_percentage = math.huge,
-      max_width = nil,
-      max_height = nil,
-      max_width_window_percentage = nil,
-      max_height_window_percentage = math.huge,
-      window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-      tmux_show_only_in_active_window = true,
-    },
-  },
+  -- {
+  --   "benlubas/molten-nvim",
+  --   dependencies = { "3rd/image.nvim" },
+  --   build = ":UpdateRemotePlugins",
+  --   init = function()
+  --     -- these are examples, not defaults. Please see the readme
+  --     vim.g.molten_image_provider = "image.nvim"
+  --     vim.g.molten_output_win_max_height = 20
+  --     vim.g.molten_auto_open_output = false
+  --   end,
+  -- },
+  -- {
+  --   -- see the image.nvim readme for more information about configuring this plugin
+  --   "3rd/image.nvim",
+  --   opts = {
+  --     backend = "kitty", -- whatever backend you would like to use
+  --     -- max_width = 100,
+  --     -- max_height = 12,
+  --     -- max_height_window_percentage = math.huge,
+  --     -- max_width_window_percentage = math.huge,
+  --     max_width = nil,
+  --     max_height = nil,
+  --     max_width_window_percentage = nil,
+  --     max_height_window_percentage = math.huge,
+  --     window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+  --     window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+  --     tmux_show_only_in_active_window = true,
+  --   },
+  -- },
   { -- install nvim-notify
     "rcarriga/nvim-notify",
     config = true,
@@ -362,28 +389,13 @@ require("lazy").setup({
     "stevearc/conform.nvim", -- Formatting
     config = function()
       formatterConfig()
+      create_cmd_FormatEnable()
     end,
     cmd = "FormatEnable",
     event = { "BufWritePre" },
     init = function()
       vim.g.enable_autoformat = false
-      vim.api.nvim_create_user_command("FormatEnable", function(args)
-        if args.bang then
-          -- FormatEnable! will enable formatting on save just for this buffer
-          vim.b.enable_autoformat = true
-        else
-          vim.g.enable_autoformat = true
-        end
-      end, {
-        desc = "Enable autoformat-on-save",
-        bang = true,
-      })
-      vim.api.nvim_create_user_command("FormatDisable", function()
-          vim.g.enable_autoformat = false
-          vim.b.enable_autoformat = false
-      end, {
-        desc = "Disable autoformat-on-save",
-      })
+      create_cmd_FormatEnable()
     end,
     keys = {
       {

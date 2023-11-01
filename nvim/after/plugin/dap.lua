@@ -124,7 +124,7 @@ dap.configurations.python = {
 }
 
 local dap_python = require "dap-python"
-dap_python.setup("python", {
+dap_python.setup(vim.g.python3_host_prog, {
   -- So if configured correctly, this will open up new terminal.
   --    Could probably get this to target a particular terminal
   --    and/or add a tab to kitty or something like that as well.
