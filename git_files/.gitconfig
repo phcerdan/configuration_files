@@ -12,7 +12,9 @@
 [core]
 	editor = nvim
 	excludesfile = ~/.gitignore
-	pager = less -+F -+X
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
 [credential]
 	helper = cache --timeout=36000000000
 [init]
@@ -21,11 +23,9 @@
 [push]
 	default = simple
 [diff]
-	tool = meld
-	compactionHeuristic = true
-	indentHeuristic = true
+	colorMoved = default
 [merge]
-	tool = meld
+	tool = diff3
 [difftool]
 	prompt = false
 	trustExitCode = true
@@ -52,6 +52,12 @@
 [gui]
 	fontui = -family \"Hack Nerd Font\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 	fontdiff = -family \"Hack Nerd Font Mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+[delta]
+	navigate=true
+	line-numbers = true
+	side-by-side = false
+	keep-plus-minus-markers = true
+	syntax-theme=gruvbox-dark
 
 # Enforce SSH
 [url "ssh://git@github.com/"]
