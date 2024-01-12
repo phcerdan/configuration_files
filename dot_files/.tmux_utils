@@ -34,16 +34,6 @@ _send_bash_command_to_session() {
     done
 }
 
-tmux_set_venv_session() {
-    if [[ $# -eq 0 || $# -gt 1 || "$1" = "--help" ]] ; then
-        echo 'Usage: tmux_set_venv virtual_env \n
-        example: tmux_set_venv slicer'
-        return
-    fi
-    _current_session=$(tmux display-message -p '#{session_name}')
-    _send_bash_command_to_session ${_current_session} workon $1
-}
-
 _send_bash_command_to_window() {
     if [[ "$1" = "--help" ]] ; then
         echo 'Usage: _send_bash_command_to_window what ever command you want: '
@@ -58,6 +48,30 @@ _send_bash_command_to_window() {
         fi
     done
 }
-tmux_set_venv() {
+tmux_set_venv_session() {
+    if [[ $# -eq 0 || $# -gt 1 || "$1" = "--help" ]] ; then
+        echo 'Usage: tmux_set_venv virtual_env \n
+        example: tmux_set_venv slicer'
+        return
+    fi
+    _current_session=$(tmux display-message -p '#{session_name}')
+    _send_bash_command_to_session ${_current_session} source "$1"
+}
+
+tmux_workon_session() {
+    if [[ $# -eq 0 || $# -gt 1 || "$1" = "--help" ]] ; then
+        echo 'Usage: tmux_set_venv virtual_env \n
+        example: tmux_set_venv slicer'
+        return
+    fi
+    _current_session=$(tmux display-message -p '#{session_name}')
+    _send_bash_command_to_session ${_current_session} workon $1
+}
+
+tmux_workon() {
     _send_bash_command_to_window workon $1
 }
+tmux_set_venv() {
+    _send_bash_command_to_window source "$1"
+}
+

@@ -42,6 +42,7 @@ alias sdevr='source ~/bin/devtoolset-release.sh'
 alias sdevd='source ~/bin/devtoolset-debug.sh'
 alias sdevrvtk='source ~/bin/vtk-itk-release.sh'
 alias sdevdvtk='source ~/bin/vtk-itk-debug.sh'
+alias ikat='kitty +kitten icat'
 
 # Allow gdb to attach to running processes
 alias gdb-enable-attach='echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope'
