@@ -34,7 +34,7 @@ local prefix = vim.env.XDG_CONFIG_HOME or vim.fn.expand("~/.config")
 -- Backup
 opt.backup = true
 -- Where to store backups, the folder must be created beforehand
-opt.backupdir = { prefix .. "/nvim/backup//" }
+opt.backupdir = { prefix .. "/nvim/backup/" }
 -- Make backup before overwriting the current buffer
 opt.writebackup = true
 --  Overwrite the original backup file

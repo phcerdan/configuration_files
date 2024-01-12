@@ -66,10 +66,13 @@ dap.configurations.lua = {
       local val = 54231
       return val
     end,
-  },
+  }
 }
 
+local last_program = nil
+local last_module = nil
 local last_args = nil
+local last_file_args = nil
 -- python
 dap.configurations.python = {
   {
@@ -79,7 +82,57 @@ dap.configurations.python = {
     cwd = vim.fn.getcwd(),
     program = "${file}",
     args = function()
-      local args_string = vim.fn.input('Arguments: ', last_args or '', 'file')
+      local args_string = vim.fn.input('Arguments: ', last_args or '')
+      return vim.split(args_string, " +")
+    end,
+    console = "integratedTerminal",
+  },
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch command from current working directory",
+    cwd = vim.fn.getcwd(),
+    program = function()
+      local args_string = vim.fn.input('Script to launch: ', last_program or '')
+      return args_string
+    end,
+    args = function()
+      local args_string = vim.fn.input('Arguments: ', last_args or '')
+      return vim.split(args_string, " +")
+    end,
+    console = "integratedTerminal",
+  },
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch command from current working directory, using a file for arguments",
+    cwd = vim.fn.getcwd(),
+    program = function()
+      local args_string = vim.fn.input('Script to launch: ', last_program or '')
+      return args_string
+    end,
+    args = function()
+      local file_path = vim.fn.input('Arguments File: ', last_file_args or '')
+      -- Read the file, each argument on a new line
+      local args = {}
+      for line in io.lines(file_path) do
+        table.insert(args, line)
+      end
+      return args
+    end,
+    console = "integratedTerminal",
+  },
+  {
+    type = "python",
+    request = "launch",
+    name = "Launch module from current working directory",
+    cwd = vim.fn.getcwd(),
+    module = function()
+      local args_string = vim.fn.input('Module to launch: ', last_module or '')
+      return args_string
+    end,
+    args = function()
+      local args_string = vim.fn.input('Arguments: ', last_args or '')
       return vim.split(args_string, " +")
     end,
     console = "integratedTerminal",
@@ -243,16 +296,20 @@ end
 map("<F4>", function() require("dapui").toggle({ reset = true }) end, "dapui-toggle")
 
 map("<F5>", require("dap").continue, "continue")
-map("<S-F5>", require("dap").terminate, "terminate")
-map("<C-S-F5>", require("dap").restart, "restart")
+-- map("<S-F5>", require("dap").terminate, "terminate")
+map("<F17>", require("dap").terminate, "terminate") -- F13-F24
+-- map("<C-S-F5>", require("dap").restart, "restart")
+map("<F41>", require("dap").restart, "restart") -- F37-F48
 map("<F6>", require("dap").up, "up frame")
-map("<S-F6>", require("dap").down, "down frame")
+-- map("<S+F6>", require("dap").down, "down frame")
+map("<F18>", require("dap").down, "down frame")
 map("<F7>", require("dap").run_to_cursor, "run_to_cursor")
 -- map("<F8>", require("dap").step_back, "step_back")
 map("<F9>", require("dap").toggle_breakpoint, "toggle_breakpoint")
 map("<F10>", require("dap").step_over, "step_over")
 map("<F11>", require("dap").step_into, "step_into")
-map("<S-F11>", require("dap").step_out, "step_out")
+-- map("<S-F11>", require("dap").step_out, "step_out")
+map("<F23>", require("dap").step_out, "step_out")
 
 -- TODO:
 -- disconnect vs. terminate
@@ -321,3 +378,26 @@ local _ = dap_ui.setup {
   --   position = "bottom", -- Can be "bottom" or "top"
   -- },
 }
+
+
+-- Run last: https://github.com/mfussenegger/nvim-dap/issues/1025
+local last_config = nil
+---@param session Session
+dap.listeners.after.event_initialized["store_config"] = function(session)
+  last_config = session.config
+end
+
+local function debug_run_last()
+  if last_config then
+    dap.run(last_config)
+  else
+    dap.continue()
+  end
+end
+
+vim.keymap.set('n', '<Leader>dl', function()
+    debug_run_last()
+end,
+{ silent = true, desc = "[DAP] Run last" }
+)
+
