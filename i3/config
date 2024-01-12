@@ -23,7 +23,7 @@ bindsym $mod+p scratchpad show
 # Show the sup-mail scratchpad window, if any.
 # bindsym mod4+s [title="^Sup ::"] scratchpad show
 
-bindsym $mod+shift+o exec kitty --class 'kitty-scratch' -T 'kitty-scratch' -o remember_window_size=no -o initial_window_width=180c -o initial_window_height=60c  nvim $HOME/notes/org-notes/work.org
+bindsym $mod+shift+o exec kitty --class 'kitty-scratch' -T 'kitty-scratch' -o remember_window_size=no -o initial_window_width=180c -o initial_window_height=60c --hold zsh -i -c "nvim $HOME/notes/org-notes/work.org"
 for_window [title="^kitty-scratch"] floating enable border pixel 2 move scratchpad scratchpad show
 
 # Activate smart borders (always)
