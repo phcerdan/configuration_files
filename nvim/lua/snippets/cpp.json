@@ -1,9 +1,21 @@
 {
   "licp": {
+    "prefix": "licvaso",
+    "description": "license with vasomaly (property)",
+    "body": [
+      "/* Copyright 2024 Vasomaly S.L. - All Rights Reserved",
+      " * Unauthorized copying of this file, via any medium is strictly prohibited",
+      " * Proprietary and confidential",
+      " * Written by Pablo Hernandez-Cerdan <phcerdan@vasomaly.com>, 2024",
+      " */",
+      ""
+    ]
+  },
+  "licp": {
     "prefix": "licp",
     "description": "license with my name (property)",
     "body": [
-      "/* Copyright (C) 2021 Pablo Hernandez-Cerdan */",
+      "/* Copyright 2024 Pablo Hernandez-Cerdan */",
       ""
     ]
   },
@@ -12,7 +24,7 @@
     "description": "license for sgext (gpl3)",
     "body": [
       "/* ********************************************************************",
-      " * Copyright (C) 2021 Pablo Hernandez-Cerdan.",
+      " * Copyright 2024 Pablo Hernandez-Cerdan.",
       " *",
       " * This file is part of SGEXT: http://github.com/phcerdan/sgext.",
       " *",
