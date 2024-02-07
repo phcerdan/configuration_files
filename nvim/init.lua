@@ -106,34 +106,6 @@ end
 
 require("lazy").setup({
   {
-    "smjonas/snippet-converter.nvim",
-    config = function()
-      local template = {
-        -- name = "t1", (optionally give your template a name to refer to it in the `ConvertSnippets` command)
-        sources = {
-          ultisnips = {
-            "/home/phc/repository_local/configuration_files/vim/UltiSnips"
-          },
-          -- snipmate = {
-          --   "/home/phc/tmp/vim-snippets/snippets",
-          -- },
-        },
-        output = {
-          -- Specify the output formats and paths
-          vscode_luasnip = {
-            "/home/phc/repository_local/configuration_files/nvim/lua/snippets",
-          },
-        },
-      }
-
-      require("snippet_converter").setup {
-        templates = { template },
-        -- To change the default settings (see configuration section in the documentation)
-        -- settings = {},
-      }
-    end
-  },
-  {
     "lervag/vimtex",
     config = function()
       local file = vim.fn.expand("~/.config/nvim/after/plugin/latex.vim")
@@ -1384,6 +1356,9 @@ require("fidget").setup()
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
+
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./lua/vim-snippets", "./lua/snippets" } })
+
 
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
