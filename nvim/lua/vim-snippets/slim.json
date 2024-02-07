@@ -1,0 +1,89 @@
+{
+  "pry": {
+    "prefix": "pry",
+    "body": "- binding.pry"
+  },
+  "renp": {
+    "prefix": "renp",
+    "body": "= render partial: '$0'"
+  },
+  "fieldset": {
+    "prefix": "fieldset",
+    "body": [
+      "fieldset",
+      "\tlegend $1"
+    ]
+  },
+  "css": {
+    "prefix": "css",
+    "body": "link rel=\"stylesheet\" href=\"${1:style.css}\" type=\"text/css\" media=\"${2:all}\""
+  },
+  "script": {
+    "prefix": "script",
+    "body": "script src=\"${1:script.js}\" type=\"text/javascript\""
+  },
+  "nbs": {
+    "prefix": "nbs",
+    "body": "&nbsp;"
+  },
+  "left": {
+    "prefix": "left",
+    "body": "&#x2190;"
+  },
+  "right": {
+    "prefix": "right",
+    "body": "&#x2192;"
+  },
+  "up": {
+    "prefix": "up",
+    "body": "&#x2191;"
+  },
+  "down": {
+    "prefix": "down",
+    "body": "&#x2193;"
+  },
+  "return": {
+    "prefix": "return",
+    "body": "&#x21A9;"
+  },
+  "backtab": {
+    "prefix": "backtab",
+    "body": "&#x21E4;"
+  },
+  "tab": {
+    "prefix": "tab",
+    "body": "&#x21E5;"
+  },
+  "shift": {
+    "prefix": "shift",
+    "body": "&#x21E7;"
+  },
+  "ctrl": {
+    "prefix": "ctrl",
+    "body": "&#x2303;"
+  },
+  "enter": {
+    "prefix": "enter",
+    "body": "&#x2305;"
+  },
+  "cmd": {
+    "prefix": "cmd",
+    "body": "&#x2318;"
+  },
+  "option": {
+    "prefix": "option",
+    "body": "&#x2325;"
+  },
+  "delete": {
+    "prefix": "delete",
+    "body": "&#x2326;"
+  },
+  "backspace": {
+    "prefix": "backspace",
+    "body": "&#x232B;"
+  },
+  "esc": {
+    "prefix": "esc",
+    "body": "&#x238B;"
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "sapmlabel": {
+    "prefix": "sapmlabel",
+    "body": [
+      "var $1 = new sap.m.Label({",
+      "\t\t\tdesign : $2,",
+      "\t\t\ttext : $3,",
+      "\t\t\tvisible : $4,",
+      "\t\t\ttextAlign : $5,",
+      "\t\t\ttextDirection : $6,",
+      "\t\t\twidth : $7,",
+      "\t\t\trequired : $7",
+      "\t\t\\});",
+      ""
+    ]
+  },
+  "sapmtext": {
+    "prefix": "sapmtext",
+    "body": [
+      "var $1 = new sap.m.Text({",
+      "\t\t\ttext :$2,",
+      "\t\t\ttextDirection :$3,",
+      "\t\t\tvisible :$4,",
+      "\t\t\twrapping : $5,",
+      "\t\t\ttextAlign : $6,",
+      "\t\t\twidth :$7,",
+      "\t\t\tmaxLines :$8",
+      "\t\t\\});",
+      ""
+    ]
+  },
+  "sapmbutton": {
+    "prefix": "sapmbutton",
+    "body": [
+      "var $1 = new sap.m.Button({",
+      "\t\t\ttext : $2,",
+      "\t\t\ttype : $3,",
+      "\t\t\twidth : $4,",
+      "\t\t\tenabled :$5,",
+      "\t\t\tvisible :$6,",
+      "\t\t\ticon : $7,",
+      "\t\t\ticonFirst : $8,",
+      "\t\t\tactiveIcon :$9,",
+      "\t\t\ticonDensityAware : $10,",
+      "\t\t\\});"
+    ]
+  },
+  "sapmflexbox": {
+    "prefix": "sapmflexbox",
+    "body": [
+      "var $1 = new sap.m.FlexBox({",
+      "\t\t\tvisible : $2,",
+      "\t\t\theight : $3,",
+      "\t\t\twidth : $4,",
+      "\t\t\tdisplayInline :$5,",
+      "\t\t\tdirection :$6,",
+      "\t\t\tfitContainer : $7,",
+      "\t\t\trenderType : $8,",
+      "\t\t\tjustifyContent :$9,",
+      "\t\t\talignItems : $10,",
+      "\t\t\titems:[]",
+      "\t\t\\});"
+    ]
+  },
+  "sapmhbox": {
+    "prefix": "sapmhbox",
+    "body": [
+      "var $1 = new sap.m.HBox({",
+      "\t\t\tvisible : $2,",
+      "\t\t\theight : $3,",
+      "\t\t\twidth : $4,",
+      "\t\t\tdisplayInline :$5,",
+      "\t\t\tdirection :$6,",
+      "\t\t\tfitContainer : $7,",
+      "\t\t\trenderType : $8,",
+      "\t\t\tjustifyContent :$9,",
+      "\t\t\talignItems : $10,",
+      "\t\t\titems:[]",
+      "\t\t\\});",
+      ""
+    ]
+  },
+  "sapmvbox": {
+    "prefix": "sapmvbox",
+    "body": [
+      "var $1 = new sap.m.VBox({",
+      "\t\t\tvisible : $2,",
+      "\t\t\theight : $3,",
+      "\t\t\twidth : $4,",
+      "\t\t\tdisplayInline :$5,",
+      "\t\t\tdirection :$6,",
+      "\t\t\tfitContainer : $7,",
+      "\t\t\trenderType : $8,",
+      "\t\t\tjustifyContent :$9,",
+      "\t\t\talignItems : $10,",
+      "\t\t\titems:[]",
+      "\t\t\\});",
+      ""
+    ]
+  },
+  "sapcomponent": {
+    "prefix": "sapcomponent",
+    "body": [
+      "sap.ui.controller(\"$1\", {",
+      "   onInit: function(){",
+      "   \\},",
+      "   onAfterRendering: function() {",
+      "   \\},",
+      "   onAfterRendering: function() {",
+      "   \\},",
+      "   onExit: function() {",
+      "   \\},",
+      "\\});",
+      ""
+    ]
+  },
+  "sapminput": {
+    "prefix": "sapminput",
+    "body": [
+      "var $1 = new sap.m.Input({",
+      "\tvalue :$2,",
+      "\twidth : $3,",
+      "\tenabled :$4,",
+      "\tvisible :$5,",
+      "\tvalueState :$6,",
+      "\tname : $7,",
+      "\tplaceholder : $8,",
+      "\teditable : $9,",
+      "\ttype : $10,",
+      "\tmaxLength :$11,",
+      "\tvalueStateText :$12,",
+      "\tshowValueStateMessage :$13,",
+      "\tdateFormat :$14,",
+      "\tshowValueHelp :$15,",
+      "\tshowSuggestion :$16,",
+      "\tvalueHelpOnly :$17,",
+      "\tfilterSuggests :$18,",
+      "\tmaxSuggestionWidth :$19,",
+      "\tstartSuggestion : $20,",
+      "\tshowTableSuggestionValueHelp : $21,",
+      "\tdescription : $22,",
+      "\tfieldWidth : $23,",
+      "\tvalueLiveUpdate :$24,",
+      "\tsuggestionItems  :[$25],",
+      "\tsuggestionColumns : [$26],",
+      "\tsuggestionRows : [$27],",
+      "\tliveChange : $28,",
+      "\tvalueHelpRequest :$29,",
+      "\tsuggest : $30,",
+      "\tsuggestionItemSelected : $31",
+      "\\});"
+    ]
+  },
+  "_sthis": {
+    "prefix": "_sthis",
+    "body": [
+      "var _self = this;",
+      ""
+    ]
+  },
+  "sapmresponsivepopup": {
+    "prefix": "sapmresponsivepopup",
+    "body": [
+      "var $1 = new sap.m.ResponsivePopover({",
+      "\t\t\tplacement :$2 ,//sap.m.PlacementType (default: sap.m.PlacementType.Right)",
+      "\t\t\tshowHeader :$3 ,//boolean (default: true)",
+      "\t\t\ttitle : $4,//string",
+      "\t\t\ticon :$5 ,//sap.ui.core.URI",
+      "\t\t\tmodal :$6 ,// boolean",
+      "\t\t\toffsetX :$7, //int",
+      "\t\t\toffsetY :$8, //int",
+      "\t\t\tcontentWidth : $9,//sap.ui.core.CSSSize",
+      "\t\t\tcontentHeight :$10, //sap.ui.core.CSSSize",
+      "\t\t\thorizontalScrolling :$11, //boolean",
+      "\t\t\tverticalScrolling :$12, //boolean",
+      "\t\t\tshowCloseButton :$13, //boolean (default: true)",
+      "\t\t\t//Aggregations",
+      "\t\t\tcontent :$14,  //sap.ui.core.Control[]",
+      "\t\t\tcustomHeader :$15,  //sap.m.IBar",
+      "\t\t\tsubHeader : $16, //sap.m.IBar",
+      "\t\t\tbeginButton :$17,  //sap.m.Button",
+      "\t\t\tendButton : $18, //sap.m.Button",
+      "\t\t\t//Associations",
+      "\t\t\tinitialFocus : $19, //string | sap.ui.core.Control",
+      "\t\t\t//Events",
+      "\t\t\tbeforeOpen :$20,  //fnListenerFunction or [fnListenerFunction, oListenerObject] or [oData, fnListenerFunction, oListenerObject]",
+      "\t\t\tafterOpen : $21, //fnListenerFunction or [fnListenerFunction, oListenerObject] or [oData, fnListenerFunction, oListenerObject]",
+      "\t\t\tbeforeClose : $22, //fnListenerFunction or [fnListenerFunction, oListenerObject] or [oData, fnListenerFunction, oListenerObject]",
+      "\t\t\tafterClose : $23 //fnList",
+      "\t\t\\});",
+      ""
+    ]
+  },
+  "sapicon": {
+    "prefix": "sapicon",
+    "body": [
+      "var $1 = new sap.ui.core.Icon({",
+      "\t\t\t\tsrc :$2 , //sap.ui.core.URI",
+      "\t\t\t\tsize :$3 , //sap.ui.core.CSSSize",
+      "\t\t\t\tcolor :$4 , //sap.ui.core.CSSColor",
+      "\t\t\t\thoverColor : $5 ,  // sap.ui.core.CSSColor",
+      "\t\t\t\tactiveColor :$6 , //sap.ui.core.CSSColor",
+      "\t\t\t\twidth :$7 , //sap.ui.core.CSSSize",
+      "\t\t\t\theight : $8 ,//sap.ui.core.CSSSize",
+      "\t\t\t\tbackgroundColor :$8 , //sap.ui.core.CSSColor",
+      "\t\t\t\thoverBackgroundColor :$9 , //sap.ui.core.CSSColor",
+      "\t\t\t\tactiveBackgroundColor :$10 , //sap.ui.core.CSSColor",
+      "\t\t\t\tvisible :$11 , //boolean (default: true)",
+      "\t\t\t\tdecorative : $12 ,//boolean (default: true)",
+      "\t\t\t\\});"
+    ]
+  },
+  "extendVerticalL": {
+    "prefix": "extendVerticalL",
+    "body": [
+      "sap.ui.layout.VerticalLayout.extend(\"$1\", {",
+      "    metadata: {",
+      "\tproperties: {",
+      "\t  \t$2",
+      "\t\\},",
+      "\taggregations: {",
+      "\t\t$3",
+      "\t\\},",
+      "\tevents: {",
+      "\t\t$4",
+      "\t\\}",
+      "    \\},",
+      "   init: function(){",
+      "\t$5",
+      "    \\},",
+      "",
+      "    renderer: \"$6\"",
+      "\\});"
+    ]
+  },
+  "extendHorizontalL": {
+    "prefix": "extendHorizontalL",
+    "body": [
+      "sap.ui.layout.HorizontalLayout.extend(\"$1\", {",
+      "    metadata: {",
+      "\tproperties: {",
+      "\t  \t$2",
+      "\t\\},",
+      "\taggregations: {",
+      "\t\t$3",
+      "\t\\},",
+      "\tevents: {",
+      "\t\t$4",
+      "\t\\}",
+      "    \\},",
+      "   init: function(){",
+      "\t$5",
+      "    \\},",
+      "",
+      "    renderer: \"$6\"",
+      "\\});"
+    ]
+  }
+}

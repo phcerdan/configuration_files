@@ -1,0 +1,408 @@
+{
+  "steps": {
+    "prefix": "steps",
+    "body": [
+      "steps {",
+      "\tsh '${1:make check}'",
+      "\tjunit '${2:reports/**/*.xml}' ",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "stage": {
+    "prefix": "stage",
+    "body": [
+      "stage('${1:Test}'){",
+      "\tsteps {",
+      "\t\tsh '${2:make check}'",
+      "\t\tjunit '${3:reports/**/*.xml}' ",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pipeline": {
+    "prefix": "pipeline",
+    "body": [
+      "pipeline {",
+      "\tagent any ",
+      "\tstages {",
+      "\t\tstage('${1:Build}') { ",
+      "\t\t\tsteps { ",
+      "\t\t\t\tsh '${2:make}' ",
+      "\t\t\t\\}",
+      "\t\t\\}",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pipeline_sample": {
+    "prefix": "pipeline_sample",
+    "body": [
+      "pipeline {",
+      "\tagent any ",
+      "\tstages {",
+      "\t\tstage('${1:Build}') { ",
+      "\t\t\tsteps { ",
+      "\t\t\t\tsh '${2:make}' ",
+      "\t\t\t\\}",
+      "\t\t\\}",
+      "\t\tstage('${3:Test}'){",
+      "\t\t\tsteps {",
+      "\t\t\t\tsh '${4:make check}'",
+      "\t\t\t\tjunit '${5:reports/**/*.xml}' ",
+      "\t\t\t\\}",
+      "\t\t\\}",
+      "\t\tstage('${6:Deploy}') {",
+      "\t\t\tsteps {",
+      "\t\t\t\tsh '${7:make publish}'",
+      "\t\t\t\\}",
+      "\t\t\\}",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "d": {
+    "prefix": "d",
+    "body": [
+      "docker {",
+      "\timage '${1:myregistry.com/node'}'",
+      "\tlabel '${2:my-defined-label'}'",
+      "\tregistryUrl '${3:https://myregistry.com/'}'",
+      "\tregistryCredentialsId '${4:myPredefinedCredentialsInJenkins'}'",
+      "\\}",
+      "",
+      ""
+    ]
+  },
+  "df": {
+    "prefix": "df",
+    "body": [
+      "dockerfile {",
+      "\tfilename '${1:Dockerfile.build}'",
+      "\tdir '${2:build}'",
+      "\tlabel '${3:my-defined-label}'",
+      "\tregistryUrl '${4:https://myregistry.com/}'",
+      "\tregistryCredentialsId '${5:myPredefinedCredentialsInJenkins}'",
+      "\\}",
+      ""
+    ]
+  },
+  "pa": {
+    "prefix": "pa",
+    "body": [
+      "post { ",
+      "\talways { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pf": {
+    "prefix": "pf",
+    "body": [
+      "post { ",
+      "\tfixed { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": [
+      "post { ",
+      "\tregression { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pab": {
+    "prefix": "pab",
+    "body": [
+      "post { ",
+      "\taborted { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pfa": {
+    "prefix": "pfa",
+    "body": [
+      "post { ",
+      "\tfailure { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "ps": {
+    "prefix": "ps",
+    "body": [
+      "post { ",
+      "\tsuccess { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pu": {
+    "prefix": "pu",
+    "body": [
+      "post { ",
+      "\tunstable { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "pc": {
+    "prefix": "pc",
+    "body": [
+      "post { ",
+      "\tcleanup { ",
+      "\t\t$1",
+      "\t\\}",
+      "\\}",
+      "$0",
+      "",
+      ""
+    ]
+  },
+  "psss": {
+    "prefix": "psss",
+    "body": [
+      "pipeline {",
+      "\tagent any ",
+      "\tstages {",
+      "\t\tstage('${1:Build}') { ",
+      "\t\t\tsteps { ",
+      "\t\t\t\tsh '${2:make}' ",
+      "\t\t\t\\}",
+      "\t\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "sss": {
+    "prefix": "sss",
+    "body": [
+      "stages {",
+      "\tstage('${1:Build}') { ",
+      "\t\tsteps { ",
+      "\t\t\tsh '${2:make}' ",
+      "\t\t\\}",
+      "\t\\}",
+      "\\}",
+      "$0",
+      "",
+      "",
+      ""
+    ]
+  },
+  "parameters": {
+    "prefix": "parameters",
+    "body": [
+      "parameters{ ",
+      "\t$1",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "paramtext": {
+    "prefix": "paramtext",
+    "body": [
+      "\ttext(name: \"${1:BIOGRAPHY}\" , defaultValue: \"${2:default}\" , description: \"${3:Enter some information about the person}\")",
+      "\t$0",
+      ""
+    ]
+  },
+  "parambool": {
+    "prefix": "parambool",
+    "body": [
+      "\tbooleanParam(name: \"${1:TOGGLE}\" , defaultValue: ${2:default}, description: \"${3:Toggle this value}\")",
+      "\t$0",
+      ""
+    ]
+  },
+  "paramchoice": {
+    "prefix": "paramchoice",
+    "body": [
+      "\tchoice(name: \"${1:CHOICE}\" , choices: [\"${2:Choices}\",] , description: \"${3:Pick something}\") ",
+      "\t$0",
+      ""
+    ]
+  },
+  "parampassword": {
+    "prefix": "parampassword",
+    "body": [
+      "\tpassword(name: \"${1:PASSWORD}\" , defaultValue: \"${2:SECRET}\" , description: \"${3:Enter a password}\")",
+      "\t$0",
+      ""
+    ]
+  },
+  "paramfile": {
+    "prefix": "paramfile",
+    "body": [
+      "\tfile(name: \"${1:FILE}\" , description: \"${2:Choose a file to upload}\")$0",
+      "\t$0",
+      ""
+    ]
+  },
+  "triggers": {
+    "prefix": "triggers",
+    "body": [
+      "triggers {",
+      "\tcron('${1:H */4 * * 1-5}')",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "input": {
+    "prefix": "input",
+    "body": [
+      "input {",
+      "\tmessage '${1:Should we continue?}'",
+      "\tok '${2:Yes, we should.}'",
+      "\tsubmitter '${3:alice,bob}'",
+      "\tparameters { ",
+      "\t\tstring(name: '${4:PERSON}' , defaultValue: '${5:Mr Jenkins}' , description: '${6:Who should I say hello to?}')",
+      "\t\\}",
+      "\\}",
+      "$0",
+      ""
+    ]
+  },
+  "whenbranch": {
+    "prefix": "whenbranch",
+    "body": [
+      "when {",
+      "\tbranch '${1:branch}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenbuildingTag": {
+    "prefix": "whenbuildingTag",
+    "body": [
+      "when {",
+      "\tbuildingTag '${1:tag}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenchangelog": {
+    "prefix": "whenchangelog",
+    "body": [
+      "when {",
+      "\tchangelog '${1:changelog}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenchangeset": {
+    "prefix": "whenchangeset",
+    "body": [
+      "when {",
+      "\tchangeset '${1:changeSet}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenchangeRequest": {
+    "prefix": "whenchangeRequest",
+    "body": [
+      "when {",
+      "\tchangeRequest '${1:changeRequest}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenenvironment": {
+    "prefix": "whenenvironment",
+    "body": [
+      "when {",
+      "\tenvironment '${1:environment}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenequals": {
+    "prefix": "whenequals",
+    "body": [
+      "when {",
+      "\tequals '${1:equals}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenexpression": {
+    "prefix": "whenexpression",
+    "body": [
+      "when {",
+      "\texpression '${1:expression}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whentag": {
+    "prefix": "whentag",
+    "body": [
+      "when {",
+      "\ttag '${1:tag}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whennot": {
+    "prefix": "whennot",
+    "body": [
+      "when {",
+      "\tnot '${1:not}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenallOf": {
+    "prefix": "whenallOf",
+    "body": [
+      "when {",
+      "\tallOf '${1:allOf}'",
+      "\\}",
+      "$0"
+    ]
+  },
+  "whenanyOf": {
+    "prefix": "whenanyOf",
+    "body": [
+      "when {",
+      "\tanyOf '${1:anyOf}'",
+      "\\}"
+    ]
+  }
+}

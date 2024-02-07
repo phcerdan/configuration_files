@@ -1,0 +1,110 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env falcon",
+      ""
+    ]
+  },
+  "imp": {
+    "prefix": "imp",
+    "body": [
+      "import ${0:module}",
+      ""
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "function ${2:function_name}($3)",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class ${1:class_name}(${2:class_params})",
+      "\t${0:/* members/methods */}",
+      "end",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if $1",
+      "\t$0",
+      "else",
+      "    $1",
+      "end",
+      ""
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "elif $1",
+      "\t$0",
+      ""
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch ${1:expression}",
+      "\tcase ${2:item}",
+      "\tcase ${0:item}",
+      "\tdefault",
+      "end",
+      ""
+    ]
+  },
+  "select": {
+    "prefix": "select",
+    "body": [
+      "select ${1:variable}",
+      "\tcase ${2:TypeSpec}",
+      "\tcase ${0:TypeSpec}",
+      "\tdefault",
+      "end",
+      ""
+    ]
+  },
+  "forin": {
+    "prefix": "forin",
+    "body": [
+      "for ${1:element} in ${2:container}",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "forto": {
+    "prefix": "forto",
+    "body": [
+      "for ${1:lowerbound} to ${2:upperbound}",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while ${1:conidition}",
+      "\t$0",
+      "end"
+    ]
+  }
+}

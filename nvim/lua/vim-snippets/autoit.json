@@ -1,0 +1,96 @@
+{
+  "if": {
+    "prefix": "if",
+    "body": [
+      "If $1 Then",
+      "\t${0:; True code}",
+      "EndIf"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "Else",
+      "\t$0"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "ElseIf $1 Then",
+      "\t${0:; True code}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "If $1 Then",
+      "\t${2:; True code}",
+      "Else",
+      "\t${0:; Else code}",
+      "EndIf"
+    ]
+  },
+  "ifelif": {
+    "prefix": "ifelif",
+    "body": [
+      "If ${1:condition 1} Then",
+      "\t${2:; True code}",
+      "ElseIf ${3:condition 2} Then",
+      "\t${4:; True code}",
+      "Else",
+      "\t${0:; Else code}",
+      "EndIf"
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "Switch ($1)",
+      "Case ${2:case1}:",
+      "\t${3:; Case 1 code}",
+      "Case Else:",
+      "\t${0:; Else code}",
+      "EndSwitch"
+    ]
+  },
+  "select": {
+    "prefix": "select",
+    "body": [
+      "Select ($1)",
+      "Case ${2:case1}:",
+      "\t${3:; Case 1 code}",
+      "Case Else:",
+      "\t${0:; Else code}",
+      "EndSelect"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "While ($1)",
+      "\t${0:; code...}",
+      "WEnd"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "For ${1:n} = ${3:1} to ${2:count}",
+      "\t${0:; code...}",
+      "Next"
+    ]
+  },
+  "msg": {
+    "prefix": "msg",
+    "body": "MsgBox(${0:MsgType}, ${1:\"Title\"}, ${2:\"Message Text\"})"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": "MsgBox(0, \"Debug\", ${0:\"Debug Message\"})"
+  },
+  "showvar": {
+    "prefix": "showvar",
+    "body": "MsgBox(0, \"${0:VarName}\", $1)"
+  }
+}

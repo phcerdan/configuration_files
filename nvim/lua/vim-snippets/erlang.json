@@ -1,0 +1,184 @@
+{
+  "d": {
+    "prefix": "d",
+    "body": "erlang:display($0),"
+  },
+  "dt": {
+    "prefix": "dt",
+    "body": "erlang:display({$1, $0\\}),"
+  },
+  "def": {
+    "prefix": "def",
+    "body": "-define(${1:macro}, $2)."
+  },
+  "exp": {
+    "prefix": "exp",
+    "body": "-export([${1:function}/${0:arity}])."
+  },
+  "inc": {
+    "prefix": "inc",
+    "body": "-include(\"${1:file}\")."
+  },
+  "incl": {
+    "prefix": "incl",
+    "body": "-include_lib(\"${1:lib}/include/$1.hrl\").$2"
+  },
+  "beh": {
+    "prefix": "beh",
+    "body": "-behaviour(${1:behaviour})."
+  },
+  "ifd": {
+    "prefix": "ifd",
+    "body": [
+      "-ifdef(${1:TEST}).",
+      "$0",
+      "-endif."
+    ]
+  },
+  "ifnd": {
+    "prefix": "ifnd",
+    "body": [
+      "-ifndef(${1:TEST}).",
+      "$0",
+      "-endif."
+    ]
+  },
+  "undef": {
+    "prefix": "undef",
+    "body": "-undef(${1:macro})."
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if",
+      "\t${1:guard} ->",
+      "\t\t$0",
+      "end"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1:expression} of",
+      "\t${2:pattern} ->",
+      "\t\t$0;",
+      "end"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": "fun (${1:Parameters}) -> $2 end"
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "catch",
+      "\t${2:_:_} -> ${0:got_some_exception}",
+      "end"
+    ]
+  },
+  "rcv": {
+    "prefix": "rcv",
+    "description": "\"Receive Expression\"",
+    "body": [
+      "receive",
+      "\\${1:\t${2:pattern}${3: when ${4:guard}} ->",
+      "\t\t$5",
+      "\\${6:after",
+      "\t${7:expression} ->",
+      "\t\t$8",
+      "end"
+    ]
+  },
+  "rec": {
+    "prefix": "rec",
+    "body": "-record(${1:record}, {${2:field}=${3:value}\\})."
+  },
+  "todo": {
+    "prefix": "todo",
+    "body": "%% TODO: $0"
+  },
+  "%d": {
+    "prefix": "%d",
+    "body": "%% @doc $0"
+  },
+  "%e": {
+    "prefix": "%e",
+    "body": "%% @end"
+  },
+  "%s": {
+    "prefix": "%s",
+    "body": "%% @spec $0"
+  },
+  "%p": {
+    "prefix": "%p",
+    "body": "%% @private"
+  },
+  "ieunit": {
+    "prefix": "ieunit",
+    "body": [
+      "-ifdef(TEST).",
+      "-include_lib(\"eunit/include/eunit.hrl\").",
+      "",
+      "$0",
+      "",
+      "-endif."
+    ]
+  },
+  "itest": {
+    "prefix": "itest",
+    "body": [
+      "-ifdef(TEST).",
+      "",
+      "$1_test() ->",
+      "\t$0",
+      "",
+      "-endif."
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "$1_test() ->",
+      "\t$0"
+    ]
+  },
+  "as": {
+    "prefix": "as",
+    "body": "?assert($0)"
+  },
+  "asn": {
+    "prefix": "asn",
+    "body": "?assertNot($0)"
+  },
+  "aseq": {
+    "prefix": "aseq",
+    "body": "?assertEqual($1, $0)"
+  },
+  "asneq": {
+    "prefix": "asneq",
+    "body": "?assertNotEqual($1, $0)"
+  },
+  "asmat": {
+    "prefix": "asmat",
+    "body": "?assertMatch(${1:Pattern}, ${0:Expression})"
+  },
+  "asnmat": {
+    "prefix": "asnmat",
+    "body": "?assertNotMatch(${1:Pattern}, ${0:Expression})"
+  },
+  "aserr": {
+    "prefix": "aserr",
+    "body": "?assertError(${1:Pattern}, ${0:Expression})"
+  },
+  "asex": {
+    "prefix": "asex",
+    "body": "?assertExit(${1:Pattern}, ${0:Expression})"
+  },
+  "asexc": {
+    "prefix": "asexc",
+    "body": "?assertException(${1:Class}, ${2:Pattern}, ${0:Expression})"
+  }
+}

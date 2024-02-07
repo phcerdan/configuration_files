@@ -1,0 +1,41 @@
+{
+  "rep": {
+    "prefix": "rep",
+    "body": [
+      "div(ng-repeat='$1 in $2')",
+      ""
+    ]
+  },
+  "repf": {
+    "prefix": "repf",
+    "body": [
+      "div(ng-repeat='$1 in $2' | $3)",
+      ""
+    ]
+  },
+  "repi": {
+    "prefix": "repi",
+    "body": [
+      "div(ng-repeat='$1 in $2' track by \\$index)",
+      ""
+    ]
+  },
+  "hide": {
+    "prefix": "hide",
+    "body": [
+      "div(ng-hide='$1')",
+      ""
+    ]
+  },
+  "show": {
+    "prefix": "show",
+    "body": [
+      "div(ng-show='$1')",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": "div(ng-if='$1')"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env bash",
+      ""
+    ]
+  },
+  "s#!": {
+    "prefix": "s#!",
+    "body": [
+      "#!/usr/bin/env bash",
+      "set -eu",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if [[ $1 ]]; then",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "fi"
+    ]
+  },
+  "elif": {
+    "prefix": "elif",
+    "body": [
+      "elif [[ $1 ]]; then",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while [[ $1 ]]; do",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "done"
+    ]
+  },
+  "until": {
+    "prefix": "until",
+    "body": [
+      "until [[ $1 ]]; do",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "done"
+    ]
+  }
+}

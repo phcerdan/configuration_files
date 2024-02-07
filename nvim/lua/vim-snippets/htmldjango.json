@@ -1,0 +1,266 @@
+{
+  "%": {
+    "prefix": "%",
+    "body": "{% $1 %\\}"
+  },
+  "%%": {
+    "prefix": "%%",
+    "body": [
+      "{% ${1:tag_name} %\\}",
+      "$0",
+      "{% end$1 %\\}"
+    ]
+  },
+  "{": {
+    "prefix": "{",
+    "body": [
+      "{{ $1 \\}\\}",
+      ""
+    ]
+  },
+  "autoescape": {
+    "prefix": "autoescape",
+    "body": [
+      "{% autoescape ${1:off} %\\}",
+      "\t$0",
+      "{% endautoescape %\\}"
+    ]
+  },
+  "block": {
+    "prefix": "block",
+    "body": [
+      "{% block $1 %\\}",
+      "\t$0",
+      "{% endblock %\\}"
+    ]
+  },
+  "#": {
+    "prefix": "#",
+    "body": "{# ${0:comment} #\\}"
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": [
+      "{% comment %\\}",
+      "\t$0",
+      "{% endcomment %\\}"
+    ]
+  },
+  "cycle": {
+    "prefix": "cycle",
+    "body": "{% cycle ${1:val1} ${2:val2} ${3:as $4} %\\}"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": "{% debug %\\}"
+  },
+  "extends": {
+    "prefix": "extends",
+    "body": "{% extends \"${0:base.html}\" %\\}"
+  },
+  "filter": {
+    "prefix": "filter",
+    "body": [
+      "{% filter $1 %\\}",
+      "\t$0",
+      "{% endfilter %\\}"
+    ]
+  },
+  "firstof": {
+    "prefix": "firstof",
+    "body": "{% firstof $1 %\\}"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "{% for $1 in $2 %\\}",
+      "\t$0",
+      "{% endfor %\\}"
+    ]
+  },
+  "empty": {
+    "prefix": "empty",
+    "body": [
+      "{% empty %\\}",
+      "$0"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "{% if $1 %\\}",
+      "\t$0",
+      "{% endif %\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "{% else %\\}",
+      "\t$1"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "{% elif $1 %\\}",
+      "\t$0"
+    ]
+  },
+  "ifchanged": {
+    "prefix": "ifchanged",
+    "body": "{% ifchanged %\\}$1{% endifchanged %\\}"
+  },
+  "ifequal": {
+    "prefix": "ifequal",
+    "body": [
+      "{% ifequal $1 $2 %\\}",
+      "\t$0",
+      "{% endifequal %\\}"
+    ]
+  },
+  "ifnotequal": {
+    "prefix": "ifnotequal",
+    "body": [
+      "{% ifnotequal $1 $2 %\\}",
+      "\t$0",
+      "{% endifnotequal %\\}"
+    ]
+  },
+  "include": {
+    "prefix": "include",
+    "body": "{% include \"$0\" %\\}"
+  },
+  "load": {
+    "prefix": "load",
+    "body": "{% load $0 %\\}"
+  },
+  "now": {
+    "prefix": "now",
+    "body": "{% now \"${0:jS F Y H:i}\" %\\}"
+  },
+  "regroup": {
+    "prefix": "regroup",
+    "body": "{% regroup $1 by $2 as $0 %\\}"
+  },
+  "spaceless": {
+    "prefix": "spaceless",
+    "body": "{% spaceless %\\}$0{% endspaceless %\\}"
+  },
+  "ssi": {
+    "prefix": "ssi",
+    "body": "{% ssi $0 %\\}"
+  },
+  "trans": {
+    "prefix": "trans",
+    "body": "{% trans \"${0:string}\" %\\}"
+  },
+  "url": {
+    "prefix": "url",
+    "body": "{% url $1 as $0 %\\}"
+  },
+  "widthratio": {
+    "prefix": "widthratio",
+    "body": "{% widthratio ${1:this_value} ${2:max_value} ${0:100} %\\}"
+  },
+  "with": {
+    "prefix": "with",
+    "body": [
+      "{% with $1 as $2 %\\}",
+      "\t$0",
+      "{% endwith %\\}",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "add": {
+    "prefix": "add",
+    "body": "add:\"$0\""
+  },
+  "center": {
+    "prefix": "center",
+    "body": "center:\"$0\""
+  },
+  "cut": {
+    "prefix": "cut",
+    "body": "cut:\"$0\""
+  },
+  "date": {
+    "prefix": "date",
+    "body": "date:\"$0\""
+  },
+  "default": {
+    "prefix": "default",
+    "body": "default:\"$0\""
+  },
+  "defaultifnone": {
+    "prefix": "defaultifnone",
+    "body": "default_if_none:\"$0\""
+  },
+  "dictsort": {
+    "prefix": "dictsort",
+    "body": "dictsort:\"$0\""
+  },
+  "dictsortrev": {
+    "prefix": "dictsortrev",
+    "body": "dictsortreversed:\"$0\""
+  },
+  "divisibleby": {
+    "prefix": "divisibleby",
+    "body": "divisibleby:\"$0\""
+  },
+  "floatformat": {
+    "prefix": "floatformat",
+    "body": "floatformat:\"$0\""
+  },
+  "getdigit": {
+    "prefix": "getdigit",
+    "body": "get_digit:\"$0\""
+  },
+  "join": {
+    "prefix": "join",
+    "body": "join:\"$0\""
+  },
+  "lengthis": {
+    "prefix": "lengthis",
+    "body": "length_is:\"$0\""
+  },
+  "pluralize": {
+    "prefix": "pluralize",
+    "body": "pluralize:\"$0\""
+  },
+  "removetags": {
+    "prefix": "removetags",
+    "body": "removetags:\"$0\""
+  },
+  "slice": {
+    "prefix": "slice",
+    "body": "slice:\"$0\""
+  },
+  "stringformat": {
+    "prefix": "stringformat",
+    "body": "stringformat:\"$0\""
+  },
+  "time": {
+    "prefix": "time",
+    "body": "time:\"$0\""
+  },
+  "truncatewords": {
+    "prefix": "truncatewords",
+    "body": "truncatewords:$0"
+  },
+  "truncatewordshtml": {
+    "prefix": "truncatewordshtml",
+    "body": "truncatewords_html:$0"
+  },
+  "urlizetrunc": {
+    "prefix": "urlizetrunc",
+    "body": "urlizetrunc:$0"
+  },
+  "wordwrap": {
+    "prefix": "wordwrap",
+    "body": "wordwrap:$0"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1) begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if ($1) begin",
+      "\t$2",
+      "end",
+      "else begin",
+      "\t$3",
+      "end"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "else if ($1) begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while ($1) begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "rep": {
+    "prefix": "rep",
+    "body": [
+      "repeat ($1) begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case (${1:/* variable */})",
+      "\t${2:/* value */}: begin",
+      "\t\t$3",
+      "\tend",
+      "\tdefault: begin",
+      "\t\t$4",
+      "\tend",
+      "endcase"
+    ]
+  },
+  "casez": {
+    "prefix": "casez",
+    "body": [
+      "casez (${1:/* variable */})",
+      "\t${2:/* value */}: begin",
+      "\t\t$3",
+      "\tend",
+      "\tdefault: begin",
+      "\t\t$4",
+      "\tend",
+      "endcase"
+    ]
+  },
+  "al": {
+    "prefix": "al",
+    "body": [
+      "always @(${1:/* sensitive list */}) begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (int ${2:i} = 0; $2 < ${1:count}; $2${3:++}) begin",
+      "\t$4",
+      "end"
+    ]
+  },
+  "forev": {
+    "prefix": "forev",
+    "body": [
+      "forever begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "function ${1:void} ${2:name}($3);",
+      "\t$0",
+      "endfunction: $2"
+    ]
+  },
+  "task": {
+    "prefix": "task",
+    "body": [
+      "task ${1:name}($2);",
+      "\t$0",
+      "endtask: $1"
+    ]
+  },
+  "ini": {
+    "prefix": "ini",
+    "body": [
+      "initial begin",
+      "\t$0",
+      "end"
+    ]
+  },
+  "tde": {
+    "prefix": "tde",
+    "body": [
+      "typedef enum ${2:logic[15:0]}",
+      "{",
+      "\t${3:REG = 16'h0000}",
+      "\\} ${1:my_dest_t};"
+    ]
+  }
+}

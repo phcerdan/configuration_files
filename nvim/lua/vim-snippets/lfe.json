@@ -1,0 +1,16 @@
+{
+  "def": {
+    "prefix": "def",
+    "body": [
+      "(defun $1 ($2)",
+      "\t$0)"
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "(deftest $1",
+      "\t$0)"
+    ]
+  }
+}

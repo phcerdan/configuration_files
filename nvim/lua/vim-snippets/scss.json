@@ -1,0 +1,84 @@
+{
+  "$": {
+    "prefix": "$",
+    "body": "\\$${1:variable}: ${0:value};"
+  },
+  "imp": {
+    "prefix": "imp",
+    "body": "@import '$0';"
+  },
+  "mix": {
+    "prefix": "mix",
+    "body": [
+      "@mixin ${1:name}($2) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "inc": {
+    "prefix": "inc",
+    "body": "@include ${1:mixin}($2);"
+  },
+  "ext": {
+    "prefix": "ext",
+    "body": "@extend $0;"
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "@function ${1:name}(${2:args}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "@if $1 {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "@if $1 {",
+      "\t$2",
+      "\\} @else {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "@else if $1 {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "@for ${1:\\$i} from ${2:1} through ${3:3} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "each": {
+    "prefix": "each",
+    "body": [
+      "@each ${1:\\$item} in ${2:items} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "while": {
+    "prefix": "while",
+    "body": [
+      "@while ${1:\\$i} ${2:>} ${3:0} {",
+      "\t$0",
+      "\\}"
+    ]
+  }
+}

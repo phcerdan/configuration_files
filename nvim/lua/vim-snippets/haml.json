@@ -1,0 +1,71 @@
+{
+  "t": {
+    "prefix": "t",
+    "body": [
+      "%table",
+      "\t%tr",
+      "\t\t%th",
+      "\t\t\t${1:headers}",
+      "\t%tr",
+      "\t\t%td",
+      "\t\t\t${0:headers}"
+    ]
+  },
+  "ul": {
+    "prefix": "ul",
+    "body": [
+      "%ul",
+      "\t%li",
+      "\t\t${0:item}",
+      "\t%li"
+    ]
+  },
+  "rp": {
+    "prefix": "rp",
+    "body": "= render :partial => \"${0:item}\""
+  },
+  "rpc": {
+    "prefix": "rpc",
+    "body": "= render :partial => \"${1:item}\", :collection => ${0:@$1s}"
+  },
+  "rpl": {
+    "prefix": "rpl",
+    "body": "= render :partial => \"${1:item}\", :locals => { :${2:$1} => ${0:@$1} \\}"
+  },
+  "rpo": {
+    "prefix": "rpo",
+    "body": "= render :partial => \"${1:item}\", :object => ${0:@$1}"
+  },
+  "lt": {
+    "prefix": "lt",
+    "body": "= link_to ${1:name}, ${2:dest}"
+  },
+  "mt": {
+    "prefix": "mt",
+    "body": "= mail_to ${1:email_address}, ${2:name}"
+  },
+  "mts": {
+    "prefix": "mts",
+    "body": "= mail_to ${1:email_address}, ${2:name}, :subject => $3, :body => $4"
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "- if $1",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "- else",
+      "\t$0"
+    ]
+  },
+  "ifp": {
+    "prefix": "ifp",
+    "body": [
+      "- if $1.presence?",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "ntc": {
+    "prefix": "ntc",
+    "body": "= number_to_currency($1)"
+  }
+}

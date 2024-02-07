@@ -1,0 +1,170 @@
+{
+  "sep": {
+    "prefix": "sep",
+    "description": "Create a separator",
+    "body": "##################### $1 #######################"
+  },
+  "comline": {
+    "prefix": "comline",
+    "description": "Comment Line",
+    "body": "##################################################"
+  },
+  "init": {
+    "prefix": "init",
+    "description": "Init a basic cmake",
+    "body": [
+      "cmake_minimum_required(VERSION 3.1)",
+      "project(${1:projectName})",
+      "# if(MSVC)",
+      "#    add_compile_options(/W3 /WX)",
+      "# else()",
+      "#     add_compile_options(-W -Wall -Werror)",
+      "# endif()",
+      "",
+      "# set(CMAKE_INCLUDE_CURRENT_DIR ON)",
+      "",
+      "add_executable(${2:exeName} $2.cpp)",
+      "#target_link_libraries($2) )"
+    ]
+  },
+  "findITK": {
+    "prefix": "findITK",
+    "description": "Find ITK libs",
+    "body": [
+      "find_package(ITK COMPONENTS",
+      "    ITKImageIO",
+      "    REQUIRED",
+      "    )",
+      "include(\\${ITK_USE_FILE\\})"
+    ]
+  },
+  "findBoost": {
+    "prefix": "findBoost",
+    "description": "Find boost Libs",
+    "body": [
+      "find_package(Boost COMPONENTS ",
+      "\t\t${1:filesystem}\t${2:system}",
+      "\t\t${3:unit_test_framework} ${4:regex}",
+      "\t\t${5:program_options}",
+      "\t\tREQUIRED)",
+      "include_directories(SYSTEM \\${Boost_INCLUDE_DIRS\\})"
+    ]
+  },
+  "addexe": {
+    "prefix": "addexe",
+    "description": "add_executable",
+    "body": "add_executable(${1:exe} ${2:sources})"
+  },
+  "addlib": {
+    "prefix": "addlib",
+    "description": "add_library",
+    "body": "add_library(${1:lib} ${2:sources})"
+  },
+  "tdir": {
+    "prefix": "tdir",
+    "description": "target_include_directory",
+    "body": "target_include_directories(${1:target} ${2:PUBLIC} ${3:include})"
+  },
+  "tlib": {
+    "prefix": "tlib",
+    "description": "target_link_libraries",
+    "body": "target_link_libraries(${1:target} ${2:PUBLIC} ${3:libs})"
+  },
+  "tdef": {
+    "prefix": "tdef",
+    "description": "target_compile_definitions",
+    "body": "target_compile_definitions(${1:target} ${2:PRIVATE} ${3:SETTINGS})"
+  },
+  "findGoogle": {
+    "prefix": "findGoogle",
+    "description": "Enable Google test and Google mock",
+    "body": [
+      "### Google TEST AND MOCK",
+      "# There must be an environment variable (in .bashrc or profile.d)",
+      "# export GMOCK_HOME=/path/to/gmock-1.7.0",
+      "set(ENABLE_GOOGLE_TEST \"ON\" CACHE BOOL \"Requires ENV variable GMOCK_HOME pointing to gmock parent folder\")",
+      "set(GMOCK_HOME \"\\$ENV{GMOCK_HOME\\}\" CACHE PATH \"Set this to gmock parent folder\")",
+      "IF(ENABLE_GOOGLE_TEST)",
+      "    find_path(GTEST_INCLUDE_DIR",
+      "             gtest/gtest.h",
+      "             HINTS \\${GMOCK_HOME\\}/gtest/include",
+      "             PATH_SUFFIXES gtest",
+      "             DOC \"gtest include dir\")",
+      "    find_path(GMOCK_INCLUDE_DIR",
+      "             gmock/gmock.h",
+      "             HINTS \\${GMOCK_HOME\\}/include",
+      "             PATH_SUFFIXES gmock",
+      "             DOC \"gmock include dir\")",
+      "    include_directories(\\${GMOCK_INCLUDE_DIR\\} \\${GTEST_INCLUDE_DIR\\})",
+      "",
+      "    find_library(GTEST_LIBRARY",
+      "                NAMES gtest",
+      "                      libgtest",
+      "                      libgtest.a",
+      "                HINTS \\${GMOCK_HOME\\}/mybuild/gtest",
+      "                      \\${GMOCK_HOME\\}/gtest",
+      "                      \\${GMOCK_HOME\\}/gtest/mybuild)",
+      "    find_library(GTEST_LIBRARY_MAIN",
+      "                NAMES gtest_main",
+      "                      libgtest_main",
+      "                      libgtest.a",
+      "                HINTS \\${GMOCK_HOME\\}/mybuild/gtest",
+      "                      \\${GMOCK_HOME\\}/gtest",
+      "                      \\${GMOCK_HOME\\}/gtest/mybuild)",
+      "",
+      "    find_library(GMOCK_LIBRARY",
+      "                NAMES gmock",
+      "                      libgmock",
+      "                      libgmock.a",
+      "                HINTS \\${GMOCK_HOME\\}/mybuild",
+      "                      \\${GMOCK_HOME\\})",
+      "    find_library(GMOCK_LIBRARY_MAIN",
+      "                NAMES gmock_main",
+      "                      libgmock_main",
+      "                      libgmock.a",
+      "                HINTS \\${GMOCK_HOME\\}/mybuild",
+      "                      \\${GMOCK_HOME\\})",
+      "ENDIF()"
+    ]
+  },
+  "testGoogle": {
+    "prefix": "testGoogle",
+    "description": "Create a test executable with google",
+    "body": [
+      "IF(ENABLE_GOOGLE_TEST)",
+      "    add_executable(${1:exeTestName} $1.cpp)",
+      "    target_link_libraries($1 \\${GMOCK_LIBRARY_MAIN\\} \\${GTEST_LIBRARY_MAIN\\})",
+      "ENDIF()"
+    ]
+  },
+  "version": {
+    "prefix": "version",
+    "description": "Init project version",
+    "body": [
+      "set($1_VERSION_MAJOR 1 CACHE STRING \"major version\" FORCE)",
+      "set($1_VERSION_MINOR 0 CACHE STRING \"minor version\" FORCE)",
+      "set($1_VERSION_PATCH 0 CACHE STRING \"patch version\" FORCE)",
+      "set($1_VERSION \\${$1_VERSION_MAJOR\\}.\\${$1_VERSION_MINOR\\}.\\${$1_VERSION_PATCH\\} CACHE STRING \"version\" FORCE)"
+    ]
+  },
+  "configHelper": {
+    "prefix": "configHelper",
+    "description": "Init  CMakePackageConfigHelpers",
+    "body": [
+      "################# Config ##################",
+      "include(CMakePackageConfigHelpers)",
+      "configure_package_config_file(",
+      "    $1Config.cmake.in",
+      "    \\${CMAKE_CURRENT_BINARY_DIR\\}/$1Config.cmake",
+      "    INSTALL_DESTINATION \\${LIB_INSTALL_DIR\\}/$1/cmake",
+      "    PATH_VARS $1_INCLUDE_INSTALL_DIR)",
+      "write_basic_package_version_file(",
+      "    \\${CMAKE_CURRENT_BINARY_DIR\\}/$1ConfigVersion.cmake",
+      "    VERSION \\${$1\\}",
+      "    COMPATIBILITY SameMajorVersion )",
+      "install(FILES \\${CMAKE_CURRENT_BINARY_DIR\\}/$1Config.cmake",
+      "              \\${CMAKE_CURRENT_BINARY_DIR\\}/$1ConfigVersion.cmake",
+      "    DESTINATION \\${LIB_INSTALL_DIR\\}/$1/cmake )"
+    ]
+  }
+}

@@ -1,0 +1,443 @@
+{
+  "po": {
+    "prefix": "po",
+    "body": "protected $0"
+  },
+  "pu": {
+    "prefix": "pu",
+    "body": "public $0"
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "private $0"
+  },
+  "before": {
+    "prefix": "before",
+    "body": [
+      "@Before",
+      "static void ${1:intercept}(${2:args}) { $0 \\}"
+    ]
+  },
+  "mm": {
+    "prefix": "mm",
+    "body": [
+      "@ManyToMany",
+      "$0"
+    ]
+  },
+  "mo": {
+    "prefix": "mo",
+    "body": [
+      "@ManyToOne",
+      "$0"
+    ]
+  },
+  "om": {
+    "prefix": "om",
+    "body": [
+      "@OneToMany${1:(cascade=CascadeType.ALL)}",
+      "$0"
+    ]
+  },
+  "oo": {
+    "prefix": "oo",
+    "body": [
+      "@OneToOne",
+      "$1"
+    ]
+  },
+  "im": {
+    "prefix": "im",
+    "body": "import $0"
+  },
+  "j.b": {
+    "prefix": "j.b",
+    "body": "java.beans."
+  },
+  "j.i": {
+    "prefix": "j.i",
+    "body": "java.io."
+  },
+  "j.m": {
+    "prefix": "j.m",
+    "body": "java.math."
+  },
+  "j.n": {
+    "prefix": "j.n",
+    "body": "java.net."
+  },
+  "j.u": {
+    "prefix": "j.u",
+    "body": "java.util."
+  },
+  "ext": {
+    "prefix": "ext",
+    "body": "extends $0"
+  },
+  "imp": {
+    "prefix": "imp",
+    "body": "implements $0"
+  },
+  "/*": {
+    "prefix": "/*",
+    "body": [
+      "/*",
+      " * $0",
+      " */"
+    ]
+  },
+  "co": {
+    "prefix": "co",
+    "body": "static public final ${1:String} ${2:var} = $3;"
+  },
+  "cos": {
+    "prefix": "cos",
+    "body": "static public final String ${1:var} = \"$2\";"
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case $1:",
+      "\t$0"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": [
+      "default:",
+      "\t$0"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": "else"
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": "else if ($1) $0"
+  },
+  "if": {
+    "prefix": "if",
+    "body": "if ($1) $0"
+  },
+  "sw": {
+    "prefix": "sw",
+    "body": [
+      "switch ($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "m": {
+    "prefix": "m",
+    "body": "${1:void} ${2:method}($3) ${4:throws }"
+  },
+  "v": {
+    "prefix": "v",
+    "body": "${1:String} ${2:var}${3: = null}$4;"
+  },
+  "d.al": {
+    "prefix": "d.al",
+    "body": "List<${1:Object}> ${2:list} = new ArrayList<$1>();$0"
+  },
+  "d.hm": {
+    "prefix": "d.hm",
+    "body": "Map<${1:Object}, ${2:Object}> ${3:map} = new HashMap<$1, $2>();$0"
+  },
+  "d.hs": {
+    "prefix": "d.hs",
+    "body": "Set<${1:Object}> ${2:set} = new HashSet<$1>();$0"
+  },
+  "d.st": {
+    "prefix": "d.st",
+    "body": "Stack<${1:Object}> ${2:stack} = new Stack<$1>();$0"
+  },
+  "ab": {
+    "prefix": "ab",
+    "body": "abstract $0"
+  },
+  "fi": {
+    "prefix": "fi",
+    "body": "final $0"
+  },
+  "st": {
+    "prefix": "st",
+    "body": "static $0"
+  },
+  "sy": {
+    "prefix": "sy",
+    "body": "synchronized $0"
+  },
+  "err": {
+    "prefix": "err",
+    "body": "System.err.print(\"${0:Message}\");"
+  },
+  "errf": {
+    "prefix": "errf",
+    "body": "System.err.printf(\"${1:Message}\", ${0:exception});"
+  },
+  "errln": {
+    "prefix": "errln",
+    "body": "System.err.println(\"${0:Message}\");"
+  },
+  "as": {
+    "prefix": "as",
+    "body": "assert ${1:test} : \"${2:Failure message}\";"
+  },
+  "ae": {
+    "prefix": "ae",
+    "body": "assertEquals(\"${1:Failure message}\", ${2:expected}, ${3:actual});"
+  },
+  "aae": {
+    "prefix": "aae",
+    "body": "assertArrayEquals(\"${1:Failure message}\", ${2:expecteds}, ${3:actuals});"
+  },
+  "af": {
+    "prefix": "af",
+    "body": "assertFalse(\"${1:Failure message}\", $2);"
+  },
+  "at": {
+    "prefix": "at",
+    "body": "assertTrue(\"${1:Failure message}\", $2);"
+  },
+  "an": {
+    "prefix": "an",
+    "body": "assertNull(\"${1:Failure message}\", ${2:object});"
+  },
+  "ann": {
+    "prefix": "ann",
+    "body": "assertNotNull(\"${1:Failure message}\", ${2:object});"
+  },
+  "ass": {
+    "prefix": "ass",
+    "body": "assertSame(\"${1:Failure message}\", ${2:expected}, ${3:actual});"
+  },
+  "asns": {
+    "prefix": "asns",
+    "body": "assertNotSame(\"${1:Failure message}\", ${2:expected}, ${3:actual});"
+  },
+  "fa": {
+    "prefix": "fa",
+    "body": "fail(\"${1:Failure message}\");"
+  },
+  "ca": {
+    "prefix": "ca",
+    "body": "catch(${1:Exception} ${2:e}) $0"
+  },
+  "thr": {
+    "prefix": "thr",
+    "body": "throw $0"
+  },
+  "ths": {
+    "prefix": "ths",
+    "body": "throws $0"
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\} catch(${1:Exception} ${2:e}) {",
+      "\\}"
+    ]
+  },
+  "tryf": {
+    "prefix": "tryf",
+    "body": [
+      "try {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\} catch(${1:Exception} ${2:e}) {",
+      "\\} finally {",
+      "\\}"
+    ]
+  },
+  "findall": {
+    "prefix": "findall",
+    "body": "List<${1:listName}> ${2:items} = $1.findAll();"
+  },
+  "findbyid": {
+    "prefix": "findbyid",
+    "body": "${1:var} ${2:item} = $1.findById($3);"
+  },
+  "/**": {
+    "prefix": "/**",
+    "body": [
+      "/**",
+      " * $0",
+      " */"
+    ]
+  },
+  "@br": {
+    "prefix": "@br",
+    "body": "@brief ${0:Description}"
+  },
+  "@pa": {
+    "prefix": "@pa",
+    "body": "@param ${0:param}"
+  },
+  "@re": {
+    "prefix": "@re",
+    "body": "@return ${0:param}"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": "Logger.debug(${1:param});"
+  },
+  "error": {
+    "prefix": "error",
+    "body": "Logger.error(${1:param});"
+  },
+  "info": {
+    "prefix": "info",
+    "body": "Logger.info(${1:param});"
+  },
+  "warn": {
+    "prefix": "warn",
+    "body": "Logger.warn(${1:param});"
+  },
+  "enfor": {
+    "prefix": "enfor",
+    "body": "for ($1 : $2) $0"
+  },
+  "for": {
+    "prefix": "for",
+    "body": "for ($1; $2; $3) $0"
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": "while (${1:true}) $0"
+  },
+  "wht": {
+    "prefix": "wht",
+    "body": "while (true) $0"
+  },
+  "psvm": {
+    "prefix": "psvm",
+    "body": [
+      "public static void main (String[] args) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "public static void main (String[] args) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "sout": {
+    "prefix": "sout",
+    "body": "System.out.println($0);"
+  },
+  "serr": {
+    "prefix": "serr",
+    "body": "System.err.println($0);"
+  },
+  "print": {
+    "prefix": "print",
+    "body": "System.out.print(\"${0:Message}\");"
+  },
+  "printf": {
+    "prefix": "printf",
+    "body": "System.out.printf(\"${1:Message}\", ${0:args});"
+  },
+  "println": {
+    "prefix": "println",
+    "body": "System.out.println($0);"
+  },
+  "printlna": {
+    "prefix": "printlna",
+    "body": "System.out.println(Arrays.toString($0));"
+  },
+  "ren": {
+    "prefix": "ren",
+    "body": "render(${1:param});"
+  },
+  "rena": {
+    "prefix": "rena",
+    "body": "renderArgs.put(\"$1\", $2);"
+  },
+  "renb": {
+    "prefix": "renb",
+    "body": "renderBinary(${1:param});"
+  },
+  "renj": {
+    "prefix": "renj",
+    "body": "renderJSON(${1:param});"
+  },
+  "renx": {
+    "prefix": "renx",
+    "body": "renderXml(${1:param});"
+  },
+  "set": {
+    "prefix": "set",
+    "body": [
+      "${1:public} void set${3:}(${2:String} ${0:}){",
+      "\tthis.$4 = $4;",
+      "\\}"
+    ]
+  },
+  "get": {
+    "prefix": "get",
+    "body": [
+      "${1:public} ${2:String} get${3:}(){",
+      "\treturn this.${0:};",
+      "\\}"
+    ]
+  },
+  "re": {
+    "prefix": "re",
+    "body": "return $0"
+  },
+  "br": {
+    "prefix": "br",
+    "body": "break;"
+  },
+  "t": {
+    "prefix": "t",
+    "body": [
+      "public void test${1:Name}() throws Exception {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "@Test",
+      "public void test${1:Name}() throws Exception {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "Sc": {
+    "prefix": "Sc",
+    "body": "Scanner"
+  },
+  "action": {
+    "prefix": "action",
+    "body": "public static void ${1:index}(${2:args}) { $0 \\}"
+  },
+  "rnf": {
+    "prefix": "rnf",
+    "body": "notFound(${1:param});"
+  },
+  "rnfin": {
+    "prefix": "rnfin",
+    "body": "notFoundIfNull(${1:param});"
+  },
+  "rr": {
+    "prefix": "rr",
+    "body": "redirect(${1:param});"
+  },
+  "ru": {
+    "prefix": "ru",
+    "body": "unauthorized(${1:param});"
+  },
+  "unless": {
+    "prefix": "unless",
+    "body": "(unless=${1:param});"
+  }
+}

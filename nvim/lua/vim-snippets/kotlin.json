@@ -1,0 +1,81 @@
+{
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "fun ${1:name}($2): ${3:String} {",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "pfun": {
+    "prefix": "pfun",
+    "body": [
+      "private fun ${1:name}($2): ${3:String} {",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "@JvmStatic",
+      "fun main(args: Array<String>) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "return $0"
+  },
+  "whe": {
+    "prefix": "whe",
+    "body": [
+      "when (${1:$TM_SELECTED_TEXT}) {",
+      "\t$2 -> $3",
+      "\\}"
+    ]
+  },
+  "cla": {
+    "prefix": "cla",
+    "body": [
+      "class $1 {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "cobj": {
+    "prefix": "cobj",
+    "body": [
+      "companion object {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "obj": {
+    "prefix": "obj",
+    "body": [
+      "object $1 {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1) {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if ($1) {",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "\\} else {",
+      "\t$0",
+      "\\}"
+    ]
+  }
+}

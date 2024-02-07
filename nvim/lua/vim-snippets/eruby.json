@@ -1,0 +1,262 @@
+{
+  "rc": {
+    "prefix": "rc",
+    "body": "<% $0 %>"
+  },
+  "rce": {
+    "prefix": "rce",
+    "body": "<%= $1 %>"
+  },
+  "%": {
+    "prefix": "%",
+    "body": "<% $0 %>"
+  },
+  "=": {
+    "prefix": "=",
+    "body": "<%= $1 %>"
+  },
+  "end": {
+    "prefix": "end",
+    "body": "<% end %>"
+  },
+  "ead": {
+    "prefix": "ead",
+    "body": [
+      "<% $1.each do |$2| %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "<% for ${2:item} in $1 %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "rp": {
+    "prefix": "rp",
+    "body": "<%= render partial: '${0:item}' %>"
+  },
+  "rpl": {
+    "prefix": "rpl",
+    "body": "<%= render partial: '${1:item}', locals: { :${2:name} => '${3:value}'$0 \\} %>"
+  },
+  "rps": {
+    "prefix": "rps",
+    "body": "<%= render partial: '${1:item}', status: ${0:500} %>"
+  },
+  "rpc": {
+    "prefix": "rpc",
+    "body": "<%= render partial: '${1:item}', collection: ${0:items} %>"
+  },
+  "lia": {
+    "prefix": "lia",
+    "body": "<%= link_to '${1:link text...}', action: '${0:index}' %>"
+  },
+  "liai": {
+    "prefix": "liai",
+    "body": "<%= link_to '${1:link text...}', action: '${2:edit}', id: ${0:@item} %>"
+  },
+  "lic": {
+    "prefix": "lic",
+    "body": "<%= link_to '${1:link text...}', controller: '${0:items}' %>"
+  },
+  "lica": {
+    "prefix": "lica",
+    "body": "<%= link_to '${1:link text...}', controller: '${2:items}', action: '${0:index}' %>"
+  },
+  "licai": {
+    "prefix": "licai",
+    "body": "<%= link_to '${1:link text...}', controller: '${2:items}', action: '${3:edit}', id: ${0:@item} %>"
+  },
+  "lib": {
+    "prefix": "lib",
+    "body": [
+      "<%= link_to '${1:link text...}' do %>",
+      "<% end %>"
+    ]
+  },
+  "yield": {
+    "prefix": "yield",
+    "body": "<%= yield ${1::content_symbol} %>"
+  },
+  "conf": {
+    "prefix": "conf",
+    "body": [
+      "<% content_for :${1:head} do %>",
+      "\t$0",
+      "<% end %>",
+      ""
+    ]
+  },
+  "cs": {
+    "prefix": "cs",
+    "body": "<%= collection_select(:${1:object}, :${2:method}, ${3:collection}, :${4:value_method}, :${5:text_method}, options = {${0:prompt: true}\\}) %>        "
+  },
+  "ct": {
+    "prefix": "ct",
+    "body": "<%= content_tag '${1:DIV}', ${2:content}${0:,options} %>"
+  },
+  "ff": {
+    "prefix": "ff",
+    "body": [
+      "<%= form_for @${1:model} do |f| %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "ffi": {
+    "prefix": "ffi",
+    "body": "<%= ${1:f}.input :${0:attribute} %>"
+  },
+  "ffcb": {
+    "prefix": "ffcb",
+    "body": "<%= ${1:f}.check_box :${0:attribute} %>"
+  },
+  "ffe": {
+    "prefix": "ffe",
+    "body": [
+      "<% error_messages_for :${1:model} %>",
+      "",
+      "<%= form_for @${2:model} do |f| %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "ffff": {
+    "prefix": "ffff",
+    "body": "<%= ${1:f}.file_field :${0:attribute} %>"
+  },
+  "ffhf": {
+    "prefix": "ffhf",
+    "body": "<%= ${1:f}.hidden_field :${0:attribute} %>"
+  },
+  "ffl": {
+    "prefix": "ffl",
+    "body": "<%= ${1:f}.label :${2:attribute}, '${0:$2}' %>"
+  },
+  "ffpf": {
+    "prefix": "ffpf",
+    "body": "<%= ${1:f}.password_field :${0:attribute} %>"
+  },
+  "ffrb": {
+    "prefix": "ffrb",
+    "body": "<%= ${1:f}.radio_button :${2:attribute}, :${0:tag_value} %>"
+  },
+  "ffs": {
+    "prefix": "ffs",
+    "body": "<%= ${1:f}.submit \"${0:submit}\" %>"
+  },
+  "ffta": {
+    "prefix": "ffta",
+    "body": "<%= ${1:f}.text_area :${0:attribute} %>"
+  },
+  "fftf": {
+    "prefix": "fftf",
+    "body": "<%= ${1:f}.text_field :${0:attribute} %>"
+  },
+  "fcs": {
+    "prefix": "fcs",
+    "body": "<%= ${1:f}.collection_select(:${2:method}, ${3:collection}, :${4:value_method}, :${5:text_method}, options = {${0:prompt: true}\\}) %>"
+  },
+  "fields": {
+    "prefix": "fields",
+    "body": [
+      "<%= fields_for :${1:model}, @$1 do |${2:f}| %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "i18": {
+    "prefix": "i18",
+    "body": "I18n.t('${1:type.key}')"
+  },
+  "it": {
+    "prefix": "it",
+    "body": "<%= image_tag \"$1\"$0 %>"
+  },
+  "jit": {
+    "prefix": "jit",
+    "body": "<%= javascript_include_tag ${0::all} %>"
+  },
+  "jsit": {
+    "prefix": "jsit",
+    "body": "<%= javascript_include_tag \"$0\" %>"
+  },
+  "lim": {
+    "prefix": "lim",
+    "body": "<%= link_to ${1:model}.${2:name}, ${3:$1}_path(${0:$1}) %>"
+  },
+  "linp": {
+    "prefix": "linp",
+    "body": "<%= link_to \"${1:Link text...}\", ${2:parent}_${3:child}_path(${4:@$2}, ${0:@$3}) %>"
+  },
+  "linpp": {
+    "prefix": "linpp",
+    "body": "<%= link_to \"${1:Link text...}\", ${2:parent}_${3:child}_path(${0:@$2}) %>"
+  },
+  "lip": {
+    "prefix": "lip",
+    "body": "<%= link_to \"${1:Link text...}\", ${2:model}_path(${0:@$2}) %>"
+  },
+  "lipp": {
+    "prefix": "lipp",
+    "body": "<%= link_to \"${1:Link text...}\", ${0:model}s_path %>"
+  },
+  "lt": {
+    "prefix": "lt",
+    "body": "<%= link_to \"${1:name}\", ${0:dest} %>"
+  },
+  "ntc": {
+    "prefix": "ntc",
+    "body": "<%= number_to_currency($1) %>"
+  },
+  "ofcfs": {
+    "prefix": "ofcfs",
+    "body": "<%= options_from_collection_for_select ${1:collection}, ${2:value_method}, ${3:text_method}, ${0:selected_value} %>"
+  },
+  "ofs": {
+    "prefix": "ofs",
+    "body": "<%= options_for_select ${1:collection}, ${2:value_method} %>"
+  },
+  "rf": {
+    "prefix": "rf",
+    "body": "<%= render file: \"${1:file}\"$0 %>"
+  },
+  "rt": {
+    "prefix": "rt",
+    "body": "<%= render template: \"${1:file}\"$0 %>"
+  },
+  "slt": {
+    "prefix": "slt",
+    "body": "<%= stylesheet_link_tag ${1::all}, cache: ${0:true} %>"
+  },
+  "sslt": {
+    "prefix": "sslt",
+    "body": "<%= stylesheet_link_tag \"$0\" %>"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "<% if $1 %>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "<% end %>"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "<% if $1 %>",
+      "\t$2",
+      "<% else %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "pry": {
+    "prefix": "pry",
+    "body": "<% require 'pry'; binding.pry %>"
+  }
+}

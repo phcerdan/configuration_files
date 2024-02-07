@@ -1,0 +1,150 @@
+{
+  "apply-templates": {
+    "prefix": "apply-templates",
+    "description": "plain",
+    "body": [
+      "<xsl:apply-templates select=\"${1:*}\" />",
+      ""
+    ]
+  },
+  "attribute": {
+    "prefix": "attribute",
+    "description": "value-of",
+    "body": [
+      "<xsl:attribute name=\"${1:name}\">",
+      "\t<xsl:value-of select=\"${2:*}\" />",
+      "</xsl:attribute>",
+      ""
+    ]
+  },
+  "call-template": {
+    "prefix": "call-template",
+    "description": "with-param",
+    "body": [
+      "<xsl:call-template name=\"${1:template}\">",
+      "\t<xsl:with-param name=\"${2:param}\">$3</xsl:with-param>$4",
+      "</xsl:call-template>",
+      ""
+    ]
+  },
+  "choose": {
+    "prefix": "choose",
+    "body": [
+      "<xsl:choose>",
+      "\t<xsl:when test=\"${1:value}\">",
+      "\t\t$2",
+      "\t</xsl:when>",
+      "</xsl:choose>",
+      ""
+    ]
+  },
+  "copy-of": {
+    "prefix": "copy-of",
+    "body": [
+      "<xsl:copy-of select=\"${1:*}\" />",
+      ""
+    ]
+  },
+  "for-each": {
+    "prefix": "for-each",
+    "body": [
+      "<xsl:for-each select=\"${1:*}\">$2",
+      "</xsl:for-each>",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "<xsl:if test=\"${1:test}\">$2",
+      "</xsl:if>",
+      ""
+    ]
+  },
+  "import": {
+    "prefix": "import",
+    "body": [
+      "<xsl:import href=\"${1:stylesheet}\" />",
+      ""
+    ]
+  },
+  "include": {
+    "prefix": "include",
+    "body": [
+      "<xsl:include href=\"${1:stylesheet}\" />",
+      ""
+    ]
+  },
+  "otherwise": {
+    "prefix": "otherwise",
+    "body": [
+      "<xsl:otherwise>$0",
+      "</xsl:otherwise>",
+      ""
+    ]
+  },
+  "param": {
+    "prefix": "param",
+    "body": [
+      "<xsl:param name=\"${1:name}\">$2",
+      "</xsl:param>",
+      ""
+    ]
+  },
+  "stylesheet": {
+    "prefix": "stylesheet",
+    "body": [
+      "<xsl:stylesheet version=\"1.0\"",
+      "xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">$0",
+      "</xsl:stylesheet>",
+      ""
+    ]
+  },
+  "template": {
+    "prefix": "template",
+    "description": "named",
+    "body": [
+      "<xsl:template name=\"${1:name}\">$0",
+      "</xsl:template>",
+      ""
+    ]
+  },
+  "text": {
+    "prefix": "text",
+    "body": [
+      "<xsl:text>$0</xsl:text>",
+      ""
+    ]
+  },
+  "value-of": {
+    "prefix": "value-of",
+    "body": [
+      "<xsl:value-of select=\"${1:*}\" />",
+      ""
+    ]
+  },
+  "variable": {
+    "prefix": "variable",
+    "description": "select",
+    "body": [
+      "<xsl:variable select=\"${1:*}\" />",
+      ""
+    ]
+  },
+  "when": {
+    "prefix": "when",
+    "body": [
+      "<xsl:when test=\"${1:test}\">$0",
+      "</xsl:when>",
+      ""
+    ]
+  },
+  "with-param": {
+    "prefix": "with-param",
+    "description": "select",
+    "body": [
+      "<xsl:with-param name=\"${1:name}\" select=\"${0:*}\" />",
+      ""
+    ]
+  }
+}

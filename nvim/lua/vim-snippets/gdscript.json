@@ -1,0 +1,184 @@
+{
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class $1 extends ${2:Reference}",
+      "t$3",
+      "",
+      ""
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": [
+      "print($1)",
+      "",
+      ""
+    ]
+  },
+  "ready": {
+    "prefix": "ready",
+    "body": [
+      "func _ready():",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "init": {
+    "prefix": "init",
+    "body": [
+      "func _init():",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "process": {
+    "prefix": "process",
+    "body": [
+      "func _process(delta):",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "input": {
+    "prefix": "input",
+    "body": [
+      "func _input(event):",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "inpute": {
+    "prefix": "inpute",
+    "body": [
+      "func _input_event(event):",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "draw": {
+    "prefix": "draw",
+    "body": [
+      "func _draw():",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "guii": {
+    "prefix": "guii",
+    "body": [
+      "func _gui_input(event):",
+      "t${1:pass}",
+      "",
+      ""
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for $1 in range(${2:start}{$3:,end\\}):",
+      "t${4:pass}",
+      "",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}:",
+      "t${2:pass}",
+      "",
+      ""
+    ]
+  },
+  "while": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition}:",
+      "t${2:pass}",
+      "",
+      ""
+    ]
+  },
+  "func": {
+    "prefix": "func",
+    "body": [
+      "func ${1:method}(${2:args}):",
+      "t${3:pass}",
+      "",
+      ""
+    ]
+  },
+  "signal": {
+    "prefix": "signal",
+    "body": [
+      "signal ${1:signalname}(${2:args})",
+      "",
+      ""
+    ]
+  },
+  "export": {
+    "prefix": "export",
+    "body": [
+      "export(${1:type}${2:,other_configs}) var ${3:name}${4: = default}${5: setget }",
+      "",
+      ""
+    ]
+  },
+  "var": {
+    "prefix": "var",
+    "body": [
+      "var ${1:name}${2: = default}${3: setget }",
+      "",
+      ""
+    ]
+  },
+  "onready": {
+    "prefix": "onready",
+    "body": [
+      "onready var ${1:name} = get_node($2)",
+      "",
+      ""
+    ]
+  },
+  "is": {
+    "prefix": "is",
+    "body": [
+      "${1:instance} is ${2:class}",
+      "",
+      ""
+    ]
+  },
+  "in": {
+    "prefix": "in",
+    "body": [
+      "${1:element} in \\${$2:array\\}",
+      "",
+      ""
+    ]
+  },
+  "gdscript": {
+    "prefix": "gdscript",
+    "body": [
+      "extends ${1:BaseClass}",
+      "",
+      "# class member variables go here, for example:",
+      "# var a = 2",
+      "# var b = textvar",
+      "",
+      "func _ready():",
+      "t# Called every time the node is added to the scene.",
+      "t# Initialization here",
+      "tpass",
+      "",
+      "",
+      ""
+    ]
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1)",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "ifn": {
+    "prefix": "ifn",
+    "body": [
+      "if (!$1)",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if ($1)",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else",
+      "\t$0"
+    ]
+  },
+  "ifelif": {
+    "prefix": "ifelif",
+    "body": [
+      "if ($1)",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else if ($3)",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "else if ($3)",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while (${1:obj}) {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (${1:item} <- ${2:obj}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fori": {
+    "prefix": "fori",
+    "body": [
+      "for (${1:i} <- ${2:0} to ${3:obj}.length) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fory": {
+    "prefix": "fory",
+    "body": [
+      "for {",
+      "\t${1:item} <- ${2:obj}",
+      "\\} yield $0"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "\\} catch {",
+      "\tcase e: FileNotFoundException => $2",
+      "\tcase e: IOException => $3",
+      "\\} finally {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mat": {
+    "prefix": "mat",
+    "body": [
+      "${1:$TM_SELECTED_TEXT} match {",
+      "\tcase $2 => $0",
+      "\\}"
+    ]
+  },
+  "match": {
+    "prefix": "match",
+    "body": [
+      "${1: obj} match {",
+      "\tcase ${2:e} => $3",
+      "\tcase _ => $0",
+      "\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": "case ${1:$TM_SELECTED_TEXT} => $0"
+  },
+  "arg": {
+    "prefix": "arg",
+    "body": "${1:a}: ${2:T}${0:, arg}"
+  },
+  "args": {
+    "prefix": "args",
+    "body": "${1:args}: ${0:T}*"
+  },
+  "def": {
+    "prefix": "def",
+    "body": "def ${1:name}(${2:arg}) = ${0:}"
+  },
+  "prdef": {
+    "prefix": "prdef",
+    "body": "private def ${1:name}(${2:arg}) = ${0:}"
+  },
+  "ovdef": {
+    "prefix": "ovdef",
+    "body": "override def ${1:name}(${2:arg}) = ${0:}"
+  },
+  "fcf": {
+    "prefix": "fcf",
+    "body": "(${1:a}: ${2:T}) => $1 $0"
+  },
+  "=>": {
+    "prefix": "=>",
+    "body": "${1:name} => $0"
+  },
+  "rec": {
+    "prefix": "rec",
+    "body": [
+      "def ${1:name}(${0:arg}) =",
+      "\tif($2) $2",
+      "\telse $1($2)"
+    ]
+  },
+  "crdef": {
+    "prefix": "crdef",
+    "body": "def ${1:name}(${2:arg})(${3:arg}) = ${0:}"
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "def main(args: Array[String]):${1:T} = ${0:}",
+      ""
+    ]
+  },
+  "T": {
+    "prefix": "T",
+    "description": "Boolean",
+    "body": [
+      "bool",
+      ""
+    ]
+  },
+  "bool": {
+    "prefix": "bool",
+    "body": "Boolean"
+  },
+  "anyr": {
+    "prefix": "anyr",
+    "body": "AnyRef"
+  },
+  "dbl": {
+    "prefix": "dbl",
+    "body": "Double"
+  },
+  "int": {
+    "prefix": "int",
+    "body": "Int"
+  },
+  "str": {
+    "prefix": "str",
+    "body": "String"
+  },
+  "chr": {
+    "prefix": "chr",
+    "body": "Char"
+  },
+  "lng": {
+    "prefix": "lng",
+    "body": "Long"
+  },
+  "arr": {
+    "prefix": "arr",
+    "body": "Array${1:[T]}${0:()}"
+  },
+  "buf": {
+    "prefix": "buf",
+    "body": "Buffer${1:[T]}${0:()}"
+  },
+  "list": {
+    "prefix": "list",
+    "body": "List${1:[T]}${0:()}"
+  },
+  "tpl": {
+    "prefix": "tpl",
+    "body": "Tuple${1:2}[${2:T},${0:T}]"
+  },
+  "set": {
+    "prefix": "set",
+    "body": "Set${1:[T]}${0:()}"
+  },
+  "hset": {
+    "prefix": "hset",
+    "body": "HashSet${1:[T]}${0:()}"
+  },
+  "mhset": {
+    "prefix": "mhset",
+    "body": "mutable.HashSet${1:[T]}${0:()}"
+  },
+  "keyval": {
+    "prefix": "keyval",
+    "body": "${1:key}->${2:val}${0:, keyval}"
+  },
+  "map": {
+    "prefix": "map",
+    "body": "Map[${1:T},${2:T}]${0:(keyval)}"
+  },
+  "hmap": {
+    "prefix": "hmap",
+    "body": "HashMap[${1:T},${2:T}]${0:(keyval)}"
+  },
+  "mmap": {
+    "prefix": "mmap",
+    "body": "mutable.Map[${1:T},${2:T}]${0:(keyval)}"
+  },
+  "mhmap": {
+    "prefix": "mhmap",
+    "body": "mutable.HashMap[${1:T},${2:T}]${0:(keyval)}"
+  },
+  "as": {
+    "prefix": "as",
+    "body": "${1:name}.asInstanceOf[${2:T}]"
+  },
+  "is": {
+    "prefix": "is",
+    "body": [
+      "${1:name}.isInstanceOf[${2:T}]",
+      "",
+      ""
+    ]
+  },
+  "(a": {
+    "prefix": "(a",
+    "body": "(${1:a} => $0)"
+  },
+  "{(": {
+    "prefix": "{(",
+    "body": [
+      "{(${1:a},${2:b}) =>",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "filter": {
+    "prefix": "filter",
+    "body": "${0:name}.filter (a"
+  },
+  "mapf": {
+    "prefix": "mapf",
+    "body": "${0:name}.map (a"
+  },
+  "flatmap": {
+    "prefix": "flatmap",
+    "body": "${1:name}.flatMap${0:[T]}(a"
+  },
+  "fldl": {
+    "prefix": "fldl",
+    "body": "${1:name}.foldLeft(${0:first}) {("
+  },
+  "fldr": {
+    "prefix": "fldr",
+    "body": "${1:name}.foldRight(${0:first}) {("
+  },
+  "/:": {
+    "prefix": "/:",
+    "body": "(${1:first}/:${2:name})($0)"
+  },
+  ":\\": {
+    "prefix": ":\\",
+    "body": "(${1:first}:\\${2:name\\})($0)"
+  },
+  "redl": {
+    "prefix": "redl",
+    "body": "${1:name}.reduceLeft[${0:T}] {("
+  },
+  "redr": {
+    "prefix": "redr",
+    "body": "${1:name}.reduceRight[${0:T}] {("
+  },
+  "zipwi": {
+    "prefix": "zipwi",
+    "body": "${0:name}.view.zipWithIndex"
+  },
+  "spl": {
+    "prefix": "spl",
+    "body": "${1:name}.split(\"${0:,}\")"
+  },
+  "val": {
+    "prefix": "val",
+    "body": "val ${1:name}${2:: T} = ${0:value}"
+  },
+  "var": {
+    "prefix": "var",
+    "body": "var ${1:name}${2:: T} = ${0:value}"
+  },
+  "extends": {
+    "prefix": "extends",
+    "body": "extends ${0:what}"
+  },
+  "with": {
+    "prefix": "with",
+    "body": "with ${1:what}${0: with}"
+  },
+  "athis": {
+    "prefix": "athis",
+    "body": "def this(arg) = this(arg)"
+  },
+  "abstract": {
+    "prefix": "abstract",
+    "body": [
+      "abstract class ${1:name}${2:(arg)}${3: extends }${4: with} {",
+      "\t${5:override def toString = \"$1\"}",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class ${1:name}${2:(arg)}${3: extends }${4: with} {",
+      "\t${5:override def toString = \"$1\"}",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "object": {
+    "prefix": "object",
+    "body": "object ${1:name}${2:(arg)}${3: extends }${4: with} ${0:}"
+  },
+  "trait": {
+    "prefix": "trait",
+    "body": [
+      "trait ${1:name}${2: extends }${3: with} {",
+      "\t${0:}",
+      "\\}"
+    ]
+  },
+  "ordered": {
+    "prefix": "ordered",
+    "body": [
+      "class ${1:name}${2:(arg)} extends Ordered[$1] ${3: with} {",
+      "\t${4:override def toString = \"$1\"}",
+      "\tdef compare(that: $1) = ${5:this - that}",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "casecl": {
+    "prefix": "casecl",
+    "body": "case class ${1:name}${2:(arg)}${3: extends }${4: with} ${0:}"
+  },
+  "scalatest": {
+    "prefix": "scalatest",
+    "body": [
+      "${1:import org.scalatest.Suite}",
+      "${0:import org.scalatest.FunSuite}"
+    ]
+  },
+  "assert": {
+    "prefix": "assert",
+    "body": "assert(${1:a} === ${0:b})"
+  },
+  "ensuring": {
+    "prefix": "ensuring",
+    "body": "ifel ensuring(${1:a}==${0:b})"
+  },
+  "expect": {
+    "prefix": "expect",
+    "body": [
+      "expect(${1:what}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "intercept": {
+    "prefix": "intercept",
+    "body": [
+      "intercept[${1:IllegalArgumentException}] {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "test(\"${1:description}\") {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "suite": {
+    "prefix": "suite",
+    "body": [
+      "class ${0:name} extends Suite {",
+      "\tdef test() {",
+      "\\}"
+    ]
+  },
+  "fsuite": {
+    "prefix": "fsuite",
+    "body": [
+      "class ${1:name} extends FunSuite {",
+      "\ttest(\"${0:description}\") {",
+      "\\}"
+    ]
+  },
+  "webproject": {
+    "prefix": "webproject",
+    "body": [
+      "import sbt._",
+      "",
+      "class ${1:Name}(info: ProjectInfo) extends DefaultWebProject(info) {",
+      "\tval liftVersion = \"${0:2.3}\"",
+      "",
+      "\toverride def libraryDependencies = Set(",
+      "",
+      "\t) ++ super.libraryDependencies",
+      "",
+      "\tval snapshots = ScalaToolsSnapshots",
+      "\\}"
+    ]
+  },
+  "liftjar": {
+    "prefix": "liftjar",
+    "body": "\"net.liftweb\" %% \"${0:lib}\" % liftVersion % \"compile->default\","
+  },
+  "jettyjar": {
+    "prefix": "jettyjar",
+    "body": "\"org.mortbay.jetty\" % \"jetty\" % \"${0:version}\" % \"test->default\","
+  },
+  "liftimports": {
+    "prefix": "liftimports",
+    "body": [
+      "import _root_.net.liftweb.http._",
+      "import S._",
+      "import _root_.net.liftweb.util._",
+      "import Helpers._",
+      "import _root_.scala.xml._"
+    ]
+  }
+}

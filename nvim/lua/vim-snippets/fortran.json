@@ -1,0 +1,163 @@
+{
+  "impl": {
+    "prefix": "impl",
+    "body": [
+      "implicit none",
+      "\t$0"
+    ]
+  },
+  "prog": {
+    "prefix": "prog",
+    "body": [
+      "program ${1:main}",
+      "\t$0",
+      "end program $1"
+    ]
+  },
+  "mod": {
+    "prefix": "mod",
+    "body": [
+      "module ${1:modulename}",
+      "\t$0",
+      "end module $1"
+    ]
+  },
+  "proc": {
+    "prefix": "proc",
+    "body": [
+      "procedure ${1:name}",
+      "\t$0",
+      "end procedure $1"
+    ]
+  },
+  "iface": {
+    "prefix": "iface",
+    "body": [
+      "interface ${1:name}",
+      "\t$0",
+      "end interface $1"
+    ]
+  },
+  "doxp": {
+    "prefix": "doxp",
+    "body": "!> @param[$1]$0"
+  },
+  "bool": {
+    "prefix": "bool",
+    "body": "logical :: $0"
+  },
+  "int": {
+    "prefix": "int",
+    "body": "integer :: $0"
+  },
+  "real": {
+    "prefix": "real",
+    "body": "real :: $0"
+  },
+  "double": {
+    "prefix": "double",
+    "body": "double precision :: $0"
+  },
+  "str": {
+    "prefix": "str",
+    "body": "character(len=${1:*}) :: ${0:}"
+  },
+  "type": {
+    "prefix": "type",
+    "body": [
+      "type(${1:name})",
+      "\t$0",
+      "end type"
+    ]
+  },
+  "const": {
+    "prefix": "const",
+    "body": "${1:type}, parameter :: $2 = $0"
+  },
+  "arr": {
+    "prefix": "arr",
+    "body": "${1:type}, ${2:allocatable, }dimension(${3::}) :: $0"
+  },
+  "intent": {
+    "prefix": "intent",
+    "body": "${1:type}, intent(inout) :: $0"
+  },
+  "/": {
+    "prefix": "/",
+    "body": "(/ $1 /) ${2:,&} $0"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1) then",
+      "\t$0",
+      "end if"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "select case (${1:expr})",
+      "\tcase ($2)",
+      "\tcase default",
+      "\t\t$3",
+      "end select $0"
+    ]
+  },
+  "do": {
+    "prefix": "do",
+    "body": [
+      "do ${1:i} = ${2:start}, ${3:end}, ${4:incr}",
+      "\t$0",
+      "end do"
+    ]
+  },
+  "dow": {
+    "prefix": "dow",
+    "body": [
+      "do while ($1)",
+      "\t$2",
+      "end do"
+    ]
+  },
+  "sub": {
+    "prefix": "sub",
+    "body": [
+      "subroutine ${1:name}($2)",
+      "\t$0",
+      "end subroutine $1"
+    ]
+  },
+  "func": {
+    "prefix": "func",
+    "body": [
+      "function ${1:name}($2) result($3)",
+      "\t$0",
+      "end function $1"
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "write(*,*) $0"
+  },
+  "dpr": {
+    "prefix": "dpr",
+    "body": "write(*,*) '$1 = ', $1"
+  },
+  "read": {
+    "prefix": "read",
+    "body": "read(unit = ${1:fp}, file = ${2:filename}, iostat = ${3:ierr}) $0"
+  },
+  "write": {
+    "prefix": "write",
+    "body": "write(unit = ${1:fp}, file = ${2:filename}, iostat = ${3:ierr}) $0"
+  },
+  "open": {
+    "prefix": "open",
+    "body": "open(unit = ${1:fp}, file = ${2:filename}, status = ${3:unknown}, iostat = ${4:ierr}) $0"
+  },
+  "close": {
+    "prefix": "close",
+    "body": "close(unit = ${1:fp}) $0"
+  }
+}

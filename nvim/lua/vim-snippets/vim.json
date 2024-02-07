@@ -1,0 +1,148 @@
+{
+  "t": {
+    "prefix": "t",
+    "description": "try ... catch statement",
+    "body": [
+      "try",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "catch $2",
+      "\t$0",
+      "endtry"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "for ... in loop",
+    "body": [
+      "for $1 in $2",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "endfor"
+    ]
+  },
+  "forkv": {
+    "prefix": "forkv",
+    "description": "for [key, value] in loop",
+    "body": [
+      "for [$1,$2] in items($3)",
+      "\t$0",
+      "\tunlet $1 $2",
+      "endfor"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "description": "while loop",
+    "body": [
+      "while $1",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "endw"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "if statement",
+    "body": [
+      "if $1",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "endif"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "description": "if ... else statement",
+    "body": [
+      "if $1",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else",
+      "\t$0",
+      "endif"
+    ]
+  },
+  "au": {
+    "prefix": "au",
+    "description": "augroup ... autocmd block",
+    "body": [
+      "augroup ${1:AU_NAME}",
+      "\tautocmd!",
+      "\tautocmd ${2:BufRead,BufNewFile} ${3:*.ext,*.ext3|<buffer[=N]>} $0",
+      "augroup END"
+    ]
+  },
+  "auv": {
+    "prefix": "auv",
+    "description": "augroupvisual ... autocmd block with visual placeholder",
+    "body": [
+      "augroup ${1:AU_NAME}",
+      "\tautocmd!",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "augroup END"
+    ]
+  },
+  "bun": {
+    "prefix": "bun",
+    "description": "Vundle.vim Plugin definition",
+    "body": "Plugin '$0'"
+  },
+  "plug": {
+    "prefix": "plug",
+    "description": "vim-plug Plugin definition",
+    "body": "Plug '$0'"
+  },
+  "plugdo": {
+    "prefix": "plugdo",
+    "description": "vim-plug Plugin definition with { 'do': '' }",
+    "body": "Plug '$1', { 'do': '$0' \\}"
+  },
+  "plugon": {
+    "prefix": "plugon",
+    "description": "vim-plug Plugin definition with { 'on': '' }",
+    "body": "Plug '$1', { 'on': '$0' \\}"
+  },
+  "plugfor": {
+    "prefix": "plugfor",
+    "description": "vim-plug Plugin definition with { 'for': '' }",
+    "body": "Plug '$1', { 'for': '$0' \\}"
+  },
+  "plugbr": {
+    "prefix": "plugbr",
+    "description": "vim-plug Plugin definition with { 'branch': '' }",
+    "body": "Plug '$1', { 'branch': '$0' \\}"
+  },
+  "plugtag": {
+    "prefix": "plugtag",
+    "description": "vim-plug Plugin definition with { 'tag': '' }",
+    "body": "Plug '$1', { 'tag': '$0' \\}"
+  },
+  "let": {
+    "prefix": "let",
+    "body": "let ${1:variable} = ${0: value}"
+  },
+  "se": {
+    "prefix": "se",
+    "body": "set ${1:setting};"
+  },
+  "set": {
+    "prefix": "set",
+    "body": "set ${1:setting} = ${0:value}"
+  },
+  "nn": {
+    "prefix": "nn",
+    "body": "nnoremap $1 $2<CR>"
+  },
+  "no": {
+    "prefix": "no",
+    "body": "noremap $1 $2"
+  },
+  "vm": {
+    "prefix": "vm",
+    "body": "vmap $1 $2"
+  },
+  "im": {
+    "prefix": "im",
+    "body": "imap $1 $2"
+  },
+  "exe": {
+    "prefix": "exe",
+    "body": "execute $1"
+  }
+}

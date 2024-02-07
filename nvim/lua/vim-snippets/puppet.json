@@ -1,0 +1,296 @@
+{
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case \\$${1:variable} {",
+      "\tdefault: { $0 \\}",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if \\$${1:variable} {",
+      "\t$2",
+      "\\} else {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if \\$${1:variable} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ifd": {
+    "prefix": "ifd",
+    "body": [
+      "if defined(${1:Resource}[\"${2:name}\"]) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ifnd": {
+    "prefix": "ifnd",
+    "body": [
+      "if !defined(${1:Resource}[\"${2:name}\"]) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "?": {
+    "prefix": "?",
+    "body": [
+      "? {",
+      "\t\"$1\"\t=> $0",
+      "  \\}"
+    ]
+  },
+  "[": {
+    "prefix": "[",
+    "body": "[ $1 ]"
+  },
+  ">": {
+    "prefix": ">",
+    "body": "$1\t=> $0"
+  },
+  "p:": {
+    "prefix": "p:",
+    "body": "\"puppet://puppet/${1:module name}/${0:file name}\""
+  },
+  "alert": {
+    "prefix": "alert",
+    "body": "alert(\"${1:message}\")"
+  },
+  "crit": {
+    "prefix": "crit",
+    "body": "crit(\"${1:message}\")"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": "debug(\"${1:message}\")"
+  },
+  "defined": {
+    "prefix": "defined",
+    "body": "defined(${1:Resource}[\"${2:name}\"])"
+  },
+  "emerg": {
+    "prefix": "emerg",
+    "body": "emerg(\"${1:message}\")"
+  },
+  "extlookup": {
+    "prefix": "extlookup",
+    "description": "Extlookup with defaults and custom data file",
+    "body": "extlookup(\"${1:variable}\", \"${2:default}\", \"${3:data source}\")"
+  },
+  "fail": {
+    "prefix": "fail",
+    "body": "fail(\"${1:message}\")"
+  },
+  "info": {
+    "prefix": "info",
+    "body": "info(\"${1:message}\")"
+  },
+  "inline_template": {
+    "prefix": "inline_template",
+    "body": "inline_template(\"<%= $1 %>\")"
+  },
+  "notice": {
+    "prefix": "notice",
+    "body": "notice(\"${1:message}\")"
+  },
+  "realize": {
+    "prefix": "realize",
+    "body": "realize(${1:Resource}[${2:name}])"
+  },
+  "regsubst": {
+    "prefix": "regsubst",
+    "body": "regsubst(${1:hay stack}, ${2:needle}, \"${3:replacement}\")"
+  },
+  "inc": {
+    "prefix": "inc",
+    "body": "include ${1:classname}"
+  },
+  "split": {
+    "prefix": "split",
+    "body": "split(${1:hay stack}, \"${2:patten}\")"
+  },
+  "versioncmp": {
+    "prefix": "versioncmp",
+    "body": "versioncmp(\"${1:version}\", \"${2:version}\")"
+  },
+  "warning": {
+    "prefix": "warning",
+    "body": "warning(\"${1:message}\")"
+  },
+  "cron": {
+    "prefix": "cron",
+    "body": [
+      "cron { \"${1:name}\":",
+      "\tcommand => \"$2\",",
+      "\tuser    => \"${3:root}\",",
+      "\t$4    => $0,",
+      "\\}",
+      ""
+    ]
+  },
+  "exec": {
+    "prefix": "exec",
+    "body": [
+      "exec { \"${1:name}\":",
+      "\tcommand => \"${2:$1}\",",
+      "\tuser    => \"${3:root}\",",
+      "\t$4    => $0,",
+      "\\}",
+      ""
+    ]
+  },
+  "user": {
+    "prefix": "user",
+    "body": [
+      "user { \"${1:user}\":",
+      "\tensure      => present,",
+      "\tcomment     => \"${2:$1}\",",
+      "\tmanagehome  => true,",
+      "\thome        => \"${0:/home/$1}\",",
+      "\\}",
+      ""
+    ]
+  },
+  "group": {
+    "prefix": "group",
+    "body": [
+      "group { \"${1:group}\":",
+      "\tensure => ${0:present},",
+      "\\}",
+      ""
+    ]
+  },
+  "host": {
+    "prefix": "host",
+    "body": [
+      "host { \"${1:hostname}\":",
+      "\tip => ${0:127.0.0.1},",
+      "\\}",
+      ""
+    ]
+  },
+  "mailalias": {
+    "prefix": "mailalias",
+    "body": [
+      "mailalias { \"${1:localpart}\":",
+      "\trecipient => \"${0:recipient}\",",
+      "\\}",
+      ""
+    ]
+  },
+  "mount": {
+    "prefix": "mount",
+    "body": [
+      "mount { \"${1:destination path}\":",
+      "\tensure\t=> ${2:mounted},",
+      "\tdevice\t=> \"${0:device name or path}\",",
+      "\\}",
+      ""
+    ]
+  },
+  "notify": {
+    "prefix": "notify",
+    "body": [
+      "notify { \"${1:message}\": \\}",
+      ""
+    ]
+  },
+  "package": {
+    "prefix": "package",
+    "body": [
+      "package { \"${1:package name}\":",
+      "\tensure\t=> ${0:present},",
+      "\\}",
+      ""
+    ]
+  },
+  "yumrepo": {
+    "prefix": "yumrepo",
+    "body": [
+      "yumrepo { \"${1:repo name}\":",
+      "\tdescr   => \"${2:$1}\",",
+      "\tenabled => ${0:1},",
+      "\\}",
+      ""
+    ]
+  },
+  "define": {
+    "prefix": "define",
+    "body": [
+      "define $1 ($2) {",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "service": {
+    "prefix": "service",
+    "body": [
+      "service { \"${1:service}\":",
+      "\tensure    => running,",
+      "\tenable    => true,",
+      "\trequire   => [ Package[\"${2:package}\"], File[\"${3:file}\"], ],",
+      "\tsubscribe => [ File[\"${4:configfile1}\"], File[\"${5:configfile2}\"], Package[\"${6:package}\"], ],",
+      "\\}",
+      ""
+    ]
+  },
+  "file": {
+    "prefix": "file",
+    "body": [
+      "file { \"${1:filename}\":",
+      "\tensure  => ${2:present},",
+      "\towner   => \"${3:root}\",",
+      "\tgroup   => \"${4:root}\",",
+      "\tmode    => \"${5:0644}\",",
+      "\tsource  => \"puppet:///modules/${6:module}/${7:source}\",",
+      "\tcontent => template(\"${8:module}/${9:template}\"),",
+      "\talias   => \"${10:alias}\",",
+      "\trequire => [ Package[\"${11:package}\"], File[\"${12:file}\"], ],",
+      "\\}",
+      ""
+    ]
+  },
+  "archive": {
+    "prefix": "archive",
+    "body": [
+      "archive { \"${1:filename}\":",
+      "\tensure     => ${2:present},",
+      "\turl        => \"http://${3:url}\",",
+      "\textension  => \"${4:tgz}\",",
+      "\ttarget     => \"${5:target}\",",
+      "\tchecksum   => ${6:false},",
+      "\tsrc_target => \"${7:/tmp}\",",
+      "\\}",
+      ""
+    ]
+  },
+  "firewall": {
+    "prefix": "firewall",
+    "body": [
+      "firewall { \"${1:comment}\":",
+      "\tproto\t=> ${2:tcp},",
+      "\taction\t=> ${3:accept},",
+      "\tport\t=> $4,",
+      "\\}",
+      ""
+    ]
+  }
+}

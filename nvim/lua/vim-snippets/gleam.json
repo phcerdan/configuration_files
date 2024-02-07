@@ -1,0 +1,137 @@
+{
+  "fn": {
+    "prefix": "fn",
+    "description": "\"fn\"",
+    "body": ""
+  },
+  "pfn": {
+    "prefix": "pfn",
+    "description": "\"pub fn\"",
+    "body": ""
+  },
+  "test": {
+    "prefix": "test",
+    "description": "\"test fn\"",
+    "body": ""
+  },
+  "af": {
+    "prefix": "af",
+    "description": "\"anonymous fn\"",
+    "body": ""
+  },
+  "let": {
+    "prefix": "let",
+    "description": "\"let binding\"",
+    "body": ""
+  },
+  "l": {
+    "prefix": "l",
+    "description": "\"let binding\"",
+    "body": ""
+  },
+  "as": {
+    "prefix": "as",
+    "description": "\"assert binding\"",
+    "body": ""
+  },
+  "tr": {
+    "prefix": "tr",
+    "description": "\"try binding\"",
+    "body": ""
+  },
+  "-": {
+    "prefix": "-",
+    "description": "\"->\"",
+    "body": ""
+  },
+  "case": {
+    "prefix": "case",
+    "description": "\"case expression\"",
+    "body": ""
+  },
+  "ty": {
+    "prefix": "ty",
+    "description": "\"type\"",
+    "body": ""
+  },
+  "pty": {
+    "prefix": "pty",
+    "description": "\"pub type\"",
+    "body": ""
+  },
+  "tya": {
+    "prefix": "tya",
+    "description": "\"type alias\"",
+    "body": ""
+  },
+  "ptya": {
+    "prefix": "ptya",
+    "description": "\"pub type alias\"",
+    "body": ""
+  },
+  "ext": {
+    "prefix": "ext",
+    "description": "\"external type\"",
+    "body": ""
+  },
+  "pext": {
+    "prefix": "pext",
+    "description": "\"pub external type\"",
+    "body": ""
+  },
+  "exfn": {
+    "prefix": "exfn",
+    "description": "\"external fn\"",
+    "body": ""
+  },
+  "pexfn": {
+    "prefix": "pexfn",
+    "description": "\"pub external fn\"",
+    "body": ""
+  },
+  "im": {
+    "prefix": "im",
+    "description": "\"import\"",
+    "body": ""
+  },
+  "im.": {
+    "prefix": "im.",
+    "description": "\"import exposing\"",
+    "body": ""
+  },
+  "p": {
+    "prefix": "p",
+    "description": "\"|>\"",
+    "body": ""
+  },
+  "tup": {
+    "prefix": "tup",
+    "description": "\"tuple()\"",
+    "body": ""
+  },
+  "bl": {
+    "prefix": "bl",
+    "description": "\"block\"",
+    "body": ""
+  },
+  "tf": {
+    "prefix": "tf",
+    "description": "\"fn(Type) -> Type\"",
+    "body": ""
+  },
+  "seq": {
+    "prefix": "seq",
+    "description": "\"should.equal\"",
+    "body": ""
+  },
+  "strue": {
+    "prefix": "strue",
+    "description": "\"should.be_true\"",
+    "body": ""
+  },
+  "sfalse": {
+    "prefix": "sfalse",
+    "description": "\"should.be_false\"",
+    "body": ""
+  }
+}

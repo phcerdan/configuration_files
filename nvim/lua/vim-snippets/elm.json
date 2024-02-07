@@ -1,0 +1,226 @@
+{
+  "imp": {
+    "prefix": "imp",
+    "body": "import ${0:Http}"
+  },
+  "impe": {
+    "prefix": "impe",
+    "body": "import ${1:Html} exposing (${0:..})"
+  },
+  "impae": {
+    "prefix": "impae",
+    "body": "import ${1:Json.Encode} as ${2:Encode} exposing (${0:Value})"
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "${1:fn} : ${2:a} -> ${3:a}",
+      "$1 $4 =",
+      "\t$0"
+    ]
+  },
+  "fn1": {
+    "prefix": "fn1",
+    "body": [
+      "${1:fn} : ${2:a} -> ${3:a}",
+      "$1 $4 =",
+      "\t$0"
+    ]
+  },
+  "fn2": {
+    "prefix": "fn2",
+    "body": [
+      "${1:fn} : ${2:a} -> ${3:a} -> ${4:a}",
+      "$1 $5 =",
+      "\t$0"
+    ]
+  },
+  "fn3": {
+    "prefix": "fn3",
+    "body": [
+      "${1:fn} : ${2:a} -> ${3:a} -> ${4:a} -> ${5:a}",
+      "$1 $6 =",
+      "\t$0"
+    ]
+  },
+  "fn0": {
+    "prefix": "fn0",
+    "body": [
+      "${1:fn} : ${2:a}",
+      "$1 =",
+      "\t$0"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case $1 of",
+      "\t$2 ->",
+      "\t\t$0"
+    ]
+  },
+  "-": {
+    "prefix": "-",
+    "body": [
+      "$1 ->",
+      "\t$0"
+    ]
+  },
+  "let": {
+    "prefix": "let",
+    "body": [
+      "let",
+      "\t$1 =",
+      "\t\t$2",
+      "in",
+      "\t$0"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1 then",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else",
+      "\t$0"
+    ]
+  },
+  "ty": {
+    "prefix": "ty",
+    "body": [
+      "type ${1:Msg}",
+      "\t= $0"
+    ]
+  },
+  "tya": {
+    "prefix": "tya",
+    "body": [
+      "type alias ${1:Model} =",
+      "\t$0"
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": "test \"$1\" <| _ -> $0"
+  },
+  "desc": {
+    "prefix": "desc",
+    "body": "describe \"$1\" [ $0 ]"
+  },
+  "doc": {
+    "prefix": "doc",
+    "body": [
+      "{-| $0",
+      "-\\}"
+    ]
+  },
+  "p": {
+    "prefix": "p",
+    "body": "|> $0"
+  },
+  "program": {
+    "prefix": "program",
+    "description": "Elm 0.18 program",
+    "body": [
+      "import Html exposing (Html)",
+      "",
+      "",
+      "type alias Model =",
+      "\t{\\}",
+      "",
+      "",
+      "type Msg",
+      "\t= Noop",
+      "",
+      "",
+      "main : Program Never Model Msg",
+      "main =",
+      "\tHtml.program",
+      "\t\t{ init = init",
+      "\t\t, view = view",
+      "\t\t, update = update",
+      "\t\t, subscriptions = subscriptions",
+      "\t\t\\}",
+      "",
+      "",
+      "init : ( Model, Cmd Msg )",
+      "init =",
+      "\t{\\} ! []",
+      "",
+      "",
+      "update : Msg -> Model -> ( Model, Cmd Msg )",
+      "update msg model =",
+      "\tcase msg of",
+      "\t\tNoop ->",
+      "\t\t\tmodel ! []",
+      "",
+      "",
+      "subscriptions : Model -> Sub Msg",
+      "subscriptions model =",
+      "\tSub.none",
+      "",
+      "",
+      "view : Model -> Html Msg",
+      "view model =",
+      "\tHtml.text \"Hello, sailor!\""
+    ]
+  },
+  "element": {
+    "prefix": "element",
+    "body": [
+      "module Main exposing (Model, Msg(..), init, main, subscriptions, update, view)",
+      "",
+      "import Browser",
+      "import Html exposing (..)",
+      "import Json.Encode",
+      "",
+      "",
+      "main : Program Flags Model Msg",
+      "main =",
+      "\tBrowser.element",
+      "\t\t{ init = init",
+      "\t\t, update = update",
+      "\t\t, subscriptions = subscriptions",
+      "\t\t, view = view",
+      "\t\t\\}",
+      "",
+      "",
+      "type alias Model =",
+      "\t{\\}",
+      "",
+      "",
+      "type alias Flags =",
+      "\tJson.Encode.Value",
+      "",
+      "",
+      "init : Flags -> ( Model, Cmd Msg )",
+      "init flags_ =",
+      "\t( {\\}",
+      "\t, Cmd.none",
+      "\t)",
+      "",
+      "",
+      "type Msg",
+      "\t= Noop",
+      "",
+      "",
+      "update : Msg -> Model -> ( Model, Cmd Msg )",
+      "update msg model =",
+      "\tcase msg of",
+      "\t\tNoop ->",
+      "\t\t\t( model",
+      "\t\t\t, Cmd.none",
+      "\t\t\t)",
+      "",
+      "",
+      "subscriptions : Model -> Sub Msg",
+      "subscriptions model =",
+      "\tSub.none",
+      "",
+      "",
+      "view : Model -> Html Msg",
+      "view model =",
+      "\th1 [] [ text \"Hello, world!\" ]"
+    ]
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env tclsh",
+      ""
+    ]
+  },
+  "pro": {
+    "prefix": "pro",
+    "body": [
+      "proc ${1:function_name} {${2:args}\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "xif": {
+    "prefix": "xif",
+    "body": "${1:expr}? ${2:true} : ${0:false}"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if {$1\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if {$1\\} {",
+      "\t$2",
+      "\\} else {",
+      "\t${0:# else...}",
+      "\\}"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "elseif {$1\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ifee": {
+    "prefix": "ifee",
+    "body": [
+      "if {$1\\} {",
+      "\t$2",
+      "\\} elseif {$3\\} {",
+      "\t${4:# elsif...}",
+      "\\} else {",
+      "\t${0:# else...}",
+      "\\}"
+    ]
+  },
+  "ifc": {
+    "prefix": "ifc",
+    "body": [
+      "if { [catch {${1:#do something...}\\} ${2:err}] \\} {",
+      "\t${0:# handle failure...}",
+      "\\}"
+    ]
+  },
+  "catch": {
+    "prefix": "catch",
+    "body": "catch {$1\\} ${2:err} ${0:options}"
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while {$1\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for {set ${2:var} 0\\} {\\$$2 < ${1:count}\\} {${3:incr} $2\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fore": {
+    "prefix": "fore",
+    "body": [
+      "foreach ${1:x} {${2:#list}\\} {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "af": {
+    "prefix": "af",
+    "body": "after ${1:ms} ${0:#do something}"
+  },
+  "afc": {
+    "prefix": "afc",
+    "body": "after cancel ${0:id or script}"
+  },
+  "afi": {
+    "prefix": "afi",
+    "body": "after idle ${0:script}"
+  },
+  "afin": {
+    "prefix": "afin",
+    "body": "after info ${0:id}"
+  },
+  "exp": {
+    "prefix": "exp",
+    "body": "expr {${0:#expression here}\\}"
+  },
+  "sw": {
+    "prefix": "sw",
+    "body": [
+      "switch ${1:var} {",
+      "\t${3:pattern 1} {",
+      "\t\t${0:#do something}",
+      "\t\\}",
+      "\tdefault {",
+      "\t\t${2:#do something}",
+      "\t\\}",
+      "\\}"
+    ]
+  },
+  "ca": {
+    "prefix": "ca",
+    "body": [
+      "${1:pattern} {",
+      "\t${2:#do something}",
+      "\\}"
+    ]
+  },
+  "ns": {
+    "prefix": "ns",
+    "body": "namespace eval ${1:path} {${0:#script...}\\}"
+  },
+  "nsc": {
+    "prefix": "nsc",
+    "body": "namespace current"
+  }
+}

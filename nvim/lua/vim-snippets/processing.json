@@ -1,0 +1,955 @@
+{
+  "docc": {
+    "prefix": "docc",
+    "body": [
+      "/**",
+      " *\t${1:@private}$0",
+      " */",
+      "$0"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "${1:void/private/protected/public}${2: static} ${3:name}($4) {",
+      "\t${5://if not void return null;}",
+      "\\}",
+      "$0"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "${1:void }${2:name}($3) {",
+      "\t${4://if not void return null;}",
+      "\\}",
+      "$0"
+    ]
+  },
+  "const": {
+    "prefix": "const",
+    "body": "static final ${1:Object} ${2:VAR_NAM} = $0;"
+  },
+  "var": {
+    "prefix": "var",
+    "body": "${1:private/public }${2:static }${3:String} ${4:str}${5: =}${0:value};"
+  },
+  "obj": {
+    "prefix": "obj",
+    "body": "${1:private/public }${2:Object} ${3:o}${4: = new }$2($0);"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (int ${2:i} = 0; $2 < ${1:Things}.length; $2${3:++}) {",
+      "\t${0:$1[$2]}",
+      "\\};"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while ($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "break": {
+    "prefix": "break",
+    "body": "break ${1:label};"
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1:expression} :",
+      "\t$0",
+      "break;"
+    ]
+  },
+  "default": {
+    "prefix": "default",
+    "body": [
+      "default :",
+      "\t$1",
+      "break;"
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch(${1:expression}) {",
+      "\tcase '${3:case}':",
+      "\t\t$4",
+      "\t\tbreak;",
+      "\t$0",
+      "\tdefault:",
+      "\t\t$2",
+      "\\}"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\} catch(${1:Exception} ${2:e}) {",
+      "\\}"
+    ]
+  },
+  "tryf": {
+    "prefix": "tryf",
+    "body": [
+      "try {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\} catch(${1:Exception} ${2:e}) {",
+      "\\} finally {",
+      "\\}"
+    ]
+  },
+  "throw": {
+    "prefix": "throw",
+    "body": "throw new (\"${1:Exception()}\");"
+  },
+  "?": {
+    "prefix": "?",
+    "body": [
+      "? ${1:trueExpression} : ${2:falseExpression}",
+      "$0"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": "if (${1:true}) {$0\\}"
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if (${1:true}) {$2\\}",
+      "else{$0\\}"
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "println(\"$0\");"
+  },
+  "setup": {
+    "prefix": "setup",
+    "body": [
+      "void setup(){",
+      "\t$1",
+      "\\}",
+      "",
+      "void draw(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "opengl": {
+    "prefix": "opengl",
+    "body": [
+      "import processing.opengl.*;",
+      "import javax.media.opengl.*;",
+      "",
+      "PGraphicsOpenGL pgl;",
+      "GL gl;",
+      "",
+      "void setup(){",
+      "\tsize( ${1:300}, ${2:300}, OPENGL );",
+      "\tcolorMode( RGB, 1.0 );",
+      "\thint( ENABLE_OPENGL_4X_SMOOTH );",
+      "\tpgl = (PGraphicsOpenGL) g;",
+      "\tgl = pgl.gl;",
+      "\tgl.setSwapInterval(1);",
+      "\tinitGL();",
+      "\t$3",
+      "\\}",
+      "",
+      "void draw(){",
+      "\tpgl.beginGL();",
+      "\t\t$4",
+      "\tpgl.endGL();",
+      "\tgetOpenGLErrors();",
+      "\\}",
+      "",
+      "void initGL(){",
+      "\t$0",
+      "\\}",
+      "",
+      "void getOpenGLErrors(){",
+      "\tint error = gl.glGetError();",
+      "\tswitch (error){",
+      "\t\tcase 1280 :",
+      "\t\t\tprintln(\"GL_INVALID_ENUM - An invalid enumerant was passed to an OpenGL command.\");",
+      "\t\tbreak;",
+      "\t\tcase 1282 :",
+      "\t\t\tprintln(\"GL_INVALID_OPERATION - An OpenGL command was issued that was invalid or inappropriate for the current state.\");",
+      "\t\tbreak;",
+      "\t\tcase 1281 :",
+      "\t\t\tprintln(\"GL_INVALID_VALUE - A value was passed to OpenGL that was outside the allowed range.\");",
+      "\t\tbreak;",
+      "\t\tcase 1285 :",
+      "\t\t\tprintln(\"GL_OUT_OF_MEMORY - OpenGL was unable to allocate enough memory to process a command.\");",
+      "\t\tbreak;",
+      "\t\tcase 1283 :",
+      "\t\t\tprintln(\"GL_STACK_OVERFLOW - A command caused an OpenGL stack to overflow.\");",
+      "\t\tbreak;",
+      "\t\tcase 1284 :",
+      "\t\t\tprintln(\"GL_STACK_UNDERFLOW - A command caused an OpenGL stack to underflow.\");",
+      "\t\tbreak;",
+      "\t\tcase 32817 :",
+      "\t\t\tprintln(\"GL_TABLE_TOO_LARGE\");",
+      "\t\tbreak;",
+      "\t\\}",
+      "\\}",
+      ""
+    ]
+  },
+  "gl": {
+    "prefix": "gl",
+    "description": "gl clear",
+    "body": [
+      "gl.glClear(${1:GL.GL_COLOR_BUFFER_BIT}${2: | }${0:GL.GL_DEPTH_BUFFER_BIT});",
+      ""
+    ]
+  },
+  "frameRate": {
+    "prefix": "frameRate",
+    "body": [
+      "frameRate(${1:30});",
+      "$0"
+    ]
+  },
+  "saveFrame": {
+    "prefix": "saveFrame",
+    "body": [
+      "saveFrame(\"${1:filename-####}${0:.ext}\");",
+      ""
+    ]
+  },
+  "size": {
+    "prefix": "size",
+    "description": "opengl",
+    "body": [
+      "size(${1:200}, ${2:200}${0:, OPENGL});",
+      ""
+    ]
+  },
+  "color": {
+    "prefix": "color",
+    "body": "color ${1:c}${2: = color(}${3:value1, }${4:value2, }${0:value3)};"
+  },
+  "char": {
+    "prefix": "char",
+    "body": "char ${1:m}${2: = \"}${0:char\"};"
+  },
+  "float": {
+    "prefix": "float",
+    "body": "float ${1:f}${2: = }${0:0.0f};"
+  },
+  "int": {
+    "prefix": "int",
+    "body": "int ${1:f}${2: = }${0:0};"
+  },
+  "boolean": {
+    "prefix": "boolean",
+    "body": "boolean ${1:b}${2: = }${0:true};"
+  },
+  "byte": {
+    "prefix": "byte",
+    "body": "byte ${1:b}${2: = }${0:127};"
+  },
+  "string": {
+    "prefix": "string",
+    "body": "String ${1:str}${2: = \"}${0:CCCP\"};"
+  },
+  "array": {
+    "prefix": "array",
+    "body": "${1:int}[] ${2:numbers}${3: = new $1}[${0:length}];"
+  },
+  "object": {
+    "prefix": "object",
+    "body": [
+      "${1:Object} ${2:o}${3: = new $1}($0);",
+      ""
+    ]
+  },
+  "curve": {
+    "prefix": "curve",
+    "description": "3D",
+    "body": "curve(${1:x1}, ${2:y1}, ${3:z1}, ${4:x2}, ${5:y2}, ${6:z2}, ${7:x3}, ${8:y3}, ${9:z3}, ${10:x4}, ${11:y4}, ${0:z4});"
+  },
+  "curveDetail": {
+    "prefix": "curveDetail",
+    "body": "curveDetail(${0:detail});"
+  },
+  "curvePoint": {
+    "prefix": "curvePoint",
+    "body": "curvePoint(${1:a}, ${2:b}, ${3:c}, ${4:d}, ${0:t});"
+  },
+  "curveTightness": {
+    "prefix": "curveTightness",
+    "body": [
+      "curveTightness(${0:squishy});",
+      ""
+    ]
+  },
+  "bezier": {
+    "prefix": "bezier",
+    "description": "3D",
+    "body": "bezier(${1:x1}, ${2:y1}, ${3:z1}, ${4:cx1}, ${5:cy1}, ${6:cz1}, ${7:cx2}, ${8:cy2}, ${9:cz2}, ${10:x2}, ${11:y2}, ${0:z2});"
+  },
+  "bezierDetail": {
+    "prefix": "bezierDetail",
+    "body": "bezierDetail(${0:detail});"
+  },
+  "bezierTangent": {
+    "prefix": "bezierTangent",
+    "body": "bezierTangent(${1:a}, ${2:b}, ${3:c}, ${4:d}, ${0:t});"
+  },
+  "bezierPoint": {
+    "prefix": "bezierPoint",
+    "body": [
+      "bezierPoint(${1:a}, ${2:b}, ${3:c}, ${4:d}, ${0:t});",
+      ""
+    ]
+  },
+  "vertex": {
+    "prefix": "vertex",
+    "description": "3D",
+    "body": "vertex(${1:x}, ${2:y}, ${3:z}${4:, }${5:u}${6:, }${0:v});"
+  },
+  "bezierVertex": {
+    "prefix": "bezierVertex",
+    "description": "3D",
+    "body": "bezierVertex(${1:cx1}, ${2:cy1}, ${3:cz1}, ${4:cx2}, ${5:cy2}, ${6:cz2}, ${7:x}, ${8:y}, ${0:z});"
+  },
+  "curveVertex": {
+    "prefix": "curveVertex",
+    "description": "3D",
+    "body": [
+      "curveVertex(${1:x}, ${2:y}, ${0:z});",
+      ""
+    ]
+  },
+  "stroke": {
+    "prefix": "stroke",
+    "body": "stroke(${1:value1}, ${2:value2}, ${3:value3}${4:, }${0:alpha});"
+  },
+  "strokeWeight": {
+    "prefix": "strokeWeight",
+    "body": [
+      "strokeWeight(${0:1});",
+      ""
+    ]
+  },
+  "mouseDragged": {
+    "prefix": "mouseDragged",
+    "body": [
+      "void mouseDragged(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mouseMoved": {
+    "prefix": "mouseMoved",
+    "body": [
+      "void mouseMoved(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mouseReleased": {
+    "prefix": "mouseReleased",
+    "body": [
+      "void mouseReleased(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mousePressed": {
+    "prefix": "mousePressed",
+    "body": [
+      "void mousePressed(){",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "keyReleased": {
+    "prefix": "keyReleased",
+    "body": [
+      "void keyReleased(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "keyTyped": {
+    "prefix": "keyTyped",
+    "body": [
+      "void keyTyped(){",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "keyPressed": {
+    "prefix": "keyPressed",
+    "body": [
+      "void keyPressed(){",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "loadStrings": {
+    "prefix": "loadStrings",
+    "body": "loadStrings(\"${0:filename}\");"
+  },
+  "saveStrings": {
+    "prefix": "saveStrings",
+    "body": "saveStrings(${1:filename}, ${0:strings});"
+  },
+  "loadBytes": {
+    "prefix": "loadBytes",
+    "body": "loadBytes(\"${0:filename}\");"
+  },
+  "beginRecord": {
+    "prefix": "beginRecord",
+    "body": "beginRecord(${1:renderer}, ${0:filename});"
+  },
+  "saveBytes": {
+    "prefix": "saveBytes",
+    "body": "saveBytes(${1:filename}, ${0:bytes});"
+  },
+  "createWriter": {
+    "prefix": "createWriter",
+    "body": "createWriter(${0:filename});"
+  },
+  "createReader": {
+    "prefix": "createReader",
+    "body": [
+      "createReader(${0:filename});",
+      ""
+    ]
+  },
+  "pushMatrix": {
+    "prefix": "pushMatrix",
+    "body": [
+      "pushMatrix();",
+      "${0:};",
+      "popMatrix();",
+      "",
+      ""
+    ]
+  },
+  "text": {
+    "prefix": "text",
+    "description": "stringdata",
+    "body": "text(${1:stringdata}, ${2:x}, ${3:y}, ${4:width}, ${5:height}${6:, }${0:z});"
+  },
+  "textSize": {
+    "prefix": "textSize",
+    "body": "textSize(${0:size});"
+  },
+  "textLeading": {
+    "prefix": "textLeading",
+    "body": "textLeading(${0:size});"
+  },
+  "textWidth": {
+    "prefix": "textWidth",
+    "body": "textWidth(${0:data});"
+  },
+  "font": {
+    "prefix": "font",
+    "body": [
+      "PFont ${1:font};",
+      "$1 = loadFont(\"${0:FFScala-32.vlw}\");"
+    ]
+  },
+  "loadFont": {
+    "prefix": "loadFont",
+    "body": "${1:font} = loadFont(\"${0:FFScala-32.vlw}\");"
+  },
+  "textFont": {
+    "prefix": "textFont",
+    "body": [
+      "textFont(${1:font}${2:, }${0:size});",
+      ""
+    ]
+  },
+  "tan": {
+    "prefix": "tan",
+    "body": "tan(${0:rad});"
+  },
+  "atan": {
+    "prefix": "atan",
+    "body": "atan(${0:rad});"
+  },
+  "atan2": {
+    "prefix": "atan2",
+    "body": "atan2(${0:rad});"
+  },
+  "sin": {
+    "prefix": "sin",
+    "body": "sin(${0:rad});"
+  },
+  "asin": {
+    "prefix": "asin",
+    "body": "asin(${0:rad});"
+  },
+  "cos": {
+    "prefix": "cos",
+    "body": "cos(${0:rad});"
+  },
+  "acos": {
+    "prefix": "acos",
+    "body": "acos(${0:rad});"
+  },
+  "degrees": {
+    "prefix": "degrees",
+    "body": "degrees(${0:rad});"
+  },
+  "radians": {
+    "prefix": "radians",
+    "body": "radians(${0:deg});"
+  },
+  "randomSseed": {
+    "prefix": "randomSseed",
+    "body": "randomSeed(${0:value});"
+  },
+  "random": {
+    "prefix": "random",
+    "body": "random(${1:value1}${2:, }${0:value2});"
+  },
+  "pow": {
+    "prefix": "pow",
+    "body": "pow(${1:num}, ${0:exponent});"
+  },
+  "floor": {
+    "prefix": "floor",
+    "body": "floor(${0:value});"
+  },
+  "sqrt": {
+    "prefix": "sqrt",
+    "body": "sqrt(${0:value});"
+  },
+  "abs": {
+    "prefix": "abs",
+    "body": "abs(${0:value});"
+  },
+  "sq": {
+    "prefix": "sq",
+    "body": "sq(${0:value});"
+  },
+  "ceil": {
+    "prefix": "ceil",
+    "body": "ceil(${0:value});"
+  },
+  "exp": {
+    "prefix": "exp",
+    "body": "exp(${0:value});"
+  },
+  "round": {
+    "prefix": "round",
+    "body": "round(${0:value}\\};"
+  },
+  "max": {
+    "prefix": "max",
+    "description": "array",
+    "body": "max(${0:array});"
+  },
+  "min": {
+    "prefix": "min",
+    "description": "array",
+    "body": "min(${0:array});"
+  },
+  "log": {
+    "prefix": "log",
+    "body": "log(${0:value});"
+  },
+  "map": {
+    "prefix": "map",
+    "body": "map(${1:value}, ${2:low1}, ${4:high1}, ${5:low2}, ${0:high2});"
+  },
+  "norm": {
+    "prefix": "norm",
+    "body": "norm(${1:value}, ${2:low}, ${0:high});"
+  },
+  "constrain": {
+    "prefix": "constrain",
+    "body": "constrain(${1:value}, ${2:min}, ${0:max});"
+  },
+  "mag": {
+    "prefix": "mag",
+    "body": "mag(${1:a}, ${2:b}${3:, }${0:c});"
+  },
+  "dist": {
+    "prefix": "dist",
+    "description": "3D",
+    "body": [
+      "dist(${1:x1}, ${2:y1}, ${3:z1}, ${4:x2}, ${5:y2}, ${0:z2});",
+      ""
+    ]
+  },
+  "noise": {
+    "prefix": "noise",
+    "body": "noise(${1:x}${2:, }${3:y}${4:, }${0:z});"
+  },
+  "noiseDetail": {
+    "prefix": "noiseDetail",
+    "body": "noiseDetail(${1:octaves}${2:, }${0:falloff});"
+  },
+  "noiseSeed": {
+    "prefix": "noiseSeed",
+    "body": [
+      "noiseSeed(${0:x});",
+      ""
+    ]
+  },
+  "shininess": {
+    "prefix": "shininess",
+    "body": "shininess(${0:shine});"
+  },
+  "specular": {
+    "prefix": "specular",
+    "body": "specular(${1:value1}, ${2:value2}, ${3:value3}${4:, }${0:alpha});"
+  },
+  "ambient": {
+    "prefix": "ambient",
+    "body": "ambient(${1:value1}, ${2:value2}, ${0:value3});"
+  },
+  "emissive": {
+    "prefix": "emissive",
+    "body": [
+      "emissive(${1:value1}, ${2:value2}, ${0:value3});",
+      ""
+    ]
+  },
+  "diretionalLight": {
+    "prefix": "diretionalLight",
+    "body": "directionalLight(${1:v1}, ${2:v2}, ${3:v3}, ${4:nx}, ${5:ny}, ${0:nz});"
+  },
+  "pointLight": {
+    "prefix": "pointLight",
+    "body": "pointLight(${1:v1}, ${2:v2}, ${3:v3}, ${4:nx}, ${5:ny}, ${0:nz});"
+  },
+  "lightFalloff": {
+    "prefix": "lightFalloff",
+    "body": "lightFalloff(${1:constant}, ${2:linear}, ${0:quadratic});"
+  },
+  "normal": {
+    "prefix": "normal",
+    "body": "normal(${1:nx}, ${2:ny}, ${0:nz});"
+  },
+  "lightSpecular": {
+    "prefix": "lightSpecular",
+    "body": "lightSpecular(${1:v1}, ${2:v2}, ${0:v3});"
+  },
+  "ambientLight": {
+    "prefix": "ambientLight",
+    "body": "ambientLight(${1:v1}, ${2:v2}, ${3:v3}${7:, ${4:x}, ${5:y}, ${0:z}});"
+  },
+  "spotLight": {
+    "prefix": "spotLight",
+    "body": [
+      "spotLight(${1:v1}, ${2:v2}, ${3:v3}, ${4:x}, ${5:y}, ${6:z}, ${7:nx}, ${8:ny}, ${9:nz}, ${10:angle}, ${0:concentration});",
+      ""
+    ]
+  },
+  "camera": {
+    "prefix": "camera",
+    "body": "camera(${1:eyeX}, ${2:eyeY}, ${3:eyeZ}, ${4:centerX}, ${5:centerY}, ${6:centerZ}, ${7:upX}, ${8:upY}, ${0:upZ});"
+  },
+  "ortho": {
+    "prefix": "ortho",
+    "body": "ortho(${1:left}, ${2:right}, ${3:bottom}, ${4:top}, ${5:near}, ${0:far});"
+  },
+  "perspective": {
+    "prefix": "perspective",
+    "body": "perspective(${1:fov}, ${2:aspect}, ${3:zNear}, ${0:zFar});"
+  },
+  "frustrum": {
+    "prefix": "frustrum",
+    "body": [
+      "frustrum(${1:left}, ${2:right}, ${3:bottom}, ${4:top}, ${5:near}, ${0:far});",
+      ""
+    ]
+  },
+  "rotate": {
+    "prefix": "rotate",
+    "body": "rotate${1:X}(${0:angle});"
+  },
+  "translate": {
+    "prefix": "translate",
+    "body": "translate(${1:x}, ${2:y}${3:, }${0:z});"
+  },
+  "scale": {
+    "prefix": "scale",
+    "body": [
+      "scale(${1:x}, ${2:y}${3:, }${0:z});",
+      ""
+    ]
+  },
+  "coord": {
+    "prefix": "coord",
+    "body": [
+      "${1:model/screen}${2:X}(${3:x}, ${4:y}, ${0:z});",
+      ""
+    ]
+  },
+  "brightness": {
+    "prefix": "brightness",
+    "body": "brightness(${0:color});"
+  },
+  "lerpColor": {
+    "prefix": "lerpColor",
+    "body": "lerpColor(${1:c1}, ${2:c2}, ${0:amt});"
+  },
+  "saturation": {
+    "prefix": "saturation",
+    "body": "saturation(${0:color});"
+  },
+  "hue": {
+    "prefix": "hue",
+    "body": "hue(${0:color});"
+  },
+  "alpha": {
+    "prefix": "alpha",
+    "body": "alpha(${0:color});"
+  },
+  "tint": {
+    "prefix": "tint",
+    "body": [
+      "tint(${1:value1}, ${2:value2}, ${3:value3}${4:, }${0:alpha});",
+      ""
+    ]
+  },
+  "set": {
+    "prefix": "set",
+    "description": "pixel",
+    "body": "set(${1:x}, ${2:y}, ${0:color/image});"
+  },
+  "pixels": {
+    "prefix": "pixels",
+    "body": "pixels[${0:index}]"
+  },
+  "get": {
+    "prefix": "get",
+    "description": "pixel",
+    "body": [
+      "get(${1:x}, ${2:y}${3:, }${4:width}${5:, }${0:height});",
+      ""
+    ]
+  },
+  "triangle": {
+    "prefix": "triangle",
+    "body": "triangle(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${0:y3});"
+  },
+  "line": {
+    "prefix": "line",
+    "description": "3D",
+    "body": "line(${1:x1}, ${2:y1}, ${3:z1}, ${4:x2}, ${5:y2}, ${0:z2});"
+  },
+  "arc": {
+    "prefix": "arc",
+    "body": "arc(${1:x}, ${2:y}, ${3:width}, ${4:height}, ${5:start}, ${0:stop});"
+  },
+  "point": {
+    "prefix": "point",
+    "body": "point(${1:x}, ${2:y}${3:, }${0:z});"
+  },
+  "quad": {
+    "prefix": "quad",
+    "body": "quad(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3}, ${7:x4}, ${0:y4});"
+  },
+  "ellipse": {
+    "prefix": "ellipse",
+    "body": "ellipse(${1:x}, ${2:y}, ${3:width}, ${0:height});"
+  },
+  "rect": {
+    "prefix": "rect",
+    "body": "rect(${1:x}, ${2:y}, ${3:width}, ${0:height});"
+  },
+  "box": {
+    "prefix": "box",
+    "body": "box(${1:width}, ${2:height}, ${0:depth});"
+  },
+  "sphere": {
+    "prefix": "sphere",
+    "body": "sphere(${0:radius});"
+  },
+  "sphereDetails": {
+    "prefix": "sphereDetails",
+    "body": [
+      "sphereDetail(${0:n});",
+      ""
+    ]
+  },
+  "split": {
+    "prefix": "split",
+    "body": "split(\"${1:str}\"${2: , }${0:delimiter});"
+  },
+  "splitTokens": {
+    "prefix": "splitTokens",
+    "body": "splitTokens(${1:str}${2:, }${0:tokens});"
+  },
+  "join": {
+    "prefix": "join",
+    "body": "join(${1:strgArray}${2: , }${0:seperator});"
+  },
+  "shorten": {
+    "prefix": "shorten",
+    "body": "shorten(${0:array});"
+  },
+  "concat": {
+    "prefix": "concat",
+    "body": "concat(${1:array1}, ${0:array2});"
+  },
+  "subset": {
+    "prefix": "subset",
+    "body": "subset(${1:array}, ${0:offset});"
+  },
+  "append": {
+    "prefix": "append",
+    "body": "append(${1:array}, ${0:element});"
+  },
+  "reverse": {
+    "prefix": "reverse",
+    "body": "reverse(${0:array});"
+  },
+  "splice": {
+    "prefix": "splice",
+    "body": "splice(${1:array}, ${2:value/array2}, ${0:index});"
+  },
+  "sort": {
+    "prefix": "sort",
+    "body": "sort(${1:dataArray}${2:, }${0:count});"
+  },
+  "expand": {
+    "prefix": "expand",
+    "body": "expand(${1:array}${2:, }${0:newSize});"
+  },
+  "arrayCopy": {
+    "prefix": "arrayCopy",
+    "body": [
+      "arrayCopy(${1:src}, ${2:dest}, ${3:, }${0:length});",
+      ""
+    ]
+  },
+  "str": {
+    "prefix": "str",
+    "body": "str(\"${0:str}\");"
+  },
+  "match": {
+    "prefix": "match",
+    "body": "match(${1:str}, ${0:regexp});"
+  },
+  "trim": {
+    "prefix": "trim",
+    "body": "trim(${0:str});"
+  },
+  "nf": {
+    "prefix": "nf",
+    "body": "nf(${2:value}, ${3:left}${4:, }${0:right});"
+  },
+  "nfs": {
+    "prefix": "nfs",
+    "body": "nfs(${2:value}, ${3:left}${4:, }${0:right});"
+  },
+  "nfp": {
+    "prefix": "nfp",
+    "body": "nfp(${2:value}, ${3:left}${4:, }${0:right});"
+  },
+  "nfc": {
+    "prefix": "nfc",
+    "body": [
+      "nfc(${1:value}${2:, }${0:right});",
+      ""
+    ]
+  },
+  "unbinary": {
+    "prefix": "unbinary",
+    "body": "unbinary(\"${0:str}\"\\});"
+  },
+  "hexadecimal": {
+    "prefix": "hexadecimal",
+    "body": "hex(${0:c});"
+  },
+  "unhex": {
+    "prefix": "unhex",
+    "body": "unhex(${0:c});"
+  },
+  "binary": {
+    "prefix": "binary",
+    "body": [
+      "binary(${1:value}${2:, }${0:digits});",
+      ""
+    ]
+  },
+  "loadImage": {
+    "prefix": "loadImage",
+    "body": "loadImage(${0:filename});"
+  },
+  "image": {
+    "prefix": "image",
+    "body": "image(${1:img}, ${2:x}, ${3:y}${4:, }${5:width}${6:, }${0:height});"
+  },
+  "copy": {
+    "prefix": "copy",
+    "body": [
+      "copy(${1:srcImg}${2:, }${3:x}, ${4:y}, ${5:width}, ${6:height}, ${7:dx}, ${8:dy}, ${9:dwidth}, ${0:dheight});",
+      "",
+      "",
+      ""
+    ]
+  },
+  "bg": {
+    "prefix": "bg",
+    "body": "background(${1:value1}, ${2:value2}, ${3:value3}${4:, }${0:alpha});"
+  },
+  "pg": {
+    "prefix": "pg",
+    "body": [
+      "PGraphics pg;",
+      "pg = createGraphics(${1:width}, ${2:height}${3:, }${0:applet});"
+    ]
+  },
+  "pimage": {
+    "prefix": "pimage",
+    "body": [
+      "PImage(${1:width}, ${0:height});",
+      ""
+    ]
+  },
+  "fill": {
+    "prefix": "fill",
+    "body": "fill(${1:value1}, ${2:value2}, ${3:value3}${4:, }${0:alpha});"
+  },
+  "red": {
+    "prefix": "red",
+    "body": "red(${0:color});"
+  },
+  "green": {
+    "prefix": "green",
+    "body": "green(${0:color});"
+  },
+  "blue": {
+    "prefix": "blue",
+    "body": "blue(${0:color});"
+  },
+  "status": {
+    "prefix": "status",
+    "body": "status(${0:text});"
+  },
+  "param": {
+    "prefix": "param",
+    "body": "param(${0:s});"
+  },
+  "link": {
+    "prefix": "link",
+    "body": "link(${1:url}${2:, }${0:target});"
+  },
+  "@": {
+    "prefix": "@",
+    "body": "@${1:param/return/private/public}  ${1:parameter}  ${0:description}"
+  }
+}

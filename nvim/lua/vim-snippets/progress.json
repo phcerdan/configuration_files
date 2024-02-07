@@ -1,0 +1,105 @@
+{
+  "defbuf": {
+    "prefix": "defbuf",
+    "body": "DEFINE BUFFER b_${1:TableName} FOR $1 $0."
+  },
+  "defvar": {
+    "prefix": "defvar",
+    "body": "DEFINE VARIABLE ${1:VariableName} AS $0."
+  },
+  "nl": {
+    "prefix": "nl",
+    "body": "NO-LOCK"
+  },
+  "ne": {
+    "prefix": "ne",
+    "body": "NO-ERROR"
+  },
+  "nle": {
+    "prefix": "nle",
+    "body": "NO-LOCK NO-ERROR"
+  },
+  "ini": {
+    "prefix": "ini",
+    "body": "INITIAL ${0:?}"
+  },
+  "nu": {
+    "prefix": "nu",
+    "body": "NO-UNDO"
+  },
+  "err": {
+    "prefix": "err",
+    "body": "ERROR"
+  },
+  "ff": {
+    "prefix": "ff",
+    "body": [
+      "FIND FIRST ${1:BufferName}",
+      "${2:WHERE $1.$3} $0"
+    ]
+  },
+  "input": {
+    "prefix": "input",
+    "body": "DEFINE INPUT PARAMETER ${1:ParamName} AS $0."
+  },
+  "output": {
+    "prefix": "output",
+    "body": "DEFINE OUTPUT PARAMETER ${1:ParamName} AS ${0:ParamType}."
+  },
+  "proc": {
+    "prefix": "proc",
+    "body": [
+      "",
+      "/******************************************************************************/",
+      "",
+      "PROCEDURE ${1:ProcName}:",
+      "",
+      "\t$0",
+      "",
+      "END PROCEDURE. /* $1 */",
+      "",
+      "/******************************************************************************/",
+      ""
+    ]
+  },
+  "alert": {
+    "prefix": "alert",
+    "body": "MESSAGE \"${1:MessageContent}\" ${2:Data} VIEW-AS ALERT-BOX."
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "IF ${1:Condition}",
+      "THEN ${2:Action}",
+      "${3:ELSE ${4:OtherWise}}"
+    ]
+  },
+  "do": {
+    "prefix": "do",
+    "body": [
+      "DO${1: Clauses}:",
+      "\t$0",
+      "END."
+    ]
+  },
+  "int": {
+    "prefix": "int",
+    "body": "INTEGER"
+  },
+  "char": {
+    "prefix": "char",
+    "body": "CHARACTER"
+  },
+  "log": {
+    "prefix": "log",
+    "body": "LOGICAL"
+  },
+  "dec": {
+    "prefix": "dec",
+    "body": "DECIMAL"
+  },
+  "sep": {
+    "prefix": "sep",
+    "body": "/* ------------------------------------------------------------------------- */"
+  }
+}

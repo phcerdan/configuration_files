@@ -1,0 +1,136 @@
+{
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class {",
+      "\t[string] ${1:FirstName}",
+      "\\}",
+      ""
+    ]
+  },
+  "function": {
+    "prefix": "function",
+    "body": [
+      "function ${1:name} {",
+      "\t[CmdletBinding()]",
+      "\tparam (",
+      "\t\t[Parameter(Mandatory = \\$true)]",
+      "\t\t[string] ${2:Param}",
+      "\t)",
+      "",
+      "\tbegin {",
+      "\t\\}",
+      "",
+      "\tprocess {",
+      "\t\\}",
+      "",
+      "\tend {",
+      "\t\\}",
+      "\\}",
+      ""
+    ]
+  },
+  "splatting": {
+    "prefix": "splatting",
+    "body": [
+      "\\$Params = @{",
+      "\t${1:Param1} = '${2:Value1}'",
+      "\t${3:Param2} = '${4:Value2}'",
+      "\\}",
+      "${5:CommandName} @Params",
+      ""
+    ]
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum ${1:name} {",
+      "\t${2:item1}",
+      "\t${3:item2}",
+      "\\}",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1) {",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if ( $1 ) {",
+      "\t$2",
+      "\\}",
+      "else {",
+      "\t$3",
+      "\\}",
+      ""
+    ]
+  },
+  "while": {
+    "prefix": "while",
+    "body": [
+      "while ($1) {",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "filtersort": {
+    "prefix": "filtersort",
+    "body": [
+      "${1:command} | Where-Object -FilterScript { \\$PSItem.${2:property} -${3:operator} '${4:expression}' \\} | Sort-Object -Property ${5:sortproperty}",
+      ""
+    ]
+  },
+  "foreach": {
+    "prefix": "foreach",
+    "body": [
+      "foreach ( \\$${1:iterator} in \\$${2:collection} ) {",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "epcsv": {
+    "prefix": "epcsv",
+    "body": [
+      "Export-CSV -NoTypeInformation -Path ${1:path}",
+      ""
+    ]
+  },
+  "help": {
+    "prefix": "help",
+    "body": [
+      "<#",
+      ".SYNOPSIS",
+      "\t${1:Short Description}",
+      ".DESCRIPTION",
+      "\t${2:Full Description}",
+      ".PARAMETER ${3:Param1}",
+      "\t${4: $3 usage}",
+      ".EXAMPLE",
+      "\t${5:Example}",
+      ".NOTES",
+      "\t${6:notes}",
+      ".LINK",
+      "\t${7:online help}",
+      "#>",
+      ""
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch ( ${1:test} ){",
+      "\t${2:condition1} { ${3:action} \\}",
+      "\t${4:condition2} { ${5:action} \\}",
+      "\tdefault { ${6:action} \\}"
+    ]
+  }
+}

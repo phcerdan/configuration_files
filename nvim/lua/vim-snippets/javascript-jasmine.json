@@ -1,0 +1,442 @@
+{
+  "des": {
+    "prefix": "des",
+    "description": "\"Describe (js)\"",
+    "body": [
+      "describe('${1:description}', function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "it": {
+    "prefix": "it",
+    "description": "\"it (js)\"",
+    "body": [
+      "it('${1:description}', function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "bef": {
+    "prefix": "bef",
+    "description": "\"before each (js)\"",
+    "body": [
+      "beforeEach(function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "aft": {
+    "prefix": "aft",
+    "description": "\"after each (js)\"",
+    "body": [
+      "afterEach(function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "befa": {
+    "prefix": "befa",
+    "description": "\"before all (js)\"",
+    "body": [
+      "beforeAll(function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "afta": {
+    "prefix": "afta",
+    "description": "\"after all (js)\"",
+    "body": [
+      "afterAll(function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "any": {
+    "prefix": "any",
+    "description": "\"any (js)\"",
+    "body": [
+      "jasmine.any($1)",
+      ""
+    ]
+  },
+  "anyt": {
+    "prefix": "anyt",
+    "description": "\"anything (js)\"",
+    "body": [
+      "jasmine.anything()",
+      ""
+    ]
+  },
+  "objc": {
+    "prefix": "objc",
+    "description": "\"object containing (js)\"",
+    "body": [
+      "jasmine.objectContaining({",
+      "\t$TM_SELECTED_TEXT$0",
+      "\\});",
+      ""
+    ]
+  },
+  "arrc": {
+    "prefix": "arrc",
+    "description": "\"array containing (js)\"",
+    "body": [
+      "jasmine.arrayContaining([${1:value1}]);",
+      ""
+    ]
+  },
+  "strm": {
+    "prefix": "strm",
+    "description": "\"string matching (js)\"",
+    "body": [
+      "jasmine.stringMatching(\"${1:matcher}\")",
+      ""
+    ]
+  },
+  "ru": {
+    "prefix": "ru",
+    "description": "\"runs (js)\"",
+    "body": [
+      "runs(function() {",
+      "\t$0",
+      "\\});",
+      ""
+    ]
+  },
+  "wa": {
+    "prefix": "wa",
+    "description": "\"waits (js)\"",
+    "body": [
+      "waits($1);",
+      ""
+    ]
+  },
+  "ex": {
+    "prefix": "ex",
+    "description": "\"expect (js)\"",
+    "body": [
+      "expect(${1:target})$0;",
+      ""
+    ]
+  },
+  "ee": {
+    "prefix": "ee",
+    "description": "\"expect to equal (js)\"",
+    "body": [
+      "expect(${1:target}).toEqual(${2:value});",
+      ""
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "description": "\"expect to be less than (js)\"",
+    "body": [
+      "expect(${1:target}).toBeLessThan(${2:value});",
+      ""
+    ]
+  },
+  "eg": {
+    "prefix": "eg",
+    "description": "\"expect to be greater than (js)\"",
+    "body": [
+      "expect(${1:target}).toBeGreaterThan(${2:value});",
+      ""
+    ]
+  },
+  "eb": {
+    "prefix": "eb",
+    "description": "\"expect to be (js)\"",
+    "body": [
+      "expect(${1:target}).toBe(${2:value});",
+      ""
+    ]
+  },
+  "em": {
+    "prefix": "em",
+    "description": "\"expect to match (js)\"",
+    "body": [
+      "expect(${1:target}).toMatch(${2:pattern});",
+      ""
+    ]
+  },
+  "eha": {
+    "prefix": "eha",
+    "description": "\"expect to have attribute (js)\"",
+    "body": [
+      "expect(${1:target}).toHaveAttr('${2:attr}'${3:, '${4:value}'});",
+      ""
+    ]
+  },
+  "et": {
+    "prefix": "et",
+    "description": "\"expect to be truthy (js)\"",
+    "body": [
+      "expect(${1:target}).toBeTruthy();",
+      ""
+    ]
+  },
+  "ef": {
+    "prefix": "ef",
+    "description": "\"expect to be falsy (js)\"",
+    "body": [
+      "expect(${1:target}).toBeFalsy();",
+      ""
+    ]
+  },
+  "etbd": {
+    "prefix": "etbd",
+    "description": "\"expect to be defined (js)\"",
+    "body": [
+      "expect(${1:target}).toBeDefined();",
+      ""
+    ]
+  },
+  "eud": {
+    "prefix": "eud",
+    "description": "\"expect to be defined (js)\"",
+    "body": [
+      "expect(${1:target}).toBeUndefined();",
+      ""
+    ]
+  },
+  "en": {
+    "prefix": "en",
+    "description": "\"expect to be null (js)\"",
+    "body": [
+      "expect(${1:target}).toBeNull();",
+      ""
+    ]
+  },
+  "ec": {
+    "prefix": "ec",
+    "description": "\"expect to contain (js)\"",
+    "body": [
+      "expect(${1:target}).toContain(${2:value});",
+      ""
+    ]
+  },
+  "ev": {
+    "prefix": "ev",
+    "description": "\"expect to be visible (js)\"",
+    "body": [
+      "expect(${1:target}).toBeVisible();",
+      ""
+    ]
+  },
+  "eh": {
+    "prefix": "eh",
+    "description": "\"expect to be hidden (js)\"",
+    "body": [
+      "expect(${1:target}).toBeHidden();",
+      ""
+    ]
+  },
+  "eth": {
+    "prefix": "eth",
+    "description": "\"expect to throw (js)\"",
+    "body": [
+      "expect(${1:target}).toThrow(${2:value});",
+      ""
+    ]
+  },
+  "ethe": {
+    "prefix": "ethe",
+    "description": "\"expect to throw error (js)\"",
+    "body": [
+      "expect(${1:target}).toThrowError(${2:value});",
+      ""
+    ]
+  },
+  "notx": {
+    "prefix": "notx",
+    "description": "\"expect not (js)\"",
+    "body": [
+      "expect(${1:target}).not$0;",
+      ""
+    ]
+  },
+  "note": {
+    "prefix": "note",
+    "description": "\"expect not to equal (js)\"",
+    "body": [
+      "expect(${1:target}).not.toEqual(${2:value});",
+      ""
+    ]
+  },
+  "notl": {
+    "prefix": "notl",
+    "description": "\"expect to not be less than (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeLessThan(${2:value});",
+      ""
+    ]
+  },
+  "notg": {
+    "prefix": "notg",
+    "description": "\"expect to not be greater than (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeGreaterThan(${2:value});",
+      ""
+    ]
+  },
+  "notm": {
+    "prefix": "notm",
+    "description": "\"expect not to match (js)\"",
+    "body": [
+      "expect(${1:target}).not.toMatch(${2:pattern});",
+      ""
+    ]
+  },
+  "notha": {
+    "prefix": "notha",
+    "description": "\"expect to not have attribute (js)\"",
+    "body": [
+      "expect(${1:target}).not.toHaveAttr('${2:attr}'${3:, '${4:value}'});",
+      ""
+    ]
+  },
+  "nott": {
+    "prefix": "nott",
+    "description": "\"expect not to be truthy (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeTruthy();",
+      ""
+    ]
+  },
+  "notf": {
+    "prefix": "notf",
+    "description": "\"expect not to be falsy (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeFalsy();",
+      ""
+    ]
+  },
+  "notd": {
+    "prefix": "notd",
+    "description": "\"expect not to be defined (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeDefined();",
+      ""
+    ]
+  },
+  "notn": {
+    "prefix": "notn",
+    "description": "\"expect not to be null (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeNull();",
+      ""
+    ]
+  },
+  "notc": {
+    "prefix": "notc",
+    "description": "\"expect not to contain (js)\"",
+    "body": [
+      "expect(${1:target}).not.toContain(${2:value});",
+      ""
+    ]
+  },
+  "notv": {
+    "prefix": "notv",
+    "description": "\"expect not to be visible (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeVisible();",
+      ""
+    ]
+  },
+  "noth": {
+    "prefix": "noth",
+    "description": "\"expect not to be hidden (js)\"",
+    "body": [
+      "expect(${1:target}).not.toBeHidden();",
+      ""
+    ]
+  },
+  "notth": {
+    "prefix": "notth",
+    "description": "\"expect not to throw (js)\"",
+    "body": [
+      "expect(${1:target}).not.toThrow(${2:value});",
+      ""
+    ]
+  },
+  "notthe": {
+    "prefix": "notthe",
+    "description": "\"expect not to throw error (js)\"",
+    "body": [
+      "expect(${1:target}).not.toThrowError(${2:value});",
+      ""
+    ]
+  },
+  "s": {
+    "prefix": "s",
+    "description": "\"spy on (js)\"",
+    "body": [
+      "spyOn(${1:object}, '${2:method}')$0;",
+      ""
+    ]
+  },
+  "sr": {
+    "prefix": "sr",
+    "description": "\"spy on and return (js)\"",
+    "body": [
+      "spyOn(${1:object}, '${2:method}').and.returnValue(${3:arguments});",
+      ""
+    ]
+  },
+  "st": {
+    "prefix": "st",
+    "description": "\"spy on and throw (js)\"",
+    "body": [
+      "spyOn(${1:object}, '${2:method}').and.throwError(${3:exception});",
+      ""
+    ]
+  },
+  "sct": {
+    "prefix": "sct",
+    "description": "\"spy on and call through (js)\"",
+    "body": [
+      "spyOn(${1:object}, '${2:method}').and.callThrough();",
+      ""
+    ]
+  },
+  "scf": {
+    "prefix": "scf",
+    "description": "\"spy on and call fake (js)\"",
+    "body": [
+      "spyOn(${1:object}, '${2:method}').and.callFake(${3:function});",
+      ""
+    ]
+  },
+  "ethbc": {
+    "prefix": "ethbc",
+    "description": "\"expect to have been called (js)\"",
+    "body": [
+      "expect(${1:target}).toHaveBeenCalled();",
+      ""
+    ]
+  },
+  "nthbc": {
+    "prefix": "nthbc",
+    "description": "\"expect not to have been called (js)\"",
+    "body": [
+      "expect(${1:target}).not.toHaveBeenCalled();",
+      ""
+    ]
+  },
+  "ethbcw": {
+    "prefix": "ethbcw",
+    "description": "\"expect to have been called with (js)\"",
+    "body": [
+      "expect(${1:target}).toHaveBeenCalledWith(${2:arguments});",
+      ""
+    ]
+  }
+}

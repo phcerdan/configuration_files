@@ -1,0 +1,829 @@
+{
+  "if": {
+    "prefix": "if",
+    "body": [
+      "{% if $1 %\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "{% endif %\\}"
+    ]
+  },
+  "else": {
+    "prefix": "else",
+    "body": "{% else %\\}"
+  },
+  "elsif": {
+    "prefix": "elsif",
+    "body": "{% elsif $1 %\\}"
+  },
+  "ifelse": {
+    "prefix": "ifelse",
+    "body": [
+      "{% if $1 %\\}",
+      "\t$2",
+      "{% else %\\}",
+      "\t$0",
+      "{% endif %\\}"
+    ]
+  },
+  "unless": {
+    "prefix": "unless",
+    "body": [
+      "{% unless $1 %\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "{% endunless %\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "{% case ${1:variable} %\\}",
+      "\t{% when $2 %\\}",
+      "\t\t$3",
+      "\t{% else %\\}",
+      "\t\t$0",
+      "{% endcase %\\}"
+    ]
+  },
+  "when": {
+    "prefix": "when",
+    "body": [
+      "{% when $1 %\\}",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "cycle": {
+    "prefix": "cycle",
+    "body": "{% cycle '${1:odd}', '${2:even}' %\\}"
+  },
+  "cyclegroup": {
+    "prefix": "cyclegroup",
+    "body": "{% cycle '${1:group name}': '${2:odd}', '${3:even}' %\\}"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "{% for ${1:item} in ${2:collection} %\\}",
+      "\t$0",
+      "{% endfor %\\}"
+    ]
+  },
+  "limit": {
+    "prefix": "limit",
+    "body": "limit: ${1:5}"
+  },
+  "offset": {
+    "prefix": "offset",
+    "body": "offset: ${1:0}"
+  },
+  "reversed": {
+    "prefix": "reversed",
+    "body": "reversed"
+  },
+  "break": {
+    "prefix": "break",
+    "body": "{% break %\\}"
+  },
+  "continue": {
+    "prefix": "continue",
+    "body": "{% continue %\\}"
+  },
+  "tablerow": {
+    "prefix": "tablerow",
+    "body": [
+      "{% tablerow ${1:item} in ${2:collection} cols: ${3:2} %\\}",
+      "\t$0",
+      "{% endtablerow %\\}"
+    ]
+  },
+  "assign": {
+    "prefix": "assign",
+    "body": "{% assign ${1:variable} = ${0:value} %\\}"
+  },
+  "increment": {
+    "prefix": "increment",
+    "body": "{% increment ${0:variable} %\\}"
+  },
+  "decrement": {
+    "prefix": "decrement",
+    "body": "{% decrement ${0:variable} %\\}"
+  },
+  "capture": {
+    "prefix": "capture",
+    "body": "{% capture ${1:variable} %\\}$0{% endcapture %\\}"
+  },
+  "include": {
+    "prefix": "include",
+    "body": "{% include '${0:snippet}' %\\}"
+  },
+  "includewith": {
+    "prefix": "includewith",
+    "body": "{% include '${1:snippet}', ${2:variable}: ${0:value} %\\}"
+  },
+  "render": {
+    "prefix": "render",
+    "body": "{% render '${0:snippet}' %\\}"
+  },
+  "renderwith": {
+    "prefix": "renderwith",
+    "body": "{% render '${1:snippet}', ${2:variable}: ${0:value} %\\}"
+  },
+  "section": {
+    "prefix": "section",
+    "body": "{% section '${1:snippet}' %\\}"
+  },
+  "raw": {
+    "prefix": "raw",
+    "body": "{% raw %\\}$0{% endraw %\\}"
+  },
+  "layout": {
+    "prefix": "layout",
+    "body": "{% layout '${1:layout}' %\\}"
+  },
+  "layoutnone": {
+    "prefix": "layoutnone",
+    "body": "{% layout none %\\}"
+  },
+  "paginate": {
+    "prefix": "paginate",
+    "body": [
+      "{% paginate ${1:collection.products} by ${2:12} %\\}",
+      "\t{% for ${3:product} in $1 %\\}",
+      "\t\t$0",
+      "\t{% endfor %\\}",
+      "{% endpaginate %\\}"
+    ]
+  },
+  "schema": {
+    "prefix": "schema",
+    "body": [
+      "{% schema %\\}",
+      "\t{",
+      "\t\t$0",
+      "\t\\}",
+      "{% endschema %\\}"
+    ]
+  },
+  "stylesheet": {
+    "prefix": "stylesheet",
+    "body": [
+      "{% stylesheet %\\}",
+      "\t$0",
+      "{% endstylesheet %\\}"
+    ]
+  },
+  "stylesheet_scss": {
+    "prefix": "stylesheet_scss",
+    "body": [
+      "{% stylesheet '${1:scss}' %\\}",
+      "\t$0",
+      "{% endstylesheet %\\}"
+    ]
+  },
+  "javascript": {
+    "prefix": "javascript",
+    "body": [
+      "{% javascript %\\}",
+      "\t$0",
+      "{% endjavascript %\\}"
+    ]
+  },
+  "comment-": {
+    "prefix": "comment-",
+    "body": "{%- comment -%\\}${0:$TM_SELECTED_TEXT}{%- endcomment -%\\}"
+  },
+  "if-": {
+    "prefix": "if-",
+    "body": [
+      "{%- if $1 -%\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "{%- endif -%\\}"
+    ]
+  },
+  "else-": {
+    "prefix": "else-",
+    "body": "{%- else -%\\}"
+  },
+  "elsif-": {
+    "prefix": "elsif-",
+    "body": "{%- elsif $1 -%\\}"
+  },
+  "ifelse-": {
+    "prefix": "ifelse-",
+    "body": [
+      "{%- if $1 -%\\}",
+      "\t$2",
+      "{%- else -%\\}",
+      "\t$0",
+      "{%- endif -%\\}"
+    ]
+  },
+  "unless-": {
+    "prefix": "unless-",
+    "body": [
+      "{%- unless $1 -%\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "{%- endunless -%\\}"
+    ]
+  },
+  "case-": {
+    "prefix": "case-",
+    "body": [
+      "{%- case ${1:variable} -%\\}",
+      "\t{%- when $2 -%\\}",
+      "\t\t$3",
+      "\t{%- else -%\\}",
+      "\t\t$0",
+      "{%- endcase -%\\}"
+    ]
+  },
+  "when-": {
+    "prefix": "when-",
+    "body": [
+      "{%- when $1 -%\\}",
+      "\t${0:$TM_SELECTED_TEXT}"
+    ]
+  },
+  "cycle-": {
+    "prefix": "cycle-",
+    "body": "{%- cycle '${1:odd}', '${2:even}' -%\\}"
+  },
+  "cyclegroup-": {
+    "prefix": "cyclegroup-",
+    "body": "{%- cycle '${1:group name}': '${2:odd}', '${3:even}' -%\\}"
+  },
+  "for-": {
+    "prefix": "for-",
+    "body": [
+      "{%- for ${1:item} in ${2:collection} -%\\}",
+      "\t$0",
+      "{%- endfor -%\\}"
+    ]
+  },
+  "continue-": {
+    "prefix": "continue-",
+    "body": "{%- continue -%\\}"
+  },
+  "tablerow-": {
+    "prefix": "tablerow-",
+    "body": [
+      "{%- tablerow ${1:item} in ${2:collection} cols: ${3:2} -%\\}",
+      "\t$0",
+      "{%- endtablerow -%\\}"
+    ]
+  },
+  "assign-": {
+    "prefix": "assign-",
+    "body": "{%- assign ${1:variable} = ${0:value} -%\\}"
+  },
+  "capture-": {
+    "prefix": "capture-",
+    "body": "{%- capture ${1:variable} -%\\}$0{%- endcapture -%\\}"
+  },
+  "include-": {
+    "prefix": "include-",
+    "body": "{%- include '${0:snippet}' -%\\}"
+  },
+  "includewith-": {
+    "prefix": "includewith-",
+    "body": "{%- include '${1:snippet}', ${2:variable}: ${0:value} -%\\}"
+  },
+  "render-": {
+    "prefix": "render-",
+    "body": "{%- render '${0:snippet}' -%\\}"
+  },
+  "renderwith-": {
+    "prefix": "renderwith-",
+    "body": "{%- render '${1:snippet}', ${2:variable}: ${0:value} -%\\}"
+  },
+  "section-": {
+    "prefix": "section-",
+    "body": "{%- section '${1:snippet}' -%\\}"
+  },
+  "layout-": {
+    "prefix": "layout-",
+    "body": "{%- layout '${1:layout}' -%\\}"
+  },
+  "layoutnone-": {
+    "prefix": "layoutnone-",
+    "body": "{%- layout none -%\\}"
+  },
+  "paginate-": {
+    "prefix": "paginate-",
+    "body": [
+      "{%- paginate ${1:collection.products} by ${2:12} -%\\}",
+      "\t{%- for ${3:product} in $1 -%\\}",
+      "\t\t$0",
+      "\t{%- endfor -%\\}",
+      "{%- endpaginate -%\\}"
+    ]
+  },
+  "join": {
+    "prefix": "join",
+    "body": "| join: '${1:, }'"
+  },
+  "first": {
+    "prefix": "first",
+    "body": "| first"
+  },
+  "last": {
+    "prefix": "last",
+    "body": "| last"
+  },
+  "concat": {
+    "prefix": "concat",
+    "body": "| concat: ${1:array}"
+  },
+  "map": {
+    "prefix": "map",
+    "body": "| map: '${1:key}'"
+  },
+  "reverse": {
+    "prefix": "reverse",
+    "body": "| reverse"
+  },
+  "size": {
+    "prefix": "size",
+    "body": "| size"
+  },
+  "sort": {
+    "prefix": "sort",
+    "body": "| sort: '${1:key}'"
+  },
+  "uniq": {
+    "prefix": "uniq",
+    "body": "| uniq"
+  },
+  "img_tag": {
+    "prefix": "img_tag",
+    "body": "| img_tag"
+  },
+  "img_tag_param": {
+    "prefix": "img_tag_param",
+    "body": "| img_tag: '${1:alt}', '${2:class}'"
+  },
+  "script_tag": {
+    "prefix": "script_tag",
+    "body": "| script_tag"
+  },
+  "stylesheet_tag": {
+    "prefix": "stylesheet_tag",
+    "body": "| stylesheet_tag"
+  },
+  "abs": {
+    "prefix": "abs",
+    "body": "| abs"
+  },
+  "ceil": {
+    "prefix": "ceil",
+    "body": "| ceil"
+  },
+  "divided_by": {
+    "prefix": "divided_by",
+    "body": "| divided_by: ${1:2}"
+  },
+  "floor": {
+    "prefix": "floor",
+    "body": "| floor"
+  },
+  "minus": {
+    "prefix": "minus",
+    "body": "| minus: ${1:1}"
+  },
+  "plus": {
+    "prefix": "plus",
+    "body": "| plus: ${1:1}"
+  },
+  "round": {
+    "prefix": "round",
+    "body": "| round: ${1:0}"
+  },
+  "times": {
+    "prefix": "times",
+    "body": "| times: ${1:1}"
+  },
+  "modulo": {
+    "prefix": "modulo",
+    "body": "| modulo: ${1:2}"
+  },
+  "money": {
+    "prefix": "money",
+    "body": "| money"
+  },
+  "money_with_currency": {
+    "prefix": "money_with_currency",
+    "body": "| money_with_currency"
+  },
+  "money_without_trailing_zeros": {
+    "prefix": "money_without_trailing_zeros",
+    "body": "| money_without_trailing_zeros"
+  },
+  "money_without_currency": {
+    "prefix": "money_without_currency",
+    "body": "| money_without_currency"
+  },
+  "append": {
+    "prefix": "append",
+    "body": "| append: '${1:string}'"
+  },
+  "camelcase": {
+    "prefix": "camelcase",
+    "body": "| camelcase"
+  },
+  "capitalize": {
+    "prefix": "capitalize",
+    "body": "| capitalize"
+  },
+  "downcase": {
+    "prefix": "downcase",
+    "body": "| downcase"
+  },
+  "escape": {
+    "prefix": "escape",
+    "body": "| escape"
+  },
+  "handleize": {
+    "prefix": "handleize",
+    "body": "| handleize"
+  },
+  "md5": {
+    "prefix": "md5",
+    "body": "| md5"
+  },
+  "newline_to_br": {
+    "prefix": "newline_to_br",
+    "body": "| newline_to_br"
+  },
+  "pluralize": {
+    "prefix": "pluralize",
+    "body": "| pluralize: '${1:item}', '${2:items}'"
+  },
+  "prepend": {
+    "prefix": "prepend",
+    "body": "| prepend: '${1:string}'"
+  },
+  "remove": {
+    "prefix": "remove",
+    "body": "| remove: '${1:string}'"
+  },
+  "remove_first": {
+    "prefix": "remove_first",
+    "body": "| remove_first: '${1:string}'"
+  },
+  "replace": {
+    "prefix": "replace",
+    "body": "| replace: '${1:target}', '${2:replace}'"
+  },
+  "replace_first": {
+    "prefix": "replace_first",
+    "body": "| replace_first: '${1:target}', '${2:replace}'"
+  },
+  "slice": {
+    "prefix": "slice",
+    "body": "| slice: ${1:0}, ${2:5}"
+  },
+  "slice_single": {
+    "prefix": "slice_single",
+    "body": "| slice: ${1:at}"
+  },
+  "split": {
+    "prefix": "split",
+    "body": "| split: '${1:,}'"
+  },
+  "strip": {
+    "prefix": "strip",
+    "body": "| strip"
+  },
+  "lstrip": {
+    "prefix": "lstrip",
+    "body": "| lstrip"
+  },
+  "rstrip": {
+    "prefix": "rstrip",
+    "body": "| rstrip"
+  },
+  "strip_html": {
+    "prefix": "strip_html",
+    "body": "| strip_html"
+  },
+  "strip_newlines": {
+    "prefix": "strip_newlines",
+    "body": "| strip_newlines"
+  },
+  "truncate": {
+    "prefix": "truncate",
+    "body": "| truncate: ${1:20}, '${2:...}'"
+  },
+  "truncatewords": {
+    "prefix": "truncatewords",
+    "body": "| truncatewords: ${1:5}, '${2:...}'"
+  },
+  "upcase": {
+    "prefix": "upcase",
+    "body": "| upcase"
+  },
+  "url_encode": {
+    "prefix": "url_encode",
+    "body": "| url_encode"
+  },
+  "url_escape": {
+    "prefix": "url_escape",
+    "body": "| url_escape"
+  },
+  "url_param_escape": {
+    "prefix": "url_param_escape",
+    "body": "| url_param_escape"
+  },
+  "asset_url": {
+    "prefix": "asset_url",
+    "body": "| asset_url"
+  },
+  "asset_img_url": {
+    "prefix": "asset_img_url",
+    "body": "| asset_img_url: '${1:medium}'"
+  },
+  "img_url": {
+    "prefix": "img_url",
+    "body": "| img_url: '${1:medium}'"
+  },
+  "_schema": {
+    "prefix": "_schema",
+    "body": [
+      "{% schema %\\}",
+      "\t{",
+      "\t\t\"name\": \"$1\",",
+      "\t\t\"class\": \"$2\",",
+      "\t\t\"settings\": [",
+      "\t\t\t$0",
+      "\t\t]",
+      "\t\\}",
+      "{% endschema %\\}"
+    ]
+  },
+  "_blocks": {
+    "prefix": "_blocks",
+    "body": [
+      "\"blocks\": [",
+      "\t{",
+      "\t\t\"type\": \"$1\",",
+      "\t\t\"name\": \"$2\",",
+      "\t\t\"settings\": [",
+      "\t\t\t$0",
+      "\t\t]",
+      "\t\\}",
+      "]"
+    ]
+  },
+  "_text": {
+    "prefix": "_text",
+    "body": [
+      "{",
+      "\t\"type\": \"text\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$4\",",
+      "\t\"placeholder\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_textarea": {
+    "prefix": "_textarea",
+    "body": [
+      "{",
+      "\t\"type\": \"textarea\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$4\",",
+      "\t\"placeholder\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_image_picker": {
+    "prefix": "_image_picker",
+    "body": [
+      "{",
+      "\t\"type\": \"image_picker\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_radio": {
+    "prefix": "_radio",
+    "body": [
+      "{",
+      "\t\"type\": \"radio\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"options\": [",
+      "\t\t{ \"value\": \"$5\", \"label\": \"$0\" \\}",
+      "\t],",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$4\"",
+      "\\}"
+    ]
+  },
+  "_select": {
+    "prefix": "_select",
+    "body": [
+      "{",
+      "\t\"type\": \"select\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"options\": [",
+      "\t\t{",
+      "\t\t\t\"group\": \"$5\",",
+      "\t\t\t\"value\": \"$6\",",
+      "\t\t\t\"label\": \"$0\"",
+      "\t\t\\}",
+      "\t],",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$4\"",
+      "\\}"
+    ]
+  },
+  "_checkbox": {
+    "prefix": "_checkbox",
+    "body": [
+      "{",
+      "\t\"type\": \"checkbox\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": ${3:true},",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_range": {
+    "prefix": "_range",
+    "body": [
+      "{",
+      "\t\"type\": \"range\",",
+      "\t\"id\": \"$1\",",
+      "\t\"min\": $2,",
+      "\t\"max\": $3,",
+      "\t\"step\": $4,",
+      "\t\"unit\": \"$5\",",
+      "\t\"label\": \"$6\",",
+      "\t\"default\": $0",
+      "\\}"
+    ]
+  },
+  "_color": {
+    "prefix": "_color",
+    "body": [
+      "{",
+      "\t\"type\": \"color\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_font": {
+    "prefix": "_font",
+    "body": [
+      "{",
+      "\t\"type\": \"font_picker\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$3\",",
+      "\t\"default\": \"${0:helvetica_n4}\"",
+      "\\}"
+    ]
+  },
+  "_collection": {
+    "prefix": "_collection",
+    "body": [
+      "{",
+      "\t\"type\": \"collection\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_product": {
+    "prefix": "_product",
+    "body": [
+      "{",
+      "\t\"type\": \"product\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_blog": {
+    "prefix": "_blog",
+    "body": [
+      "{",
+      "\t\"type\": \"blog\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_page": {
+    "prefix": "_page",
+    "body": [
+      "{",
+      "\t\"type\": \"page\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_link_list": {
+    "prefix": "_link_list",
+    "body": [
+      "{",
+      "\t\"type\": \"link_list\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_url": {
+    "prefix": "_url",
+    "body": [
+      "{",
+      "\t\"type\": \"url\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_video": {
+    "prefix": "_video",
+    "body": [
+      "{",
+      "\t\"type\": \"video_url\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"accept\": [\"youtube\", \"vimeo\"$0],",
+      "\t\"default\": \"$3\",",
+      "\t\"info\": \"$4\",",
+      "\t\"placeholder\": \"$5\"",
+      "\\}"
+    ]
+  },
+  "_richtext": {
+    "prefix": "_richtext",
+    "body": [
+      "{",
+      "\t\"type\": \"richtext\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": \"<p>$0</p>\"",
+      "\\}"
+    ]
+  },
+  "_html": {
+    "prefix": "_html",
+    "body": [
+      "{",
+      "\t\"type\": \"html\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"default\": \"<div>$0</div>\"",
+      "\\}"
+    ]
+  },
+  "_article": {
+    "prefix": "_article",
+    "body": [
+      "{",
+      "\t\"type\": \"article\",",
+      "\t\"id\": \"$1\",",
+      "\t\"label\": \"$2\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_header": {
+    "prefix": "_header",
+    "body": [
+      "{",
+      "\t\"type\": \"header\",",
+      "\t\"content\": \"$1\",",
+      "\t\"info\": \"$0\"",
+      "\\}"
+    ]
+  },
+  "_paragraph": {
+    "prefix": "_paragraph",
+    "body": [
+      "{",
+      "\t\"type\": \"paragraph\",",
+      "\t\"content\": \"$0\"",
+      "\\}"
+    ]
+  }
+}

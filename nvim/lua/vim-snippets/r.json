@@ -1,0 +1,268 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env Rscript",
+      ""
+    ]
+  },
+  "lib": {
+    "prefix": "lib",
+    "body": "library(${0:package})"
+  },
+  "req": {
+    "prefix": "req",
+    "body": "require(${0:package})"
+  },
+  "source": {
+    "prefix": "source",
+    "body": [
+      "source('${0:file}')",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ei": {
+    "prefix": "ei",
+    "body": [
+      "else if ($1) {",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while(${1:true}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "wht": {
+    "prefix": "wht",
+    "body": [
+      "while(true) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (${1:item} in ${2:list}) {",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "foreach": {
+    "prefix": "foreach",
+    "body": [
+      "foreach (${1:item} = ${2:list}) {",
+      "\t$3",
+      "\\}",
+      ""
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "${1:name} <- function (${2:variables}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": [
+      "return($0)",
+      ""
+    ]
+  },
+  "df": {
+    "prefix": "df",
+    "body": "${1:name}[${2:rows}, ${0:cols}]"
+  },
+  "c": {
+    "prefix": "c",
+    "body": "c(${0:items})"
+  },
+  "li": {
+    "prefix": "li",
+    "body": "list(${0:items})"
+  },
+  "mat": {
+    "prefix": "mat",
+    "body": [
+      "matrix(${1:data}, nrow = ${2:rows}, ncol = ${0:cols})",
+      ""
+    ]
+  },
+  "apply": {
+    "prefix": "apply",
+    "body": "apply(${1:array}, ${2:margin}, ${0:function})"
+  },
+  "lapply": {
+    "prefix": "lapply",
+    "body": "lapply(${1:list}, ${0:function})"
+  },
+  "sapply": {
+    "prefix": "sapply",
+    "body": "lapply(${1:list}, ${0:function})"
+  },
+  "vapply": {
+    "prefix": "vapply",
+    "body": "vapply(${1:list}, ${2:function}, ${0:type})"
+  },
+  "mapply": {
+    "prefix": "mapply",
+    "body": "mapply(${1:function}, ${0:...})"
+  },
+  "tapply": {
+    "prefix": "tapply",
+    "body": "tapply(${1:vector}, ${2:index}, ${0:function})"
+  },
+  "rapply": {
+    "prefix": "rapply",
+    "body": [
+      "rapply(${1:list}, ${0:function})",
+      ""
+    ]
+  },
+  "dd": {
+    "prefix": "dd",
+    "body": "ddply(${1:frame}, ${2:variables}, ${0:function})"
+  },
+  "dl": {
+    "prefix": "dl",
+    "body": "dlply(${1:frame}, ${2:variables}, ${0:function})"
+  },
+  "da": {
+    "prefix": "da",
+    "body": "daply(${1:frame}, ${2:variables}, ${0:function})"
+  },
+  "d_": {
+    "prefix": "d_",
+    "body": [
+      "d_ply(${1:frame}, ${2:variables}, ${0:function})",
+      ""
+    ]
+  },
+  "ad": {
+    "prefix": "ad",
+    "body": "adply(${1:array}, ${2:margin}, ${0:function})"
+  },
+  "al": {
+    "prefix": "al",
+    "body": "alply(${1:array}, ${2:margin}, ${0:function})"
+  },
+  "aa": {
+    "prefix": "aa",
+    "body": "aaply(${1:array}, ${2:margin}, ${0:function})"
+  },
+  "a_": {
+    "prefix": "a_",
+    "body": [
+      "a_ply(${1:array}, ${2:margin}, ${0:function})",
+      ""
+    ]
+  },
+  "ld": {
+    "prefix": "ld",
+    "body": "ldply(${1:list}, ${0:function})"
+  },
+  "ll": {
+    "prefix": "ll",
+    "body": "llply(${1:list}, ${0:function})"
+  },
+  "la": {
+    "prefix": "la",
+    "body": "laply(${1:list}, ${0:function})"
+  },
+  "l_": {
+    "prefix": "l_",
+    "body": [
+      "l_ply(${1:list}, ${0:function})",
+      ""
+    ]
+  },
+  "md": {
+    "prefix": "md",
+    "body": "mdply(${1:matrix}, ${0:function})"
+  },
+  "ml": {
+    "prefix": "ml",
+    "body": "mlply(${1:matrix}, ${0:function})"
+  },
+  "ma": {
+    "prefix": "ma",
+    "body": "maply(${1:matrix}, ${0:function})"
+  },
+  "m_": {
+    "prefix": "m_",
+    "body": [
+      "m_ply(${1:matrix}, ${0:function})",
+      ""
+    ]
+  },
+  "pl": {
+    "prefix": "pl",
+    "body": "plot(${1:x}, ${0:y})"
+  },
+  "ggp": {
+    "prefix": "ggp",
+    "body": "ggplot(${1:data}, aes(${0:aesthetics}))"
+  },
+  "img": {
+    "prefix": "img",
+    "body": [
+      "${1:(jpeg,bmp,png,tiff)}(filename = '${2:filename}', width = $3, height = $4, unit = '$5')",
+      "${0:plot}",
+      "dev.off()",
+      ""
+    ]
+  },
+  "fis": {
+    "prefix": "fis",
+    "body": "fisher.test(${1:x}, ${0:y})"
+  },
+  "chi": {
+    "prefix": "chi",
+    "body": "chisq.test(${1:x}, ${0:y})"
+  },
+  "tt": {
+    "prefix": "tt",
+    "body": "t.test(${1:x}, ${0:y})"
+  },
+  "wil": {
+    "prefix": "wil",
+    "body": "wilcox.test(${1:x}, ${0:y})"
+  },
+  "cor": {
+    "prefix": "cor",
+    "body": "cor.test(${1:x}, ${0:y})"
+  },
+  "fte": {
+    "prefix": "fte",
+    "body": "var.test(${1:x}, ${0:y})"
+  },
+  "kvt": {
+    "prefix": "kvt",
+    "body": "kv.test(${1:x}, ${0:y})"
+  }
+}

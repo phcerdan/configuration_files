@@ -1,0 +1,193 @@
+{
+  ":": {
+    "prefix": ":",
+    "body": ":${1:field name}: $0"
+  },
+  "*": {
+    "prefix": "*",
+    "body": "*${1:Emphasis}* $0"
+  },
+  "**": {
+    "prefix": "**",
+    "body": "**${1:Strong emphasis}** $0"
+  },
+  "_": {
+    "prefix": "_",
+    "body": [
+      "`${1:hyperlink-name}`_",
+      ".. _`$1`: ${0:link-block}"
+    ]
+  },
+  "=": {
+    "prefix": "=",
+    "body": [
+      "${1:Title}",
+      "=====${2:=}",
+      "$0"
+    ]
+  },
+  "-": {
+    "prefix": "-",
+    "body": [
+      "${1:Title}",
+      "-----${2:-}",
+      "$0"
+    ]
+  },
+  "img:": {
+    "prefix": "img:",
+    "body": ".. |${1:alias}| image:: ${0:img}"
+  },
+  "fig:": {
+    "prefix": "fig:",
+    "body": [
+      ".. figure:: ${1:img}",
+      "\t:alt: ${2:alter text}",
+      "",
+      "\t$0"
+    ]
+  },
+  "con:": {
+    "prefix": "con:",
+    "body": [
+      ".. contents:: ${1:Table of Contents}",
+      "",
+      "\t${0:content}"
+    ]
+  },
+  "cod:": {
+    "prefix": "cod:",
+    "body": [
+      ".. code:: ${1:type}",
+      "",
+      "\t${0:write some code}"
+    ]
+  },
+  "tip:": {
+    "prefix": "tip:",
+    "body": [
+      ".. tip::",
+      "\t${0:my tips}"
+    ]
+  },
+  "not:": {
+    "prefix": "not:",
+    "body": [
+      ".. note::",
+      "\t${0:my notes}"
+    ]
+  },
+  "war:": {
+    "prefix": "war:",
+    "body": [
+      ".. warning::",
+      "\t${0:attention!}"
+    ]
+  },
+  "imp:": {
+    "prefix": "imp:",
+    "body": [
+      ".. important::",
+      "\t${0:this is importatnt}"
+    ]
+  },
+  "att:": {
+    "prefix": "att:",
+    "body": [
+      ".. attention::",
+      "\t${0:hey!}"
+    ]
+  },
+  "dan:": {
+    "prefix": "dan:",
+    "body": [
+      ".. danger::",
+      "\t${0:ah!}"
+    ]
+  },
+  "err:": {
+    "prefix": "err:",
+    "body": [
+      ".. error::",
+      "\t${0:Error occur}"
+    ]
+  },
+  "cau:": {
+    "prefix": "cau:",
+    "body": [
+      ".. caution::",
+      "\t${0:Watch out!}"
+    ]
+  },
+  "sid:": {
+    "prefix": "sid:",
+    "body": [
+      ".. sidebar:: ${1:Title}",
+      "",
+      "\t$0"
+    ]
+  },
+  "tod:": {
+    "prefix": "tod:",
+    "body": [
+      ".. todo::",
+      "\t$0"
+    ]
+  },
+  "lis:": {
+    "prefix": "lis:",
+    "body": [
+      ".. list-table:: ${1:Title}",
+      "\t:header-rows: 1",
+      "\t:stub-columns: 0",
+      "",
+      "\t* - ${0:R1C1}",
+      "\t  - R1C2",
+      "\t* - R2C1",
+      "\t  - R2C2"
+    ]
+  },
+  "csv:": {
+    "prefix": "csv:",
+    "body": [
+      ".. csv-table:: ${1:Title}",
+      "\t:header-rows: 1",
+      "\t:stub-columns: 0",
+      "",
+      "\t${0:R1C1}, R1C2",
+      "\tR2C1, R2C2"
+    ]
+  },
+  "toc:": {
+    "prefix": "toc:",
+    "body": [
+      ".. toctree::",
+      "\t:maxdepth: 2",
+      "",
+      "\t$0"
+    ]
+  },
+  "dow:": {
+    "prefix": "dow:",
+    "body": ":download:`${1:text} <${0:path}>`"
+  },
+  "ref:": {
+    "prefix": "ref:",
+    "body": ":ref:`${1:text} <${0:path}>`"
+  },
+  "doc:": {
+    "prefix": "doc:",
+    "body": ":doc:`${1:text} <${0:path}>`"
+  },
+  "*c": {
+    "prefix": "*c",
+    "body": " *${1:Emphasis}* $0"
+  },
+  "**c": {
+    "prefix": "**c",
+    "body": [
+      " **${1:Strong emphasis}** $0",
+      ""
+    ]
+  }
+}

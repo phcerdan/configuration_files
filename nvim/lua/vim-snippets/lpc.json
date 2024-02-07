@@ -1,0 +1,247 @@
+{
+  "inc": {
+    "prefix": "inc",
+    "body": "#include <${1:stdio}.h>"
+  },
+  "ndef": {
+    "prefix": "ndef",
+    "body": [
+      "#ifndef $1",
+      "#define ${1:SYMBOL} ${2:value}",
+      "#endif /* ifndef $1 */"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": "#define"
+  },
+  "ifdef": {
+    "prefix": "ifdef",
+    "body": [
+      "#ifdef ${1:FOO}",
+      "\t${2:#define }",
+      "#endif"
+    ]
+  },
+  "#if": {
+    "prefix": "#if",
+    "body": [
+      "#if ${1:FOO}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "#endif"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if(${1:true})",
+      "{",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if(${1:true})",
+      "{",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "\\}",
+      "else",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else",
+      "{",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "elif": {
+    "prefix": "elif",
+    "body": [
+      "else if(${1:true})",
+      "{",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "ifi": {
+    "prefix": "ifi",
+    "body": "if(${1:true}) $0;"
+  },
+  "t": {
+    "prefix": "t",
+    "description": "Ternary: `condition ? true : false`",
+    "body": "$1 ? $2 : $0"
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch(${1:/* variable */})",
+      "{",
+      "\tcase ${2:/* variable case */}:",
+      "\t\t$3",
+      "\t\t${4:break;}$5",
+      "\tdefault:",
+      "\t\t$6",
+      "\\}"
+    ]
+  },
+  "switchndef": {
+    "prefix": "switchndef",
+    "body": [
+      "switch(${1:/* variable */})",
+      "{",
+      "\tcase ${2:/* variable case */}:",
+      "\t\t$3",
+      "\t\t${4:break;}$5",
+      "\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1:/* variable case */}:",
+      "\t$2",
+      "\t${3:break;}"
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "return $0;"
+  },
+  "fore": {
+    "prefix": "fore",
+    "body": [
+      "foreach(${1:mixed} ${2:ele} in ${3:arr})",
+      "{",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for(int ${2:i} = 0; $2 < ${1:count}; $2${3:++})",
+      "{",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "forr": {
+    "prefix": "forr",
+    "body": [
+      "for(int ${1:i} = ${2:0}; ${3:$1 < 10}; $1${4:++})",
+      "{",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while($1)",
+      "{",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "do": {
+    "prefix": "do",
+    "body": [
+      "do{",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}while ($1);"
+    ]
+  },
+  "fnc": {
+    "prefix": "fnc",
+    "body": [
+      "${1:void} ${2:function_name}($3)",
+      "{",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "defun0": {
+    "prefix": "defun0",
+    "body": [
+      "${1:void} ${2:function_name}()",
+      "{",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "defun1": {
+    "prefix": "defun1",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter})",
+      "{",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "defun2": {
+    "prefix": "defun2",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter}, ${5:Type} ${6:Parameter})",
+      "{",
+      "\t$7",
+      "\\}"
+    ]
+  },
+  "defun3": {
+    "prefix": "defun3",
+    "body": [
+      "${1:void} ${2:function_name}(${3:Type} ${4:Parameter}, ${5:Type} ${6:Parameter}, ${7:Type} ${8:Parameter})",
+      "{",
+      "\t$9",
+      "\\}"
+    ]
+  },
+  "fund": {
+    "prefix": "fund",
+    "body": "${1:void} ${2:function_name}($3);"
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "printf(\"${1:%s}n\"$2);"
+  },
+  "fpr": {
+    "prefix": "fpr",
+    "body": "fprintf(${1:stderr}, \"${2:%s}n\"$3);"
+  },
+  "prd": {
+    "prefix": "prd",
+    "body": "printf(\"${1:} = %dn\", $1);"
+  },
+  "prf": {
+    "prefix": "prf",
+    "body": "printf(\"${1:} = %fn\", $1);"
+  },
+  "prx": {
+    "prefix": "prx",
+    "body": "printf(\"${1:} = %$2n\", $1);"
+  },
+  "todo": {
+    "prefix": "todo",
+    "body": [
+      "/*! TODO: ${1:Todo description here} */",
+      ""
+    ]
+  },
+  ".": {
+    "prefix": ".",
+    "body": [
+      "[$1]",
+      "",
+      ""
+    ]
+  }
+}

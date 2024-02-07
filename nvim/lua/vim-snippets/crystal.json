@@ -1,0 +1,141 @@
+{
+  "req": {
+    "prefix": "req",
+    "description": "require",
+    "body": "require \"$1\""
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case $1",
+      "when $2",
+      "\t$0",
+      "end"
+    ]
+  },
+  "when": {
+    "prefix": "when",
+    "body": [
+      "when $1",
+      "\t$0"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": [
+      "def ${1:method_name}",
+      "\t$0",
+      "end"
+    ]
+  },
+  "pdef": {
+    "prefix": "pdef",
+    "body": [
+      "private def ${1:method_name}",
+      "\t$0",
+      "end"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "end"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if $1",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else",
+      "\t$0",
+      "end"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while $1",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "end"
+    ]
+  },
+  "r": {
+    "prefix": "r",
+    "body": "getter ${0:name}"
+  },
+  "r!": {
+    "prefix": "r!",
+    "body": "getter! ${0:name}"
+  },
+  "r?": {
+    "prefix": "r?",
+    "body": "getter? ${0:name}"
+  },
+  "w": {
+    "prefix": "w",
+    "body": "setter ${0:name}"
+  },
+  "w!": {
+    "prefix": "w!",
+    "body": "setter! ${0:name}"
+  },
+  "w?": {
+    "prefix": "w?",
+    "body": "setter? ${0:name}"
+  },
+  "rw": {
+    "prefix": "rw",
+    "body": "property ${0:name}"
+  },
+  "rw!": {
+    "prefix": "rw!",
+    "body": "property! ${0:name}"
+  },
+  "rw?": {
+    "prefix": "rw?",
+    "body": "property? ${0:name}"
+  },
+  "defs": {
+    "prefix": "defs",
+    "body": [
+      "def self.${1:class_method_name}",
+      "\t$0",
+      "end"
+    ]
+  },
+  "defi": {
+    "prefix": "defi",
+    "body": [
+      "def initialize($1)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "do": {
+    "prefix": "do",
+    "body": [
+      "do",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "end"
+    ]
+  },
+  "dov": {
+    "prefix": "dov",
+    "body": [
+      "do |${1:v}|",
+      "\t$2",
+      "end"
+    ]
+  },
+  "it": {
+    "prefix": "it",
+    "body": [
+      "it \"$1\" do",
+      "\t$0",
+      "end"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "b": {
+    "prefix": "b",
+    "body": [
+      "{",
+      "\tblock : '${1:name}',",
+      "\tcontent : [",
+      "\t\t'${2:content}'",
+      "\t]",
+      "\\}",
+      ""
+    ]
+  },
+  "btc": {
+    "prefix": "btc",
+    "body": [
+      "{",
+      "\t block : '${1:name}',",
+      "\t content: '${2:content}'",
+      "\\}",
+      ""
+    ]
+  },
+  "bwm": {
+    "prefix": "bwm",
+    "body": [
+      "{",
+      "\tblock : '${1:name}',",
+      "\tmods: { ${2:modName}: '${3:modVal}' \\},",
+      "\tcontent : [",
+      "\t\t'${4:content}'",
+      "\t]",
+      "\\}",
+      "",
+      ""
+    ]
+  },
+  "e": {
+    "prefix": "e",
+    "body": [
+      "{",
+      "\telem : '${1:name}',",
+      "\tcontent : [",
+      "\t\t'${2:content}'",
+      "\t]",
+      "\\}",
+      "",
+      ""
+    ]
+  },
+  "mo": {
+    "prefix": "mo",
+    "body": [
+      "mods : { ${1:modName} : '${2:modVal}' \\},",
+      ""
+    ]
+  },
+  "mi": {
+    "prefix": "mi",
+    "body": [
+      "mix : [ { ${1:block} : '${2:block}' \\} ],",
+      ""
+    ]
+  },
+  "a": {
+    "prefix": "a",
+    "body": [
+      "attrs : { ${1:attr} : '${2:val}' \\},",
+      ""
+    ]
+  }
+}

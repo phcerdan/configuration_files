@@ -1,0 +1,598 @@
+{
+  "imp": {
+    "prefix": "imp",
+    "body": "import "
+  },
+  "pimp": {
+    "prefix": "pimp",
+    "body": "public import"
+  },
+  "io": {
+    "prefix": "io",
+    "body": "std.stdio"
+  },
+  "traits": {
+    "prefix": "traits",
+    "body": "std.traits"
+  },
+  "conv": {
+    "prefix": "conv",
+    "body": "std.conv"
+  },
+  "arr": {
+    "prefix": "arr",
+    "body": "std.array"
+  },
+  "algo": {
+    "prefix": "algo",
+    "body": "std.algorithm"
+  },
+  "theusual": {
+    "prefix": "theusual",
+    "body": [
+      "import std.stdio, std.string, std.array;",
+      "import std.traits, std.conv, std.algorithm;",
+      "import std.math, std.regex;"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for(int ${1:i} = 0; $1 < ${2:count}; $1++) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fe": {
+    "prefix": "fe",
+    "body": [
+      "foreach(${1:elem}; ${2:range}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fei": {
+    "prefix": "fei",
+    "body": [
+      "foreach(${1:i}, ${2:elem}; ${3:range}) {",
+      "\t$0\t",
+      "\\} "
+    ]
+  },
+  "fer": {
+    "prefix": "fer",
+    "body": [
+      "foreach_reverse(${1:elem}; ${2:range}) {",
+      "\t$0\t",
+      "\\} "
+    ]
+  },
+  "feri": {
+    "prefix": "feri",
+    "body": [
+      "foreach_reverse(${1:i}, ${2:elem}; ${3:range}) {",
+      "\t$0  ",
+      "\\}"
+    ]
+  },
+  "sce": {
+    "prefix": "sce",
+    "body": "scope(exit) ${1:f.close();}"
+  },
+  "scs": {
+    "prefix": "scs",
+    "body": "scope(success) $1"
+  },
+  "scf": {
+    "prefix": "scf",
+    "body": "scope(failure) $1"
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else {",
+      "\t$1\t",
+      "\\}"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "else if($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if($1) {",
+      "\t$2\t",
+      "\\} else {",
+      "\t$3\t",
+      "\\}"
+    ]
+  },
+  "ifee": {
+    "prefix": "ifee",
+    "body": [
+      "if($1) {",
+      "\t$2\t",
+      "\\} else if($3) {",
+      "\t$4",
+      "\\} else {",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "sw": {
+    "prefix": "sw",
+    "body": [
+      "switch($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "cs": {
+    "prefix": "cs",
+    "body": [
+      "case ${1:0}:",
+      "\t$2",
+      "\tbreak;"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": [
+      "default:",
+      "\t$0"
+    ]
+  },
+  "fsw": {
+    "prefix": "fsw",
+    "body": [
+      "final switch($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try {",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "\\} catch(${2:Exception} ${3:e}) {",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "tcf": {
+    "prefix": "tcf",
+    "body": [
+      "try {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\} catch(${1:Exception} ${2:e}) {",
+      "\t$3",
+      "\\} finally {",
+      "\t$4",
+      "\\}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "while(${1:cond}) {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\}"
+    ]
+  },
+  "dowh": {
+    "prefix": "dowh",
+    "body": [
+      "do {",
+      "\t$1",
+      "\\} while($2);"
+    ]
+  },
+  "sif": {
+    "prefix": "sif",
+    "body": [
+      "static if(${1:cond}) {",
+      "\t$2",
+      "\\}"
+    ]
+  },
+  "sife": {
+    "prefix": "sife",
+    "body": [
+      "static if($1) {",
+      "\t$2",
+      "\\} else {",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "sifee": {
+    "prefix": "sifee",
+    "body": [
+      "static if($1) {",
+      "\t$2",
+      "\\} else static if($3) {",
+      "\t$4",
+      "\\} else {",
+      "\t$5",
+      "\\}"
+    ]
+  },
+  "seif": {
+    "prefix": "seif",
+    "body": [
+      "else static if($1) {",
+      "\t$2",
+      "\\} "
+    ]
+  },
+  "?": {
+    "prefix": "?",
+    "body": "(${1: a > b}) ? ${2:a} : ${3:b}; "
+  },
+  "with": {
+    "prefix": "with",
+    "body": [
+      "with(${1:exp}) {",
+      "\t$2",
+      "\\} $0\t"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "${1:auto} ${2:func}(${3:params}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "contr": {
+    "prefix": "contr",
+    "body": [
+      "in {",
+      "\t$1",
+      "\\} out {",
+      "\t$2",
+      "\\} body {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "l": {
+    "prefix": "l",
+    "body": "(${1:x}) => ${2:x}${0:;}"
+  },
+  "funl": {
+    "prefix": "funl",
+    "body": "function (${1:int x}) => $2${3:;}"
+  },
+  "del": {
+    "prefix": "del",
+    "body": "delegate (${1:int x}) => $2${3:;} "
+  },
+  "opApply": {
+    "prefix": "opApply",
+    "body": [
+      "int opApply(Dg)(Dg dg) if(ParameterTypeTuble!Dg.length == 2) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "psn": {
+    "prefix": "psn",
+    "body": "pure @safe nothrow"
+  },
+  "safe": {
+    "prefix": "safe",
+    "body": "@safe"
+  },
+  "trusted": {
+    "prefix": "trusted",
+    "body": "@trusted"
+  },
+  "system": {
+    "prefix": "system",
+    "body": "@system"
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum $1 {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "pu": {
+    "prefix": "pu",
+    "body": "public"
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "private"
+  },
+  "po": {
+    "prefix": "po",
+    "body": "protected"
+  },
+  "ctor": {
+    "prefix": "ctor",
+    "body": [
+      "this($1) {",
+      "\t$0",
+      "\\} "
+    ]
+  },
+  "dtor": {
+    "prefix": "dtor",
+    "body": [
+      "~this($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "al": {
+    "prefix": "al",
+    "body": [
+      "alias ${1:b} = ${2:a};",
+      "$0"
+    ]
+  },
+  "alth": {
+    "prefix": "alth",
+    "body": [
+      "alias ${1:value} this;",
+      "$0"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "void main() {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "maina": {
+    "prefix": "maina",
+    "body": [
+      "void main(string[] args) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "mod": {
+    "prefix": "mod",
+    "body": "module ${1:main};$0"
+  },
+  "var": {
+    "prefix": "var",
+    "body": "${1:auto} ${2:var} = ${0:1};"
+  },
+  "new": {
+    "prefix": "new",
+    "body": [
+      "${1:auto} ${2:var} = new ${3:Object}($4);",
+      "$0"
+    ]
+  },
+  "file": {
+    "prefix": "file",
+    "body": [
+      "auto ${1:f} = File(${2:\"useful_info.xml\"}, ${3:\"rw\"});",
+      "$0"
+    ]
+  },
+  "map": {
+    "prefix": "map",
+    "body": [
+      "map!(${1:f})(${2:xs});",
+      "$0"
+    ]
+  },
+  "filter": {
+    "prefix": "filter",
+    "body": [
+      "filter!(${1:p})(${2:xs});",
+      "$0"
+    ]
+  },
+  "reduce": {
+    "prefix": "reduce",
+    "body": [
+      "reduce!(${1:f})(${2:xs});",
+      "$0"
+    ]
+  },
+  "find": {
+    "prefix": "find",
+    "body": [
+      "find!(${1:p})($2:xs);",
+      "$0"
+    ]
+  },
+  "aa": {
+    "prefix": "aa",
+    "body": "${1:int}[${2:string}] ${3:dict} = $0;"
+  },
+  "#!": {
+    "prefix": "#!",
+    "body": "#!/usr/bin/env rdmd"
+  },
+  "bang": {
+    "prefix": "bang",
+    "body": "#!/usr/bin/env rdmd"
+  },
+  "rdmd": {
+    "prefix": "rdmd",
+    "body": "#!/usr/bin/env rdmd"
+  },
+  "isstr": {
+    "prefix": "isstr",
+    "body": "isSomeString!${1:S}"
+  },
+  "isnum": {
+    "prefix": "isnum",
+    "body": "isNumeric!${1:N}"
+  },
+  "tos": {
+    "prefix": "tos",
+    "body": [
+      "to!string(${1:x});",
+      "$0"
+    ]
+  },
+  "toi": {
+    "prefix": "toi",
+    "body": [
+      "to!int(${1:str});",
+      "$0"
+    ]
+  },
+  "tod": {
+    "prefix": "tod",
+    "body": [
+      "to!double(${1:str});",
+      "$0"
+    ]
+  },
+  "un": {
+    "prefix": "un",
+    "body": [
+      "unittest {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "ver": {
+    "prefix": "ver",
+    "body": [
+      "version(${1:Posix}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "de": {
+    "prefix": "de",
+    "body": [
+      "debug {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "sst": {
+    "prefix": "sst",
+    "body": [
+      "shared static this($1) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "td": {
+    "prefix": "td",
+    "body": [
+      "// Typedef is deprecated. Use alias instead.",
+      "typedef"
+    ]
+  },
+  "ino": {
+    "prefix": "ino",
+    "body": "inout"
+  },
+  "imm": {
+    "prefix": "imm",
+    "body": "immutable"
+  },
+  "fin": {
+    "prefix": "fin",
+    "body": "final"
+  },
+  "con": {
+    "prefix": "con",
+    "body": "const"
+  },
+  "psi": {
+    "prefix": "psi",
+    "body": [
+      "private static immutable ${1:int} ${2:Constant} = ${3:1};",
+      "$0"
+    ]
+  },
+  "prag": {
+    "prefix": "prag",
+    "body": "pragma($1)"
+  },
+  "pms": {
+    "prefix": "pms",
+    "body": "pragma(msg, ${1:Warning});"
+  },
+  "asm": {
+    "prefix": "asm",
+    "body": [
+      "asm {",
+      "\t$1",
+      "\\}"
+    ]
+  },
+  "over": {
+    "prefix": "over",
+    "body": "override"
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "return $1;"
+  },
+  "FILE": {
+    "prefix": "FILE",
+    "body": "__FILE__"
+  },
+  "MOD": {
+    "prefix": "MOD",
+    "body": "__MODULE__"
+  },
+  "LINE": {
+    "prefix": "LINE",
+    "body": "__LINE__"
+  },
+  "FUN": {
+    "prefix": "FUN",
+    "body": "__FUNCTION__"
+  },
+  "PF": {
+    "prefix": "PF",
+    "body": "__PRETTY_FUNCTION__"
+  },
+  "cast": {
+    "prefix": "cast",
+    "body": "cast(${1:T})(${2:val});"
+  },
+  "/*": {
+    "prefix": "/*",
+    "body": [
+      "/*",
+      " * $1",
+      "*/"
+    ]
+  },
+  "idk": {
+    "prefix": "idk",
+    "body": "// I don't know how this works. Don't touch it."
+  },
+  "idfk": {
+    "prefix": "idfk",
+    "body": "// Don't FUCKING touch this."
+  }
+}

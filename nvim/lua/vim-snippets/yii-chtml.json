@@ -1,0 +1,432 @@
+{
+  "yhrb": {
+    "prefix": "yhrb",
+    "body": [
+      "echo CHtml::radioButton('${1:name}', ${2:false},array(${3:optionName}=>${0:optionValue} );",
+      ""
+    ]
+  },
+  "yhass": {
+    "prefix": "yhass",
+    "body": [
+      "echo CHtml::asset('${0:path}');",
+      ""
+    ]
+  },
+  "yhale": {
+    "prefix": "yhale",
+    "body": [
+      "echo CHtml::activeLabelEx(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yheca": {
+    "prefix": "yheca",
+    "body": [
+      "echo CHtml::encodeArray(array($0));",
+      ""
+    ]
+  },
+  "yhnurl": {
+    "prefix": "yhnurl",
+    "body": [
+      "echo CHtml::normalizeUrl(array('$0'));",
+      ""
+    ]
+  },
+  "yhsb": {
+    "prefix": "yhsb",
+    "body": [
+      "echo CHtml::submitButton('${1:label}',array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhlinkb": {
+    "prefix": "yhlinkb",
+    "body": [
+      "echo CHtml::linkButton('${1:lable}',array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhata": {
+    "prefix": "yhata",
+    "body": [
+      "echo CHtml::activeTextArea(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhajb": {
+    "prefix": "yhajb",
+    "body": [
+      "echo CHtml::ajaxButton('${1:label}', '${2:url}',array('${3:ajaxOptionName}'=>${4:ajaxOptionValue}),array('${5:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhai": {
+    "prefix": "yhai",
+    "body": [
+      "echo CHtml::activeId(${1:model}, '${0:attribute}');",
+      ""
+    ]
+  },
+  "yhacb": {
+    "prefix": "yhacb",
+    "body": [
+      "echo CHtml::activeCheckBox(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhahf": {
+    "prefix": "yhahf",
+    "body": [
+      "echo CHtml::activeHiddenField(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhec": {
+    "prefix": "yhec",
+    "body": [
+      "echo CHtml::encode(${0:text});",
+      ""
+    ]
+  },
+  "yhmtag": {
+    "prefix": "yhmtag",
+    "body": [
+      "echo CHtml::metaTag('${1:content}', '${2:name}', '${3:httpEquiv}',array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhddl": {
+    "prefix": "yhddl",
+    "body": [
+      "echo CHtml::dropDownList('${1:name}', '${2:select}', array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhlb": {
+    "prefix": "yhlb",
+    "body": [
+      "echo CHtml::listBox('${1:name}', '${2:select}',array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhjs": {
+    "prefix": "yhjs",
+    "body": [
+      "echo CHtml::script('${0:test}');",
+      ""
+    ]
+  },
+  "yhaj": {
+    "prefix": "yhaj",
+    "body": [
+      "echo CHtml::ajax(array($0));",
+      ""
+    ]
+  },
+  "yhtf": {
+    "prefix": "yhtf",
+    "body": [
+      "echo CHtml::textField('${1:name}', '${2:value}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhapf": {
+    "prefix": "yhapf",
+    "body": [
+      "echo CHtml::activePasswordField(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhld": {
+    "prefix": "yhld",
+    "body": [
+      "echo CHtml::listData(array($1),'${2:valueField}', '${3:textField}','${0:groupField}');",
+      ""
+    ]
+  },
+  "yhmt": {
+    "prefix": "yhmt",
+    "body": [
+      "echo CHtml::mailto('${1:text}', '${2:email}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhimg": {
+    "prefix": "yhimg",
+    "body": [
+      "echo CHtml::image('${1:src}', '${2:alt}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhalb": {
+    "prefix": "yhalb",
+    "body": [
+      "echo CHtml::activeListBox(${1:model}, '${2:attribute}', array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhaff": {
+    "prefix": "yhaff",
+    "body": [
+      "echo CHtml::activeFileField(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhct": {
+    "prefix": "yhct",
+    "body": [
+      "echo CHtml::closeTag('${0:tag}');",
+      ""
+    ]
+  },
+  "yhaif": {
+    "prefix": "yhaif",
+    "body": [
+      "echo CHtml::activeInputField('${1:type}', ${2:model}, '${3:attribute}',array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhjsf": {
+    "prefix": "yhjsf",
+    "body": [
+      "echo CHtml::scriptFile('${0:url}');",
+      ""
+    ]
+  },
+  "yhrbl": {
+    "prefix": "yhrbl",
+    "body": [
+      "echo CHtml::radioButtonList('${1:name}', ${2:select}, array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhcssf": {
+    "prefix": "yhcssf",
+    "body": [
+      "echo CHtml::cssFile('${1:url}','${0:media}');",
+      ""
+    ]
+  },
+  "yherr": {
+    "prefix": "yherr",
+    "body": [
+      "echo CHtml::error(${1:model}, '${0:attribute}');",
+      ""
+    ]
+  },
+  "yhpf": {
+    "prefix": "yhpf",
+    "body": [
+      "echo CHtml::passwordField('${1:name}', '${2:value}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhhf": {
+    "prefix": "yhhf",
+    "body": [
+      "echo CHtml::hiddenField('${1:name}', '${2:value}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhc": {
+    "prefix": "yhc",
+    "body": [
+      "echo CHtml::cdata(${0:text});",
+      ""
+    ]
+  },
+  "yhlink": {
+    "prefix": "yhlink",
+    "body": [
+      "echo CHtml::link('${1:text}',array($2),array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yherrs": {
+    "prefix": "yherrs",
+    "body": [
+      "echo CHtml::errorSummary(${1:model},'${2:headerHtml}','${0:footerHtml}');",
+      ""
+    ]
+  },
+  "yht": {
+    "prefix": "yht",
+    "body": [
+      "echo CHtml::tag('${1:tag}',array('${2:optionName}'=>${3:optionValue}),${4:false},${0:true});",
+      ""
+    ]
+  },
+  "yhajl": {
+    "prefix": "yhajl",
+    "body": [
+      "echo CHtml::ajaxLink('${1:label}', '${2:url}',array('${3:ajaxOptionName}'=>${4:ajaxOptionValue}),array('${5:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhlabel": {
+    "prefix": "yhlabel",
+    "body": [
+      "echo CHtml::label('${1:label}', '${2:for}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhan": {
+    "prefix": "yhan",
+    "body": [
+      "echo CHtml::activeName(${1:model}, '${0:attribute}');",
+      ""
+    ]
+  },
+  "yhsform": {
+    "prefix": "yhsform",
+    "body": [
+      "echo CHtml::statefulForm(array('$1'), '${2:post}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhff": {
+    "prefix": "yhff",
+    "body": [
+      "echo CHtml::fileField('${1:name}', '${2:value}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhatf": {
+    "prefix": "yhatf",
+    "body": [
+      "echo CHtml::activeTextField(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhcss": {
+    "prefix": "yhcss",
+    "body": [
+      "echo CHtml::css('${1:test}','${0:media}');",
+      ""
+    ]
+  },
+  "yhimgb": {
+    "prefix": "yhimgb",
+    "body": [
+      "echo CHtml::imageButton('${1:src}',array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhajsb": {
+    "prefix": "yhajsb",
+    "body": [
+      "echo CHtml::ajaxSubmitButton('${1:label}', '${2:url}',array('${3:ajaxOptionName}'=>${4:ajaxOptionValue}),array('${5:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhb": {
+    "prefix": "yhb",
+    "body": [
+      "echo CHtml::button('${1:label}',array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhlo": {
+    "prefix": "yhlo",
+    "body": [
+      "echo CHtml::listOptions('${1:selection}', array($2), array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhacbl": {
+    "prefix": "yhacbl",
+    "body": [
+      "echo CHtml::activeCheckBoxList(${1:model}, '${2:attribute}', array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhot": {
+    "prefix": "yhot",
+    "body": [
+      "echo CHtml::openTag('${1:tag}', array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhcb": {
+    "prefix": "yhcb",
+    "body": [
+      "echo CHtml::checkBox('${1:name}', ${2:false}, array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhta": {
+    "prefix": "yhta",
+    "body": [
+      "echo CHtml::textArea('${1:name}', '${2:value}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhlinkt": {
+    "prefix": "yhlinkt",
+    "body": [
+      "echo CHtml::linkTag('${1:relation}', '${2:type}', '${3:href}', '${4:media}',array('${5:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhrsb": {
+    "prefix": "yhrsb",
+    "body": [
+      "echo CHtml::resetButton('${1:label}',array('${2:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yharbl": {
+    "prefix": "yharbl",
+    "body": [
+      "echo CHtml::activeRadioButtonList(${1:model}, '${2:attribute}', array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhcbl": {
+    "prefix": "yhcbl",
+    "body": [
+      "echo CHtml::checkBoxList('${1:name}', ${2:select}, array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhform": {
+    "prefix": "yhform",
+    "body": [
+      "echo CHtml::form(array('$1'), '${2:post}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhbeform": {
+    "prefix": "yhbeform",
+    "body": [
+      "echo CHtml::beginForm(array('$1'), '${2:post}',array('${3:optionName}'=>${4:optionValue}));",
+      "$0",
+      "echo CHtml::endForm();",
+      ""
+    ]
+  },
+  "yhaddl": {
+    "prefix": "yhaddl",
+    "body": [
+      "echo CHtml::activeDropDownList(${1:model}, '${2:attribute}', array($3),array('${4:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yharb": {
+    "prefix": "yharb",
+    "body": [
+      "echo CHtml::activeRadioButton(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      ""
+    ]
+  },
+  "yhal": {
+    "prefix": "yhal",
+    "body": [
+      "echo CHtml::activeLabel(${1:model}, '${2:attribute}',array('${3:optionName}'=>${0:optionValue}));",
+      "",
+      ""
+    ]
+  }
+}

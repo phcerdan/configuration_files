@@ -1,0 +1,444 @@
+{
+  "yse": {
+    "prefix": "yse",
+    "body": [
+      "Yii::app()->session['$0'];",
+      ""
+    ]
+  },
+  "yrd": {
+    "prefix": "yrd",
+    "body": [
+      "\\$this->renderDynamic('${0:callback}');",
+      ""
+    ]
+  },
+  "ycas": {
+    "prefix": "ycas",
+    "body": [
+      "Yii::app()->cache->set('${1:key}', ${2:value}, ${3:expire}, new C${4:}CacheDependency($0));",
+      ""
+    ]
+  },
+  "ycad": {
+    "prefix": "ycad",
+    "body": [
+      "Yii::app()->cache->add('${1:key}', ${2:value}, ${3:expire}, new C$4CacheDependency($0));",
+      ""
+    ]
+  },
+  "yregcf": {
+    "prefix": "yregcf",
+    "body": [
+      "Yii::app()->clientScript->registerCssFile('${0:file}');",
+      ""
+    ]
+  },
+  "yreqtype": {
+    "prefix": "yreqtype",
+    "body": [
+      "Yii::app()->request->requestType",
+      ""
+    ]
+  },
+  "yisajax": {
+    "prefix": "yisajax",
+    "body": [
+      "Yii::app()->request->isAjaxRequest",
+      ""
+    ]
+  },
+  "yt": {
+    "prefix": "yt",
+    "body": [
+      "Yii::t('${1:category}', '${2:message}',array($0));",
+      ""
+    ]
+  },
+  "yregc": {
+    "prefix": "yregc",
+    "body": [
+      "Yii::app()->clientScript->registerCss('${1:id}', '$0');",
+      ""
+    ]
+  },
+  "ylog": {
+    "prefix": "ylog",
+    "body": [
+      "Yii::log('${1:msg}', '${0:info}');",
+      ""
+    ]
+  },
+  "yuserip": {
+    "prefix": "yuserip",
+    "body": [
+      "YYii::app()->request->userHostAddress",
+      ""
+    ]
+  },
+  "yregsf": {
+    "prefix": "yregsf",
+    "body": [
+      "Yii::app()->clientScript->registerScriptFile('${1:scriptUrl}', CClientScript::POS_${0:END});",
+      ""
+    ]
+  },
+  "ylinkpager": {
+    "prefix": "ylinkpager",
+    "body": [
+      "\\$this->widget('CLinkPager', array('pages'=>\\$pages,'header'=>'$0'\\}))",
+      ""
+    ]
+  },
+  "yjec": {
+    "prefix": "yjec",
+    "body": [
+      "CJSON::encode(${0:text});",
+      ""
+    ]
+  },
+  "yadp": {
+    "prefix": "yadp",
+    "body": [
+      "\\$dataProvider = new CActiveDataProvider('$1', array(",
+      "  'criteria' => array(",
+      "\t\t'condition' => '$2',",
+      "\t\t'order' => '$3',",
+      "\t\t'with' => array('$4')",
+      "\t),",
+      "//'pagination' => false,",
+      "\t'pagination' => array(",
+      "\t\t'pageSize'=>$5,",
+      "\t),",
+      "));",
+      "$0",
+      "// \\$dataProvider->getData() will return a list of Post objects",
+      ""
+    ]
+  },
+  "yrdi": {
+    "prefix": "yrdi",
+    "body": [
+      "\\$this->renderDynamic('${1:callback}', array('${2:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yregs": {
+    "prefix": "yregs",
+    "body": [
+      "Yii::app()->clientScript->registerScript('${1:id}', '$2', CClientScript::POS_${0:READY});",
+      ""
+    ]
+  },
+  "ycaf": {
+    "prefix": "ycaf",
+    "body": [
+      "Yii::app()->cache->flush();",
+      ""
+    ]
+  },
+  "yco": {
+    "prefix": "yco",
+    "body": [
+      "Yii::app()->request->cookies['$0']",
+      ""
+    ]
+  },
+  "yuser": {
+    "prefix": "yuser",
+    "body": [
+      "Yii::app()->user->",
+      ""
+    ]
+  },
+  "yrf": {
+    "prefix": "yrf",
+    "body": [
+      "\\$this->refresh();",
+      ""
+    ]
+  },
+  "yimp": {
+    "prefix": "yimp",
+    "body": [
+      "Yii::import('$0');",
+      ""
+    ]
+  },
+  "ytrace": {
+    "prefix": "ytrace",
+    "body": [
+      "Yii::trace('${0:msg}');",
+      ""
+    ]
+  },
+  "ypar": {
+    "prefix": "ypar",
+    "body": [
+      "Yii::app()->params['$0']",
+      ""
+    ]
+  },
+  "yispost": {
+    "prefix": "yispost",
+    "body": [
+      "Yii::app()->request->isPostRequest",
+      ""
+    ]
+  },
+  "yifisajax": {
+    "prefix": "yifisajax",
+    "body": [
+      "if(Yii::app()->request->isAjaxRequest == TRUE)",
+      "{",
+      "\t$0",
+      "\\}",
+      ""
+    ]
+  },
+  "ydelcache": {
+    "prefix": "ydelcache",
+    "body": [
+      "Yii::app()->cache->delete('${0:key}');",
+      ""
+    ]
+  },
+  "yr": {
+    "prefix": "yr",
+    "body": [
+      "\\$this->render('${1:view}',array('${2:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yre": {
+    "prefix": "yre",
+    "body": [
+      "\\$this->redirect(array('${1:controller}/${0:action}'));",
+      ""
+    ]
+  },
+  "ycag": {
+    "prefix": "ycag",
+    "body": [
+      "Yii::app()->cache->get('${0:key}');",
+      ""
+    ]
+  },
+  "yrt": {
+    "prefix": "yrt",
+    "body": [
+      "\\$this->renderText('$0');",
+      ""
+    ]
+  },
+  "yrp": {
+    "prefix": "yrp",
+    "body": [
+      "\\$this->renderPartial('${1:view}',array('${2:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "ycountm": {
+    "prefix": "ycountm",
+    "body": [
+      "${1:ModelName}::model()->count($2, array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "ycountbs": {
+    "prefix": "ycountbs",
+    "body": [
+      "${1:ModelName}::model()->countBySql(${2:sql},array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yupdatea": {
+    "prefix": "yupdatea",
+    "body": [
+      "${1:ModelName}::model()->updateAll(${2:array('attributes')}, $3,array('${4:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yupdatebp": {
+    "prefix": "yupdatebp",
+    "body": [
+      "${1:ModelName}::model()->updateByPk(${2:pk}, ${3:array('attributes')}, $4,array('${5:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "ydela": {
+    "prefix": "ydela",
+    "body": [
+      "${1:ModelName}::model()->deleteAll($2,array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "ydelbp": {
+    "prefix": "ydelbp",
+    "body": [
+      "${1:ModelName}::model()->deleteByPk(${2:pk}, $3, array('${4:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfind": {
+    "prefix": "yfind",
+    "body": [
+      "${1:ModelName}::model()->find($2,array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfinda": {
+    "prefix": "yfinda",
+    "body": [
+      "${1:ModelName}::model()->findAll($2,array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfindbp": {
+    "prefix": "yfindbp",
+    "body": [
+      "${1:ModelName}::model()->findByPk(${2:pk}, $3, array('${4:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfindabp": {
+    "prefix": "yfindabp",
+    "body": [
+      "${1:ModelName}::model()->findAllByPk(${2:pk}, $3,array('${4:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfindbs": {
+    "prefix": "yfindbs",
+    "body": [
+      "${1:ModelName}::model()->findBySql(${2:sql}, array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yfindaba": {
+    "prefix": "yfindaba",
+    "body": [
+      "${1:ModelName}::model()->findAllByAttributes(array('${2:attributeName}'=>${3:attributeValue}), $4, array('${5:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "yexists": {
+    "prefix": "yexists",
+    "body": [
+      "${1:ModelName}::model()->exists($2, array('${3:key}'=>${0:value}));",
+      ""
+    ]
+  },
+  "ymodel": {
+    "prefix": "ymodel",
+    "body": [
+      "<?php",
+      "",
+      "class ${1:ModelName} extends ${2:CActiveRecord}",
+      "{",
+      "\t/**",
+      "\t * Returns the static model of the specified AR class.",
+      "\t * @return CActiveRecord the static model class",
+      "\t */",
+      "\tpublic static function model(\\$className=__CLASS__)",
+      "\t{",
+      "\t\treturn parent::model(\\$className);",
+      "\t\\}",
+      "",
+      "\t/**",
+      "\t * @return string the associated database table name",
+      "\t */",
+      "\tpublic function tableName()",
+      "\t{",
+      "\t\treturn '${0:table_name}';",
+      "\t\\}",
+      "",
+      "\t/**",
+      "\t * @return array validation rules for model attributes.",
+      "\t */",
+      "\tpublic function rules()",
+      "\t{",
+      "\t\treturn array(",
+      "\t\t);",
+      "\t\\}",
+      "",
+      "\t/**",
+      "\t * @return array relational rules.",
+      "\t */",
+      "\tpublic function relations()",
+      "\t{",
+      "\t\treturn array(",
+      "\t\t);",
+      "\t\\}",
+      "",
+      "\t/**",
+      "\t * @return array customized attribute labels (name=&gt;label)",
+      "\t */",
+      "\tpublic function attributeLabels()",
+      "\t{",
+      "\t\treturn array(",
+      "\t\t);",
+      "\t\\}",
+      "\\}",
+      "",
+      ""
+    ]
+  },
+  "ycontroller": {
+    "prefix": "ycontroller",
+    "body": [
+      "<?php",
+      "",
+      "/**",
+      " * ${1:}",
+      " */",
+      "class ${2:Site}Controller extends ${3:CController}",
+      "{",
+      "\t  public function action${4:Index}()",
+      "\t  {",
+      "\t      $0",
+      "\t  \\}",
+      "",
+      "\t// -----------------------------------------------------------",
+      "\t// Uncomment the following methods and override them if needed",
+      "\t/*",
+      "\tpublic function filters()",
+      "\t{",
+      "\t\t// return the filter configuration for this controller, e.g.:",
+      "\t\treturn array(",
+      "\t\t\t'inlineFilterName',",
+      "\t\t\tarray(",
+      "\t\t\t\t'class'=>'path.to.FilterClass',",
+      "\t\t\t\t'propertyName'=>'propertyValue',",
+      "\t\t\t),",
+      "\t\t);",
+      "\t\\}",
+      "",
+      "\tpublic function actions()",
+      "\t{",
+      "\t\t// return external action classes, e.g.:",
+      "\t\treturn array(",
+      "\t\t\t'action1'=>'path.to.ActionClass',",
+      "\t\t\t'action2'=>array(",
+      "\t\t\t\t'class'=>'path.to.AnotherActionClass',",
+      "\t\t\t\t'propertyName'=>'propertyValue',",
+      "\t\t\t),",
+      "\t\t);",
+      "\t\\}",
+      "\t*/",
+      "\\}",
+      ""
+    ]
+  },
+  "yact": {
+    "prefix": "yact",
+    "body": [
+      "public function action${1:Index}(${2:params})",
+      "{",
+      "\t$0",
+      "\\}",
+      "",
+      ""
+    ]
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "ci_controller": {
+    "prefix": "ci_controller",
+    "body": [
+      "<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');",
+      "",
+      "class ${1:ClassName} extends CI_Controller",
+      "{",
+      "\tfunction __construct()",
+      "\t{",
+      "\t\tparent::__construct();",
+      "\t\t${2:// code...}",
+      "\t\\}",
+      "",
+      "\tfunction ${3:index}()",
+      "\t{",
+      "\t\t${4:// code...}",
+      "\t\\}",
+      "\\}"
+    ]
+  },
+  "ci_model": {
+    "prefix": "ci_model",
+    "body": [
+      "<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');",
+      "",
+      "class ${1:ClassName_model} extends CI_Model",
+      "{",
+      "\tfunction __construct()",
+      "\t{",
+      "\t\tparent::__construct();",
+      "\t\t${2:// code...}",
+      "\t\\}",
+      "\\} "
+    ]
+  },
+  "ci_model_crudl": {
+    "prefix": "ci_model_crudl",
+    "body": [
+      "<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');",
+      "",
+      "class ${1:ClassName_model} extends CI_Model",
+      "{",
+      "\tprivate \\$table = '${2:table_name}';",
+      "",
+      "\tfunction __construct()",
+      "\t{",
+      "\t\tparent::__construct();",
+      "\t\t${3:// code...}",
+      "\t\\}",
+      "",
+      "\tpublic function create(\\$data)",
+      "\t{",
+      "\t\tif(\\$this->db->insert(\\$this->table, \\$data))",
+      "\t\t\treturn true;",
+      "\t\telse",
+      "\t\t\treturn false;",
+      "\t\\}",
+      "",
+      "\tpublic function read(\\$id)",
+      "\t{",
+      "\t\treturn \\$this->db->get_where(\\$this->table, array('id', \\$id))->result();",
+      "\t\\}",
+      "",
+      "\tpublic function update(\\$id, \\$data)",
+      "\t{",
+      "\t\tif(\\$this->db->update(\\$this->table, \\$data, array('id' => \\$id)))",
+      "\t\t\treturn true;",
+      "\t\telse",
+      "\t\t\treturn false;",
+      "\t\\}",
+      "",
+      "\tpublic function delete(\\$id)",
+      "\t{",
+      "\t\tif(is_array(\\$id))",
+      "\t\t{",
+      "\t\t\t\\$this->db->trans_start();",
+      "\t\t\tforeach(\\$id as \\$elem)",
+      "\t\t\t\t\\$this->db->delete(\\$this->table, array('id' => \\$elem));",
+      "\t\t\t\\$this->db->trans_complete();",
+      "\t\t\\}",
+      "\t\telse",
+      "\t\t{",
+      "\t\t\tif(\\$this->db->delete(\\$this->table, array('id' => \\$id)))",
+      "\t\t\t\treturn true;",
+      "\t\t\telse",
+      "\t\t\t\treturn false;",
+      "\t\t\\}",
+      "\t\\}",
+      "",
+      "\tpublic function listRows(\\$limit = null, \\$offset = 0)",
+      "\t{",
+      "\t\tif(!is_null(\\$limit))",
+      "\t\t\t\\$this->db->limit(\\$limit, \\$offset);",
+      "\t\treturn \\$this->db->get(\\$this->table)->result();",
+      "\t\\}",
+      "\\}"
+    ]
+  },
+  "ci_load-view": {
+    "prefix": "ci_load-view",
+    "body": "\\$this->load->view(\"${1:view_name}\", \\$${2:data});$3"
+  },
+  "ci_db-insert": {
+    "prefix": "ci_db-insert",
+    "body": "\\$this->db->insert(\"${1:table}\", \\$${2:data});$3"
+  },
+  "ci_db-select": {
+    "prefix": "ci_db-select",
+    "body": "\\$this->db->select(\"${1:id, ...}\");$2"
+  },
+  "ci_db-from": {
+    "prefix": "ci_db-from",
+    "body": "\\$this->db->from(\"${1:table}\");$2"
+  },
+  "ci_db-join": {
+    "prefix": "ci_db-join",
+    "body": "\\$this->db->join(\"${1:table}\", \"$2\", \"${3:type}\");$4"
+  },
+  "ci_db-where": {
+    "prefix": "ci_db-where",
+    "body": "\\$this->db->where(\"${1:key}\", \"${2:value}\");$3"
+  },
+  "ci_db-or_where": {
+    "prefix": "ci_db-or_where",
+    "body": "\\$this->db->or_where(\"${1:key}\", \"${2:value}\");$3"
+  },
+  "ci_db-get": {
+    "prefix": "ci_db-get",
+    "body": "\\$this->db->get(\"${1:table}\", ${2:limit}, ${3:offset});$4"
+  },
+  "ci_db-delete": {
+    "prefix": "ci_db-delete",
+    "body": "\\$this->db->delete(\"${1:table}\", \"${2:where}\");$3"
+  },
+  "ci_db-update": {
+    "prefix": "ci_db-update",
+    "body": "\\$this->db->update(\"${1:table}\", \\$${2:set}, \\$${3:where});$4"
+  },
+  "ci_input-post": {
+    "prefix": "ci_input-post",
+    "body": "\\$this->input->post(\"${1:index}\");$2"
+  },
+  "ci_input-get": {
+    "prefix": "ci_input-get",
+    "body": "\\$this->input->get(\"${1:index}\");$2"
+  },
+  "ci_input-cookie": {
+    "prefix": "ci_input-cookie",
+    "body": "\\$this->input->cookie(\"${1:index}\");$2"
+  },
+  "ci_input-server": {
+    "prefix": "ci_input-server",
+    "body": "\\$this->input->server(\"${1:index}\");$2"
+  },
+  "ci_input-user_agent": {
+    "prefix": "ci_input-user_agent",
+    "body": "\\$this->input->user_agent();$1"
+  },
+  "ci_input-is_ajax_request": {
+    "prefix": "ci_input-is_ajax_request",
+    "body": "\\$this->input->is_ajax_request();$1"
+  },
+  "ci_input-is_cli_request": {
+    "prefix": "ci_input-is_cli_request",
+    "body": "\\$this->input->is_cli_request();$1"
+  },
+  "ci_form_validation-set_rules": {
+    "prefix": "ci_form_validation-set_rules",
+    "body": "\\$this->form_validation->set_rules(\"${1:field}\", \"${2:label}\", \"${3:trim|required}\");$4"
+  },
+  "ci_form_open": {
+    "prefix": "ci_form_open",
+    "body": "form_open(\"${1:action}\");$2"
+  },
+  "ci_form_open_multipart": {
+    "prefix": "ci_form_open_multipart",
+    "body": "form_open_multipart(\"${1:action}\");$2"
+  },
+  "ci_form_hidden": {
+    "prefix": "ci_form_hidden",
+    "body": "form_hidden(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_input": {
+    "prefix": "ci_form_input",
+    "body": "form_input(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_password": {
+    "prefix": "ci_form_password",
+    "body": "form_password(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_upload": {
+    "prefix": "ci_form_upload",
+    "body": "form_upload(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_textarea": {
+    "prefix": "ci_form_textarea",
+    "body": "form_textarea(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_dropdown": {
+    "prefix": "ci_form_dropdown",
+    "body": "form_dropdown(\"${1:name}\", \\$${2:options}, \\$\\${3:selected);$4"
+  },
+  "ci_form_checkbox": {
+    "prefix": "ci_form_checkbox",
+    "body": "form_checkbox(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_radio": {
+    "prefix": "ci_form_radio",
+    "body": "form_radio(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_submit": {
+    "prefix": "ci_form_submit",
+    "body": "form_submit(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_reset": {
+    "prefix": "ci_form_reset",
+    "body": "form_reset(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_button": {
+    "prefix": "ci_form_button",
+    "body": "form_button(\"${1:name}\", \"${2:value}\");$3"
+  },
+  "ci_form_label": {
+    "prefix": "ci_form_label",
+    "body": "form_label(\"${1:label text}\", \"${2:id}\");$3"
+  },
+  "ci_form_close": {
+    "prefix": "ci_form_close",
+    "body": "form_close();$1"
+  },
+  "ci_validation_errors": {
+    "prefix": "ci_validation_errors",
+    "body": "validation_errors();$1"
+  },
+  "ci_session_userdata": {
+    "prefix": "ci_session_userdata",
+    "body": "\\$this->session->userdata(\"${1:item}\");$2"
+  },
+  "ci_session_set_userdata": {
+    "prefix": "ci_session_set_userdata",
+    "body": "\\$this->session->set_userdata(\\$${1:array});$2"
+  },
+  "ci_session_flashdata": {
+    "prefix": "ci_session_flashdata",
+    "body": "\\$this->session->flashdata(\"${1:item}\");$2"
+  },
+  "ci_session_set_flashdata": {
+    "prefix": "ci_session_set_flashdata",
+    "body": "\\$this->session->set_flashdata(\"${1:item}\", \"${2:value}\");$3"
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "forinlet": {
+    "prefix": "forinlet",
+    "body": [
+      "for ${1:name} in ${2:array}",
+      "\tlet $1",
+      "\t\t$3"
+    ]
+  },
+  "fora": {
+    "prefix": "fora",
+    "body": [
+      "for ${1:name} in ${2:array}",
+      "\t$3"
+    ]
+  },
+  "foro": {
+    "prefix": "foro",
+    "body": [
+      "for ${1:key}, ${2:value} of ${3:object}",
+      "\t$4"
+    ]
+  },
+  "forr": {
+    "prefix": "forr",
+    "body": [
+      "for ${1:name} from ${2:start} to ${3:finish}",
+      "\t$4"
+    ]
+  },
+  "forrb": {
+    "prefix": "forrb",
+    "body": [
+      "for ${1:name} from ${2:start} to ${3:finish} by ${4:step}",
+      "\t$5"
+    ]
+  },
+  "forrex": {
+    "prefix": "forrex",
+    "body": [
+      "for ${1:name} from ${2:start} til ${3:finish}",
+      "\t$4"
+    ]
+  },
+  "forrexb": {
+    "prefix": "forrexb",
+    "body": [
+      "for ${1:name} from ${2:start} til ${3:finish} by ${4:step}",
+      "\t$5"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "(${1:args}) ->",
+      "\t$2"
+    ]
+  },
+  "bfun": {
+    "prefix": "bfun",
+    "body": [
+      "(${1:args}) ~>",
+      "\t$2"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1",
+      "\t$2"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if $1",
+      "\t$2",
+      "else",
+      "\t$3"
+    ]
+  },
+  "elif": {
+    "prefix": "elif",
+    "body": [
+      "else if $1",
+      "\t$2"
+    ]
+  },
+  "ifte": {
+    "prefix": "ifte",
+    "body": "if $1 then $2 else $0"
+  },
+  "unl": {
+    "prefix": "unl",
+    "body": "$1 unless $0"
+  },
+  "swi": {
+    "prefix": "swi",
+    "body": [
+      "switch ${1:object}",
+      "case ${2:value}",
+      "\t$3",
+      "default void"
+    ]
+  },
+  "mat": {
+    "prefix": "mat",
+    "body": [
+      "match ${1:object}",
+      "| ${2:value} => $3",
+      "| otherwise => void",
+      ""
+    ]
+  },
+  "log": {
+    "prefix": "log",
+    "body": "console.log $1"
+  },
+  "str": {
+    "prefix": "str",
+    "body": [
+      "JSON.stringify $1, void, 2",
+      ""
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "catch ${2:error}",
+      "\t$3"
+    ]
+  },
+  "req": {
+    "prefix": "req",
+    "body": "${2:$1} = require '$1'$3"
+  },
+  "req!": {
+    "prefix": "req!",
+    "body": [
+      "require! $1",
+      ""
+    ]
+  },
+  "exp": {
+    "prefix": "exp",
+    "body": "${1:root} = exports ? this"
+  }
+}

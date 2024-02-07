@@ -1,0 +1,80 @@
+{
+  "des": {
+    "prefix": "des",
+    "description": "\"describe('thing', function() { ... })\" b",
+    "body": [
+      "describe('${1:}', function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "it": {
+    "prefix": "it",
+    "description": "\"it('should do', function() { ... })\" b",
+    "body": [
+      "it('${1:}', function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "xit": {
+    "prefix": "xit",
+    "description": "\"xit('should do', function() { ... })\" b",
+    "body": [
+      "xit('${1:}', function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "bef": {
+    "prefix": "bef",
+    "description": "\"before(function() { ... })\" b",
+    "body": [
+      "before(function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "befe": {
+    "prefix": "befe",
+    "description": "\"beforeEach(function() { ... })\" b",
+    "body": [
+      "beforeEach(function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "aft": {
+    "prefix": "aft",
+    "description": "\"after(function() { ... })\" b",
+    "body": [
+      "after(function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "afte": {
+    "prefix": "afte",
+    "description": "\"afterEach(function() { ... })\" b",
+    "body": [
+      "afterEach(function() {",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\});"
+    ]
+  },
+  "exp": {
+    "prefix": "exp",
+    "description": "\"expect(...)\" b",
+    "body": "expect(${1:})$0;"
+  },
+  "expe": {
+    "prefix": "expe",
+    "description": "\"expect(...).to.equal(...)\" b",
+    "body": "expect(${1:}).to.equal($0);"
+  },
+  "expd": {
+    "prefix": "expd",
+    "description": "\"expect(...).to.deep.equal(...)\" b",
+    "body": "expect(${1:}).to.deep.equal($0);"
+  }
+}

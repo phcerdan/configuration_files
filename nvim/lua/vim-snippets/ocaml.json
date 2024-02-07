@@ -1,0 +1,83 @@
+{
+  "doc": {
+    "prefix": "doc",
+    "body": "(** $0 *)"
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": "(* $0 *)"
+  },
+  "let": {
+    "prefix": "let",
+    "body": [
+      "let $1 = $2 in",
+      "$0"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "let $1 =",
+      "\t$0"
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": "type $1 = $0"
+  },
+  "mod": {
+    "prefix": "mod",
+    "body": [
+      "module $1 = struct",
+      "\t$0",
+      "end"
+    ]
+  },
+  "modty": {
+    "prefix": "modty",
+    "body": [
+      "module type $1 = sig",
+      "\t$0",
+      "end"
+    ]
+  },
+  "sw": {
+    "prefix": "sw",
+    "body": [
+      "match $1 with",
+      "| $2 -> $0"
+    ]
+  },
+  "|": {
+    "prefix": "|",
+    "body": "| $1 -> $0"
+  },
+  "p": {
+    "prefix": "p",
+    "body": "|> $0"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1 then",
+      "\t$2",
+      "else",
+      "\t$0"
+    ]
+  },
+  "fnr": {
+    "prefix": "fnr",
+    "body": [
+      "let rec $1 =",
+      "\t$0"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "\t$1",
+      "with $0"
+    ]
+  }
+}

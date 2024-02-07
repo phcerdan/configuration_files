@@ -1,0 +1,127 @@
+{
+  "imp": {
+    "prefix": "imp",
+    "body": "import ${0:Data.List}"
+  },
+  "impq": {
+    "prefix": "impq",
+    "body": "import ${1:Data.List} as ${0:List}"
+  },
+  "fn0": {
+    "prefix": "fn0",
+    "body": [
+      "${1:name} :: ${2:a}",
+      "$1 = ${0:undefined}"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "${1:fn} :: ${2:a} -> ${3:a}",
+      "$1 $4= $0"
+    ]
+  },
+  "fn1": {
+    "prefix": "fn1",
+    "body": [
+      "${1:fn} :: ${2:a} -> ${3:a}",
+      "$1 $4= $0"
+    ]
+  },
+  "fn2": {
+    "prefix": "fn2",
+    "body": [
+      "${1:fn} :: ${2:a} -> ${3:a} -> ${4:a}",
+      "$1 $5= $0"
+    ]
+  },
+  "fn3": {
+    "prefix": "fn3",
+    "body": [
+      "${1:fn} :: ${2:a} -> ${3:a} -> ${4:a} -> ${5:a}",
+      "$1 $6= $0"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case $1 of",
+      "\t$2 -> $0"
+    ]
+  },
+  "let": {
+    "prefix": "let",
+    "body": [
+      "let",
+      "\t$1 = $2",
+      "in",
+      "\t$3"
+    ]
+  },
+  "where": {
+    "prefix": "where",
+    "body": [
+      "where",
+      "\t$1 = $0"
+    ]
+  },
+  "testunit": {
+    "prefix": "testunit",
+    "body": [
+      "module Test.Main where",
+      "",
+      "import Prelude",
+      "import Test.Unit (suite, test)",
+      "import Test.Unit.Main (runTest)",
+      "import Test.Unit.Assert as Assert",
+      "",
+      "main = runTest do",
+      "\tsuite \"$1\" do",
+      "\t\ttest \"${2:the tests run}\" do",
+      "\t\t\tAssert.equal",
+      "\t\t\t\t\"Hello, world!\"",
+      "\t\t\t\t\"Hello, sailor!\""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1 then",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "else",
+      "\t$0"
+    ]
+  },
+  "doc": {
+    "prefix": "doc",
+    "body": [
+      "{-| $0",
+      "-\\}"
+    ]
+  },
+  "ty": {
+    "prefix": "ty",
+    "body": [
+      "type ${1:Type} =",
+      "\t$0"
+    ]
+  },
+  "da": {
+    "prefix": "da",
+    "body": [
+      "data ${1:Type} =",
+      "\t${0:$1}"
+    ]
+  },
+  "nty": {
+    "prefix": "nty",
+    "body": [
+      "newtype ${1:Type} =",
+      "\t${2:$1} ${0:Int}"
+    ]
+  },
+  "fi": {
+    "prefix": "fi",
+    "body": "foreign import $1 :: $2"
+  }
+}

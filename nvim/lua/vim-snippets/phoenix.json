@@ -1,0 +1,30 @@
+{
+  "cont": {
+    "prefix": "cont",
+    "body": [
+      "defmodule ${1:AppName}Web.${2:ControllerName}Controller do",
+      "\tuse $1Web, :controller",
+      "\t",
+      "\t$3",
+      "end",
+      ""
+    ]
+  },
+  "view": {
+    "prefix": "view",
+    "body": [
+      "defmodule ${1:AppName}Web.${2:ViewName}View do",
+      "\tuse $1Web, :view",
+      "end",
+      ""
+    ]
+  },
+  "chan": {
+    "prefix": "chan",
+    "body": [
+      "defmodule ${1:AppName}Web.${2:ChannelName}Channel do",
+      "\tuse $1Web, :channel",
+      "end"
+    ]
+  }
+}

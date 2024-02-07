@@ -1,0 +1,75 @@
+{
+  "mm": {
+    "prefix": "mm",
+    "description": "inline MathMode. Dangerously simple? Be aware of collide",
+    "body": "\\$$1\\$"
+  },
+  "subcaptionbox": {
+    "prefix": "subcaptionbox",
+    "description": "PHC:subcaptionbox (require package subcaption)",
+    "body": [
+      "\\begin{figure\\}[!htb]",
+      "  \\centering",
+      "  \\subcaptionbox{\\label{subfig:femur-sagitalA\\}\\}%",
+      "    {\\includegraphics[height=5cm]{figures/screen_851-L_sagital_-76mm.png\\}\\}%",
+      "  \\hspace{0.8em\\}% fixed space between figures, requires centering",
+      "  \\subcaptionbox{\\label{subfig:femur-sagitalB\\}\\}%",
+      "    {\\includegraphics[height=5cm]{figures/screen_851-L_3D_Sagital_-76mm.png\\}\\}",
+      "  \\caption{(\\subref{subfig:femur-sagitalA\\}) Sagital view. (\\subref{subfig:femur-sagitalB\\}) 3D view\\}",
+      "  \\label{fig:femur-sagital\\}",
+      "\\end{figure\\}"
+    ]
+  },
+  "subfig": {
+    "prefix": "subfig",
+    "description": "PHC:subfig (require package subfig)",
+    "body": [
+      "\\begin{subfigure\\}{0.5\\textwidth\\}",
+      "  \\centering",
+      "  \\includegraphics[width=0.9\\linewidth]{${2:image.xxx}\\}",
+      "  \\caption{\\}",
+      "  \\label{subfig:\\}",
+      "\\end{subfigure\\}%"
+    ]
+  },
+  "hyperref": {
+    "prefix": "hyperref",
+    "description": "PHC: \\ref with custom text",
+    "body": "\\hyperref[${1:label}]{${2:text}\\} $0"
+  },
+  "incgraph": {
+    "prefix": "incgraph",
+    "description": "PHC: \\includegrahics[]{}",
+    "body": "\\includegraphics[${1:width=0.9\\textwidth]}{$2\\}"
+  },
+  "bm": {
+    "prefix": "bm",
+    "description": "bm (bold) in math mode",
+    "body": "\\bm{$1\\}"
+  },
+  "bmc": {
+    "prefix": "bmc",
+    "description": "bm (bold) and caligraphic upper case in math mode",
+    "body": "\\bm{\\mathcal{$1\\}\\}"
+  },
+  "mbb": {
+    "prefix": "mbb",
+    "description": "hollow caligraphic letters for number sets: R, N, Z, etc",
+    "body": "\\mathbb{${1:R}\\}"
+  },
+  "cal": {
+    "prefix": "cal",
+    "description": "Caligraphic upper case in math mode",
+    "body": "\\mathcal{$1\\}"
+  },
+  "innp": {
+    "prefix": "innp",
+    "description": "Bracket inner product",
+    "body": "\\langle$1,$2\\rangle"
+  },
+  "intinf": {
+    "prefix": "intinf",
+    "description": "Integral [-infinity, infinity]",
+    "body": "\\int_{-\\infinity\\}^{\\infinity\\}"
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "Imp": {
+    "prefix": "Imp",
+    "body": "#import <${1:Cocoa/Cocoa.h}>"
+  },
+  "sel": {
+    "prefix": "sel",
+    "body": "@selector(${1:method}:)"
+  },
+  "s": {
+    "prefix": "s",
+    "body": "@\"$1\""
+  },
+  "o": {
+    "prefix": "o",
+    "body": "${1:NSObject} *${2:foo} = [${3:$1 alloc}]$4;"
+  },
+  "log": {
+    "prefix": "log",
+    "body": "NSLog(@\"${1:%@}\"$2);"
+  },
+  "init": {
+    "prefix": "init",
+    "body": [
+      "- (id)init",
+      "{",
+      "\tif (self = [super init]) {",
+      "\t\t$0",
+      "\t\\}",
+      "\treturn self;",
+      "\\}"
+    ]
+  },
+  "dealloc": {
+    "prefix": "dealloc",
+    "body": [
+      "- (void) dealloc",
+      "{",
+      "\t${0:deallocations}",
+      "\t[super dealloc];",
+      "\\}"
+    ]
+  },
+  "su": {
+    "prefix": "su",
+    "body": "[super ${1:init}]"
+  },
+  "ibo": {
+    "prefix": "ibo",
+    "body": "IBOutlet ${1:NSSomeClass} *${2:$1};"
+  },
+  "cat": {
+    "prefix": "cat",
+    "body": [
+      "@interface ${1:NSObject} (${2:MyCategory})",
+      "@end",
+      "",
+      "@implementation $1 ($2)",
+      "$0",
+      "@end"
+    ]
+  },
+  "m": {
+    "prefix": "m",
+    "body": [
+      "- (${1:id})${2:method}",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "md": {
+    "prefix": "md",
+    "body": "- (${1:id})${2:method};"
+  },
+  "ibad": {
+    "prefix": "ibad",
+    "body": "- (IBAction)${1:method}:(${2:id})sender;"
+  },
+  "iba": {
+    "prefix": "iba",
+    "body": [
+      "- (IBAction)${1:method}:(${2:id})sender",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "wake": {
+    "prefix": "wake",
+    "body": [
+      "- (void)awakeFromNib",
+      "{",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "M": {
+    "prefix": "M",
+    "body": [
+      "+ (${1:id})${2:method}",
+      "{",
+      "\t${0:return nil;}",
+      "\\}"
+    ]
+  },
+  "sm": {
+    "prefix": "sm",
+    "body": [
+      "- (${1:id})${2:method}",
+      "{",
+      "\t[super $2];$0",
+      "\treturn self;",
+      "\\}"
+    ]
+  },
+  "objacc": {
+    "prefix": "objacc",
+    "body": [
+      "- (${1:id})${2:thing}",
+      "{",
+      "\treturn $2;",
+      "\\}",
+      "",
+      "- (void)set$2:($1)${3:new$2}",
+      "{",
+      "\t[$3 retain];",
+      "\t[$2 release];",
+      "\t$2 = $3;",
+      "\\}"
+    ]
+  },
+  "forin": {
+    "prefix": "forin",
+    "body": [
+      "for (${1:Class} *${2:some$1} in ${3:array}) {",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fore": {
+    "prefix": "fore",
+    "body": [
+      "for (${1:object} in ${2:array}) {",
+      "\t${0:statements}",
+      "\\}"
+    ]
+  },
+  "forarray": {
+    "prefix": "forarray",
+    "body": [
+      "unsigned int ${1:object}Count = [${2:array} count];",
+      "",
+      "for (unsigned int index = 0; index < $1Count; index++) {",
+      "\t${3:id} $1 = [$2 $1AtIndex:index];",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "fora": {
+    "prefix": "fora",
+    "body": [
+      "unsigned int ${1:object}Count = [${2:array} count];",
+      "",
+      "for (unsigned int index = 0; index < $1Count; index++) {",
+      "\t${3:id} $1 = [$2 $1AtIndex:index];",
+      "\t$0",
+      "\\}"
+    ]
+  },
+  "@try": {
+    "prefix": "@try",
+    "body": [
+      "@try {",
+      "\t${1:statements}",
+      "\\}",
+      "@catch (NSException * e) {",
+      "\t${2:handler}",
+      "\\}",
+      "@finally {",
+      "\t${0:statements}",
+      "\\}"
+    ]
+  },
+  "@catch": {
+    "prefix": "@catch",
+    "body": [
+      "@catch (${1:exception}) {",
+      "\t${0:handler}",
+      "\\}"
+    ]
+  },
+  "@finally": {
+    "prefix": "@finally",
+    "body": [
+      "@finally {",
+      "\t${0:statements}",
+      "\\}"
+    ]
+  },
+  "prop": {
+    "prefix": "prop",
+    "body": "@property (${1:retain}) ${2:NSSomeClass} ${3:*$2};"
+  },
+  "syn": {
+    "prefix": "syn",
+    "body": "@synthesize ${1:property};"
+  },
+  "alloc": {
+    "prefix": "alloc",
+    "body": "[[${1:foo} alloc] init$2];"
+  },
+  "a": {
+    "prefix": "a",
+    "body": "[[${1:foo} alloc] init$2];"
+  },
+  "ret": {
+    "prefix": "ret",
+    "body": "[${1:foo} retain];"
+  },
+  "rel": {
+    "prefix": "rel",
+    "body": "[${0:foo} release];"
+  },
+  "arel": {
+    "prefix": "arel",
+    "body": "[${0:foo} autorelease];"
+  },
+  "pool": {
+    "prefix": "pool",
+    "body": [
+      "NSAutoreleasePool *${1:pool} = [[NSAutoreleasePool alloc] init];",
+      "$0",
+      "[$1 drain];"
+    ]
+  },
+  "except": {
+    "prefix": "except",
+    "body": [
+      "NSException *${1:badness};",
+      "$1 = [NSException exceptionWithName:@\"${2:$1Name}\"",
+      "                             reason:@\"$0\"",
+      "                           userInfo:nil];",
+      "[$1 raise];"
+    ]
+  },
+  "prag": {
+    "prefix": "prag",
+    "body": "#pragma mark ${0:-}"
+  },
+  "cl": {
+    "prefix": "cl",
+    "body": "@class ${1:Foo};"
+  },
+  "color": {
+    "prefix": "color",
+    "body": "[[NSColor ${0:blackColor}] set];"
+  },
+  "array": {
+    "prefix": "array",
+    "body": "NSMutableArray *${1:array} = [NSMutable array];"
+  },
+  "nsa": {
+    "prefix": "nsa",
+    "body": "NSArray $0"
+  },
+  "nsma": {
+    "prefix": "nsma",
+    "body": "NSMutableArray $0"
+  },
+  "aa": {
+    "prefix": "aa",
+    "body": "NSArray * array;"
+  },
+  "ma": {
+    "prefix": "ma",
+    "body": "NSMutableArray * array;"
+  },
+  "dict": {
+    "prefix": "dict",
+    "body": "NSMutableDictionary *${1:dict} = [NSMutableDictionary dictionary];"
+  },
+  "nsd": {
+    "prefix": "nsd",
+    "body": "NSDictionary $0"
+  },
+  "nsmd": {
+    "prefix": "nsmd",
+    "body": "NSMutableDictionary $0"
+  },
+  "nss": {
+    "prefix": "nss",
+    "body": "NSString $0"
+  },
+  "nsms": {
+    "prefix": "nsms",
+    "body": "NSMutableString $0"
+  }
+}

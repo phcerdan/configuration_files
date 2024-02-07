@@ -1,0 +1,76 @@
+{
+  "docnp": {
+    "prefix": "docnp",
+    "description": "numpy docs template",
+    "body": [
+      "\"\"\"",
+      "${6:One liner}",
+      "",
+      "Parameters",
+      "----------",
+      "${1:arg1} : ${2:type}",
+      "    ${3:Description}",
+      "",
+      "Returns",
+      "-------",
+      "${4:type}",
+      "    ${5:Description}",
+      "\"\"\""
+    ]
+  },
+  "licsgext": {
+    "prefix": "licsgext",
+    "description": "license with my name and reference to LICENSE",
+    "body": [
+      "\"\"\"",
+      "Copyright (C) 2021 Pablo Hernande-Cerdan.",
+      "",
+      "This file is part of SGEXT: http://github.com/phcerdan/sgext.",
+      "",
+      "This file may be used under the terms of the GNU General Public License",
+      "version 3 as published by the Free Software Foundation and appearing in",
+      "the file LICENSE.GPL included in the packaging of this file.",
+      "",
+      "This program is distributed in the hope that it will be useful,",
+      "but WITHOUT ANY WARRANTY; without even the implied warranty of",
+      "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the",
+      "GNU General Public License for more details.",
+      "",
+      "You should have received a copy of the GNU General Public License",
+      "along with this program.  If not, see <https://www.gnu.org/licenses/>.",
+      "\"\"\"",
+      ""
+    ]
+  },
+  "licmpl": {
+    "prefix": "licmpl",
+    "description": "license with my name and reference to LICENSE",
+    "body": [
+      "# Copyright (C) 2021 Pablo Hernandez-Cerdan",
+      "# This Source Code Form is subject to the terms of the Mozilla Public",
+      "# License, v. 2.0. If a copy of the MPL was not distributed with this",
+      "# file, You can obtain one at http://mozilla.org/MPL/2.0/.",
+      ""
+    ]
+  },
+  "com": {
+    "prefix": "com",
+    "description": "Comment #",
+    "body": "# ${1:Comment}"
+  },
+  "comlin": {
+    "prefix": "comlin",
+    "description": "Comment line",
+    "body": "# ########### ${1:TEXT} ###############"
+  },
+  "getabs": {
+    "prefix": "getabs",
+    "description": "Django: get_absolute_url",
+    "body": [
+      "def get_absolute_url(self):",
+      "\tfrom django.urls import reverse",
+      "\treturn reverse('${1:my_model}.views.details', args=[str(self.id)])",
+      ""
+    ]
+  }
+}

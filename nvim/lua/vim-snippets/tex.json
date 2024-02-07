@@ -1,0 +1,807 @@
+{
+  "dcl": {
+    "prefix": "dcl",
+    "description": "\\documentclass{}",
+    "body": "\\documentclass{${1:class}\\} $0"
+  },
+  "dclo": {
+    "prefix": "dclo",
+    "description": "\\documentclass[]{}",
+    "body": [
+      "\\documentclass[${1:options}]{${2:class}\\} $0",
+      ""
+    ]
+  },
+  "tmplt": {
+    "prefix": "tmplt",
+    "description": "\"Template\"",
+    "body": [
+      "\\documentclass{${1:article}\\}",
+      "",
+      "\\usepackage{import\\}",
+      "\\usepackage{pdfpages\\}",
+      "\\usepackage{transparent\\}",
+      "\\usepackage{xcolor\\}",
+      "$2",
+      "",
+      "\\newcommand{incfig\\}[2][1]{%",
+      "\t    defsvgwidth{#1columnwidth\\}",
+      "\t    import{./figures/\\}{#2.pdf_tex\\}",
+      "\\}",
+      "$3",
+      "\\pdfsuppresswarningpagegroup=1",
+      "",
+      "\\begin{document\\}",
+      "\t    $0",
+      "\\end{document\\}",
+      ""
+    ]
+  },
+  "nc": {
+    "prefix": "nc",
+    "description": "\\newcommand",
+    "body": "\\newcommand{\\${1:cmd}\\}[${2:opt}]{${3:realcmd}\\} $0"
+  },
+  "up": {
+    "prefix": "up",
+    "description": "\\usepackage",
+    "body": "\\usepackage[${1:options}]{${2:package}\\} $0"
+  },
+  "nuc": {
+    "prefix": "nuc",
+    "description": "\\newunicodechar",
+    "body": "\\newunicodechar{$1\\}{${2:\\ensuremath}${3:tex-substitute}\\}\\} $0"
+  },
+  "dmo": {
+    "prefix": "dmo",
+    "description": "\\DeclareMathOperator",
+    "body": [
+      "\\DeclareMathOperator{$1\\}{$2\\} $0",
+      ""
+    ]
+  },
+  "begin": {
+    "prefix": "begin",
+    "description": "\\begin{} ... \\end{} block",
+    "body": [
+      "\\begin{${1:env}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{$1\\}",
+      ""
+    ]
+  },
+  "mkt": {
+    "prefix": "mkt",
+    "description": "maketitle",
+    "body": [
+      "\\maketitle",
+      ""
+    ]
+  },
+  "tab": {
+    "prefix": "tab",
+    "description": "tabular (or arbitrary) environment",
+    "body": [
+      "\\begin{${1:tabular}\\}{${2:c}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{$1\\}"
+    ]
+  },
+  "thm": {
+    "prefix": "thm",
+    "description": "thm (or arbitrary) environment with optional argument",
+    "body": [
+      "\\begin[${1:author}]{${2:thm}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{$2\\}"
+    ]
+  },
+  "center": {
+    "prefix": "center",
+    "description": "center environment",
+    "body": [
+      "\\begin{center\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{center\\}"
+    ]
+  },
+  "ali": {
+    "prefix": "ali",
+    "description": "align(ed) environment",
+    "body": [
+      "\\begin{align${1:ed}\\}",
+      "\t\\label{eq:$2\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{align$1\\}"
+    ]
+  },
+  "gat": {
+    "prefix": "gat",
+    "description": "gather(ed) environment",
+    "body": [
+      "\\begin{gather${1:ed}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{gather$1\\}"
+    ]
+  },
+  "eq": {
+    "prefix": "eq",
+    "description": "equation environment",
+    "body": [
+      "\\begin{equation\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{equation\\}"
+    ]
+  },
+  "eql": {
+    "prefix": "eql",
+    "description": "Labeled equation environment",
+    "body": [
+      "\\begin{equation\\}",
+      "\t\\label{eq:$2\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{equation\\}"
+    ]
+  },
+  "eq*": {
+    "prefix": "eq*",
+    "description": "unnumbered equation environment",
+    "body": [
+      "\\begin{equation*\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{equation*\\}"
+    ]
+  },
+  "\\": {
+    "prefix": "\\",
+    "description": "unnumbered equation: \\[ ... \\]",
+    "body": [
+      "\\[",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\]"
+    ]
+  },
+  "eqnarray": {
+    "prefix": "eqnarray",
+    "description": "eqnarray environment",
+    "body": [
+      "\\begin{eqnarray\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{eqnarray\\}"
+    ]
+  },
+  "lab": {
+    "prefix": "lab",
+    "description": "\\label",
+    "body": "\\label{${1:eq:}${2:fig:}${3:tab:}$0\\}"
+  },
+  "enum": {
+    "prefix": "enum",
+    "description": "enumerate environment",
+    "body": [
+      "\\begin{enumerate\\}",
+      "\t\\item $0",
+      "\\end{enumerate\\}"
+    ]
+  },
+  "enuma": {
+    "prefix": "enuma",
+    "description": "enumerate environment",
+    "body": [
+      "\\begin{enumerate\\}[(a)]",
+      "\t\\item $0",
+      "\\end{enumerate\\}"
+    ]
+  },
+  "enumi": {
+    "prefix": "enumi",
+    "description": "enumerate environment",
+    "body": [
+      "\\begin{enumerate\\}[(i)]",
+      "\t\\item $0",
+      "\\end{enumerate\\}"
+    ]
+  },
+  "item": {
+    "prefix": "item",
+    "description": "itemize environment",
+    "body": [
+      "\\begin{itemize\\}",
+      "\t\\item $0",
+      "\\end{itemize\\}"
+    ]
+  },
+  "it": {
+    "prefix": "it",
+    "description": "\\item",
+    "body": "\\item ${1:$TM_SELECTED_TEXT}"
+  },
+  "desc": {
+    "prefix": "desc",
+    "description": "description environment",
+    "body": [
+      "\\begin{description\\}",
+      "\t\\item[$1] $0",
+      "\\end{description\\}"
+    ]
+  },
+  "]i": {
+    "prefix": "]i",
+    "description": "\\item (recursive)",
+    "body": [
+      "\\item $1",
+      "\t${0:]i}"
+    ]
+  },
+  "mat": {
+    "prefix": "mat",
+    "description": "smart matrix environment",
+    "body": [
+      "\\begin{${1:p/b/v/V/B/small}matrix\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{$1matrix\\}"
+    ]
+  },
+  "cas": {
+    "prefix": "cas",
+    "description": "cases environment",
+    "body": [
+      "\\begin{cases\\}",
+      "\t${1:equation}, &\\text{ if \\}${2:case}\\",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{cases\\}"
+    ]
+  },
+  "spl": {
+    "prefix": "spl",
+    "description": "split environment",
+    "body": [
+      "\\begin{split\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{split\\}"
+    ]
+  },
+  "part": {
+    "prefix": "part",
+    "description": "document \\part",
+    "body": [
+      "\\part{${1:part name}\\} % (fold)%",
+      "\\label{prt:${2:$1}\\}",
+      "$0",
+      "% part $2 (end)"
+    ]
+  },
+  "cha": {
+    "prefix": "cha",
+    "description": "\\chapter",
+    "body": [
+      "\\chapter{${1:chapter name}\\}%",
+      "\\label{cha:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "sec": {
+    "prefix": "sec",
+    "description": "\\section",
+    "body": [
+      "\\section{${1:section name}\\}%",
+      "\\label{sec:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "sec*": {
+    "prefix": "sec*",
+    "description": "\\section*",
+    "body": [
+      "\\section*{${1:section name}\\}%",
+      "\\label{sec:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "sub": {
+    "prefix": "sub",
+    "description": "\\subsection",
+    "body": [
+      "\\subsection{${1:subsection name}\\}%",
+      "\\label{sub:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "sub*": {
+    "prefix": "sub*",
+    "description": "\\subsection*",
+    "body": [
+      "\\subsection*{${1:subsection name}\\}%",
+      "\\label{sub:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "ssub": {
+    "prefix": "ssub",
+    "description": "\\subsubsection",
+    "body": [
+      "\\subsubsection{${1:subsubsection name}\\}%",
+      "\\label{ssub:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "ssub*": {
+    "prefix": "ssub*",
+    "description": "\\subsubsection*",
+    "body": [
+      "\\subsubsection*{${1:subsubsection name}\\}%",
+      "\\label{ssub:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "par": {
+    "prefix": "par",
+    "description": "\\paragraph",
+    "body": [
+      "\\paragraph{${1:paragraph name}\\}%",
+      "\\label{par:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "par*": {
+    "prefix": "par*",
+    "description": "\\paragraph*",
+    "body": [
+      "\\paragraph*{${1:paragraph name}\\}%",
+      "\\label{par:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "subp": {
+    "prefix": "subp",
+    "description": "\\subparagraph",
+    "body": [
+      "\\subparagraph{${1:subparagraph name}\\}%",
+      "\\label{subp:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "subp*": {
+    "prefix": "subp*",
+    "description": "\\subparagraph*",
+    "body": [
+      "\\subparagraph*{${1:subparagraph name}\\}%",
+      "\\label{subp:${2:$1}\\}",
+      "$0"
+    ]
+  },
+  "ni": {
+    "prefix": "ni",
+    "description": "\\noindent",
+    "body": [
+      "\\noindent",
+      "$0"
+    ]
+  },
+  "itd": {
+    "prefix": "itd",
+    "description": "description \\item",
+    "body": "\\item[${1:description}] ${0:item}"
+  },
+  "figure": {
+    "prefix": "figure",
+    "description": "reference to a figure",
+    "body": "${1:Figure}~\\ref{${2:fig:}\\}"
+  },
+  "table": {
+    "prefix": "table",
+    "description": "reference to a table",
+    "body": "${1:Table}~\\ref{${2:tab:}\\}"
+  },
+  "listing": {
+    "prefix": "listing",
+    "description": "reference to a listing",
+    "body": "${1:Listing}~\\ref{${2:list}\\}"
+  },
+  "section": {
+    "prefix": "section",
+    "description": "reference to a section",
+    "body": "${1:Section}~\\ref{sec:$2\\} $0"
+  },
+  "page": {
+    "prefix": "page",
+    "description": "reference to a page",
+    "body": "${1:page}~\\pageref{$2\\} $0"
+  },
+  "index": {
+    "prefix": "index",
+    "description": "\\index",
+    "body": "\\index{${1:index}\\} $0"
+  },
+  "citen": {
+    "prefix": "citen",
+    "description": "\\citen",
+    "body": "\\citen{$1\\} $0"
+  },
+  "citep": {
+    "prefix": "citep",
+    "description": "\\citep",
+    "body": "\\citep{$1\\} $0"
+  },
+  "citet": {
+    "prefix": "citet",
+    "description": "\\citet",
+    "body": "\\citet{$1\\} $0"
+  },
+  "cite": {
+    "prefix": "cite",
+    "description": "\\cite[]{}",
+    "body": "\\cite[$1]{$2\\} $0"
+  },
+  "citea": {
+    "prefix": "citea",
+    "description": "\\citeauthor",
+    "body": "\\citeauthor{$1\\} $0"
+  },
+  "citey": {
+    "prefix": "citey",
+    "description": "\\citeyear",
+    "body": "\\citeyear{$1\\} $0"
+  },
+  "fcite": {
+    "prefix": "fcite",
+    "description": "\\footcite[]{}",
+    "body": "\\footcite[$1]{$2\\}$0"
+  },
+  "ita": {
+    "prefix": "ita",
+    "description": "italic text",
+    "body": "\\textit{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "bf": {
+    "prefix": "bf",
+    "description": "bold face text",
+    "body": "\\textbf{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "under": {
+    "prefix": "under",
+    "description": "underline text",
+    "body": "\\underline{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "over": {
+    "prefix": "over",
+    "description": "overline text",
+    "body": "\\overline{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "emp": {
+    "prefix": "emp",
+    "description": "emphasize text",
+    "body": "\\emph{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "sc": {
+    "prefix": "sc",
+    "description": "small caps text",
+    "body": "\\textsc{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "sf": {
+    "prefix": "sf",
+    "description": "sans serife text",
+    "body": "\\textsf{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "rm": {
+    "prefix": "rm",
+    "description": "roman font text",
+    "body": "\\textrm{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "tt": {
+    "prefix": "tt",
+    "description": "typewriter (monospace) text",
+    "body": "\\texttt{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "tsub": {
+    "prefix": "tsub",
+    "description": "subscripted text",
+    "body": "\\textsubscript{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "tsup": {
+    "prefix": "tsup",
+    "description": "superscripted text",
+    "body": "\\textsuperscript{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "mf": {
+    "prefix": "mf",
+    "description": "mathfrak",
+    "body": "\\mathfrak{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "mc": {
+    "prefix": "mc",
+    "description": "mathcal",
+    "body": "\\mathcal{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "ms": {
+    "prefix": "ms",
+    "description": "mathscr",
+    "body": "\\mathscr{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "ft": {
+    "prefix": "ft",
+    "description": "\\footnote",
+    "body": "\\footnote{${1:$TM_SELECTED_TEXT}\\}$0"
+  },
+  "fig": {
+    "prefix": "fig",
+    "description": "figure environment (includegraphics)",
+    "body": [
+      "\\begin{figure\\}",
+      "\\begin{center\\}",
+      "\t\\includegraphics[scale=$1]{Figures/$2\\}",
+      "\\end{center\\}",
+      "\\caption{$3\\}",
+      "\\label{fig:$4\\}",
+      "\\end{figure\\}",
+      "$0"
+    ]
+  },
+  "tikz": {
+    "prefix": "tikz",
+    "description": "figure environment (tikzpicture)",
+    "body": [
+      "\\begin{figure\\}[htpb]",
+      "\\begin{center\\}",
+      "\\begin{tikzpicture\\}[scale=${1:1}, transform shape]",
+      "\t$2",
+      "\\end{tikzpicture\\}",
+      "\\end{center\\}",
+      "\\caption{$3\\}%",
+      "\\label{fig:$4\\}",
+      "\\end{figure\\}",
+      "$0"
+    ]
+  },
+  "subfig": {
+    "prefix": "subfig",
+    "description": "subfigure environment",
+    "body": [
+      "\\begin{subfigure\\}[$1]{${2:\\textwidth}\\}",
+      "\\begin{center\\}",
+      "\t$3",
+      "\\end{center\\}",
+      "\\caption{$4\\}",
+      "\\label{fig:$5\\}",
+      "\\end{subfigure\\}",
+      "$0"
+    ]
+  },
+  "tikzcd": {
+    "prefix": "tikzcd",
+    "description": "tikzcd environment in equation",
+    "body": [
+      "\\begin{equation\\}",
+      "\\begin{tikzcd\\}",
+      "\t$1",
+      "\\end{tikzcd\\}",
+      "\\end{equation\\}",
+      "$0"
+    ]
+  },
+  "tikzcd*": {
+    "prefix": "tikzcd*",
+    "description": "tikzcd environment in equation*",
+    "body": [
+      "\\begin{equation*\\}",
+      "\\begin{tikzcd\\}",
+      "\t$1",
+      "\\end{tikzcd\\}",
+      "\\end{equation*\\}",
+      "$0"
+    ]
+  },
+  "stackrel": {
+    "prefix": "stackrel",
+    "description": "\\stackrel{}{}",
+    "body": "\\stackrel{${1:above}\\}{${2:below}\\} $0"
+  },
+  "frac": {
+    "prefix": "frac",
+    "description": "\\frac{}{}",
+    "body": "\\frac{${1:num}\\}{${2:denom}\\} $0"
+  },
+  "sum": {
+    "prefix": "sum",
+    "description": "\\sum^{}_{}",
+    "body": "\\sum^{${1:n}\\}_{${2:i=1}\\} $0"
+  },
+  "frame": {
+    "prefix": "frame",
+    "description": "frame environment",
+    "body": [
+      "\\begin{frame\\}[${1:t}]",
+      "\tframetitle{${2:title}\\}",
+      "\tframesubtitle{${3:subtitle}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{frame\\}"
+    ]
+  },
+  "block": {
+    "prefix": "block",
+    "description": "block environment",
+    "body": [
+      "\\begin{block\\}{${1:title}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{block\\}"
+    ]
+  },
+  "alert": {
+    "prefix": "alert",
+    "description": "alert text",
+    "body": "\\alert{${1:$TM_SELECTED_TEXT}\\} $0"
+  },
+  "alertblock": {
+    "prefix": "alertblock",
+    "description": "alertblock environment",
+    "body": [
+      "\\begin{alertblock\\}{${1:title}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{alertblock\\}"
+    ]
+  },
+  "example": {
+    "prefix": "example",
+    "description": "exampleblock environment",
+    "body": [
+      "\\begin{exampleblock\\}{${1:title}\\}",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{exampleblock\\}"
+    ]
+  },
+  "col2": {
+    "prefix": "col2",
+    "description": "two-column environment",
+    "body": [
+      "\\begin{columns\\}",
+      "\t\\begin{column\\}{0.5\\textwidth\\}",
+      "\t\t$1",
+      "\t\\end{column\\}",
+      "\t\\begin{column\\}{0.5\\textwidth\\}",
+      "\t\t$0",
+      "\t\\end{column\\}",
+      "\\end{columns\\}"
+    ]
+  },
+  "multicol2": {
+    "prefix": "multicol2",
+    "description": "two-column environment with multicol",
+    "body": [
+      "\\begin{multicols\\}{2\\}",
+      "\t$1",
+      "\tcolumnbreak",
+      "\t$0",
+      "\\end{multicols\\}"
+    ]
+  },
+  "\\{": {
+    "prefix": "\\{",
+    "description": "\\{ \\}",
+    "body": "\\{ $0 \\\\}"
+  },
+  "lr": {
+    "prefix": "lr",
+    "description": "left right",
+    "body": "\\left$1 ${0:$TM_SELECTED_TEXT} \\right$1"
+  },
+  "lr(": {
+    "prefix": "lr(",
+    "description": "left( right)",
+    "body": "\\left( ${0:$TM_SELECTED_TEXT} \\right)"
+  },
+  "lr|": {
+    "prefix": "lr|",
+    "description": "left| right|",
+    "body": "\\left| ${0:$TM_SELECTED_TEXT} \\right|"
+  },
+  "lr{": {
+    "prefix": "lr{",
+    "description": "left\\{ right\\}",
+    "body": "\\left\\{ ${0:$TM_SELECTED_TEXT} \\right\\\\}"
+  },
+  "lr[": {
+    "prefix": "lr[",
+    "description": "left[ right]",
+    "body": "\\left[ ${0:$TM_SELECTED_TEXT} \\right]"
+  },
+  "lst": {
+    "prefix": "lst",
+    "body": [
+      "\\begin{listing\\}[language=${1:language}]",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "\\end{listing\\}"
+    ]
+  },
+  "lsi": {
+    "prefix": "lsi",
+    "body": "\\lstinline|$1| $0"
+  },
+  "url": {
+    "prefix": "url",
+    "body": "\\url{$1\\} $0"
+  },
+  "href": {
+    "prefix": "href",
+    "body": "\\href{$1\\}{$2\\} $0"
+  },
+  "enq": {
+    "prefix": "enq",
+    "description": "enquote",
+    "body": "\\enquote{${1:$TM_SELECTED_TEXT}\\} $0"
+  },
+  "ddt": {
+    "prefix": "ddt",
+    "description": "time derivative",
+    "body": "\\frac{d\\}{dt\\} {$1\\} {$0\\}"
+  },
+  "lim": {
+    "prefix": "lim",
+    "description": "limit",
+    "body": "\\lim_{{$1\\}\\} {{$2\\}\\} {$0\\}"
+  },
+  "pdv": {
+    "prefix": "pdv",
+    "description": "partial derivation",
+    "body": "\\frac{\\partial {$1\\}\\}{\\partial {$2\\}\\} {$0\\}"
+  },
+  "ppdv": {
+    "prefix": "ppdv",
+    "description": "second partial derivation",
+    "body": "\\frac{\\partial^2 {$1\\}\\}{\\partial {$2\\} \\partial {$3\\}\\} {$0\\}"
+  },
+  "dv": {
+    "prefix": "dv",
+    "description": "derivative",
+    "body": "\\frac{d {$1\\}\\}{d {$2\\}\\} {$0\\}"
+  },
+  "summ": {
+    "prefix": "summ",
+    "description": "summation",
+    "body": "\\sum_{{$1\\}\\} {$0\\}"
+  },
+  "dot": {
+    "prefix": "dot",
+    "description": "dot",
+    "body": "\\dot{{$1\\}\\} {$0\\}"
+  },
+  "ddot": {
+    "prefix": "ddot",
+    "description": "ddot",
+    "body": "\\ddot{{$1\\}\\} {$0\\}"
+  },
+  "vec": {
+    "prefix": "vec",
+    "description": "vector",
+    "body": "\\vec{{$1\\}\\} {$0\\}"
+  },
+  "bar": {
+    "prefix": "bar",
+    "description": "bar",
+    "body": "\\bar{{$1\\}\\} {$0\\}"
+  },
+  "\\x": {
+    "prefix": "\\x",
+    "description": "cross product",
+    "body": "\\times {$0\\}"
+  },
+  ".": {
+    "prefix": ".",
+    "description": "dot product",
+    "body": "\\cdot {$0\\}"
+  },
+  "int": {
+    "prefix": "int",
+    "description": "integral",
+    "body": "\\int_{{$1\\}\\}^{{$2\\}\\} {$3\\} \\: d{$4\\} {$0\\}"
+  },
+  "ra": {
+    "prefix": "ra",
+    "description": "rightarrow",
+    "body": "\\rightarrow {$0\\}"
+  },
+  "lra": {
+    "prefix": "lra",
+    "description": "longrightarrow",
+    "body": "\\longrightarrow {$0\\}"
+  }
+}

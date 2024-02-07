@@ -1,0 +1,108 @@
+{
+  "def": {
+    "prefix": "def",
+    "body": [
+      "<%def name=\"${1:name}\">",
+      "\t${0:}",
+      "</%def>"
+    ]
+  },
+  "call": {
+    "prefix": "call",
+    "body": [
+      "<%call expr=\"${1:name}\">",
+      "\t${0:}",
+      "</%call>"
+    ]
+  },
+  "doc": {
+    "prefix": "doc",
+    "body": [
+      "<%doc>",
+      "\t${0:}",
+      "</%doc>"
+    ]
+  },
+  "text": {
+    "prefix": "text",
+    "body": [
+      "<%text>",
+      "\t${0:}",
+      "</%text>"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "% for ${1:i} in ${2:iter}:",
+      "\t${0:}",
+      "% endfor"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "if",
+    "body": [
+      "% if $1:",
+      "\t${0:}",
+      "% endif"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "description": "if/else",
+    "body": [
+      "% if $1:",
+      "\t${2:}",
+      "% else:",
+      "\t${0:}",
+      "% endif"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "% try:",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "% except${2:}:",
+      "\t${0:pass}",
+      "% endtry"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "% while ${1:}:",
+      "\t${0:}",
+      "% endwhile"
+    ]
+  },
+  "$": {
+    "prefix": "$",
+    "body": "\\${ ${0:} \\}"
+  },
+  "<%": {
+    "prefix": "<%",
+    "body": "<% ${0:} %>"
+  },
+  "<!%": {
+    "prefix": "<!%",
+    "body": "<!% ${0:} %>"
+  },
+  "inherit": {
+    "prefix": "inherit",
+    "body": "<%inherit file=\"${0:filename}\" />"
+  },
+  "include": {
+    "prefix": "include",
+    "body": "<%include file=\"${0:filename}\" />"
+  },
+  "namespace": {
+    "prefix": "namespace",
+    "body": "<%namespace file=\"${0:name}\" />"
+  },
+  "page": {
+    "prefix": "page",
+    "body": "<%page args=\"${0:}\" />"
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "doc": {
+    "prefix": "doc",
+    "body": "/// $0"
+  },
+  "comment": {
+    "prefix": "comment",
+    "body": "// $0"
+  },
+  "let": {
+    "prefix": "let",
+    "body": "let $1 = $0"
+  },
+  "lit": {
+    "prefix": "lit",
+    "body": [
+      "[<Literal>]",
+      "let $1 = $0"
+    ]
+  },
+  "rec": {
+    "prefix": "rec",
+    "body": "type $1 = { $0 \\}"
+  },
+  "arec": {
+    "prefix": "arec",
+    "body": "{| $0 |\\}"
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "let $1 =",
+      "\t$0"
+    ]
+  },
+  "fnr": {
+    "prefix": "fnr",
+    "body": [
+      "let rec $1 =",
+      "\t$0"
+    ]
+  },
+  "lam": {
+    "prefix": "lam",
+    "body": "(fun $1 -> $0)"
+  },
+  "mod": {
+    "prefix": "mod",
+    "body": [
+      "module $1 =",
+      "\t$0"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for $1 in $2 do",
+      "\t$0"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if $1 then",
+      "\t$2"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if $1 then",
+      "\t$2",
+      "else",
+      "\t$0"
+    ]
+  },
+  "ifee": {
+    "prefix": "ifee",
+    "body": [
+      "if $1 then",
+      "\t$2",
+      "elif $3 then",
+      "\t$4",
+      "else",
+      "\t$0"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": [
+      "elif $1 then",
+      "\t$0"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else",
+      "\t$0"
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "\t$1",
+      "with $0"
+    ]
+  },
+  "match": {
+    "prefix": "match",
+    "body": [
+      "match $1 with",
+      "| $2 -> $0"
+    ]
+  },
+  "|": {
+    "prefix": "|",
+    "body": "| $1 -> $0"
+  },
+  "p": {
+    "prefix": "p",
+    "body": "|> $0"
+  },
+  "pr": {
+    "prefix": "pr",
+    "body": "printfn \"$1\" $0"
+  },
+  "pri": {
+    "prefix": "pri",
+    "body": "printfn \\$\"$0\""
+  },
+  "amap": {
+    "prefix": "amap",
+    "body": "|> Array.map (fun $1 -> $0)"
+  },
+  "lmap": {
+    "prefix": "lmap",
+    "body": "|> List.map (fun $1 -> $0)"
+  },
+  "smap": {
+    "prefix": "smap",
+    "body": "|> Seq.map (fun $1 -> $0)"
+  },
+  "atap": {
+    "prefix": "atap",
+    "body": "|> Array.map (fun x -> printfn \"%A\" x; x) // tap"
+  },
+  "ltap": {
+    "prefix": "ltap",
+    "body": "|> List.map (fun x -> printfn \"%A\" x; x) // tap"
+  },
+  "stap": {
+    "prefix": "stap",
+    "body": "|> Seq.map (fun x -> printfn \"%A\" x; x) // tap"
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "[<EntryPoint>]",
+      "let main argv =",
+      "\t$0",
+      "\t0"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "xml": {
+    "prefix": "xml",
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+  },
+  "t": {
+    "prefix": "t",
+    "body": [
+      "<${1:}>",
+      "\t$2",
+      "</$1>"
+    ]
+  },
+  "ti": {
+    "prefix": "ti",
+    "body": [
+      "<${1:}>$2</$1>",
+      ""
+    ]
+  }
+}

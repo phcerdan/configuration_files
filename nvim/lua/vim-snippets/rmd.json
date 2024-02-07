@@ -1,0 +1,166 @@
+{
+  "req": {
+    "prefix": "req",
+    "body": "require(${1:}, quietly = TRUE)"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ( $1 )",
+      "{",
+      "\t${2:}",
+      "\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "body": [
+      "else",
+      "{",
+      "\t${1:}",
+      "\\}",
+      ""
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "body": [
+      "${1:funname} <- \t\t\t# ${2:}",
+      "\tfunction",
+      "(",
+      " \t${3:}",
+      ")",
+      "{",
+      "  ${4:}",
+      "\\}"
+    ]
+  },
+  "re": {
+    "prefix": "re",
+    "body": [
+      "repeat{",
+      "  ${2:}",
+      "  if($1) break",
+      "\\}",
+      ""
+    ]
+  },
+  "ma": {
+    "prefix": "ma",
+    "body": [
+      "matrix(NA, nrow = ${1:}, ncol = ${2:})",
+      ""
+    ]
+  },
+  "df": {
+    "prefix": "df",
+    "body": [
+      "data.frame(${1:}, header = TRUE)",
+      ""
+    ]
+  },
+  "cmdarg": {
+    "prefix": "cmdarg",
+    "body": [
+      "args <- commandArgs(TRUE)",
+      "if (length(args) == 0)",
+      "    stop(\"Please give ${1:}!\")",
+      "if (!all(file.exists(args)))",
+      "     stop(\"Couln't find input files!\")",
+      ""
+    ]
+  },
+  "getopt": {
+    "prefix": "getopt",
+    "body": [
+      "require('getopt', quietly = TRUE)",
+      "opt_spec <- matrix(c(",
+      "\t\t\t\t'help',     'h', 0, \"logical\", \t\"Getting help\",",
+      "\t\t\t\t'file',     'f', 1, \"character\",\"File to process\"",
+      "                ), ncol = 5, byrow = TRUE)",
+      "opt <- getopt(spec = opt_spec)",
+      "if ( !is.null(opt\\$help) || is.null(commandArgs()) )   {",
+      "    cat(getopt(spec = opt_spec, usage = TRUE, command = \"yourCmd\"))",
+      "    q(status=0)",
+      "\\}",
+      "# some inital value",
+      "if ( is.null(opt\\$???) )    { opt\\$??? <- ??? \\}",
+      ""
+    ]
+  },
+  "optparse": {
+    "prefix": "optparse",
+    "body": [
+      "require(\"optparse\", quietly = TRUE)",
+      "option_list <-",
+      "    list(make_option(c(\"-n\", \"--add_numbers\"), action=\"store_true\", default=FALSE,",
+      "                     help=\"Print line number at the beginning of each line [default]\")",
+      "         )",
+      "parser <- OptionParser(usage = \"%prog [options] file\", option_list=option_list)",
+      "arguments <- parse_args(parser, positional_arguments = TRUE)",
+      "opt <- arguments\\$options",
+      "",
+      "if(length(arguments\\$args) != 1) {",
+      "    cat(\"Incorrect number of required positional argumentsnn\")",
+      "    print_help(parser)",
+      "    stop()",
+      "\\} else {",
+      "    file <- arguments\\$args",
+      "\\}",
+      "",
+      "if( file.access(file) == -1) {",
+      "    stop(sprintf(\"Specified file ( %s ) does not exist\", file))",
+      "\\} else {",
+      "    file_text <- readLines(file)",
+      "\\}",
+      ""
+    ]
+  },
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env Rscript",
+      ""
+    ]
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": [
+      "# Development & Debugging, don't forget to uncomment afterwards!",
+      "#--------------------------------------------------------------------------------",
+      "#setwd(\"~/Projekte/${1:}\")",
+      "#opt <- list(${2:}",
+      "#            )",
+      "#--------------------------------------------------------------------------------",
+      "",
+      ""
+    ]
+  },
+  "r": {
+    "prefix": "r",
+    "body": [
+      "```{r ${1:chung_tag}, echo = FALSE ${2:options}\\}",
+      "${3:}",
+      "```"
+    ]
+  },
+  "ri": {
+    "prefix": "ri",
+    "body": [
+      "`{r ${1:}\\}`",
+      ""
+    ]
+  },
+  "copt": {
+    "prefix": "copt",
+    "body": [
+      "``` {r setup, echo = FALSE\\}",
+      "\topts_chunk\\$set(fig.path='../figures/${1:}', cache.path='../cache/-'",
+      "\t, fig.align='center', fig.show='hold', par=TRUE)\t",
+      "\t#opts_knit\\$set(upload.fun = imgur_upload) # upload images",
+      "```",
+      "",
+      ""
+    ]
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "#!": {
+    "prefix": "#!",
+    "body": [
+      "#!/usr/bin/env julia",
+      ""
+    ]
+  },
+  "fun": {
+    "prefix": "fun",
+    "description": "function definition",
+    "body": [
+      "function $1($2)",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "ret": {
+    "prefix": "ret",
+    "description": "return",
+    "body": [
+      "return($0)",
+      ""
+    ]
+  },
+  "pr": {
+    "prefix": "pr",
+    "description": "print",
+    "body": [
+      "print(\"$1\")",
+      "$0",
+      ""
+    ]
+  },
+  "prl": {
+    "prefix": "prl",
+    "description": "print line",
+    "body": [
+      "println(\"$1\")",
+      "$0",
+      ""
+    ]
+  },
+  "use": {
+    "prefix": "use",
+    "description": "load a package",
+    "body": [
+      "using $0",
+      ""
+    ]
+  },
+  "incl": {
+    "prefix": "incl",
+    "description": "include source code",
+    "body": [
+      "include(\"$1\")",
+      "$0",
+      ""
+    ]
+  },
+  "forc": {
+    "prefix": "forc",
+    "description": "for loop iterating over iterable container",
+    "body": [
+      "for $1 in $2",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "standard for loop",
+    "body": [
+      "for $1 = $2",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "fornest": {
+    "prefix": "fornest",
+    "description": "nested for loop",
+    "body": [
+      "for $1 = $2, $3 = $4",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "description": "while loop",
+    "body": [
+      "while $1 ${2:<=} $3",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "description": "if statement",
+    "body": [
+      "if $1",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "description": "else part of statement",
+    "body": [
+      "else",
+      "\t$0",
+      ""
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "description": "else if part of if statement",
+    "body": [
+      "else if $1",
+      "\t$0",
+      ""
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "description": "full if-else statement",
+    "body": [
+      "if $1",
+      "\t$2",
+      "else",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "tern": {
+    "prefix": "tern",
+    "description": "ternary operator",
+    "body": [
+      "$1 ? $2 : ${3:nothing}",
+      ""
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "description": "try catch",
+    "body": [
+      "try",
+      "\t${1:$TM_SELECTED_TEXT}",
+      "catch $2",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "fin": {
+    "prefix": "fin",
+    "description": "finally statement",
+    "body": [
+      "finally",
+      "\t$0",
+      ""
+    ]
+  },
+  "thr": {
+    "prefix": "thr",
+    "description": "throw",
+    "body": [
+      "throw($1)",
+      "$0",
+      ""
+    ]
+  },
+  "@i": {
+    "prefix": "@i",
+    "body": [
+      "@info \"$1\" $0",
+      ""
+    ]
+  },
+  "@w": {
+    "prefix": "@w",
+    "body": [
+      "@warn \"$1\" $0",
+      ""
+    ]
+  },
+  "@e": {
+    "prefix": "@e",
+    "body": [
+      "@error \"$1\" $0",
+      ""
+    ]
+  },
+  "@d": {
+    "prefix": "@d",
+    "body": [
+      "@debug \"$1\" $0",
+      ""
+    ]
+  },
+  "@t": {
+    "prefix": "@t",
+    "description": "@testset with @test ",
+    "body": [
+      "@testset \"$1\" begin",
+      "\t$2",
+      "\t@test $0",
+      "end",
+      ""
+    ]
+  },
+  "@tt": {
+    "prefix": "@tt",
+    "description": "@testset with @test_throws",
+    "body": [
+      "@testset \"$1\" begin",
+      "\t$2",
+      "\t@test_throws $0",
+      "end"
+    ]
+  }
+}

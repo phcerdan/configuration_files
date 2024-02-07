@@ -1,0 +1,406 @@
+{
+  "apply": {
+    "prefix": "apply",
+    "description": "\"twig apply\"",
+    "body": [
+      "{% apply $1 %\\}",
+      "\t$0",
+      "{% endapply %\\}"
+    ]
+  },
+  "autoescape": {
+    "prefix": "autoescape",
+    "description": "\"twig autoescape\"",
+    "body": [
+      "{% autoescape %\\}",
+      "\t$0",
+      "{% endautoescape %\\}"
+    ]
+  },
+  "endautoescape": {
+    "prefix": "endautoescape",
+    "description": "\"twig endautoescape\"",
+    "body": "{% endautoescape %\\}$0"
+  },
+  "bl": {
+    "prefix": "bl",
+    "description": "\"twig block\"",
+    "body": [
+      "{% block $1 %\\}",
+      "\t$0",
+      "{% endblock %\\}"
+    ]
+  },
+  "block": {
+    "prefix": "block",
+    "description": "\"twig block\"",
+    "body": [
+      "{% block $1 %\\}",
+      "\t$0",
+      "{% endblock %\\}"
+    ]
+  },
+  "endblock": {
+    "prefix": "endblock",
+    "description": "\"twig endblock\"",
+    "body": "{% endblock %\\}$0"
+  },
+  "cache": {
+    "prefix": "cache",
+    "description": "\"twig cache\"",
+    "body": [
+      "{% cache %\\}",
+      "\t$0",
+      "{% endcache %\\}"
+    ]
+  },
+  "endcache": {
+    "prefix": "endcache",
+    "description": "\"twig endcache\"",
+    "body": "{% endcache %\\}$0"
+  },
+  "css": {
+    "prefix": "css",
+    "description": "\"twig css\"",
+    "body": [
+      "{% css %\\}",
+      "\t$0",
+      "{% endcss %\\}"
+    ]
+  },
+  "endcss": {
+    "prefix": "endcss",
+    "description": "\"twig endcss\"",
+    "body": "{% endcss %\\}$0"
+  },
+  "dd": {
+    "prefix": "dd",
+    "description": "\"twig dd\"",
+    "body": "{% dd $1 %\\}$0"
+  },
+  "do": {
+    "prefix": "do",
+    "description": "\"twig do\"",
+    "body": "{% do $1 %\\}$0"
+  },
+  "embed": {
+    "prefix": "embed",
+    "description": "\"twig embed\"",
+    "body": [
+      "{% embed \"$1\" %\\}",
+      "\t$0",
+      "{% endembed %\\}"
+    ]
+  },
+  "endembed": {
+    "prefix": "endembed",
+    "description": "\"twig endembed\"",
+    "body": "{% endembed %\\}$0"
+  },
+  "exit": {
+    "prefix": "exit",
+    "description": "\"twig exit\"",
+    "body": "{% exit $1 %\\}"
+  },
+  "extends": {
+    "prefix": "extends",
+    "description": "\"twig extends\"",
+    "body": "{% extends \"$1\" %\\}$0"
+  },
+  "ext": {
+    "prefix": "ext",
+    "description": "\"twig extends\"",
+    "body": "{% extends \"$1\" %\\}$0"
+  },
+  "for": {
+    "prefix": "for",
+    "description": "\"twig for\"",
+    "body": [
+      "{% for $1 in $2 %\\}",
+      "\t$0",
+      "{% endfor %\\}"
+    ]
+  },
+  "fore": {
+    "prefix": "fore",
+    "description": "\"twig for else\"",
+    "body": [
+      "{% for $1 in $2 %\\}",
+      "\t$3",
+      "{% else %\\}",
+      "\t$0",
+      "{% endfor %\\}"
+    ]
+  },
+  "endfor": {
+    "prefix": "endfor",
+    "description": "\"twig endfor\"",
+    "body": "{% endfor %\\}$0"
+  },
+  "from": {
+    "prefix": "from",
+    "description": "\"twig from\"",
+    "body": "{% from \"$1\" import $2 %\\}$0"
+  },
+  "header": {
+    "prefix": "header",
+    "description": "\"twig header\"",
+    "body": "{% header \"$1\" %\\}$0"
+  },
+  "hook": {
+    "prefix": "hook",
+    "description": "\"twig hook\"",
+    "body": "{% hook \"$1\" %\\}$0"
+  },
+  "html": {
+    "prefix": "html",
+    "description": "\"twig html\"",
+    "body": [
+      "{% html %\\}",
+      "\t$0",
+      "{% endhtml %\\}"
+    ]
+  },
+  "endhtml": {
+    "prefix": "endhtml",
+    "description": "\"twig endhtml\"",
+    "body": "{% endhtml %\\}$0"
+  },
+  "if": {
+    "prefix": "if",
+    "description": "\"twig if\"",
+    "body": [
+      "{% if $1 %\\}",
+      "\t$0",
+      "{% endif %\\}"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "description": "\"twig if else\"",
+    "body": [
+      "{% if $1 %\\}",
+      "\t$2",
+      "{% else %\\}",
+      "\t$0",
+      "{% endif %\\}"
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "description": "\"twig else\"",
+    "body": "{% else %\\}"
+  },
+  "eif": {
+    "prefix": "eif",
+    "description": "\"twig elseif\"",
+    "body": [
+      "{% elseif $1 %\\}",
+      "\t$0"
+    ]
+  },
+  "endif": {
+    "prefix": "endif",
+    "description": "\"twig endif\"",
+    "body": "{% endif %\\}$0"
+  },
+  "import": {
+    "prefix": "import",
+    "description": "\"twig import\"",
+    "body": "{% import \"$1\" as $2 %\\}$0"
+  },
+  "include": {
+    "prefix": "include",
+    "description": "\"twig include\"",
+    "body": "{% include \"$1\" %\\}$0"
+  },
+  "includewith": {
+    "prefix": "includewith",
+    "description": "\"twig include with parameters\"",
+    "body": "{% include \"$1\" with $2 %\\}$0"
+  },
+  "js": {
+    "prefix": "js",
+    "description": "\"twig js\"",
+    "body": [
+      "{% js %\\}",
+      "\t$0",
+      "{% endjs %\\}"
+    ]
+  },
+  "endjs": {
+    "prefix": "endjs",
+    "description": "\"twig endjs\"",
+    "body": "{% endjs %\\}$0"
+  },
+  "macro": {
+    "prefix": "macro",
+    "description": "\"twig macro\"",
+    "body": [
+      "{% macro $1($2) %\\}",
+      "\t$0",
+      "{% endmacro %\\}"
+    ]
+  },
+  "endmacro": {
+    "prefix": "endmacro",
+    "description": "\"twig endmacro\"",
+    "body": "{% endmacro %\\}$0"
+  },
+  "namespace": {
+    "prefix": "namespace",
+    "description": "\"twig namespace\"",
+    "body": [
+      "{% namespace \"$1\" %\\}",
+      "\t$0",
+      "{% endnamespace %\\}"
+    ]
+  },
+  "endnamespace": {
+    "prefix": "endnamespace",
+    "description": "\"twig endnamespace\"",
+    "body": "{% endnamespace %\\}$0"
+  },
+  "nav": {
+    "prefix": "nav",
+    "description": "\"twig nav\"",
+    "body": [
+      "{% nav $1 in $2 %\\}",
+      "\t$0",
+      "{% endnav %\\}"
+    ]
+  },
+  "endnav": {
+    "prefix": "endnav",
+    "description": "\"twig endnav\"",
+    "body": "{% endnav %\\}$0"
+  },
+  "paginate": {
+    "prefix": "paginate",
+    "description": "\"twig paginate\"",
+    "body": "{% paginate $1 as $2 %\\}$0"
+  },
+  "redirect": {
+    "prefix": "redirect",
+    "description": "\"twig redirect\"",
+    "body": "{% redirect \"$1\" %\\}$0"
+  },
+  "requireguest": {
+    "prefix": "requireguest",
+    "description": "\"twig requireguest\"",
+    "body": "{% requireGuest %\\}$0"
+  },
+  "requirelogin": {
+    "prefix": "requirelogin",
+    "description": "\"twig requirelogin\"",
+    "body": "{% requireLogin %\\}$0"
+  },
+  "requirepermission": {
+    "prefix": "requirepermission",
+    "description": "\"twig requirepermission\"",
+    "body": "{% requirePermission \"$1\" %\\}$0"
+  },
+  "set": {
+    "prefix": "set",
+    "description": "\"twig set\"",
+    "body": "{% set $1 = $2 %\\}$0"
+  },
+  "setb": {
+    "prefix": "setb",
+    "description": "\"twig set block\"",
+    "body": [
+      "{% set $1 %\\}",
+      "\t$0",
+      "{% endset %\\}"
+    ]
+  },
+  "endset": {
+    "prefix": "endset",
+    "description": "\"twig endset\"",
+    "body": "{% endset %\\}$0"
+  },
+  "switch": {
+    "prefix": "switch",
+    "description": "\"twig switch\"",
+    "body": [
+      "{% switch $1 %\\}",
+      "\t{% case \"$2\" %\\}",
+      "\t\t$0",
+      "\t{% default %\\}",
+      "\t\t",
+      "{% endswitch %\\}"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "description": "\"twig switch case\"",
+    "body": [
+      "{% case \"$1\" %\\}",
+      "\t$0"
+    ]
+  },
+  "default": {
+    "prefix": "default",
+    "description": "\"twig switch default\"",
+    "body": [
+      "{% default %\\}",
+      "\t$0"
+    ]
+  },
+  "endswitch": {
+    "prefix": "endswitch",
+    "description": "\"twig endswitch\"",
+    "body": "{% endswitch %\\}$0"
+  },
+  "use": {
+    "prefix": "use",
+    "description": "\"twig use\"",
+    "body": "{% use \"$1\" %\\}$0"
+  },
+  "verbatim": {
+    "prefix": "verbatim",
+    "description": "\"twig verbatim\"",
+    "body": [
+      "{% verbatim %\\}",
+      "\t$0",
+      "{% endverbatim %\\}"
+    ]
+  },
+  "endverbatim": {
+    "prefix": "endverbatim",
+    "description": "\"twig endverbatim\"",
+    "body": "{% endverbatim %\\}$0"
+  },
+  "with": {
+    "prefix": "with",
+    "description": "\"twig with\"",
+    "body": [
+      "{% with %\\}",
+      "\t$0",
+      "{% endwith %\\}"
+    ]
+  },
+  "endwith": {
+    "prefix": "endwith",
+    "description": "\"twig endwith\"",
+    "body": [
+      "{% endwith %\\}$0",
+      ""
+    ]
+  },
+  "dump": {
+    "prefix": "dump",
+    "description": "\"twig dump\"",
+    "body": [
+      "<pre>",
+      "\t{{ dump($1) \\}\\}",
+      "</pre>",
+      ""
+    ]
+  },
+  "translate": {
+    "prefix": "translate",
+    "description": "\"twig translate\"",
+    "body": "{{ \"$1\"|t \\}\\}$0"
+  }
+}

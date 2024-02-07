@@ -1,0 +1,472 @@
+{
+  "licp": {
+    "prefix": "licp",
+    "description": "license with my name (property)",
+    "body": [
+      "/* Copyright (C) 2021 Pablo Hernandez-Cerdan */",
+      ""
+    ]
+  },
+  "licsgext": {
+    "prefix": "licsgext",
+    "description": "license for sgext (gpl3)",
+    "body": [
+      "/* ********************************************************************",
+      " * Copyright (C) 2021 Pablo Hernandez-Cerdan.",
+      " *",
+      " * This file is part of SGEXT: http://github.com/phcerdan/sgext.",
+      " *",
+      " * This program is free software: you can redistribute it and/or modify",
+      " * it under the terms of the GNU General Public License as published by",
+      " * the Free Software Foundation, either version 3 of the License, or",
+      " * (at your option) any later version.",
+      " *",
+      " * This program is distributed in the hope that it will be useful,",
+      " * but WITHOUT ANY WARRANTY; without even the implied warranty of",
+      " * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the",
+      " * GNU General Public License for more details.",
+      " *",
+      " * You should have received a copy of the GNU General Public License",
+      " * along with this program. If not, see <http://www.gnu.org/licenses/>.",
+      " *",
+      " * *******************************************************************/",
+      ""
+    ]
+  },
+  "licgpl": {
+    "prefix": "licgpl",
+    "description": "License: GPL3",
+    "body": [
+      "/**",
+      " *  This program is free software: you can redistribute it and/or modify",
+      " *  it under the terms of the GNU Lesser General Public License as",
+      " *  published by the Free Software Foundation, either version 3 of the",
+      " *  License, or  (at your option) any later version.",
+      " *",
+      " *  This program is distributed in the hope that it will be useful,",
+      " *  but WITHOUT ANY WARRANTY; without even the implied warranty of",
+      " *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the",
+      " *  GNU General Public License for more details.",
+      " *",
+      " *  You should have received a copy of the GNU General Public License",
+      " *  along with this program.  If not, see <http://www.gnu.org/licenses/>.",
+      " *",
+      " **/",
+      ""
+    ]
+  },
+  "ifnotndebug": {
+    "prefix": "ifnotndebug",
+    "description": "If not defined NDEBUG",
+    "body": [
+      "#if !defined(NDEBUG)",
+      "#endif"
+    ]
+  },
+  "licmit": {
+    "prefix": "licmit",
+    "description": "License: MIT ",
+    "body": [
+      "/* Copyright (c) 2021 Pablo Hernandez-Cerdan",
+      " *",
+      " * Permission is hereby granted, free of charge, to any person obtaining a copy",
+      " * of this software and associated documentation files (the \"Software\"), to deal",
+      " * in the Software without restriction, including without limitation the rights",
+      " * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell",
+      " * copies of the Software, and to permit persons to whom the Software is",
+      " * furnished to do so, subject to the following conditions:",
+      " *",
+      " * The above copyright notice and this permission notice shall be included in all",
+      " * copies or substantial portions of the Software.",
+      " *",
+      " * THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR",
+      " * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,",
+      " * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE",
+      " * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER",
+      " * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,",
+      " * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE",
+      " * SOFTWARE. */",
+      ""
+    ]
+  },
+  "licmpl": {
+    "prefix": "licmpl",
+    "description": "License: MPL 2.0 Mozilla Public License ",
+    "body": [
+      "/* This Source Code Form is subject to the terms of the Mozilla Public",
+      " * License, v. 2.0. If a copy of the MPL was not distributed with this",
+      " * file, You can obtain one at http://mozilla.org/MPL/2.0/. */",
+      ""
+    ]
+  },
+  "lichisto": {
+    "prefix": "lichisto",
+    "description": "license with my name and reference to LICENSE",
+    "body": [
+      "/* Copyright (C) 2021 Pablo Hernandez-Cerdan",
+      " * See LICENSE on https://github.com/phcerdan/histo-header */",
+      ""
+    ]
+  },
+  "licitk": {
+    "prefix": "licitk",
+    "description": "ITK license",
+    "body": [
+      "/*=========================================================================",
+      " *",
+      " *  Copyright NumFOCUS",
+      " *",
+      " *  Licensed under the Apache License, Version 2.0 (the \"License\");",
+      " *  you may not use this file except in compliance with the License.",
+      " *  You may obtain a copy of the License at",
+      " *",
+      " *         http://www.apache.org/licenses/LICENSE-2.0.txt",
+      " *",
+      " *  Unless required by applicable law or agreed to in writing, software",
+      " *  distributed under the License is distributed on an \"AS IS\" BASIS,",
+      " *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.",
+      " *  See the License for the specific language governing permissions and",
+      " *  limitations under the License.",
+      " *",
+      " *=========================================================================*/",
+      ""
+    ]
+  },
+  "licdgtal": {
+    "prefix": "licdgtal",
+    "description": "license dgtal",
+    "body": [
+      "/**",
+      " *  This program is free software: you can redistribute it and/or modify",
+      " *  it under the terms of the GNU Lesser General Public License as",
+      " *  published by the Free Software Foundation, either version 3 of the",
+      " *  License, or  (at your option) any later version.",
+      " *",
+      " *  This program is distributed in the hope that it will be useful,",
+      " *  but WITHOUT ANY WARRANTY; without even the implied warranty of",
+      " *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the",
+      " *  GNU General Public License for more details.",
+      " *",
+      " *  You should have received a copy of the GNU General Public License",
+      " *  along with this program.  If not, see <http://www.gnu.org/licenses/>.",
+      " *",
+      " **/",
+      ""
+    ]
+  },
+  "enumc": {
+    "prefix": "enumc",
+    "description": "enum class",
+    "body": [
+      "enum class $1 {",
+      "    /** */",
+      "    $2",
+      "\\};"
+    ]
+  },
+  "switch_case": {
+    "prefix": "switch_case",
+    "description": "switch case",
+    "body": [
+      "switch($1) {",
+      "    case $2: break;",
+      "    default:",
+      "\\}"
+    ]
+  },
+  "nameSG": {
+    "prefix": "nameSG",
+    "description": "namespace SG",
+    "body": [
+      "namespace SG {$1",
+      "\\} // end namespace SG"
+    ]
+  },
+  "nameWM": {
+    "prefix": "nameWM",
+    "description": "namespace WM",
+    "body": [
+      "namespace WM {$1",
+      "\\} // end namespace WM"
+    ]
+  },
+  "com": {
+    "prefix": "com",
+    "description": "Comment /** */",
+    "body": "/** ${1:Comment} */"
+  },
+  "comlin": {
+    "prefix": "comlin",
+    "description": "Comment line",
+    "body": "/************ ${1:TEXT} *************/"
+  },
+  "ifndef": {
+    "prefix": "ifndef",
+    "description": "Expand ifndef",
+    "body": [
+      "#ifndef $1",
+      "#define $1",
+      "\t$2",
+      "#endif"
+    ]
+  },
+  "ifdef": {
+    "prefix": "ifdef",
+    "description": "Expand ifdef",
+    "body": [
+      "#ifdef ${1:VISUALIZE}",
+      "\t$2",
+      "#endif"
+    ]
+  },
+  "testinit": {
+    "prefix": "testinit",
+    "description": "Boost test init test module",
+    "body": [
+      "///Flag to use BOOST_TEST dynamic library, not just the include library.",
+      "#define BOOST_TEST_DYN_LINK",
+      "/// Module subsitutes the main C++ function, only one module per project.",
+      "#define BOOST_TEST_MODULE $1_module"
+    ]
+  },
+  "testinclude": {
+    "prefix": "testinclude",
+    "description": "Boost test include: unit_test.hpp",
+    "body": "#include <boost/test/unit_test.hpp>"
+  },
+  "testsuite": {
+    "prefix": "testsuite",
+    "description": "Boost test suite",
+    "body": [
+      "BOOST_AUTO_TEST_SUITE($1)",
+      "\t$2",
+      "BOOST_AUTO_TEST_SUITE_END()"
+    ]
+  },
+  "testcase": {
+    "prefix": "testcase",
+    "description": "Boost test case",
+    "body": [
+      "BOOST_AUTO_TEST_CASE($1)",
+      "{",
+      "\t$2",
+      "\\}"
+    ]
+  },
+  "bc": {
+    "prefix": "bc",
+    "description": "BOOST_CHECK",
+    "body": "BOOST_CHECK(${1:comparisson});"
+  },
+  "bcm": {
+    "prefix": "bcm",
+    "description": "BOOST_CHECK_MESSAGE",
+    "body": [
+      "BOOST_CHECK_MESSAGE(${1:comparisson},",
+      "\t\"${2:message}\");"
+    ]
+  },
+  "bw": {
+    "prefix": "bw",
+    "description": "BOOST_WARN",
+    "body": "BOOST_WARN(${1:comparisson});"
+  },
+  "br": {
+    "prefix": "br",
+    "description": "BOOST_REQUIRE",
+    "body": "BOOST_REQUIRE(${1:comparisson});"
+  },
+  "bceq": {
+    "prefix": "bceq",
+    "description": "BOOST_CHECK_EQUAL",
+    "body": "BOOST_CHECK_EQUAL($1,$2);"
+  },
+  "bcgt": {
+    "prefix": "bcgt",
+    "description": "BOOST_CHECK_GT",
+    "body": "BOOST_CHECK_GT($1,$2);"
+  },
+  "bclt": {
+    "prefix": "bclt",
+    "description": "BOOST_CHECK_LT",
+    "body": "BOOST_CHECK_LT($1,$2);"
+  },
+  "defvtk6": {
+    "prefix": "defvtk6",
+    "description": "VTK6 compatibility defines",
+    "body": [
+      "#define vtkRenderingCore_AUTOINIT 4(vtkInteractionStyle,vtkRenderingFreeType, \\",
+      "vtkRenderingFreeTypeOpenGL,vtkRenderingOpenGL)",
+      "#define vtkRenderingVolume_AUTOINIT 1(vtkRenderingVolumeOpenGL)"
+    ]
+  },
+  "cast": {
+    "prefix": "cast",
+    "description": "Const Cast",
+    "body": "const_cast<$1>($2)$0"
+  },
+  "ass": {
+    "prefix": "ass",
+    "description": "ASSERT_THAT Google Mock",
+    "body": "ASSERT_THAT($1,$2);"
+  },
+  "testfixture": {
+    "prefix": "testfixture",
+    "description": "Class fixture Google Mock",
+    "body": [
+      "struct ${1:FixtureClass} : public ::testing::Test {",
+      "    void SetUp() override {",
+      "    \\}",
+      "\\};"
+    ]
+  },
+  "TEST_F": {
+    "prefix": "TEST_F",
+    "description": "TEST_F Google Mock",
+    "body": [
+      "TEST_F(${1:FixtureClass}, ${2:TestName}) {",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "TESTG": {
+    "prefix": "TESTG",
+    "description": "TEST Google Mock",
+    "body": [
+      "TEST(${1:TestClass}, ${2:TestName}) {",
+      "\t$3",
+      "\\}"
+    ]
+  },
+  "vflag": {
+    "prefix": "vflag",
+    "description": "VFLAG conditional to visualize tests",
+    "body": "if (VFLAG) viewer.Visualize();"
+  },
+  "poclass": {
+    "prefix": "poclass",
+    "description": "program_option full class .cpp",
+    "body": [
+      "#include <iostream>",
+      "#include <string>",
+      "#include <fstream>",
+      "using namespace std;",
+      "${1:poinit}",
+      "${2:pofunction}"
+    ]
+  },
+  "pocall": {
+    "prefix": "pocall",
+    "description": "call to program options from main()",
+    "body": "auto vm = program_options(argc, argv);"
+  },
+  "pofunction": {
+    "prefix": "pofunction",
+    "description": "program_option parse function",
+    "body": [
+      "po::variables_map program_options(const int &argc, char** const & argv)",
+      "{",
+      "\t${1:pobasic}",
+      "\t${2:poOpenConfig}",
+      "    return vm;",
+      "\\}"
+    ]
+  },
+  "poinit": {
+    "prefix": "poinit",
+    "description": "po include and namespace",
+    "body": [
+      "#include <boost/program_options.hpp>",
+      "namespace po = boost::program_options;"
+    ]
+  },
+  "pobasic": {
+    "prefix": "pobasic",
+    "description": "po only command line setup",
+    "body": [
+      "// Declare a group of options that will be",
+      "// allowed only on command line",
+      "po::options_description generic(\"Generic options\");",
+      "generic.add_options()",
+      "\t(\"version,v\", \"print version string\")",
+      "\t(\"help,h\", \"produce help message\")",
+      "\t(\"config,c\", po::value<string>()->default_value(\"config_file.init\"),",
+      "\t\t  \"name of a file of a configuration.\")",
+      "\t;",
+      "",
+      "// Declare a group of options that will be",
+      "// allowed both on command line and in",
+      "// config file",
+      "po::options_description config(\"Configuration\");",
+      "config.add_options()",
+      "\t(\"${1:cmdlinename}\", po::value<int>()->default_value($2),",
+      "\t\t  \"$1 description\")",
+      "\t;",
+      "",
+      "// Hidden options, will be allowed both on command line and",
+      "// in config file, but will not be shown to the user.",
+      "po::options_description hidden(\"Hidden options\");",
+      "hidden.add_options()",
+      "\t(\"input-file\", po::value< vector<string> >(), \"input file\")",
+      "\t;",
+      "",
+      "po::options_description cmdline_options;",
+      "cmdline_options.add(generic).add(config).add(hidden);",
+      "",
+      "po::options_description config_file_options;",
+      "config_file_options.add(config).add(hidden);",
+      "",
+      "po::options_description visible(\"Allowed options\");",
+      "visible.add(generic).add(config);",
+      "",
+      "po::positional_options_description p;",
+      "p.add(\"input-file\", -1);",
+      "",
+      "po::variables_map vm;",
+      "store(po::command_line_parser(argc, argv).",
+      "\t  options(cmdline_options).positional(p).run(), vm);",
+      "notify(vm);",
+      "if (vm.count(\"help\")) {",
+      "\tcout << visible << \"\\n\";",
+      "\treturn 0;",
+      "\\}",
+      ""
+    ]
+  },
+  "poOpenConfig": {
+    "prefix": "poOpenConfig",
+    "description": "open config file",
+    "body": [
+      "string config_file = vm[\"config\"].as<string>();",
+      "ifstream ifs(config_file.c_str());",
+      "if (!ifs)",
+      "{",
+      "\tthrow(runtime_error(\"Can not open config file: \" + config_file + \" ,use -c option\"));",
+      "\\}",
+      "else",
+      "{",
+      "\tstore(parse_config_file(ifs, config_file_options), vm);",
+      "\tnotify(vm);",
+      "\\}"
+    ]
+  },
+  "pydoc": {
+    "prefix": "pydoc",
+    "description": "docs for pybind",
+    "body": [
+      "    const std::string $1_docs =",
+      "R\"(${7:One liner}",
+      "",
+      "Parameters",
+      "----------",
+      "${2:arg1} : ${3:type}",
+      "    ${4:Description}",
+      "",
+      "Returns",
+      "-------",
+      "${5:type}",
+      "    ${6:Description}",
+      ")\";"
+    ]
+  }
+}

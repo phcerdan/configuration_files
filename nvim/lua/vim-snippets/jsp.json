@@ -1,0 +1,199 @@
+{
+  "@page": {
+    "prefix": "@page",
+    "body": "<%@page contentType=\"text/html\" pageEncoding=\"UTF-8\"%>"
+  },
+  "jstl": {
+    "prefix": "jstl",
+    "body": [
+      "<%@ taglib uri=\"http://java.sun.com/jsp/jstl/core\" prefix=\"c\" %>",
+      "<%@ taglib uri=\"http://java.sun.com/jsp/jstl/functions\" prefix=\"fn\" %>"
+    ]
+  },
+  "jstl:c": {
+    "prefix": "jstl:c",
+    "body": "<%@ taglib uri=\"http://java.sun.com/jsp/jstl/core\" prefix=\"c\" %>"
+  },
+  "jstl:fn": {
+    "prefix": "jstl:fn",
+    "body": "<%@ taglib uri=\"http://java.sun.com/jsp/jstl/functions\" prefix=\"fn\" %>"
+  },
+  "cpath": {
+    "prefix": "cpath",
+    "body": "\\${pageContext.request.contextPath\\}"
+  },
+  "cout": {
+    "prefix": "cout",
+    "body": "<c:out value=\"$1\" default=\"$0\" />"
+  },
+  "cset": {
+    "prefix": "cset",
+    "body": "<c:set var=\"$1\" value=\"$0\" />"
+  },
+  "cremove": {
+    "prefix": "cremove",
+    "body": "<c:remove var=\"$1\" scope=\"${0:page}\" />"
+  },
+  "ccatch": {
+    "prefix": "ccatch",
+    "body": "<c:catch var=\"$0\" />"
+  },
+  "cif": {
+    "prefix": "cif",
+    "body": [
+      "<c:if test=\"\\${$1\\}\">",
+      "\t$0",
+      "</c:if>"
+    ]
+  },
+  "cchoose": {
+    "prefix": "cchoose",
+    "body": [
+      "<c:choose>",
+      "\t$0",
+      "</c:choose>"
+    ]
+  },
+  "cwhen": {
+    "prefix": "cwhen",
+    "body": [
+      "<c:when test=\"\\${$1\\}\">",
+      "\t$0",
+      "</c:when>"
+    ]
+  },
+  "cother": {
+    "prefix": "cother",
+    "body": [
+      "<c:otherwise>",
+      "\t$0",
+      "</c:otherwise>"
+    ]
+  },
+  "cfore": {
+    "prefix": "cfore",
+    "body": [
+      "<c:forEach items=\"\\${$1\\}\" var=\"$2\" varStatus=\"$3\">",
+      "\t${0:<c:out value=\"$2\" />}",
+      "</c:forEach>"
+    ]
+  },
+  "cfort": {
+    "prefix": "cfort",
+    "body": [
+      "<c:set var=\"$1\">${2:item1,item2,item3}</c:set>",
+      "<c:forTokens var=\"$3\" items=\"\\${$1\\}\" delims=\"${4:,}\">",
+      "\t${0:<c:out value=\"$3\" />}",
+      "</c:forTokens>"
+    ]
+  },
+  "cparam": {
+    "prefix": "cparam",
+    "body": "<c:param name=\"$1\" value=\"$0\" />"
+  },
+  "cparam+": {
+    "prefix": "cparam+",
+    "body": [
+      "<c:param name=\"$1\" value=\"$2\" />",
+      "cparam+$0"
+    ]
+  },
+  "cimport": {
+    "prefix": "cimport",
+    "body": "<c:import url=\"$1\" />"
+  },
+  "cimport+": {
+    "prefix": "cimport+",
+    "body": [
+      "<c:import url=\"$1\">",
+      "\t<c:param name=\"$2\" value=\"$3\" />",
+      "\tcparam+$0",
+      "</c:import>"
+    ]
+  },
+  "curl": {
+    "prefix": "curl",
+    "body": [
+      "<c:url value=\"$1\" var=\"$2\" />",
+      "<a href=\"\\${$2\\}\">$0</a>"
+    ]
+  },
+  "curl+": {
+    "prefix": "curl+",
+    "body": [
+      "<c:url value=\"$1\" var=\"$2\">",
+      "\t<c:param name=\"$4\" value=\"$5\" />",
+      "\tcparam+$0",
+      "</c:url>",
+      "<a href=\"\\${$2\\}\">$3</a>"
+    ]
+  },
+  "credirect": {
+    "prefix": "credirect",
+    "body": "<c:redirect url=\"$0\" />"
+  },
+  "contains": {
+    "prefix": "contains",
+    "body": "\\${fn:contains(${1:string}, ${0:substr})\\}"
+  },
+  "contains:i": {
+    "prefix": "contains:i",
+    "body": "\\${fn:containsIgnoreCase(${1:string}, ${0:substr})\\}"
+  },
+  "endswith": {
+    "prefix": "endswith",
+    "body": "\\${fn:endsWith(${1:string}, ${0:suffix})\\}"
+  },
+  "escape": {
+    "prefix": "escape",
+    "body": "\\${fn:escapeXml(${0:string})\\}"
+  },
+  "indexof": {
+    "prefix": "indexof",
+    "body": "\\${fn:indexOf(${1:string}, ${0:substr})\\}"
+  },
+  "join": {
+    "prefix": "join",
+    "body": "\\${fn:join(${1:collection}, ${0:delims})\\}"
+  },
+  "length": {
+    "prefix": "length",
+    "body": "\\${fn:length(${0:collection_or_string})\\}"
+  },
+  "replace": {
+    "prefix": "replace",
+    "body": "\\${fn:replace(${1:string}, ${2:substr}, ${0:replace})\\}"
+  },
+  "split": {
+    "prefix": "split",
+    "body": "\\${fn:split(${1:string}, ${0:delims})\\}"
+  },
+  "startswith": {
+    "prefix": "startswith",
+    "body": "\\${fn:startsWith(${1:string}, ${0:prefix})\\}"
+  },
+  "substr": {
+    "prefix": "substr",
+    "body": "\\${fn:substring(${1:string}, ${2:begin}, ${0:end})\\}"
+  },
+  "substr:a": {
+    "prefix": "substr:a",
+    "body": "\\${fn:substringAfter(${1:string}, ${0:substr})\\}"
+  },
+  "substr:b": {
+    "prefix": "substr:b",
+    "body": "\\${fn:substringBefore(${1:string}, ${0:substr})\\}"
+  },
+  "lc": {
+    "prefix": "lc",
+    "body": "\\${fn:toLowerCase(${0:string})\\}"
+  },
+  "uc": {
+    "prefix": "uc",
+    "body": "\\${fn:toUpperCase(${0:string})\\}"
+  },
+  "trim": {
+    "prefix": "trim",
+    "body": "\\${fn:trim(${0:string})\\}"
+  }
+}

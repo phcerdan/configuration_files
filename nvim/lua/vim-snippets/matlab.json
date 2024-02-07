@@ -1,0 +1,103 @@
+{
+  "if": {
+    "prefix": "if",
+    "description": "if",
+    "body": [
+      "if $1",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "description": "if ... else",
+    "body": [
+      "if $1",
+      "\t$2",
+      "else",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "el": {
+    "prefix": "el",
+    "description": "else",
+    "body": [
+      "else",
+      "\t$0",
+      ""
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "description": "elsif",
+    "body": [
+      "elseif $1",
+      "\t$0",
+      ""
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "description": "while",
+    "body": [
+      "while $1",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "description": "for",
+    "body": [
+      "for ${1:i} = ${2:1:n}",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "parfor": {
+    "prefix": "parfor",
+    "description": "parfor",
+    "body": [
+      "parfor ${1:i} = ${2:1:n}",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "try": {
+    "prefix": "try",
+    "description": "try ... catch",
+    "body": [
+      "try",
+      "\t$1",
+      "catch ${2:err}",
+      "\t$0",
+      "end",
+      ""
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "description": "switch",
+    "body": [
+      "switch ${1:n}",
+      "\tcase ${2:0}",
+      "\t\t$0",
+      "end",
+      ""
+    ]
+  },
+  "@": {
+    "prefix": "@",
+    "description": "anonymous function",
+    "body": [
+      "@(${1:x}) ${0:x*x}",
+      ""
+    ]
+  }
+}

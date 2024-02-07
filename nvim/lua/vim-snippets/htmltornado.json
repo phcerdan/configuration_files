@@ -1,0 +1,102 @@
+{
+  "{": {
+    "prefix": "{",
+    "body": [
+      "{{ $0 \\}\\}",
+      "",
+      ""
+    ]
+  },
+  "extends": {
+    "prefix": "extends",
+    "body": "{% extends \"${0:base.html}\" %\\}"
+  },
+  "autoescape": {
+    "prefix": "autoescape",
+    "body": "{% autoescape ${0:xhtml_escape | None} %\\}"
+  },
+  "apply": {
+    "prefix": "apply",
+    "body": [
+      "{% apply ${1:function} %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  },
+  "block": {
+    "prefix": "block",
+    "body": [
+      "{% block $1 %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "{% for ${1:item} in $2 %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  },
+  "from": {
+    "prefix": "from",
+    "body": "{% from ${1:x} import ${0:y} %\\}"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "{% if $1 %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  },
+  "eif": {
+    "prefix": "eif",
+    "body": "{% elif $0 %\\}"
+  },
+  "el": {
+    "prefix": "el",
+    "body": "{% else %\\}"
+  },
+  "import": {
+    "prefix": "import",
+    "body": "{% import ${0:module} %\\}"
+  },
+  "include": {
+    "prefix": "include",
+    "body": "{% include \"${0:filename}\" %\\}"
+  },
+  "module": {
+    "prefix": "module",
+    "body": "{% module ${0:expression} %\\}"
+  },
+  "raw": {
+    "prefix": "raw",
+    "body": "{% raw ${0:expression} %\\}"
+  },
+  "set": {
+    "prefix": "set",
+    "body": "{% set ${1:x} = ${0:y} %\\}"
+  },
+  "try": {
+    "prefix": "try",
+    "body": [
+      "{% try %\\}",
+      "  ${1:$TM_SELECTED_TEXT}",
+      "{% except %\\}",
+      "  $2",
+      "{% finallly %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  },
+  "wh": {
+    "prefix": "wh",
+    "body": [
+      "{% while $1 %\\}",
+      "  $0",
+      "{% end %\\}"
+    ]
+  }
+}

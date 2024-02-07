@@ -1,0 +1,146 @@
+{
+  "%": {
+    "prefix": "%",
+    "description": "<% %>",
+    "body": "<% $0 %>"
+  },
+  "=": {
+    "prefix": "=",
+    "description": "<%= %>",
+    "body": "<%= $0 %>"
+  },
+  "#": {
+    "prefix": "#",
+    "description": "<%# %>",
+    "body": "<%# $0 %>"
+  },
+  "end": {
+    "prefix": "end",
+    "body": "<% end %>"
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "<%= for ${1:item} <- ${2:items} ${3:@conn} do %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "<%= if $1 do %>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "<% end %>"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "<%= if $1 do %>",
+      "\t${2:$TM_SELECTED_TEXT}",
+      "<% else %>",
+      "\t$0",
+      "<% end %>"
+    ]
+  },
+  "cond": {
+    "prefix": "cond",
+    "body": [
+      "<%= cond do %>",
+      "\t<% $1 -> %>",
+      "\t\t${2:$TM_SELECTED_TEXT}",
+      "",
+      "\t<% true -> %>",
+      "\t\t$0",
+      "<% end %>"
+    ]
+  },
+  "unless": {
+    "prefix": "unless",
+    "body": [
+      "<%= unless $1 do %>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "<% end %>"
+    ]
+  },
+  "ft": {
+    "prefix": "ft",
+    "description": "form_tag",
+    "body": [
+      "<%= form_tag(${1:\"/users\"}, method: ${2::post}) %>",
+      "\t$0",
+      "</form>",
+      ""
+    ]
+  },
+  "sl": {
+    "prefix": "sl",
+    "description": "select",
+    "body": [
+      "<%= select ${1:f}, :${2:field}, ${3:[{\"key\", \"value\"\\}]}, prompt: ${4:\"Prompt\"} %>",
+      ""
+    ]
+  },
+  "sb": {
+    "prefix": "sb",
+    "description": "submit",
+    "body": [
+      "<%= submit ${1:\"Submit\"} %>",
+      ""
+    ]
+  },
+  "rb": {
+    "prefix": "rb",
+    "description": "radio_button",
+    "body": [
+      "<%= radio_button ${1:f}, :${2:field},  ${3:\"value\"} %>",
+      "",
+      ""
+    ]
+  },
+  "et": {
+    "prefix": "et",
+    "description": "error_tag",
+    "body": "<%= error_tag ${1:f}, :${2:field} %>"
+  },
+  "ti": {
+    "prefix": "ti",
+    "description": "text_input",
+    "body": "<%= text_input ${1:f}, :${2:field} %>"
+  },
+  "la": {
+    "prefix": "la",
+    "description": "label",
+    "body": "<%= label ${1:f}, :${2:field}, \"${3:Label}\" %>"
+  },
+  "pi": {
+    "prefix": "pi",
+    "description": "password_input",
+    "body": "<%= password_input ${1:f}, :${2:password} %>"
+  },
+  "render": {
+    "prefix": "render",
+    "body": "<%= render \"${1:index}.html\", ${2:var: @var} %>"
+  },
+  "lin": {
+    "prefix": "lin",
+    "description": "link",
+    "body": "<%= link \"${1:Submit}\", to: ${2:\"/users\"}, method: ${3::delete} %>"
+  },
+  "ff": {
+    "prefix": "ff",
+    "description": "form_for",
+    "body": [
+      "<%= form_for @changeset, ${1:\"/users\"}, fn f -> %>",
+      "\t\t$0",
+      "",
+      "\t<%= submit \"Submit\" %>",
+      "<% end %>"
+    ]
+  },
+  "pry": {
+    "prefix": "pry",
+    "body": "<% require IEx; IEx.pry %>"
+  }
+}

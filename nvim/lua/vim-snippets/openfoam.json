@@ -1,0 +1,74 @@
+{
+  "fv": {
+    "prefix": "fv",
+    "body": [
+      "type\t\tfixedValue;",
+      "value\t\tuniform $0;"
+    ]
+  },
+  "zg": {
+    "prefix": "zg",
+    "body": "type\t\tzeroGradient;"
+  },
+  "sym": {
+    "prefix": "sym",
+    "body": "type\t\tsymmetryPlane;"
+  },
+  "forces": {
+    "prefix": "forces",
+    "body": [
+      "forces",
+      "{",
+      "\ttype\t\t\t\tforces;",
+      "\tfunctionObjectLibs\t(\"libforces.so\");",
+      "\tenabled\t\t\t\ttrue;",
+      "\toutputControl\t\t${1:timeStep};",
+      "\toutputInterval\t\t${2:1};",
+      "\tpatches\t\t\t\t($3);",
+      "\tlog\t\t\t\t\t${4:true};",
+      "\tCofR\t\t\t\t(${0:0 0 0});",
+      "\\}"
+    ]
+  },
+  "gamg": {
+    "prefix": "gamg",
+    "body": [
+      "${1:p}",
+      "{",
+      "\tsolver          GAMG;",
+      "\ttolerance       1e-${2:6};",
+      "\trelTol          ${0:0.0};",
+      "\tsmoother        GaussSeidel;",
+      "\tcacheAgglomeration true;",
+      "\tnCellsInCoarsestLevel 10;",
+      "\tagglomerator    faceAreaPair;",
+      "\tmergeLevels     1;",
+      "\\}"
+    ]
+  },
+  "pbicg": {
+    "prefix": "pbicg",
+    "body": [
+      "${1:U}",
+      "{",
+      "\tsolver          PBiCG;",
+      "\tpreconditioner  DILU;",
+      "\ttolerance       1e-${2:6};",
+      "\trelTol          ${0:0.0};",
+      "\\}"
+    ]
+  },
+  "pimple": {
+    "prefix": "pimple",
+    "body": [
+      "PIMPLE",
+      "{",
+      "\tnOuterCorrectors \t${1:outer};",
+      "\tnCorrectors     \t${2:inner};",
+      "\tnNonOrthogonalCorrectors ${3:nonOrtho};",
+      "\tpRefCell        \t${4:cell};",
+      "\tpRefValue       \t${0:value for $4};",
+      "\\}"
+    ]
+  }
+}

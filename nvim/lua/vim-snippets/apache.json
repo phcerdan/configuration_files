@@ -1,0 +1,54 @@
+{
+  "dir": {
+    "prefix": "dir",
+    "body": [
+      "<Directory ${1:/}>",
+      "\tDirectoryIndex ${0:index.html}",
+      "\tOrder Deny,Allow",
+      "\tDeny from All",
+      "</Directory>"
+    ]
+  },
+  "filesmatch": {
+    "prefix": "filesmatch",
+    "body": [
+      "<FilesMatch \"${1:regex}\">",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "</FilesMatch>"
+    ]
+  },
+  "ifmodule": {
+    "prefix": "ifmodule",
+    "body": [
+      "<IfModule ${1:mod_example.c}>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "</IfModule>"
+    ]
+  },
+  "limitexcept": {
+    "prefix": "limitexcept",
+    "body": [
+      "<LimitExcept ${1:POST GET}>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "</LimitExcept>"
+    ]
+  },
+  "proxy": {
+    "prefix": "proxy",
+    "body": [
+      "<Proxy ${1:*}>",
+      "\t${0:$TM_SELECTED_TEXT}",
+      "</Proxy>"
+    ]
+  },
+  "virtualhost": {
+    "prefix": "virtualhost",
+    "body": [
+      "<VirtualHost ${1:*}:${2:80}>",
+      "\tServerAdmin ${3:webmaster@example.com}",
+      "\tDocumentRoot ${4:/www/example.com}",
+      "\tServerName ${0:www.example.com}",
+      "</VirtualHost>"
+    ]
+  }
+}

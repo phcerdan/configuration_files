@@ -1,0 +1,187 @@
+{
+  "comm": {
+    "prefix": "comm",
+    "body": [
+      "(comment",
+      "\t$0)"
+    ]
+  },
+  "condp": {
+    "prefix": "condp",
+    "body": [
+      "(condp ${1:pred} ${2:expr}",
+      "\t$0)"
+    ]
+  },
+  "def": {
+    "prefix": "def",
+    "body": "(def $0)"
+  },
+  "defm": {
+    "prefix": "defm",
+    "body": [
+      "(defmethod ${1:multifn} \"${2:doc-string}\" ${3:dispatch-val} [${4:args}]",
+      "\t${0:code})"
+    ]
+  },
+  "defmm": {
+    "prefix": "defmm",
+    "body": "(defmulti ${1:name} \"${2:doc-string}\" ${0:dispatch-fn})"
+  },
+  "defma": {
+    "prefix": "defma",
+    "body": "(defmacro ${1:name} \"${2:doc-string}\" ${0:dispatch-fn})"
+  },
+  "defn": {
+    "prefix": "defn",
+    "body": [
+      "(defn ${1:name} \"${2:doc-string}\" [${3:arg-list}]",
+      "\t${0:code})"
+    ]
+  },
+  "defp": {
+    "prefix": "defp",
+    "body": [
+      "(defprotocol ${1:name}",
+      "\t${0:code})"
+    ]
+  },
+  "defr": {
+    "prefix": "defr",
+    "body": [
+      "(defrecord ${1:name} [${2:fields}]",
+      "\t${3:protocol}",
+      "\t${0:code})"
+    ]
+  },
+  "deft": {
+    "prefix": "deft",
+    "body": [
+      "(deftest ${1:name}",
+      "\t(is (= ${0:assertion})))"
+    ]
+  },
+  "is": {
+    "prefix": "is",
+    "body": "(is (= $1 $0))"
+  },
+  "defty": {
+    "prefix": "defty",
+    "body": [
+      "(deftype ${1:Name} [${2:fields}]",
+      "\t${3:Protocol}",
+      "\t${0:code})"
+    ]
+  },
+  "doseq": {
+    "prefix": "doseq",
+    "body": [
+      "(doseq [${1:elem} ${2:coll}]",
+      "\t${0:code})"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": "(fn [${1:arg-list}] ${0:code})"
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "(if ${1:test-expr}",
+      "\t${2:then-expr}",
+      "\t${0:else-expr})"
+    ]
+  },
+  "if-let": {
+    "prefix": "if-let",
+    "body": [
+      "(if-let [${1:result} ${2:test-expr}]",
+      "\t(${3:then-expr} $1)",
+      "\t(${0:else-expr}))"
+    ]
+  },
+  "imp": {
+    "prefix": "imp",
+    "body": [
+      "(:import [${1:package}])",
+      "\t& {:keys [${1:keys}] :or {${0:defaults}\\}\\}"
+    ]
+  },
+  "let": {
+    "prefix": "let",
+    "body": [
+      "(let [${1:name} ${2:expr}]",
+      "\t${0:code})"
+    ]
+  },
+  "letfn": {
+    "prefix": "letfn",
+    "body": [
+      "(letfn [(${1:name}) [${2:args}]",
+      "\t${0:code})])"
+    ]
+  },
+  "map": {
+    "prefix": "map",
+    "body": "(map ${1:func} ${0:coll})"
+  },
+  "mapl": {
+    "prefix": "mapl",
+    "body": "(map #(${1:lambda}) ${0:coll})"
+  },
+  "met": {
+    "prefix": "met",
+    "body": [
+      "(${1:name} [${2:this} ${3:args}]",
+      "\t${0:code})"
+    ]
+  },
+  "ns": {
+    "prefix": "ns",
+    "body": "(ns ${0:name})"
+  },
+  "dotimes": {
+    "prefix": "dotimes",
+    "body": [
+      "(dotimes [_ 10]",
+      "\t(time",
+      "\t\t(dotimes [_ ${1:times}]",
+      "\t\t\t${0:code})))"
+    ]
+  },
+  "pmethod": {
+    "prefix": "pmethod",
+    "body": "(${1:name} [${2:this} ${0:args}])"
+  },
+  "refer": {
+    "prefix": "refer",
+    "body": "(:refer-clojure :exclude [$0])"
+  },
+  "require": {
+    "prefix": "require",
+    "body": "(:require [${1:namespace} :as [$0]])"
+  },
+  "use": {
+    "prefix": "use",
+    "body": "(:use [${1:namespace} :only [$0]])"
+  },
+  "print": {
+    "prefix": "print",
+    "body": "(println $0)"
+  },
+  "reduce": {
+    "prefix": "reduce",
+    "body": "(reduce ${1:(fn [p n] $3)} $2)"
+  },
+  "when": {
+    "prefix": "when",
+    "body": "(when ${1:test} $0)"
+  },
+  "when-let": {
+    "prefix": "when-let",
+    "body": [
+      "(when-let [${1:result} ${2:test}]",
+      "\t$0)"
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "begin": {
+    "prefix": "begin",
+    "body": [
+      "#+begin_${1:type} ${2:options}",
+      "$0",
+      "#+end_$1"
+    ]
+  },
+  "<C": {
+    "prefix": "<C",
+    "body": [
+      "#+begin_center",
+      "$0",
+      "#+end_center"
+    ]
+  },
+  "<c": {
+    "prefix": "<c",
+    "body": [
+      "#+begin_comment",
+      "$0",
+      "#+end_comment"
+    ]
+  },
+  "<e": {
+    "prefix": "<e",
+    "body": [
+      "#+begin_example",
+      "$0",
+      "#+end_example"
+    ]
+  },
+  "<a": {
+    "prefix": "<a",
+    "body": [
+      "#+begin_export ascii",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "<h": {
+    "prefix": "<h",
+    "body": [
+      "#+begin_export html",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "<l": {
+    "prefix": "<l",
+    "body": [
+      "#+begin_export latex",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "<p": {
+    "prefix": "<p",
+    "body": [
+      "#+begin_export python",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "<s": {
+    "prefix": "<s",
+    "body": [
+      "#+begin_export shell",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "dot": {
+    "prefix": "dot",
+    "body": [
+      "#+begin_src dot :file ${1:file}.${2:svg} :results file graphics",
+      "$0",
+      "#+end_src"
+    ]
+  },
+  "elisp": {
+    "prefix": "elisp",
+    "body": [
+      "#+begin_src emacs-lisp :tangle yes",
+      "$0",
+      "#+end_src"
+    ]
+  },
+  "entry": {
+    "prefix": "entry",
+    "body": [
+      "#+begin_html",
+      "---",
+      "layout: ${1:default}",
+      "title: ${2:title}",
+      "---",
+      "#+end_html",
+      "$0"
+    ]
+  },
+  "ex": {
+    "prefix": "ex",
+    "body": [
+      "#+begin_example",
+      "$0",
+      "#+end_example"
+    ]
+  },
+  "export": {
+    "prefix": "export",
+    "body": [
+      "#+begin_export ${1:type}",
+      "$0",
+      "#+end_export"
+    ]
+  },
+  "fig": {
+    "prefix": "fig",
+    "body": [
+      "#+caption: ${1:caption}",
+      "#+attr_latex: ${2:scale=0.75}",
+      "#+name: fig-${3:label}"
+    ]
+  },
+  "head": {
+    "prefix": "head",
+    "body": [
+      "#+title:     ${1:untitled document}",
+      "#+author:    ${2:user-full-name}",
+      "#+email:     ${3:user-mail-address}"
+    ]
+  },
+  "img": {
+    "prefix": "img",
+    "body": [
+      "#+attr_html: :alt $2 :align ${3:left} :class img",
+      "[[${1:src}]${4:[${5:title}]}]",
+      "$0"
+    ]
+  },
+  "inl": {
+    "prefix": "inl",
+    "body": "src_${1:language}${2:[${3::exports code}]}{${4:code}\\}"
+  },
+  "srci": {
+    "prefix": "srci",
+    "body": "src_${1:language}[${2:header}]{${0:body}\\}"
+  },
+  "jupyter": {
+    "prefix": "jupyter",
+    "body": [
+      "#+begin_src jupyter-${1:\\$\\$(yas-choose-value '(\"python\" \"julia\" \"R\"))}${2: :session $3}${4: :async yes}",
+      "$0",
+      "#+end_src"
+    ]
+  },
+  "matrix": {
+    "prefix": "matrix",
+    "body": [
+      "left (",
+      "begin{array\\}{${1:ccc}\\}",
+      "${2:v1 & v2} \\",
+      "$0",
+      "end{array\\}",
+      "right )"
+    ]
+  },
+  "name": {
+    "prefix": "name",
+    "body": "#+name: $0"
+  },
+  "quote": {
+    "prefix": "quote",
+    "body": [
+      "#+begin_quote",
+      "$0",
+      "#+end_quote"
+    ]
+  },
+  "src": {
+    "prefix": "src",
+    "body": [
+      "#+begin_src $1",
+      "$0",
+      "#+end_src"
+    ]
+  },
+  "todo": {
+    "prefix": "todo",
+    "body": "TODO ${1:task description}"
+  },
+  "verse": {
+    "prefix": "verse",
+    "body": [
+      "#+begin_verse",
+      "$0",
+      "#+end_verse"
+    ]
+  },
+  "#+attr_html:width": {
+    "prefix": "#+attr_html:width",
+    "body": "#+attr_html: :width ${1:500px}"
+  }
+}
