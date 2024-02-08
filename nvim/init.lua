@@ -1082,14 +1082,22 @@ require("telescope").setup({
 pcall(require("telescope").load_extension, "aerial")
 
 -- Enable telescope fzf native, if installed
+-- Same but change cwd to current file parent directory
+local function fzf_lua_files_current_buffer()
+  require("fzf-lua").files({ cwd = vim.fn.expand("%:p:h") })
+end
+local function fzf_lua_live_grep_current_buffer()
+  require("fzf-lua").live_grep({ cwd = vim.fn.expand("%:p:h") })
+end
 pcall(require("telescope").load_extension, "fzf")
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sa", require("fzf-lua").lsp_finder, { desc = "[S]earch LSP" })
-
 vim.keymap.set("n", "<leader>sf", require("fzf-lua").files, { desc = "[S]earch [F]iles" })
+vim.keymap.set("n", "<leader>sc", fzf_lua_files_current_buffer, { desc = "[S]earch [F]iles [C]urrent" })
 vim.keymap.set("n", "<leader><space>", require("fzf-lua").buffers, { desc = "[S]earch Open buffers" })
 vim.keymap.set("n", "<leader>sg", require("fzf-lua").live_grep, { desc = "[S]earch [G]rep" })
+vim.keymap.set("n", "<leader>sv", fzf_lua_live_grep_current_buffer, { desc = "[S]earch Grep Current [V]" })
 vim.keymap.set("n", "<leader>sl", require("fzf-lua").grep_last, { desc = "[S]earch [L]ast" })
 vim.keymap.set("n", "<leader>sw", require("fzf-lua").grep_cword, { desc = "[S]earch [W]ord" })
 
