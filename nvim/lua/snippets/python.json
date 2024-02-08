@@ -18,6 +18,33 @@
       "\"\"\""
     ]
   },
+  "licvaso": {
+    "prefix": "licvaso",
+    "description": "license vasomaly (propietary)",
+    "body": [
+      "\"\"\"",
+      "Copyright 2024 Vasomaly S.L. - All Rights Reserved",
+      "Unauthorized copying of this file, via any medium is strictly prohibited",
+      "Proprietary and confidential",
+      "Written by Pablo Hernandez-Cerdan <phcerdan@vasomaly.com>, 2024",
+      "\"\"\"",
+      ""
+    ]
+  },
+  "licvg": {
+    "prefix": "licvg",
+    "description": "license vasograph (vasomaly propietary)",
+    "body": [
+      "\"\"\"",
+      "Copyright 2024 Vasomaly S.L. - All Rights Reserved",
+      "This file is part of vasograph",
+      "Unauthorized copying of this file, via any medium is strictly prohibited",
+      "Proprietary and confidential",
+      "Written by Pablo Hernandez-Cerdan <phcerdan@vasomaly.com>, 2024",
+      "\"\"\"",
+      ""
+    ]
+  },
   "licsgext": {
     "prefix": "licsgext",
     "description": "license with my name and reference to LICENSE",
