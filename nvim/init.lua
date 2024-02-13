@@ -1476,5 +1476,10 @@ vim.cmd("cnoreabbrev Wq wq")
 
 vim.cmd.packadd("cfilter")
 
+-- Map to reformat 'typedef' to 'using' (c++11)
+vim.cmd([[
+let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/;/g\<C-m>"
+]])
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
