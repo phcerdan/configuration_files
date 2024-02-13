@@ -1320,6 +1320,13 @@ mason_lspconfig.setup_handlers({
     })
   end,
 })
+-- Change clangd cmd:
+require("lspconfig").clangd.setup({
+  cmd = { "clangd", "--offset-encoding=utf-16" },
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = servers_settings.clangd,
+})
 
 -- efm language server
 -- From: https://github.com/creativenull/efmls-configs-nvim
