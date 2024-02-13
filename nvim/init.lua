@@ -491,7 +491,15 @@ require("lazy").setup({
       })
     end,
   },
-  { "rhysd/committia.vim",    lazy = false }, -- More pleasant commit layout
+  {
+    "rhysd/committia.vim", -- More pleasant commit layout
+    lazy=false,
+    config = function()
+      -- Enable committia, even with vim-fugitive
+      vim.g.committia_open_only_vim_starting = 0
+    end,
+
+  },
   "rhysd/git-messenger.vim",              -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim",                      --:GV for commit browser, GV! for one this file, GV? fills location list.
   "shumphrey/fugitive-gitlab.vim",        -- Gbrowse works in gitlab
