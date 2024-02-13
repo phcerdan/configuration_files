@@ -789,7 +789,15 @@ require("lazy").setup({
   {
     "echasnovski/mini.nvim",
     config = function()
-      require("mini.files").setup()
+      require("mini.files").setup({
+        -- Don't use `h`/`l` for easier cursor navigation during text edit
+        mappings = {
+          go_in = 'L',
+          go_in_plus = '',
+          go_out = 'H',
+          go_out_plus = '',
+        }
+      })
       -- set conceallevel 1 in ft=minifiles
       vim.cmd([[
         augroup mini
