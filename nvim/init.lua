@@ -272,6 +272,12 @@ require("lazy").setup({
     "goerz/jupytext.vim",
     build = "pip3 install --user .",
   },
+  {
+    "vim-scripts/DoxygenToolkit.vim",
+    config = function()
+      vim.g.DoxygenToolkit_briefTag_pre = '' -- Remove @brief tag. (First line will be parsed as brief anyway).
+    end,
+  },
   { -- kitty conf highlight
     "fladson/vim-kitty",
   },
