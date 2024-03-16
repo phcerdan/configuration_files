@@ -4,15 +4,15 @@ require('orgmode').setup_ts_grammar()
 
 require('orgmode').setup({
   org_agenda_files = {"~/notes/org-notes/*.org"},
-  org_default_notes_file = '~/notes/org-notes/work.org',
+  org_default_notes_file = '~/notes/org-notes/refile.org',
   org_todo_keywords = {'TODO', 'IN_PROGRESS', 'BLOCKED', 'DONE'},
   org_capture_templates = {
     t = { description = 'Task', template = '** TODO %?\n  %u' },
     m = {
       description = 'Meeting',
-      template = '** %?\n  %u\n\n*** Agenda\n\n\n*** Notes\n\n\n*** Action Items\n\n\n' }
+      template = '* %?\n  %u\n\n** Notes\n\n\n** Action Items\n\n\n' }
   },
-  org_indent_mode = "noindent",
+  org_startup_indented = false,
   org_todo_keyword_faces = {
     TODO = ':foreground red', -- overrides builtin color for `TODO` keyword
     IN_PROGRESS = ':foreground orange', -- overrides builtin color for `TODO` keyword
@@ -24,3 +24,14 @@ require('orgmode').setup({
 vim.api.nvim_set_hl(0, 'OrgAgendaDeadline', {link = 'Error'})
 vim.api.nvim_set_hl(0, 'OrgAgendaScheduled', {link = 'Function'})
 vim.api.nvim_set_hl(0, 'OrgAgendaScheduledPast', {link = 'DiagnosticWarn'})
+vim.api.nvim_set_hl(0, 'OctoEditable', {bg = "#1B1D1F"})
+
+-- To conceal org hyperlinks, which can be somewhat verbose
+--autocmd BufRead,BufNewFile *.txt setfiletype text
+vim.api.nvim_create_autocmd(
+    {"BufRead", "BufNewFile"}, {
+        pattern = {"*.org"},
+        command = "setlocal conceallevel=1",
+    }
+)
+vim.opt.conceallevel = 1
