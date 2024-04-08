@@ -354,7 +354,12 @@ require("lazy").setup({
   -- },
   -- }}}
   -- Yank/Cut control {{{
-  -- { "gbprod/cutlass.nvim", },
+  -- { -- Cutlass overrides the delete operations to actually just delete and not affect the current yank.
+  --   "gbprod/cutlass.nvim",
+  --   opts = {
+  --     cut_key = "m",
+  --   }
+  -- },
   -- }}}
   {
     "neovim/nvim-lspconfig",
@@ -678,7 +683,12 @@ require("lazy").setup({
   "tamago324/cmp-zsh",
   -- DAP (Debug Adapter Protocol) --
   "mfussenegger/nvim-dap",
-  "rcarriga/nvim-dap-ui",
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+    },
+  },
   "rcarriga/cmp-dap", -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   { "theHamsta/nvim-dap-virtual-text", config = true },
   {
@@ -736,14 +746,17 @@ require("lazy").setup({
     config = function()
       require("fzf-lua").setup({
         winopts = {
-          vertical = "up:50%",
-          -- win_height = 0.8,
-          -- win_width = 0.8,
-          -- win_row = 0.5,
-          -- win_col = 0.5,
+          preview = {
+            vertical = "up:50%",
+            -- win_height = 0.8,
+            -- win_width = 0.8,
+            -- win_row = 0.5,
+            -- win_col = 0.5,
+          },
         },
-        fzf_layout = "default",
-        -- fzf_preview_window = 'right:60%:hidden',
+        fzf_opts = {
+           ["--layout"] = "default",
+        },
         on_create = function()
           -- enable register <C-r>", to paste registers in term mode, only for fzf-lua terminals
           vim.keymap.set("t", "<C-r>", [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { expr = true })
@@ -1176,6 +1189,7 @@ require("nvim-treesitter.configs").setup({
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "org" },
   -- , 'orgagenda'},
+  ignore_install = { "comment" },
 
   highlight = {
     enable = true,
@@ -1201,10 +1215,10 @@ require("nvim-treesitter.configs").setup({
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<c-space>",
-      node_incremental = "<c-space>",
-      scope_incremental = "<c-s>",
-      node_decremental = "<c-backspace>",
+      init_selection = "gnn",
+      node_incremental = "grn",
+      scope_incremental = "grc",
+      node_decremental = "grm",
     },
   },
   textobjects = {
