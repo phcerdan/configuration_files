@@ -239,10 +239,19 @@ dap.adapters.lldb = {
   name = "lldb"
 }
 
+--- Requires gdb 14.0
+dap.adapters.gdb = {
+  type = "executable",
+  command = "/usr/bin/gdb",
+  name = "gdb",
+  args = { "--interpreter", "dap" }
+}
+
 dap.configurations.cpp = {
   {
     name = "Launch",
     type = "lldb",
+    -- type = "gdb",
     request = "launch",
     -- program = function()
     --   return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
@@ -277,7 +286,7 @@ dap.configurations.cpp = {
     --
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
-    runInTerminal = false,
+    -- runInTerminal = false,
   },
 }
 -- If you want to use this for rust and c, add something like this:
