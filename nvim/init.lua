@@ -675,6 +675,17 @@ require("lazy").setup({
       })
     end,
   },
+  {
+    "andrewferrier/debugprint.nvim",
+    config = true,
+    dependencies = {
+        "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
+        "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
+    },
+    -- Remove the following line to use development versions,
+    -- not just the formal releases
+    version = "*",
+  },
   -- Completion --
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
