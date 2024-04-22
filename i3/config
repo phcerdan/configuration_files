@@ -155,6 +155,8 @@ set $ws10 "10"
 assign [class="matplotlib"] $ws8
 # for_window [title="Figure*"] floating enable
 for_window [class="Yad"] floating enable
+for_window [instance="vtk"] move container to workspace number $ws8
+
 
 # tab for going to last used workspace
 bindsym $mod+Tab workspace back_and_forth
