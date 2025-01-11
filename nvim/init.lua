@@ -37,7 +37,7 @@ local linters = {
 
 local formatters = {
   lua = { "stylua" },
-  python = { "isort", "black" },
+  python = { "black", "ruff" },
   cpp = { "clang-format" },
   javascript = { { "prettierd", "prettier" }, "jq", "biome" },
   sh = { "shfmt" },
@@ -66,6 +66,7 @@ end
 
 local debuggers = {
   python = { "debugpy" },
+  cpp = {"cpptools"},
 }
 
 local dontInstall = {
@@ -129,17 +130,74 @@ require("lazy").setup({
   {
     "phcerdan/a.vim", -- :A to switch between h, c files. Fork to switch between h and hxx (ITK)
   },
+  -- {
+  --   "Konfekt/FastFold",
+  --   config = function()
+  --     vim.g.fastfold_savehook = 0 -- Only update manually with keys: zuz, or when :FastFoldUpdate
+  --     vim.g.tex_fold_enabled = 1
+  --     vim.g.vimsyn_folding = "af"
+  --     -- vim.g.cpp_folding = 1
+  --     -- vim.g.vim_folding = 1
+  --     -- vim.g.python_folding = 1
+  --   end,
+  -- },
   {
-    "Konfekt/FastFold",
-    config = function()
-      vim.g.fastfold_savehook = 0 -- Only update manually with keys: zuz, or when :FastFoldUpdate
-      vim.g.tex_fold_enabled = 1
-      vim.g.vimsyn_folding = "af"
-      -- vim.g.cpp_folding = 1
-      -- vim.g.vim_folding = 1
-      -- vim.g.python_folding = 1
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    event = "BufReadPost",
+    init = function()
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+      vim.o.foldcolumn = '1'
+      vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+      vim.o.foldmethod = "expr"
     end,
+    keys = {
+      {'zR',
+        function()
+          require('ufo').openAllFolds()
+        end,
+        mode = {"n"}, desc = "Open All Folds"
+      },
+      {'zM',
+        function()
+          require('ufo').closeAllFolds()
+        end,
+        mode = {"n"}, desc = "Close All Folds"
+      },
+      {'zm',
+        function()
+          require('ufo').closeFoldsWith()
+        end,
+        mode = {"n"}, desc = "Close fold by level: zm, 1zm"
+      },
+      {
+          "<leader>F",
+          function()
+              local ufo = require("ufo")
+              local winid = ufo.peekFoldedLinesUnderCursor()
+              if not winid then
+                  -- Fallback to hover using LSP if no fold is found
+                  vim.lsp.buf.hover()
+              end
+          end,
+          mode = "n",
+          desc = "Peek under the fold"
+      },
+    },
+    opts = {
+      provider_selector = function()
+        return {"treesitter", "indent"}
+      end,
+    },
   },
+  {"nvim-treesitter-context"},
+  {"nvim-treesitter-textobjects"},
+
   -- Colorscheme, config needs to be done in init.lua
   {
     "ellisonleao/gruvbox.nvim",
@@ -152,6 +210,32 @@ require("lazy").setup({
       vim.cmd([[colorscheme gruvbox]])
     end,
   },
+  -- {
+  --   'sainnhe/gruvbox-material',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Optionally configure and load the colorscheme
+  --     -- directly inside the plugin declaration.
+  --     vim.g.gruvbox_material_enable_italic = true
+  --     vim.g.gruvbox_material_background = 'hard'
+  --     vim.g.gruvbox_material_foreground = 'original'
+  --     vim.cmd.colorscheme('gruvbox-material')
+  --   end
+  -- },
+  -- {
+  --   "ramilito/winbar.nvim",
+  --   event = "VimEnter", -- Alternatively, BufReadPre if we don't care about the empty file when starting with 'nvim'
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   config = function()
+  --     require("winbar").setup({
+  --       -- your configuration comes here, for example:
+  --       icons = true,
+  --       diagnostics = true,
+  --       buf_modified = true
+  --     })
+  --   end
+  -- },
   {
     "akinsho/bufferline.nvim",
     config = function()
@@ -164,7 +248,6 @@ require("lazy").setup({
       })
     end,
   },
-
   { -- zoom with Goyo, Goyo! distraction free
     "junegunn/goyo.vim",
     config = function()
@@ -182,21 +265,71 @@ require("lazy").setup({
     -- vim.ui.select({'apple', 'banana', 'mango'}, { prompt = "Title"}, function(selected) end)
   },
   -- Tmux related
-  { "christoomey/vim-tmux-navigator",   lazy = false }, -- Navigate vim/tmux with same keys: <c-hjkl>
+  {
+    "christoomey/vim-tmux-navigator",
+    event = "BufReadPre",
+    config = function()
+        vim.g.tmux_navigator_disable_when_zoomed = 1
+    end,
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      -- { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
   { "jpalardy/vim-slime",               lazy = false }, -- Send/Copy from vim to other tmux pane
   -- Utils
   { "jbyuki/one-small-step-for-vimkind" },           -- dap adapter for lua running inside neovim
   { "folke/neodev.nvim",                config = true }, -- Additional lua configuration, makes nvim stuff amazing
+  { "nvim-tree/nvim-web-devicons" },
   {
     "folke/trouble.nvim",
-    config = function()
-      require("trouble").setup({
-        icons = false,
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      })
-    end,
+    opts = {},
+    cmd="Trouble",
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
   },
   {
     -- markdown preview
@@ -395,12 +528,13 @@ require("lazy").setup({
   --- Install efmls and configs
   {
     'creativenull/efmls-configs-nvim',
-    version = 'v1.x.x', -- version is optional, but recommended
     dependencies = { 'neovim/nvim-lspconfig' },
   },
   {
     "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lsp-signature-help",
+      "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
   },
   {
     "nvim-treesitter/nvim-treesitter",
@@ -456,6 +590,14 @@ require("lazy").setup({
   },
   -- quickfix navigation
   { "romainl/vim-qf",       lazy = false },
+  {
+    "stevearc/quicker.nvim", -- This allows to substitute directly from qlist, instead of :cdo
+    config = function()
+      require("quicker").setup({
+        -- add your config here
+      })
+    end,
+  },
   -- Git related plugins
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
@@ -508,7 +650,15 @@ require("lazy").setup({
   "rhysd/git-messenger.vim",              -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim",                      --:GV for commit browser, GV! for one this file, GV? fills location list.
   "shumphrey/fugitive-gitlab.vim",        -- Gbrowse works in gitlab
-  "tpope/vim-obsession",                  -- Save sessions :Obsess, Restore vim -S. Also used by tmux-resurrect
+  {
+    "rmagatti/auto-session",
+    config = function()
+      require("auto-session").setup {
+        log_level = "error",
+        auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+      }
+    end
+  },
   "tpope/vim-abolish",                    -- Subsitutions with plurals, cases, etc.
   "tpope/vim-unimpaired",                 -- Add ][q (cnext), ][b (bnext), ][Space (add new lines)
   "ntpeters/vim-better-whitespace",       -- Highlight whitespaces and provide StripWhiteSpaces()
@@ -635,23 +785,24 @@ require("lazy").setup({
     "psf/black",                  -- :Black (python)
     config = function()
       vim.g.black_use_virtualenv = 0 -- use black from python3_host_prog
+      vim.g.black_linelength = 100 -- default 88
     end,
   },
   -- ui
-  { -- floating winbar
-    "b0o/incline.nvim",
-    event = "BufReadPre",
-    config = function()
-      require("incline").setup({
-        window = { margin = { vertical = 0, horizontal = 1 } },
-        render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-          return { { icon, guifg = color }, { " " }, { filename } }
-        end,
-      })
-    end,
-  },
+  -- { -- floating winbar
+  --   "b0o/incline.nvim",
+  --   event = "BufReadPre",
+  --   config = function()
+  --     require("incline").setup({
+  --       window = { margin = { vertical = 0, horizontal = 1 } },
+  --       render = function(props)
+  --         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+  --         local icon, color = require("nvim-web-devicons").get_icon_color(filename)
+  --         return { { icon, guifg = color }, { " " }, { filename } }
+  --       end,
+  --     })
+  --   end,
+  -- },
   -- IDE options --
   {
     "ThePrimeagen/refactoring.nvim",
@@ -778,6 +929,7 @@ require("lazy").setup({
             preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
           },
         },
+        -- defaults = { formatter = "path.filename_first" },
       })
     end,
   },
@@ -817,7 +969,6 @@ require("lazy").setup({
   "moll/vim-bbye",          -- Bdelete, as Bclose, deleting buffers without deleting windows.
   -- File tree
 
-  { "nvim-tree/nvim-web-devicons" },
   {
     "echasnovski/mini.nvim",
     config = function()
@@ -830,6 +981,7 @@ require("lazy").setup({
           go_out_plus = '',
         }
       })
+
       -- set conceallevel 1 in ft=minifiles
       vim.cmd([[
         augroup mini
@@ -848,6 +1000,7 @@ require("lazy").setup({
       },
     },
   },
+
   -- {
   --   "stevearc/oil.nvim",
   --   config = true,
@@ -954,162 +1107,111 @@ require("lazy").setup({
     end,
   },
   {
-    "vim-test/vim-test",
-    config = function()
-      vim.g["test#strategy"] = "neovim"
-      vim.g["test#neovim#term_position"] = "vert botright"
-      vim.g["test#neovim#term_position"] = "split"
-      vim.g["test#neovim#term_position"] = "tabnew"
-      -- Python
-      vim.g["test#python#runner"] = "pytest"
-      vim.g["test#python#pytest#executable"] = "python3 -m pytest"
-      -- Cpp
-      vim.g["test#cpp#catch2#suite_command"] = "ctest --output-on-failure"
-    end,
-    keys = {
-      { "<leader>tt", "<cmd>TestFile<cr>",     desc = "TestFile" },
-      { "<leader>tn", "<cmd>TestNearest<cr>",  desc = "TestNearest" },
-      { "<leader>tf", "<cmd>TestFunction<cr>", desc = "TestFunction" },
-      { "<leader>tl", "<cmd>TestLast<cr>",     desc = "TestLast" },
-      { "<leader>tv", "<cmd>TestVisit<cr>",    desc = "TestVisit" },
-    },
+    {
+      "nvim-neotest/neotest",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "antoinemadec/FixCursorHold.nvim",
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-neotest/nvim-nio",
+        "nvim-neotest/neotest-plenary",
+        "nvim-neotest/neotest-python",
+        "nvim-neotest/neotest-vim-test",
+        "alfaix/neotest-gtest"
+      },
+      config = function()
+        require("neotest").setup({
+          adapters = {
+            require("neotest-python")({
+              dap = { justMyCode = false },
+            }),
+            require("neotest-plenary"),
+            require("neotest-gtest").setup({}),
+            require("neotest-vim-test")({
+              ignore_file_types = { "python", "vim", "lua" },
+            }),
+          },
+        })
+      end,
+    }
   },
 
   -- Copilot --
   { "github/copilot.vim",         lazy = false },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    opts = {
-      show_help = "yes", -- Show help text for CopilotChatInPlace, default: yes
-      debug = false, -- Enable or disable debug mode, the log file will be in ~/.local/state/nvim/CopilotChat.nvim.log
-      disable_extra_info = 'no', -- Disable extra information (e.g: system prompt) in the response.
-      language = "English" -- Copilot answer language settings when using default prompts. Default language is English.
-      -- proxy = "socks5://127.0.0.1:3000", -- Proxies requests via https or socks.
-      -- temperature = 0.1,
-    },
-    build = function()
-      vim.notify("Please update the remote plugins by running ':UpdateRemotePlugins', then restart Neovim.")
-    end,
-    event = "VeryLazy",
-    keys = {
-      { "<leader>ccb", ":CopilotChatBuffer ", desc = "CopilotChat - Chat with current buffer. Use yank code. Ask question here." },
-      { "<leader>cce", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-      { "<leader>cct", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
-      {
-        "<leader>ccT",
-        "<cmd>CopilotChatVsplitToggle<cr>",
-        desc = "CopilotChat - Toggle Vsplit", -- Toggle vertical split
-      },
-      {
-        "<leader>ccv",
-        ":CopilotChatVisual ",
-        mode = "x",
-        desc = "CopilotChat - Open in vertical split",
-      },
-      {
-        "<leader>ccx",
-        ":CopilotChatInPlace<cr>",
-        mode = "x",
-        desc = "CopilotChat - Run in-place code",
-      },
-      {
-        "<leader>ccf",
-        "<cmd>CopilotChatFixDiagnostic<cr>", -- Get a fix for the diagnostic message under the cursor.
-        desc = "CopilotChat - Fix diagnostic",
-      },
-      {
-        "<leader>ccr",
-        "<cmd>CopilotChatReset<cr>", -- Reset chat history and clear buffer.
-        desc = "CopilotChat - Reset chat history and clear buffer",
-      }
-    },
-  },
-  {
-    "Bryley/neoai.nvim",
-    cmd = {
-      "NeoAI",
-      "NeoAIOpen",
-      "NeoAIClose",
-      "NeoAIToggle",
-      "NeoAIContext",
-      "NeoAIContextOpen",
-      "NeoAIContextClose",
-      "NeoAIInject",
-      "NeoAIInjectCode",
-      "NeoAIInjectContext",
-      "NeoAIInjectContextCode",
-    },
+    branch = "main",
     dependencies = {
-      "MunifTanjim/nui.nvim",
+      { "github/copilot.vim" }, -- or github/copilot.vim
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
-    -- Only load if OPENAI_API_KEY is set
-    cond = vim.env.OPENAI_API_KEY ~= nil,
     config = function()
-      require("neoai").setup({
-        -- Below are the default options, feel free to override what you would like changed
-        ui = {
-          output_popup_text = "NeoAI",
-          input_popup_text = "Prompt",
-          width = 30,          -- As percentage eg. 30%
-          output_popup_height = 80, -- As percentage eg. 80%
+      local chat = require("CopilotChat")
+      local select = require("CopilotChat.select")
+      chat.setup({
+        debug = false, -- Enable debugging
+        -- See Configuration section for rest
+        window = {
+          layout = 'vertical',
         },
-        models = {
-          {
-            name = "openai",
-            model = "gpt-3.5-turbo",
-          },
-        },
-        register_output = {
-          ["g"] = function(output)
-            return output
-          end,
-          ["c"] = require("neoai.utils").extract_code_snippets,
-        },
-        inject = {
-          cutoff_width = 75,
-        },
-        prompts = {
-          context_prompt = function(context)
-            return "Hey, I'd like to provide some context for future "
-                .. "messages. Here is the code/text that I want to refer "
-                .. "to in our upcoming conversations:\n\n"
-                .. context
-          end,
-        },
-        open_api_key_env = "OPENAI_API_KEY",
-        shortcuts = {
-          {
-            key = "<leader>as",
-            use_context = true,
-            prompt = [[
-                Please rewrite the text to make it more readable, clear,
-                concise, and fix any grammatical, punctuation, or spelling
-                errors
-            ]],
-            modes = { "v" },
-            strip_function = nil,
-          },
-          {
-            key = "<leader>ag",
-            use_context = false,
-            prompt = function()
-              return [[
-                    Using the following git diff generate a consise and
-                    clear git commit message, with a short title summary
-                    that is 75 characters or less:
-                ]] .. vim.fn.system("git diff --cached")
-            end,
-            modes = { "n" },
-            strip_function = nil,
+        mappings = {
+          reset = {
+            insert = '',
+            normal = '',
           },
         },
       })
+      -- Restore CopilotChatBuffer
+      vim.api.nvim_create_user_command("CopilotChatBuffer", function(args)
+        chat.ask(args.args, { selection = select.buffer })
+      end, { nargs = "*", range = true })
     end,
-    keys = {
-      { "<leader>as", desc = "summarize text" },
-      { "<leader>ag", desc = "generate git message" },
-    },
+    -- See Commands section for default commands if you want to lazy load on them
   },
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    version = false, -- set this if you want to always pull the latest change
+    opts = {
+      -- add any opts here
+    },
+    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+    build = "make",
+    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
+  }
 })
 
 -- Keymaps for better default experience
@@ -1333,21 +1435,25 @@ local venv_path = os.getenv('VIRTUAL_ENV')
 local py_path = nil
 -- decide which python executable to use for mypy
 if venv_path ~= nil then
-  py_path = venv_path .. "/bin/python3"
+  py_path = venv_path .. "/bin/python"
 else
   py_path = vim.g.python3_host_prog
 end
 local servers_settings = {
   efm = {},
   clangd = {},
+  hydra_lsp = {},
   -- gopls = {},
-  -- pyright = {
-  -- 	python = {
-  -- 		analysis = {
-  -- 			reportPrivateImportUsage = false,
-  -- 		},
-  -- 	},
-  -- },
+  pyright = {
+  	python = {
+  		analysis = {
+        -- Ignore all files for analysis to exclusively use Ruff for linting
+        ignore = { '*' },
+  		},
+  	},
+  },
+  ruff= {
+  },
   pylsp = {
     pylsp = {
       plugins = {
@@ -1358,14 +1464,14 @@ local servers_settings = {
         pylsp_mypy = {
           enabled = true,
           overrides = { "--python-executable", py_path, true },
-          -- report_progress = true,
-          -- live_mode = false
+          report_progress = true,
+          live_mode = false
         },
       },
     },
   },
   -- rust_analyzer = {},
-  -- tsserver = {},
+  ts_ls = {},
   lua_ls = {
     Lua = {
       diagnostics = {
@@ -1377,9 +1483,15 @@ local servers_settings = {
   },
 }
 
+
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- -- For ufo folding using lsp
+-- capabilities.textDocument.foldingRange = {
+--     dynamicRegistration = false,
+--     lineFoldingOnly = true
+-- }
 
 -- Setup mason so it can manage external tooling
 require("mason").setup()
@@ -1400,6 +1512,16 @@ mason_lspconfig.setup_handlers({
     })
   end,
 })
+
+require("lspconfig").ruff.setup({
+  capabilities = capabilities,
+  on_attach = function(client, bufnr)
+    if client.name == 'ruff' then
+      -- Disable hover in favor of Pyright
+      client.server_capabilities.hoverProvider = false
+    end
+  end
+})
 -- Change clangd cmd:
 require("lspconfig").clangd.setup({
   cmd = { "clangd", "--offset-encoding=utf-16" },
@@ -1415,8 +1537,8 @@ local prettier = require('efmls-configs.formatters.prettier')
 local shellcheck = require('efmls-configs.linters.shellcheck')
 local shfmt = require('efmls-configs.formatters.shfmt')
 local black = require('efmls-configs.formatters.black')
-local isort = require('efmls-configs.formatters.isort')
-local ruff = require('efmls-configs.formatters.ruff')
+local ruff_format = require('efmls-configs.formatters.ruff')
+local ruff_linter = require('efmls-configs.linters.ruff')
 local jq = require('efmls-configs.formatters.jq')
 local biome = require('efmls-configs.formatters.biome')
 local cmake_lint = require('efmls-configs.linters.cmake_lint')
@@ -1433,7 +1555,7 @@ local languages = {
   html = { prettier },
   markdown = { prettier },
   yaml = { prettier },
-  python = { ruff, black, isort },
+  python = { ruff_format, ruff_linter, black },
   sh = { shfmt, shellcheck },
   bash = { shfmt, shellcheck },
   zsh = { shfmt, shellcheck },
@@ -1487,6 +1609,8 @@ cmp.setup({
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<CR>"] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,
       select = false,
@@ -1513,6 +1637,7 @@ cmp.setup({
   }),
   sources = {
     { name = "nvim_lsp" },
+    { name = 'nvim_lsp_signature_help' },
     { name = "luasnip" },
     { name = "path" },
     { name = "orgmode" },
@@ -1563,6 +1688,114 @@ cmp.setup({
   },
 })
 
+-- mini.ai to select functions using tree-sitter
+-- From https://github.com/Oliver-Leete/Configs/blob/master/nvim/lua/user/targets.lua
+local gen_spec = require("mini.ai").gen_spec
+local gen_ai_spec = require('mini.extra').gen_ai_spec
+
+local custom_objects = {
+    -- Argument
+    a = gen_spec.argument({ separator = "[,;]" }),
+    -- Brackets
+    b = { { "%b()", "%b[]", "%b{}" }, "^.().*().$" },
+    -- Comments
+    -- Digits
+    d = gen_ai_spec.number(),
+    -- diagnostics
+    e = gen_ai_spec.diagnostic(),
+    -- Function call
+    f = gen_spec.function_call(),
+    -- Grammer (sentence)
+    g = {
+        {
+            "%b{}",
+            "\n%s*\n()().-()\n%s*\n[%s]*()", -- normal paragraphs
+            "^()().-()\n%s*\n[%s]*()",       -- paragraph at start of file
+            "\n%s*\n()().-()()$",            -- paragraph at end of file
+        },
+        {
+            "[%.?!][%s]+()().-[^%s].-()[%.?!]()[%s]",   -- normal sentence
+            "^[%{%[]?[%s]*()().-[^%s].-()[%.?!]()[%s]", -- sentence at start of paragraph
+            "[%.?!][%s]+()().-[^%s].-()()[\n%}%]]?$",   -- sentence at end of paragraph
+            "^[%s]*()().-[^%s].-()()[%s]+$",            -- sentence at that fills paragraph (no final punctuation)
+        }
+    },
+    -- Indents
+    i = gen_ai_spec.indent(),
+    -- Jumps
+    -- key (from key value pair)
+    k = gen_spec.treesitter({
+        i = { "@assignment.lhs", "@key.inner" },
+        a = { "@assignment.outer", "@key.inner" },
+    }),
+    -- List (quickfix)
+    -- blOck
+    o = gen_spec.treesitter({
+        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+    }),
+    -- Paragraph
+    p = { {
+        "\n%s*\n()().-()\n%s*\n()[%s]*", -- normal paragraphs
+        "^()().-()\n%s*\n[%s]*()",       -- paragraph at start of file
+        "\n%s*\n()().-()()$",            -- paragraph at end of file
+    } },
+    -- Quotes
+    q = { { "%b''", '%b""', "%b``" }, "^.().*().$" },
+    -- sub-woRd (below w on my keyboard)
+    r = {
+        {
+            "%u[%l%d]+%f[^%l%d]",
+            "%f[%S][%l%d]+%f[^%l%d]",
+            "%f[%P][%l%d]+%f[^%l%d]",
+            "^[%l%d]+%f[^%l%d]",
+        },
+        "^().*()$"
+    },
+    -- Scope
+    s = gen_spec.treesitter({
+        a = { "@function.outer", "@class.outer", "@testitem.outer" },
+        i = { "@function.inner", "@class.inner", "@testitem.inner" },
+    }),
+    -- Tag
+    t = { "<(%w-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+    -- Value (from key value pair)
+    v = gen_spec.treesitter({
+        i = { "@assignment.rhs", "@value.inner", "@return.inner" },
+        a = { "@assignment.outer", "@value.inner", "@return.outer" },
+    }),
+    -- WORD
+    W = { {
+        "()()%f[%w%p][%w%p]+()[ \t]*()",
+    } },
+    -- word
+    w = { "()()%f[%w_][%w_]+()[ \t]*()" },
+    -- line (same key as visual line in my mappings)
+    x = gen_ai_spec.line(),
+    -- chunk (as in from vim-textobj-chunk)
+    z = {
+            "\n.-%b{}.-\n",
+        "\n().-()%{\n.*\n.*%}().-\n()"
+    },
+    ["$"] = gen_spec.pair("$", "$", { type = "balanced" }),
+}
+
+require("mini.ai").setup({
+    custom_textobjects = custom_objects,
+    mappings = {
+        around = "a",
+        inside = "i",
+        around_next = "an",
+        inside_next = "in",
+        around_last = "al",
+        inside_last = "il",
+        goto_left = "{",
+        goto_right = "}",
+    },
+    n_lines = 500,
+    search_method = "cover_or_nearest",
+})
+
 -- Command Abbreviations, I can't release my shift key fast enough
 vim.cmd("cnoreabbrev Q  q")
 vim.cmd("cnoreabbrev Qa qa")
@@ -1570,6 +1803,22 @@ vim.cmd("cnoreabbrev W  w")
 vim.cmd("cnoreabbrev Wq wq")
 
 vim.cmd.packadd("cfilter")
+
+-- Conditionally load .nvimrc if present in the project directory
+-- Allow project-specific vim configuration
+vim.opt.secure = true
+vim.opt.exrc = true
+
+-- Source local project-specific vim configurations
+-- From Reece
+local local_vimrc = vim.fn.getcwd()..'/.nvimrc'
+local local_vimrclua = vim.fn.getcwd()..'/.nvimrc.lua'
+if vim.loop.fs_stat(local_vimrc) then
+  vim.cmd('source '..local_vimrc)
+end
+if vim.loop.fs_stat(local_vimrclua) then
+  vim.cmd('luafile '..local_vimrclua)
+end
 
 -- Map to reformat 'typedef' to 'using' (c++11)
 vim.cmd([[

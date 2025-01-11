@@ -15,6 +15,8 @@ if not has_dap then
   return
 end
 
+require("dap.ext.vscode").load_launchjs()
+
 -- when to stop on exception (uncaught is providing post mortem debugging) (see dap-api)
 dap.set_exception_breakpoints({"raised", "uncaught"})
 
@@ -235,7 +237,7 @@ dap.adapters.codelldb = {
 -- cpp
 dap.adapters.lldb = {
   type = 'executable',
-  command = '/usr/bin/lldb-vscode', -- adjust as needed
+  command = '/usr/bin/lldb-dap', -- adjust as needed, it was named lldb-vscode before
   name = "lldb"
 }
 
@@ -247,9 +249,16 @@ dap.adapters.gdb = {
   args = { "--interpreter", "dap" }
 }
 
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = 'OpenDebugAD7',
+}
+
 dap.configurations.cpp = {
   {
     name = "Launch",
+    -- type = "cppdbg",
     type = "lldb",
     -- type = "gdb",
     request = "launch",
@@ -287,7 +296,29 @@ dap.configurations.cpp = {
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
     -- runInTerminal = false,
+    -- For cppdbg
+    -- setupCommands = {
+    --   {
+    --     -- You can execute gdb commands in the dap-repl if you prefix them with -exec.
+    --     -- -exec info registers
+    --      text = '-enable-pretty-printing',
+    --      description =  'enable pretty printing',
+    --      ignoreFailures = false,
+    --   },
+    -- },
   },
+  -- {
+  --   name = 'Attach to gdbserver :1234',
+  --   type = 'cppdbg',
+  --   request = 'launch',
+  --   MIMode = 'gdb',
+  --   miDebuggerServerAddress = 'localhost:1234',
+  --   miDebuggerPath = '/usr/bin/gdb',
+  --   cwd = '${workspaceFolder}',
+  --   program = function()
+  --     return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+  --   end,
+  -- },
 }
 -- If you want to use this for rust and c, add something like this:
 dap.configurations.c = dap.configurations.cpp

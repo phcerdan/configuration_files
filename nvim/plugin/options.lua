@@ -83,8 +83,8 @@ set_cursorline("WinEnter", true)
 set_cursorline("FileType", false, "TelescopePrompt")
 
 
-opt.foldmethod = "marker"
-opt.foldlevel = 0
+-- opt.foldmethod = "marker"
+-- opt.foldlevel = 0 # Set already in nvim-ufo plugin
 opt.modelines = 1
 opt.laststatus = 3
 

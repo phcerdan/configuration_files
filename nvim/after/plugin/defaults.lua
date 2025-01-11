@@ -37,11 +37,6 @@ vim.api.nvim_set_keymap(
 vim.g["git_messenger_no_default_mappings"] = "true"
 vim.api.nvim_set_keymap("n", "<leader>m", "<Plug>(git-messenger)", { noremap = true })
 
--- folke/trouble.nvim
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
-
 -- harpoon
 local harpoon_mark = require("harpoon.mark")
 local harpoon_ui = require("harpoon.ui")
@@ -112,4 +107,11 @@ vim.g.magma_image_provider = "kitty"
 -- Undofile {{{
 vim.o.undofile = true -- Maintain a undofile to keep changes between sessions.
 vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
+-- }}}
+
+-- Resize windows {{{
+vim.keymap.set("n", "<c-Right>", ":vertical resize -5<CR>")
+vim.keymap.set("n", "<c-Left>", ":vertical resize +5<CR>")
+vim.keymap.set("n", "<c-Up>", ":resize +5<CR>")
+vim.keymap.set("n", "<c-Down>", ":resize -5<CR>")
 -- }}}
