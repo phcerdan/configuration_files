@@ -13,9 +13,14 @@ Session*.vim
 .gdb_history
 
 .cache/
+.scratch/
 
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.nvimrc
+.nvimrc.lua
+scratch/
