@@ -1,9 +1,0 @@
-define hookpost-up
-dashboard
-end
-
-define hookpost-down
-dashboard
-end
-
-python execute_if_environment_tmux_layout()
