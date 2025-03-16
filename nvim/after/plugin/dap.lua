@@ -258,8 +258,8 @@ dap.adapters.cppdbg = {
 dap.configurations.cpp = {
   {
     name = "Launch",
-    -- type = "cppdbg",
-    type = "lldb",
+    type = "cppdbg",
+    -- type = "lldb",
     -- type = "gdb",
     request = "launch",
     -- program = function()
@@ -297,15 +297,15 @@ dap.configurations.cpp = {
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
     -- runInTerminal = false,
     -- For cppdbg
-    -- setupCommands = {
-    --   {
-    --     -- You can execute gdb commands in the dap-repl if you prefix them with -exec.
-    --     -- -exec info registers
-    --      text = '-enable-pretty-printing',
-    --      description =  'enable pretty printing',
-    --      ignoreFailures = false,
-    --   },
-    -- },
+    setupCommands = {
+      {
+        -- You can execute gdb commands in the dap-repl if you prefix them with -exec.
+        -- -exec info registers
+         text = '-enable-pretty-printing',
+         description =  'enable pretty printing',
+         ignoreFailures = false,
+      },
+    },
   },
   -- {
   --   name = 'Attach to gdbserver :1234',
@@ -332,8 +332,6 @@ local map = function(lhs, rhs, desc)
 
   vim.keymap.set("n", lhs, rhs, { silent = true, desc = desc })
 end
-
-map("<F4>", function() require("dapui").toggle({ reset = true }) end, "dapui-toggle")
 
 map("<F5>", require("dap").continue, "continue")
 -- map("<S-F5>", require("dap").terminate, "terminate")
@@ -364,60 +362,68 @@ map("<leader>dm", function()
  require("dap-python").test_method({config = {justMyCode = false, subProcess = false}})
  end)
 
-map("<leader>de", require("dapui").eval)
-map("<leader>dE", function()
-  require("dapui").eval(vim.fn.input "[DAP] Expression > ")
-end)
 
-map("<leader>dh", require('dap.ui.widgets').hover, "dapui hover")
--- Close dap-float with q
-vim.cmd [[
-autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
-]]
+-- Check if dapui is available
+if pcall(require, "dapui") then
+    map("<F4>", function() require("dapui").toggle({ reset = true }) end, "dapui-toggle")
 
-local dap_ui = require "dapui"
+    map("<leader>de", function()
+      require("dapui").eval(nil, {enter = true})
+    end)
+    map("<leader>dE", function()
+      require("dapui").eval(vim.fn.input "[DAP] Expression > ")
+    end)
 
-local _ = dap_ui.setup {
-  layouts = {
-    {
-      elements = {
-        "scopes",
-        "breakpoints",
-        "stacks",
-        "watches",
+    map("<leader>dh", require('dap.ui.widgets').hover, "dapui hover")
+    -- Close dap-float with q
+    vim.cmd [[
+    autocmd FileType dap-float nnoremap <buffer><silent> q <cmd>close!<CR>
+    ]]
+
+    local dap_ui = require "dapui"
+
+    local _ = dap_ui.setup {
+      layouts = {
+        {
+          elements = {
+            "scopes",
+            "breakpoints",
+            "stacks",
+            "watches",
+          },
+          size = 40,
+          position = "left",
+        },
+        {
+          elements = {
+            "repl",
+            "console",
+          },
+          size = 10,
+          position = "bottom",
+        },
       },
-      size = 40,
-      position = "left",
-    },
-    {
-      elements = {
-        "repl",
-        "console",
-      },
-      size = 10,
-      position = "bottom",
-    },
-  },
-  -- -- You can change the order of elements in the sidebar
-  -- sidebar = {
-  --   elements = {
-  --     -- Provide as ID strings or tables with "id" and "size" keys
-  --     {
-  --       id = "scopes",
-  --       size = 0.75, -- Can be float or integer > 1
-  --     },
-  --     { id = "watches", size = 00.25 },
-  --   },
-  --   size = 50,
-  --   position = "left", -- Can be "left" or "right"
-  -- },
-  --
-  -- tray = {
-  --   elements = {},
-  --   size = 15,
-  --   position = "bottom", -- Can be "bottom" or "top"
-  -- },
-}
+      -- -- You can change the order of elements in the sidebar
+      -- sidebar = {
+      --   elements = {
+      --     -- Provide as ID strings or tables with "id" and "size" keys
+      --     {
+      --       id = "scopes",
+      --       size = 0.75, -- Can be float or integer > 1
+      --     },
+      --     { id = "watches", size = 00.25 },
+      --   },
+      --   size = 50,
+      --   position = "left", -- Can be "left" or "right"
+      -- },
+      --
+      -- tray = {
+      --   elements = {},
+      --   size = 15,
+      --   position = "bottom", -- Can be "bottom" or "top"
+      -- },
+    }
+end
 
 
 -- Run last: https://github.com/mfussenegger/nvim-dap/issues/1025

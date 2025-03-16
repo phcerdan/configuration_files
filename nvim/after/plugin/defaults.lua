@@ -37,28 +37,10 @@ vim.api.nvim_set_keymap(
 vim.g["git_messenger_no_default_mappings"] = "true"
 vim.api.nvim_set_keymap("n", "<leader>m", "<Plug>(git-messenger)", { noremap = true })
 
--- harpoon
-local harpoon_mark = require("harpoon.mark")
-local harpoon_ui = require("harpoon.ui")
-vim.keymap.set("n", "<leader>a", harpoon_mark.add_file)
-vim.keymap.set("n", "<C-e>", harpoon_ui.toggle_quick_menu)
--- Map <C-e> (same key than opening harpoon ui) to cycle inside harpoon buffers.
-vim.cmd([[
-  augroup HarpoonMappings
-    autocmd!
-    autocmd FileType harpoon nnoremap <buffer> <silent> <C-e> :lua require("user.mappings").cycle_down_or_wrap()<CR>
-  augroup END
-]])
-vim.keymap.set("n", "<leader>h", function() harpoon_ui.nav_next() end)
-vim.keymap.set("n", "<leader>1", function() harpoon_ui.nav_file(1) end)
-vim.keymap.set("n", "<leader>2", function() harpoon_ui.nav_file(2) end)
-vim.keymap.set("n", "<leader>3", function() harpoon_ui.nav_file(3) end)
-vim.keymap.set("n", "<leader>4", function() harpoon_ui.nav_file(4) end)
-
 -- copilot
 -- From: https://github.com/hrsh7th/nvim-cmp/issues/459
 -- keep the tab map, but provide an alternative way to accept the completion
--- vim.g.copilot_no_tab_map = true
+vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.api.nvim_set_keymap("i", "<C-\\>", "copilot#Accept('<CR>')", { silent = true, expr = true })
 vim.api.nvim_set_keymap("i", "<C-]>", "copilot#Next()", { silent = true, expr = true })
@@ -85,8 +67,6 @@ nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(st
 nnoremap <silent> g* :let stay_star_view = winsaveview()<cr>g*:call winrestview(stay_star_view)<cr>
 ]])
 
--- quickfix
-vim.api.nvim_set_keymap("n", "<leader>q", "<Plug>(qf_qf_toggle_stay)", { noremap = true })
 -- Maps, prefer use LfzLua
 vim.api.nvim_command("command! Maps :FzfLua keymaps")
 

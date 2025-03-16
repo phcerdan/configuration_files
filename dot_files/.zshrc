@@ -21,14 +21,16 @@ fi
 export PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 # Python virtualenvwrapper
 export WORKON_HOME=~/.virtualenvs
-if [ -f /usr/bin/virtualenvwrapper.sh ]; then
-    source /usr/bin/virtualenvwrapper.sh
-elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
-    source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-fi
-# git clone https://github.com/fbudin69500/terminal.workspace.git $HOME/.terminal.workspace
-if [ -f $HOME/.terminal.workspace/workspace.config ]; then
-    source ~/.terminal.workspace/workspace.config
+if false; then
+    if [ -f /usr/bin/virtualenvwrapper.sh ]; then
+	source /usr/bin/virtualenvwrapper.sh
+    elif [ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ]; then
+	source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+    fi
+    # git clone https://github.com/fbudin69500/terminal.workspace.git $HOME/.terminal.workspace
+    if [ -f $HOME/.terminal.workspace/workspace.config ]; then
+	source ~/.terminal.workspace/workspace.config
+    fi
 fi
 
 # To solve bug in nvim about <c-h> https://github.com/neovim/neovim/issues/2048
@@ -50,10 +52,10 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time command_execution_time)
 # fi
 
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="↱"
-# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="↳ "
+# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+# POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=""
 # POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='\u256D\U2500'     # ╭─
 # POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX='\u2570\U2500 '   # ╰─
 # To apply color: preppend: \033[32m , 32 is green, 37 is white...
@@ -119,7 +121,6 @@ if ! zgen saved; then
     zgen load bobthecow/git-flow-completion
     zgen load chrissicool/zsh-256color
     zgen load zsh-users/zsh-completions src
-    zgen load rupa/z
     # Try good vim mode
     zgen load jeffreytse/zsh-vi-mode
 
@@ -181,10 +182,10 @@ source $HOME/.secrets 2> /dev/null
 # base16_monokai
 
 # Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-    eval "$("$BASE16_SHELL/profile_helper.sh")"
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#     eval "$("$BASE16_SHELL/profile_helper.sh")"
 
 export EDITOR='vim'
 if type nvim > /dev/null 2>&1; then
@@ -272,9 +273,21 @@ elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
     zvm_after_init_commands+=('[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ] && source /usr/share/doc/fzf/examples/key-bindings.zsh && [ -f ~/.fzf.conf ] && source ~/.fzf.conf')
 fi
 
+# asdf (paru -S asdf-vm)
+. /opt/asdf-vm/asdf.sh
+
+# zoxide (better cd)
+# Check that zoxide exists in the path
+# if command -v zoxide > /dev/null 2>&1; then
+#    eval "$(zoxide init zsh)"
+# fi
+
 # added by travis gem
 [ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH"
 export MANPATH="$HOME/.local/share/man:$MANPATH"
 export TERMINFO="$HOME/.local/share/terminfo"  # tmux needs this
+export PATH="/home/phc/.pixi/bin:$PATH"
+
+eval "$(pixi completion --shell zsh)"

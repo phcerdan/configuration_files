@@ -113,17 +113,6 @@ require("lazy").setup({
       vim.cmd("source " .. file)
     end,
   },
-  {
-    "ThePrimeagen/harpoon",
-    config = function()
-      require("harpoon").setup({
-        global_settings = {
-          save_on_toggle = true,
-          save_on_change = true,
-        },
-      })
-    end,
-  },
   { -- jinja syntax
     "Glench/Vim-Jinja2-Syntax",
   },
@@ -141,6 +130,88 @@ require("lazy").setup({
   --     -- vim.g.python_folding = 1
   --   end,
   -- },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = "nvim-treesitter/nvim-treesitter-textobjects",
+    build = ":TSUpdate",
+    config = function()
+      local configs = require("nvim-treesitter.configs")
+      configs.setup({
+        ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "norg" },
+        -- , 'orgagenda'},
+        ignore_install = { "comment" },
+
+        highlight = {
+          enable = true,
+          disable = function(lang, bufnr) -- Disable in files with many lines or a really large first line (json)
+            local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
+            if ft == "text" or ft == "qf" then
+              return true
+            end
+
+            local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+            local first_line = lines[1] or ""  -- Defaults to an empty string if nil
+            local large_line = vim.api.nvim_strwidth(first_line) > 1000
+            local large_file = vim.api.nvim_buf_line_count(bufnr) > 50000
+            local disable_it = large_line or large_file
+            if disable_it then
+              vim.opt.syntax = false
+              print("Treesitter disabled for " .. lang)
+            end
+            return disable_it
+          end,
+          -- Required for spellcheck, some LaTex highlights and
+          -- code block highlights that do not have ts grammar
+          additional_vim_regex_highlighting = { "org" },
+        },
+        indent = { enable = true }, --, disable = { "python" } },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+          },
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+            keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["aa"] = "@parameter.outer",
+              ["ia"] = "@parameter.inner",
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+            },
+          },
+          move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+              ["]m"] = "@function.outer",
+              ["]]"] = "@class.outer",
+            },
+            goto_next_end = {
+              ["]M"] = "@function.outer",
+              ["]["] = "@class.outer",
+            },
+            goto_previous_start = {
+              ["[m"] = "@function.outer",
+              ["[["] = "@class.outer",
+            },
+            goto_previous_end = {
+              ["[M"] = "@function.outer",
+              ["[]"] = "@class.outer",
+            },
+          },
+        },
+      })
+    end
+  },
   {
     "kevinhwang91/nvim-ufo",
     dependencies = {
@@ -200,16 +271,28 @@ require("lazy").setup({
 
   -- Colorscheme, config needs to be done in init.lua
   {
-    "ellisonleao/gruvbox.nvim",
-    lazy = false,  -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      require("gruvbox").setup({
-        contrast = "hard",
-      })
-      vim.cmd([[colorscheme gruvbox]])
-    end,
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
   },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {},
+  -- },
+  -- {
+  --   "ellisonleao/gruvbox.nvim",
+  --   lazy = false,  -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     require("gruvbox").setup({
+  --       contrast = "hard",
+  --     })
+  --     vim.cmd([[colorscheme gruvbox]])
+  --   end,
+  -- },
   -- {
   --   'sainnhe/gruvbox-material',
   --   lazy = false,
@@ -415,6 +498,25 @@ require("lazy").setup({
     "fladson/vim-kitty",
   },
   {
+    "Al0den/notion.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim",
+    },
+    config = function()
+        require"notion".setup({
+
+    keys = { --Menu keys
+        deleteKey = "d",
+        editKey = "e",
+        openNotion = "o",
+        itemAdd = "a",
+        viewKey = "v"
+    },
+      })
+    end,
+  },
+  {
     "mickael-menu/zk-nvim",
     config = function()
       require("zk").setup()
@@ -536,13 +638,6 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-nvim-lsp-signature-help",
       "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = "nvim-treesitter/nvim-treesitter-textobjects",
-    build = function()
-      pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-    end,
-  },
   -- Show context of the current function
   {
     "nvim-treesitter/nvim-treesitter-context",
@@ -589,14 +684,46 @@ require("lazy").setup({
     },
   },
   -- quickfix navigation
-  { "romainl/vim-qf",       lazy = false },
+  -- { "romainl/vim-qf",       lazy = false },
   {
     "stevearc/quicker.nvim", -- This allows to substitute directly from qlist, instead of :cdo
     config = function()
       require("quicker").setup({
-        -- add your config here
+        highlight = {
+          load_buffers = true, -- the default is true and it is incredibly slow
+        },
+        keys = {
+          { ">",
+          function()
+            require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+          end, desc = "Expand quickfix context",
+          },
+          { "<", function() require("quicker").collapse() end, desc = "Collapse quickfix context", },
+        },
       })
     end,
+    keys = {
+      { "<leader>q", mode = {"n"}, function() require("quicker").toggle({ open_cmd_mods = { split = "botright" }}) end, desc = "Quickfix Toggle" },
+      { "<leader>l", mode = {"n"}, function() require("quicker").toggle({ open_cmd_mods = { split = "botright" }, loclist=true}) end, desc = "Loclist Toggle" },
+    },
+    max_filename_width = function()
+      return math.floor(math.min(20, vim.o.columns / 2))
+    end,
+  },
+  -- jump around
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
   },
   -- Git related plugins
   "tpope/vim-fugitive",
@@ -667,7 +794,7 @@ require("lazy").setup({
     config = function()
       require("lualine").setup({
         options = {
-          theme = "gruvbox",
+          theme = "kanagawa",
           icons_enabled = false,
           component_separators = "|",
           section_separators = "",
@@ -686,100 +813,104 @@ require("lazy").setup({
     end,
   },
   { "numToStr/Comment.nvim",           config = true }, -- "gc" to comment visual regions/lines
-  "tpope/vim-sleuth",                        -- Detect tabstop and shiftwidth automatically
+  -- "tpope/vim-sleuth",                        -- Detect tabstop and shiftwidth automatically. Really SLOW
+  {
+    "NMAC427/guess-indent.nvim", -- faster than vim-sleuth
+    config = true,
+  },
   -- Asyncrun
   "skywind3000/asyncrun.vim",                -- async :! command, read output using error format, or use % raw to ignore.
   "powerman/vim-plugin-AnsiEsc",             -- For escaping terminal colors in vim
   "mh21/errormarker.vim",                    -- " errormarker to display errors of asyncrun , https://github.com/skywind3000/asyncrun.vim/wiki/Cooperate-with-famous-plugins
-  "andymass/vim-matchup",                    -- Extends % functionality
+  -- "andymass/vim-matchup",                    -- Extends % functionality. Terribly slow
   "wsdjeg/vim-fetch",                        -- Enable opening files with format: vim file_name.xxx:line,col
   "vim-scripts/restore_view.vim",            -- Restore file position and FOLDS.
   "rhysd/vim-clang-format",                  -- :ClangFormat (c,cpp)
   --- Chat GPT {{{
-  {
-    "Robitx/gp.nvim",
-    config = function()
-      require("gp").setup()
-      local function keymapOptions(desc)
-        return {
-          noremap = true,
-          silent = true,
-          nowait = true,
-          desc = "GPT prompt " .. desc,
-        }
-      end
-
-      -- Chat commands
-      vim.keymap.set({ "n", "i" }, "<C-g>c", "<cmd>GpChatNew<cr>", keymapOptions("New Chat"))
-      vim.keymap.set({ "n", "i" }, "<C-g>t", "<cmd>GpChatToggle<cr>", keymapOptions("Toggle Popup Chat"))
-      vim.keymap.set({ "n", "i" }, "<C-g>f", "<cmd>GpChatFinder<cr>", keymapOptions("Chat Finder"))
-
-      vim.keymap.set("v", "<C-g>c", ":<C-u>'<,'>GpChatNew<cr>", keymapOptions("Visual Chat New"))
-      vim.keymap.set("v", "<C-g>v", ":<C-u>'<,'>GpChatPaste<cr>", keymapOptions("Visual Chat Paste"))
-      vim.keymap.set("v", "<C-g>t", ":<C-u>'<,'>GpChatToggle<cr>", keymapOptions("Visual Popup Chat"))
-
-      vim.keymap.set({ "n", "i" }, "<C-g><C-x>", "<cmd>GpChatNew split<cr>", keymapOptions("New Chat split"))
-      vim.keymap.set({ "n", "i" }, "<C-g><C-v>", "<cmd>GpChatNew vsplit<cr>", keymapOptions("New Chat vsplit"))
-      vim.keymap.set({ "n", "i" }, "<C-g><C-t>", "<cmd>GpChatNew tabnew<cr>", keymapOptions("New Chat tabnew"))
-
-      vim.keymap.set("v", "<C-g><C-x>", ":<C-u>'<,'>GpChatNew split<cr>", keymapOptions("Visual Chat New split"))
-      vim.keymap.set(
-        "v",
-        "<C-g><C-v>",
-        ":<C-u>'<,'>GpChatNew vsplit<cr>",
-        keymapOptions("Visual Chat New vsplit")
-      )
-      vim.keymap.set(
-        "v",
-        "<C-g><C-t>",
-        ":<C-u>'<,'>GpChatNew tabnew<cr>",
-        keymapOptions("Visual Chat New tabnew")
-      )
-
-      -- Prompt commands
-      vim.keymap.set({ "n", "i" }, "<C-g>r", "<cmd>GpRewrite<cr>", keymapOptions("Inline Rewrite"))
-      vim.keymap.set({ "n", "i" }, "<C-g>a", "<cmd>GpAppend<cr>", keymapOptions("Append"))
-      vim.keymap.set({ "n", "i" }, "<C-g>b", "<cmd>GpPrepend<cr>", keymapOptions("Prepend"))
-      vim.keymap.set({ "n", "i" }, "<C-g>e", "<cmd>GpEnew<cr>", keymapOptions("Enew"))
-      vim.keymap.set({ "n", "i" }, "<C-g>p", "<cmd>GpPopup<cr>", keymapOptions("Popup"))
-
-      vim.keymap.set("v", "<C-g>r", ":<C-u>'<,'>GpRewrite<cr>", keymapOptions("Visual Rewrite"))
-      vim.keymap.set("v", "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", keymapOptions("Visual Append"))
-      vim.keymap.set("v", "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", keymapOptions("Visual Prepend"))
-      vim.keymap.set("v", "<C-g>e", ":<C-u>'<,'>GpEnew<cr>", keymapOptions("Visual Enew"))
-      vim.keymap.set("v", "<C-g>p", ":<C-u>'<,'>GpPopup<cr>", keymapOptions("Visual Popup"))
-    end,
-  },
-  -- Send diagnostics to ChatGPT
-  {
-    "piersolenski/wtf.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      -- https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
-      -- gpt4-turbo:
-      openai_model_id = "gpt-4-1106-preview",
-    },
-    keys = {
-      {
-        "gw",
-        mode = { "n", "x" },
-        function()
-          require("wtf").ai()
-        end,
-        desc = "Debug diagnostic with AI",
-      },
-      {
-        mode = { "n" },
-        "gW",
-        function()
-          require("wtf").search()
-        end,
-        desc = "Search diagnostic with Google",
-      },
-    },
-  },
+  -- {
+  --   "Robitx/gp.nvim",
+  --   config = function()
+  --     require("gp").setup()
+  --     local function keymapOptions(desc)
+  --       return {
+  --         noremap = true,
+  --         silent = true,
+  --         nowait = true,
+  --         desc = "GPT prompt " .. desc,
+  --       }
+  --     end
+  --
+  --     -- Chat commands
+  --     vim.keymap.set({ "n", "i" }, "<C-g>c", "<cmd>GpChatNew<cr>", keymapOptions("New Chat"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>t", "<cmd>GpChatToggle<cr>", keymapOptions("Toggle Popup Chat"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>f", "<cmd>GpChatFinder<cr>", keymapOptions("Chat Finder"))
+  --
+  --     vim.keymap.set("v", "<C-g>c", ":<C-u>'<,'>GpChatNew<cr>", keymapOptions("Visual Chat New"))
+  --     vim.keymap.set("v", "<C-g>v", ":<C-u>'<,'>GpChatPaste<cr>", keymapOptions("Visual Chat Paste"))
+  --     vim.keymap.set("v", "<C-g>t", ":<C-u>'<,'>GpChatToggle<cr>", keymapOptions("Visual Popup Chat"))
+  --
+  --     vim.keymap.set({ "n", "i" }, "<C-g><C-x>", "<cmd>GpChatNew split<cr>", keymapOptions("New Chat split"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g><C-v>", "<cmd>GpChatNew vsplit<cr>", keymapOptions("New Chat vsplit"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g><C-t>", "<cmd>GpChatNew tabnew<cr>", keymapOptions("New Chat tabnew"))
+  --
+  --     vim.keymap.set("v", "<C-g><C-x>", ":<C-u>'<,'>GpChatNew split<cr>", keymapOptions("Visual Chat New split"))
+  --     vim.keymap.set(
+  --       "v",
+  --       "<C-g><C-v>",
+  --       ":<C-u>'<,'>GpChatNew vsplit<cr>",
+  --       keymapOptions("Visual Chat New vsplit")
+  --     )
+  --     vim.keymap.set(
+  --       "v",
+  --       "<C-g><C-t>",
+  --       ":<C-u>'<,'>GpChatNew tabnew<cr>",
+  --       keymapOptions("Visual Chat New tabnew")
+  --     )
+  --
+  --     -- Prompt commands
+  --     vim.keymap.set({ "n", "i" }, "<C-g>r", "<cmd>GpRewrite<cr>", keymapOptions("Inline Rewrite"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>a", "<cmd>GpAppend<cr>", keymapOptions("Append"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>b", "<cmd>GpPrepend<cr>", keymapOptions("Prepend"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>e", "<cmd>GpEnew<cr>", keymapOptions("Enew"))
+  --     vim.keymap.set({ "n", "i" }, "<C-g>p", "<cmd>GpPopup<cr>", keymapOptions("Popup"))
+  --
+  --     vim.keymap.set("v", "<C-g>r", ":<C-u>'<,'>GpRewrite<cr>", keymapOptions("Visual Rewrite"))
+  --     vim.keymap.set("v", "<C-g>a", ":<C-u>'<,'>GpAppend<cr>", keymapOptions("Visual Append"))
+  --     vim.keymap.set("v", "<C-g>b", ":<C-u>'<,'>GpPrepend<cr>", keymapOptions("Visual Prepend"))
+  --     vim.keymap.set("v", "<C-g>e", ":<C-u>'<,'>GpEnew<cr>", keymapOptions("Visual Enew"))
+  --     vim.keymap.set("v", "<C-g>p", ":<C-u>'<,'>GpPopup<cr>", keymapOptions("Visual Popup"))
+  --   end,
+  -- },
+  -- -- Send diagnostics to ChatGPT
+  -- {
+  --   "piersolenski/wtf.nvim",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --   },
+  --   opts = {
+  --     -- https://platform.openai.com/docs/models/gpt-4-and-gpt-4-turbo
+  --     -- gpt4-turbo:
+  --     openai_model_id = "gpt-4-1106-preview",
+  --   },
+  --   keys = {
+  --     {
+  --       "gw",
+  --       mode = { "n", "x" },
+  --       function()
+  --         require("wtf").ai()
+  --       end,
+  --       desc = "Debug diagnostic with AI",
+  --     },
+  --     {
+  --       mode = { "n" },
+  --       "gW",
+  --       function()
+  --         require("wtf").search()
+  --       end,
+  --       desc = "Search diagnostic with Google",
+  --     },
+  --   },
+  -- },
   --- }}}
   {
     "psf/black",                  -- :Black (python)
@@ -844,14 +975,24 @@ require("lazy").setup({
   "onsails/lspkind-nvim",
   "tamago324/cmp-zsh",
   -- DAP (Debug Adapter Protocol) --
-  "mfussenegger/nvim-dap",
+  {
+    "mfussenegger/nvim-dap",
+    -- dependencies = {
+    --   { "igorlfs/nvim-dap-view", -- alternative to nvim-dap-ui, not ready yet (Jan 2025)
+    --     opts = {},
+    --     keys = {
+    --       { 'F4', function() require('dap-view').toggle() end, desc="Toggle dap-view"},
+    --     },
+    --   },
+    -- },
+  },
   {
     "rcarriga/nvim-dap-ui",
     dependencies = {
       "nvim-neotest/nvim-nio",
+    -- "rcarriga/cmp-dap", -- nvim-cmp source for nvim-dap REPL and nvim-dap-ui buffers
     },
   },
-  "rcarriga/cmp-dap", -- nvim-cmp soruce for nvim-dap REPL and nvim-dap-ui buffers
   { "theHamsta/nvim-dap-virtual-text", config = true },
   {
     "Weissle/persistent-breakpoints.nvim",
@@ -869,6 +1010,7 @@ require("lazy").setup({
       on_load_breakpoint = nil,
     },
   },
+  { "AndrewRadev/linediff.vim"},
   { "mhinz/vim-grepper" },
   {
     "mangelozzi/rgflow.nvim",
@@ -956,12 +1098,13 @@ require("lazy").setup({
   { "nvim-telescope/telescope.nvim",            branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make",   cond = vim.fn.executable("make") == 1 },
-  { -- vim-rooter to avoid telscope change pwd when grepping or finding files...
-    "airblade/vim-rooter",
-    config = function()
-      vim.g.rooter_patterns = { ".git", ".svn", ".hg", ".project", ".root", "package.json", ">site-packages" }
-    end,
-  },
+  -- { -- vim-rooter to avoid telscope change pwd when grepping or finding files.
+  -- Prefer fzf-lua over telescope and don't use vim-rooter. slow.
+  --   "airblade/vim-rooter",
+  --   config = function()
+  --     vim.g.rooter_patterns = { ".git", ".svn", ".hg", ".project", ".root", "package.json", ">site-packages" }
+  --   end,
+  -- },
   --  DAP: Adaparter configuration for specific languages
   "mfussenegger/nvim-dap-python",
   -- Buffer helpers
@@ -1107,33 +1250,59 @@ require("lazy").setup({
     end,
   },
   {
-    {
-      "nvim-neotest/neotest",
-      dependencies = {
-        "nvim-lua/plenary.nvim",
-        "antoinemadec/FixCursorHold.nvim",
-        "nvim-treesitter/nvim-treesitter",
-        "nvim-neotest/nvim-nio",
-        "nvim-neotest/neotest-plenary",
-        "nvim-neotest/neotest-python",
-        "nvim-neotest/neotest-vim-test",
-        "alfaix/neotest-gtest"
-      },
-      config = function()
-        require("neotest").setup({
-          adapters = {
-            require("neotest-python")({
-              dap = { justMyCode = false },
-            }),
-            require("neotest-plenary"),
-            require("neotest-gtest").setup({}),
-            require("neotest-vim-test")({
-              ignore_file_types = { "python", "vim", "lua" },
-            }),
-          },
-        })
-      end,
-    }
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-neotest/nvim-nio",
+      "nvim-neotest/neotest-plenary",
+      "nvim-neotest/neotest-python",
+      "nvim-neotest/neotest-vim-test",
+      "alfaix/neotest-gtest"
+    },
+    config = function()
+      require("neotest").setup({
+        status = {
+          virtual_text = true,
+        },
+        output = {
+          enabled = true,
+          open_on_run = "short"
+        },
+        quickfix = {
+          enable = true,
+          open = function()
+          -- if vim.fn.exists(":Trouble") == 2 then
+            require("trouble").open({ mode = "quickfix", focus = false })
+          -- else
+            -- vim.cmd("Trouble quickfix")
+          end,
+        },
+
+        adapters = {
+          require("neotest-python")({
+            dap = { justMyCode = false },
+            runner = "pytest",
+          }),
+          require("neotest-plenary"),
+          require("neotest-gtest").setup({}),
+          require("neotest-vim-test")({
+            ignore_file_types = { "python", "vim", "lua" },
+          }),
+        },
+      })
+    end,
+    keys = {
+      { '<leader>ta', "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>", desc = '[T]est [a]ll' },
+      { '<leader>tf', "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", desc = '[T]est current [f]ile' },
+      { '<leader>tt', "<cmd>lua require('neotest').run.run()<cr>", desc = '[T]est nearest test' },
+      { '<leader>tx', "<cmd>lua require('neotest').run.stop()<cr>", desc = 'Stop test' },
+      { '<leader>tl', "<cmd>lua require('neotest').run.run_last()<cr>", desc = 'Run last test' },
+      { '<leader>tdn',"<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>", desc = '[T]est debug nearest test' },
+      { '<leader>ts', "<cmd>lua require('neotest').summary.toggle({ enter = true })<cr>", desc = 'toggle summary' },
+      { '<leader>to', "<cmd>lua require('neotest').output_panel.toggle()<cr>", desc = 'toggle output panel' },
+    },
   },
 
   -- Copilot --
@@ -1169,49 +1338,74 @@ require("lazy").setup({
     -- See Commands section for default commands if you want to lazy load on them
   },
   {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    lazy = false,
-    version = false, -- set this if you want to always pull the latest change
-    opts = {
-      -- add any opts here
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
+    "olimorris/codecompanion.nvim",
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "anthropic",
+          },
+          inline = {
+            adapter = "anthropic",
           },
         },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
+      })
+    end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
     },
-  }
+  },
+  -- {
+  --   "yetone/avante.nvim",
+  --   event = "VeryLazy",
+  --   lazy = false,
+  --   version = false, -- set this if you want to always pull the latest change
+  --   opts = {
+  --     mappings = {
+  --       sidebar = {
+  --         -- Do not close with q or ESC please!!
+  --         close = {}
+  --       },
+  --     },
+  --   },
+  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  --   build = "make",
+  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     --- The below dependencies are optional,
+  --     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+  --     {
+  --       -- support for image pasting
+  --       "HakonHarnes/img-clip.nvim",
+  --       event = "VeryLazy",
+  --       opts = {
+  --         -- recommended settings
+  --         default = {
+  --           embed_image_as_base64 = false,
+  --           prompt_for_file_name = false,
+  --           drag_and_drop = {
+  --             insert_mode = true,
+  --           },
+  --           -- required for Windows users
+  --           use_absolute_path = true,
+  --         },
+  --       },
+  --     },
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       'MeanderingProgrammer/render-markdown.nvim',
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- }
 })
 
 -- Keymaps for better default experience
@@ -1295,81 +1489,6 @@ vim.keymap.set("n", "<leader>sg", require("fzf-lua").live_grep, { desc = "[S]ear
 vim.keymap.set("n", "<leader>sv", fzf_lua_live_grep_current_buffer, { desc = "[S]earch Grep Current [V]" })
 vim.keymap.set("n", "<leader>sl", require("fzf-lua").grep_last, { desc = "[S]earch [L]ast" })
 vim.keymap.set("n", "<leader>sw", require("fzf-lua").grep_cword, { desc = "[S]earch [W]ord" })
-
--- [[ Configure Treesitter ]]
--- See `:help nvim-treesitter`
-require("nvim-treesitter.configs").setup({
-  -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "org" },
-  -- , 'orgagenda'},
-  ignore_install = { "comment" },
-
-  highlight = {
-    enable = true,
-    disable = function(lang, bufnr) -- Disable in files with many lines or a really large first line (json)
-      local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-      if ft == "text" then
-        return true
-      end
-      local large_line = vim.api.nvim_strwidth(vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1]) > 1000
-      local large_file = vim.api.nvim_buf_line_count(bufnr) > 50000
-      local disable_it = large_line or large_file
-      if disable_it then
-        vim.opt.syntax = false
-        print("Treesitter disabled for " .. lang)
-      end
-      return disable_it
-    end,
-    -- Required for spellcheck, some LaTex highlights and
-    -- code block highlights that do not have ts grammar
-    additional_vim_regex_highlighting = { "org" },
-  },
-  indent = { enable = true, disable = { "python" } },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      scope_incremental = "grc",
-      node_decremental = "grm",
-    },
-  },
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["aa"] = "@parameter.outer",
-        ["ia"] = "@parameter.inner",
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
-      },
-    },
-  },
-})
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
@@ -1675,9 +1794,9 @@ cmp.setup({
     }),
   },
   -- From cmp_dap
-  enabled = function()
-    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
-  end,
+  -- enabled = function()
+  --   return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+  -- end,
 
   experimental = {
     -- I like the new menu better! Nice work hrsh7th
@@ -1820,10 +1939,14 @@ if vim.loop.fs_stat(local_vimrclua) then
   vim.cmd('luafile '..local_vimrclua)
 end
 
+-- Expand 'grp' into 'CodeCompanion' in the command line
+vim.cmd([[cab gg GrepperRg]])
+
 -- Map to reformat 'typedef' to 'using' (c++11)
 vim.cmd([[
 let @t = "^dwf;bde^iusing \<c-R>\" = \e:s/\\s*;/;/g\<C-m>"
 ]])
+vim.cmd'colorscheme kanagawa'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
