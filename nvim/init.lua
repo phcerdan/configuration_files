@@ -137,7 +137,7 @@ require("lazy").setup({
     config = function()
       local configs = require("nvim-treesitter.configs")
       configs.setup({
-        ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "norg" },
+        ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "yaml", "norg" },
         -- , 'orgagenda'},
         ignore_install = { "comment" },
 
@@ -1517,9 +1517,9 @@ local on_attach = function(client, bufnr)
   nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
   nmap("<leader>ca", require("fzf-lua").lsp_code_actions, "[C]ode [A]ction")
 
-  nmap("gd", function() require("fzf-lua").lsp_definitions({ jump_to_single_result = true }) end, "[G]oto [D]efinition")
-  nmap("gr", function() require("fzf-lua").lsp_references({ jump_to_single_result = true }) end, "[G]oto [R]eferences")
-  nmap("gI", function() require("fzf-lua").lsp_implementations({ jump_to_single_result = true }) end,
+  nmap("gd", function() require("fzf-lua").lsp_definitions({ jump1 = true }) end, "[G]oto [D]efinition")
+  nmap("gr", function() require("fzf-lua").lsp_references({ jump1 = true }) end, "[G]oto [R]eferences")
+  nmap("gI", function() require("fzf-lua").lsp_implementations({ jump1 = true }) end,
     "[G]oto [I]mplementation")
   -- nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition") -- conflict with bwipeout
   -- nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
