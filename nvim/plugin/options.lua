@@ -90,3 +90,50 @@ opt.laststatus = 3
 
 opt.fixendofline = false -- Don't add a newline at the end of the file
 opt.diffopt:append("vertical") -- Gdiff open in vertical.
+
+opt.clipboard = "unnamedplus" -- Use system clipboard
+
+-- From https://github.com/neovim/neovim/discussions/28010#discussioncomment-9877494
+-- local function paste()
+--   return {
+--     vim.fn.split(vim.fn.getreg(""), "\n"),
+--     vim.fn.getregtype(""),
+--   }
+-- end
+--
+-- -- From :h clipboard-osc52
+-- vim.g.clipboard = {
+--   name = 'OSC 52',
+--   copy = {
+--     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+--   },
+--   paste = {
+--     -- ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+--     -- ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+--     ['+'] = paste,
+--     ['*'] = paste,
+--   },
+-- }
+
+vim.g.clipboard = {
+    name = "tmux",
+    copy = {
+        ["+"] = { "tmux", "load-buffer", "-" },
+        ["*"] = { "tmux", "load-buffer", "-" },
+    },
+    paste = {
+        ["+"] = { "tmux", "save-buffer", "-" },
+        ["*"] = { "tmux", "save-buffer", "-" },
+    },
+}
+vim.api.nvim_create_autocmd("TextYankPost", {
+    group = vim.api.nvim_create_augroup("osc52", { clear = true }),
+    callback = function()
+        if vim.v.operator == "y" then
+            local text = vim.fn.getreg("+")
+            local lines = vim.split(text, "\n")
+            require("vim.ui.clipboard.osc52").copy("+")(lines)
+        end
+    end,
+})
