@@ -116,24 +116,24 @@ opt.clipboard = "unnamedplus" -- Use system clipboard
 --   },
 -- }
 
-vim.g.clipboard = {
-    name = "tmux",
-    copy = {
-        ["+"] = { "tmux", "load-buffer", "-" },
-        ["*"] = { "tmux", "load-buffer", "-" },
-    },
-    paste = {
-        ["+"] = { "tmux", "save-buffer", "-" },
-        ["*"] = { "tmux", "save-buffer", "-" },
-    },
-}
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("osc52", { clear = true }),
-    callback = function()
-        if vim.v.operator == "y" then
-            local text = vim.fn.getreg("+")
-            local lines = vim.split(text, "\n")
-            require("vim.ui.clipboard.osc52").copy("+")(lines)
-        end
-    end,
-})
+-- vim.g.clipboard = {
+--     name = "tmux",
+--     copy = {
+--         ["+"] = { "tmux", "load-buffer", "-" },
+--         ["*"] = { "tmux", "load-buffer", "-" },
+--     },
+--     paste = {
+--         ["+"] = { "tmux", "save-buffer", "-" },
+--         ["*"] = { "tmux", "save-buffer", "-" },
+--     },
+-- }
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--     group = vim.api.nvim_create_augroup("osc52", { clear = true }),
+--     callback = function()
+--         if vim.v.operator == "y" then
+--             local text = vim.fn.getreg("+")
+--             local lines = vim.split(text, "\n")
+--             require("vim.ui.clipboard.osc52").copy("+")(lines)
+--         end
+--     end,
+-- })

@@ -6,6 +6,7 @@
 #     ZSH_DISABLE_COMPFIX=true
 # fi
 # Add JUPUTERLAB_DIR to enable extensions in --user:
+export TOTALSEG_NO_STATISTICS=1
 # Following https://wiki.archlinux.org/index.php/Jupyter
 export JUPYTERLAB_DIR=$HOME/.local/share/jupyter/lab
 # Add python scripts of clang to path
