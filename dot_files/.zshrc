@@ -275,7 +275,7 @@ elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
 fi
 
 # asdf (paru -S asdf-vm)
-. /opt/asdf-vm/asdf.sh
+# . /opt/asdf-vm/asdf.sh
 
 # zoxide (better cd)
 # Check that zoxide exists in the path
@@ -292,3 +292,5 @@ export TERMINFO="$HOME/.local/share/terminfo"  # tmux needs this
 export PATH="/home/phc/.pixi/bin:$PATH"
 
 eval "$(pixi completion --shell zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

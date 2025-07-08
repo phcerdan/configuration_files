@@ -38,7 +38,13 @@ mkdir -p $HOME/.vim ; cd $_
 #ln -s $SCRIPT_DIR/dot_files/config/termite/config .
 #mkdir -p $HOME/.config/gtk-3.0 ; cd $_
 #ln -s $SCRIPT_DIR/dot_files/config/gtk-3.0/gtk.css .
+mkdir -p $HOME/.config ; cd $_
+ln -s $SCRIPT_DIR/kitty .
 mkdir -p $HOME/.config/nvim ; cd $_
+ln -s $SCRIPT_DIR/nvim/init.lua .
+ln -s $SCRIPT_DIR/nvim/after .
+ln -s $SCRIPT_DIR/nvim/lua .
+ln -s $SCRIPT_DIR/nvim/plugin .
 #ln -s $SCRIPT_DIR/dot_files/config/nvim/coc-settings.json .
 #cd $HOME/.config
 #ln -s $SCRIPT_DIR/dot_files/config/pycodestyle .
