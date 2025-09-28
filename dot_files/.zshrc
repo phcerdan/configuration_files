@@ -58,7 +58,7 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 # POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 # POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=""
 # POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='\u256D\U2500'     # ╭─
-# POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX='\u2570\U2500 '   # ╰─
+# POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="" # '\u2570\U2500 '   # ╰─
 # To apply color: preppend: \033[32m , 32 is green, 37 is white...
 # POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='\u250F\U2501'     # ┏━
 # POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX='\u2517\U2501 '   # ┗━
@@ -114,7 +114,7 @@ if ! zgen saved; then
     # colorize list of folder with git information.
     zgen load rimraf/k
     # Notify (require libnotify-bin). And wmctrl
-    zgen load marzocchi/zsh-notify
+    # zgen load marzocchi/zsh-notify
     # Pure. Minimalistic prompt.
     # zgen load mafredri/zsh-async
     # zgen load sindresorhus/pure
