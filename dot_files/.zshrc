@@ -294,3 +294,11 @@ export PATH="/home/phc/.pixi/bin:$PATH"
 eval "$(pixi completion --shell zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# pnpm
+export PNPM_HOME="/home/phc/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
