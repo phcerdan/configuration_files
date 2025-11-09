@@ -107,6 +107,30 @@ end
 
 require("lazy").setup({
   {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      gh = {
+      },
+      picker = {
+        sources = {
+          gh_issue = {
+          },
+          gh_pr = {
+          }
+        }
+      },
+    },
+    keys = {
+      { "<leader>gi", function() Snacks.picker.gh_issue() end, desc = "GitHub Issues (open)" },
+      { "<leader>gI", function() Snacks.picker.gh_issue({ state = "all" }) end, desc = "GitHub Issues (all)" },
+      { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
+      { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end, desc = "GitHub Pull Requests (all)" },
+    },
+  },
+  {
     "lervag/vimtex",
     config = function()
       local file = vim.fn.expand("~/.config/nvim/after/plugin/latex.vim")
@@ -427,58 +451,6 @@ require("lazy").setup({
   {
     -- see the image.nvim readme for more information about configuring this plugin
     "3rd/image.nvim",
-    version = "1.1.0",
-    integrations = {
-      markdown = { enabled = false },
-    },                -- disable all integrations. Used in Molten only.
-    opts = {
-      backend = "kitty", -- Kitty will provide the best experience, but you need a compatible terminal
-      integrations = {
-        markdown = { enabled = false },
-      },                                     -- do whatever you want with image.nvim's integrations
-      max_width = 100,                       -- tweak to preference
-      max_height = 12,                       -- ^
-      max_height_window_percentage = math.huge, -- this is necessary for a good experience
-      max_width_window_percentage = math.huge,
-      window_overlap_clear_enabled = true,
-      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-    },
-  },
-  {
-    "benlubas/molten-nvim",
-    build = ":UpdateRemotePlugins",
-    init = function()
-      -- these are examples, not defaults. Please see the readme
-      vim.g.molten_image_provider = "image.nvim"
-      vim.g.molten_output_win_max_height = 20
-      vim.g.molten_auto_open_output = false
-      vim.g.molten_wrap_output = true
-      -- Keymaps
-      vim.keymap.set(
-        "n",
-        "<localleader>R",
-        ":MoltenEvaluateOperator<CR>",
-        { silent = true, noremap = true, desc = "run operator selection" }
-      )
-      vim.keymap.set(
-        "n",
-        "<localleader>rr",
-        ":MoltenEvaluateLine<CR>",
-        { silent = true, noremap = true, desc = "evaluate line" }
-      )
-      vim.keymap.set(
-        "n",
-        "<localleader>rc",
-        ":MoltenReevaluateCell<CR>",
-        { silent = true, noremap = true, desc = "re-evaluate cell" }
-      )
-      vim.keymap.set(
-        "v",
-        "<localleader>r",
-        ":<C-u>MoltenEvaluateVisual<CR>gv",
-        { silent = true, noremap = true, desc = "evaluate visual selection" }
-      )
-    end,
   },
   { -- install nvim-notify
     "rcarriga/nvim-notify",
