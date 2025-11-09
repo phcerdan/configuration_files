@@ -1501,41 +1501,30 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 --     lineFoldingOnly = true
 -- }
 
--- Setup mason so it can manage external tooling
-require("mason").setup()
-
--- Ensure the servers above are installed
-local mason_lspconfig = require("mason-lspconfig")
-
-mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(servers_settings),
+vim.lsp.config("*", {
+  capabilities = capabilities,
+  on_attach = on_attach,
 })
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers_settings[server_name],
-    })
-  end,
-})
+for server_name, server_settings in pairs(servers_settings) do
+  vim.lsp.config(server_name, {
+    settings = server_settings,
+  })
+end
 
-require("lspconfig").ruff.setup({
+vim.lsp.config("ruff", {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     if client.name == 'ruff' then
       -- Disable hover in favor of Pyright
       client.server_capabilities.hoverProvider = false
     end
+    on_attach(client, bufnr)
   end
 })
 -- Change clangd cmd:
-require("lspconfig").clangd.setup({
+vim.lsp.config("clangd", {
   cmd = { "clangd", "--offset-encoding=utf-16" },
-  capabilities = capabilities,
-  on_attach = on_attach,
-  settings = servers_settings.clangd,
 })
 
 -- efm language server
@@ -1582,10 +1571,23 @@ local efmls_config = {
   },
 }
 
-require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
-  capabilities = capabilities,
-  on_attach = on_attach,
-}))
+vim.lsp.config('efm', vim.tbl_deep_extend('force', {}, efmls_config))
+
+-- Setup mason so it can manage external tooling
+require("mason").setup()
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup({
+  ensure_installed = vim.tbl_keys(servers_settings),
+})
+
+mason_lspconfig.setup_handlers({
+  function(server_name)
+    vim.lsp.enable(server_name)
+  end,
+})
 
 
 -- Turn on lsp status information
