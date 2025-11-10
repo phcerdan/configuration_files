@@ -112,6 +112,9 @@ require("lazy").setup({
     lazy = false,
     ---@type snacks.Config
     opts = {
+      git = {
+        enabled = true,
+      },
       gh = {
       },
       picker = {
@@ -121,6 +124,9 @@ require("lazy").setup({
           gh_pr = {
           }
         }
+      },
+      image = {
+        enabled = false,
       },
     },
     keys = {
@@ -448,10 +454,10 @@ require("lazy").setup({
     end,
   },
   -- jupyter notebook
-  {
-    -- see the image.nvim readme for more information about configuring this plugin
-    "3rd/image.nvim",
-  },
+  -- {
+  --   -- see the image.nvim readme for more information about configuring this plugin
+  --   "3rd/image.nvim",
+  -- },
   { -- install nvim-notify
     "rcarriga/nvim-notify",
     config = true,
