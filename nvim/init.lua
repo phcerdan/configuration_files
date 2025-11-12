@@ -725,6 +725,8 @@ require("lazy").setup({
   {
     "mason-org/mason.nvim",
     version = "1.11.0",
+    -- Need to execute:
+    -- ~/.local/share/nvim/mason/packages/python-lsp-server/venv/bin/pip install pylsp-mypy
   },
   {
    "mason-org/mason-lspconfig.nvim",
@@ -1557,7 +1559,11 @@ end
 local venv_path = os.getenv('VIRTUAL_ENV')
 local py_path = nil
 -- decide which python executable to use for mypy
-if venv_path ~= nil then
+-- Check for pixi environment first
+local pixi_env = vim.fn.getcwd() .. "/.pixi/envs/default/bin/python"
+if vim.fn.filereadable(pixi_env) == 1 then
+  py_path = pixi_env
+elseif venv_path ~= nil then
   py_path = venv_path .. "/bin/python"
 else
   py_path = vim.g.python3_host_prog
