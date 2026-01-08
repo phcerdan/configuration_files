@@ -15,6 +15,21 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+function get_python_venv()
+  local venv_path = os.getenv('VIRTUAL_ENV')
+  local py_path = nil
+  -- decide which python executable to use for mypy
+  -- Check for pixi environment first
+  local pixi_env = vim.fn.getcwd() .. "/.pixi/envs/default/bin/python"
+  if vim.fn.filereadable(pixi_env) == 1 then
+    py_path = pixi_env
+  elseif venv_path ~= nil then
+    py_path = venv_path .. "/bin/python"
+  else
+    py_path = vim.g.python3_host_prog
+  end
+  return py_path
+end
 -- [[ Basic Keymaps ]]
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -146,7 +161,6 @@ require("lazy").setup({
       { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
       { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end, desc = "GitHub Pull Requests (all)" },
       -- Grep
-      { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
       { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
       { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
       { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
@@ -221,7 +235,7 @@ require("lazy").setup({
         pattern = "VeryLazy",
         callback = function()
           -- Setup some globals for debugging (lazy-loaded)
-          _G.dd = function(...)
+          _G.di = function(...)
             Snacks.debug.inspect(...)
           end
           _G.bt = function()
@@ -232,10 +246,10 @@ require("lazy").setup({
           -- Override print to use snacks for `:=` command
           if vim.fn.has("nvim-0.11") == 1 then
             vim._print = function(_, ...)
-              dd(...)
+              di(...)
             end
           else
-            vim.print = _G.dd
+            vim.print = _G.di
           end
 
           -- Create some toggle mappings
@@ -266,24 +280,24 @@ require("lazy").setup({
       },
     },
   },
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    },
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     -- your configuration comes here
+  --     -- or leave it empty to use the default settings
+  --     -- refer to the configuration section below
+  --   },
+  --   keys = {
+  --     {
+  --       "<leader>?",
+  --       function()
+  --         require("which-key").show({ global = false })
+  --       end,
+  --       desc = "Buffer Local Keymaps (which-key)",
+  --     },
+  --   },
+  -- },
   {
     "lervag/vimtex",
     config = function()
@@ -445,7 +459,25 @@ require("lazy").setup({
       end,
     },
   },
-  {"nvim-treesitter-context"},
+  {
+    "nvim-treesitter-context",
+    keys = {
+      {
+        "<leader>tc",
+        function()
+          require("treesitter-context").toggle()
+        end,
+        desc = "Toggle Treesitter Context",
+      },
+      {
+        "<leader>ti",
+        function()
+          require("treesitter-context").go_to_context()
+        end,
+        desc = "Go to Treesitter Context",
+      }
+    },
+  },
   {"nvim-treesitter-textobjects"},
 
   -- Colorscheme, config needs to be done in init.lua
@@ -861,6 +893,11 @@ require("lazy").setup({
   -- Git related plugins
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
+  {
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
+  },
   { "kylechui/nvim-surround", config = true },
   {
     "lewis6991/gitsigns.nvim",
@@ -1327,6 +1364,7 @@ require("lazy").setup({
           require("neotest-python")({
             dap = { justMyCode = false },
             runner = "pytest",
+            python = get_python_venv(),
           }),
           require("neotest-plenary"),
           require("neotest-gtest").setup({}),
@@ -1493,7 +1531,7 @@ local function fzf_lua_live_grep_current_buffer()
 end
 pcall(require("telescope").load_extension, "fzf")
 vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+-- vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sa", require("fzf-lua").lsp_finder, { desc = "[S]earch LSP" })
 vim.keymap.set("n", "<leader>sf", require("fzf-lua").files, { desc = "[S]earch [F]iles" })
 vim.keymap.set("n", "<leader>sc", fzf_lua_files_current_buffer, { desc = "[S]earch [F]iles [C]urrent" })
@@ -1556,18 +1594,6 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 --  Pass python venv to mypy for correct type checking
-local venv_path = os.getenv('VIRTUAL_ENV')
-local py_path = nil
--- decide which python executable to use for mypy
--- Check for pixi environment first
-local pixi_env = vim.fn.getcwd() .. "/.pixi/envs/default/bin/python"
-if vim.fn.filereadable(pixi_env) == 1 then
-  py_path = pixi_env
-elseif venv_path ~= nil then
-  py_path = venv_path .. "/bin/python"
-else
-  py_path = vim.g.python3_host_prog
-end
 local servers_settings = {
   efm = {},
   clangd = {},
@@ -1592,7 +1618,7 @@ local servers_settings = {
         -- type checker
         pylsp_mypy = {
           enabled = true,
-          overrides = { "--python-executable", py_path, true },
+          overrides = { "--python-executable", get_python_venv(), true },
           report_progress = true,
           live_mode = false
         },
