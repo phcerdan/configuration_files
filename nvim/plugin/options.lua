@@ -91,7 +91,35 @@ opt.laststatus = 3
 opt.fixendofline = false -- Don't add a newline at the end of the file
 opt.diffopt:append("vertical") -- Gdiff open in vertical.
 
-opt.clipboard = "unnamedplus" -- Use system clipboard
+-- opt.clipboard = "unnamedplus" -- Use system clipboard
+
+-- From: https://github.com/neovim/neovim/issues/28611#issuecomment-2147744670
+function my_paste(reg)
+    return function(lines)
+        local content = vim.fn.getreg('"')
+        return vim.split(content, '\n')
+    end
+end
+
+if (os.getenv('SSH_TTY') == nil)
+then
+    opt.clipboard:append("unnamedplus")
+else
+    opt.clipboard:append("unnamedplus")
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+        ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+      },
+      paste = {
+        ["+"] = my_paste("+"),
+        ["*"] = my_paste("*"),
+
+
+    },
+}
+end
 
 -- From https://github.com/neovim/neovim/discussions/28010#discussioncomment-9877494
 -- local function paste()

@@ -947,15 +947,6 @@ require("lazy").setup({
   "rhysd/git-messenger.vim",              -- Show git commit diff in pop-up window: <Leader>gm
   "junegunn/gv.vim",                      --:GV for commit browser, GV! for one this file, GV? fills location list.
   "shumphrey/fugitive-gitlab.vim",        -- Gbrowse works in gitlab
-  {
-    "rmagatti/auto-session",
-    config = function()
-      require("auto-session").setup {
-        log_level = "error",
-        auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
-      }
-    end
-  },
   "tpope/vim-abolish",                    -- Subsitutions with plurals, cases, etc.
   "tpope/vim-unimpaired",                 -- Add ][q (cnext), ][b (bnext), ][Space (add new lines)
   "ntpeters/vim-better-whitespace",       -- Highlight whitespaces and provide StripWhiteSpaces()
