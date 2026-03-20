@@ -284,21 +284,24 @@ fi
 # fi
 
 # added by travis gem
-[ -f /home/phc/.travis/travis.sh ] && source /home/phc/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$HOME/.local/lib/pkgconfig:$PKG_CONFIG_PATH"
 export MANPATH="$HOME/.local/share/man:$MANPATH"
 export TERMINFO="$HOME/.local/share/terminfo"  # tmux needs this
-export PATH="/home/phc/.pixi/bin:$PATH"
+export PATH="$HOME/.pixi/bin:$PATH"
 
 eval "$(pixi completion --shell zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # pnpm
-export PNPM_HOME="/home/phc/.local/share/pnpm"
+export PNPM_HOME="$HOME.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# opencode
+export PATH=$HOME/.opencode/bin:$PATH
