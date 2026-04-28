@@ -294,6 +294,8 @@ export MANPATH="$HOME/.local/share/man:$MANPATH"
 export TERMINFO="$HOME/.local/share/terminfo"  # tmux needs this
 export PATH="$HOME/.pixi/bin:$PATH"
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 eval "$(pixi completion --shell zsh)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
