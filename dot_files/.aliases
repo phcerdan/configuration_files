@@ -19,8 +19,7 @@ fi
 alias mux='tmuxifier'
 alias git=hub
 alias gits='git status'
-# git gtr is a worktree manager
-alias gitg='git gtr'
+alias wm='workmux'
 alias vimfzf='vim $(fzf --multi)'
 alias viserver='gvim -v --servername vimserver'
 alias viserver2='gvim -v --servername vimserver2'

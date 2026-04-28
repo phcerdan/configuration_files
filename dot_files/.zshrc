@@ -162,6 +162,9 @@ fi
 # # Reload the zsh-completions
 autoload -U compinit && compinit
 
+eval "$(workmux completions zsh)"
+
+
 # Tmux
 # Automatic rename at "cd /to/folder/" when tmux is set to screen-256color. Harmless workaround here in zsh.:
 DISABLE_AUTO_TITLE=true
