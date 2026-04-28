@@ -325,6 +325,7 @@ require("lazy").setup({
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "master",
     build = ":TSUpdate",
     config = function()
       local configs = require("nvim-treesitter.configs")

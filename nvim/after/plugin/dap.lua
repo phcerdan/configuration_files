@@ -15,10 +15,10 @@ if not has_dap then
   return
 end
 
-require("dap.ext.vscode").load_launchjs()
-
 -- when to stop on exception (uncaught is providing post mortem debugging) (see dap-api)
-dap.set_exception_breakpoints({"raised", "uncaught"})
+if dap.session() then
+  dap.set_exception_breakpoints({"raised", "uncaught"})
+end
 
 
 vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg='#993939', bg='#31353f'})
