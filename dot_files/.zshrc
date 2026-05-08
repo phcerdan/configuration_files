@@ -310,3 +310,6 @@ esac
 
 # opencode
 export PATH=$HOME/.opencode/bin:$PATH
+
+# OpenClaw Completion
+source "${HOME}/.openclaw/completions/openclaw.zsh"

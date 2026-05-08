@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage: voice [options]
+
+Record from your default microphone, transcribe locally with Whisper, and save
+only a text transcript in /tmp.
+The filename format is /tmp/MMDDHHMMSS_audio_xyz.txt, where xyz is random letters.
+
+Options:
+  -d, --duration SECONDS   Record for fixed duration instead of press-enter stop
+  -m, --model MODEL        Whisper model (default: $WHISPER_MODEL or turbo)
+  -l, --language CODE      Whisper language hint, e.g. en, es
+      --source SOURCE      Pulse/PipeWire source (default: $AUDIO_SOURCE or default)
+      --dir DIR            Output directory (default: /tmp)
+      --keep-audio         Also keep the temporary audio file next to the transcript
+  -h, --help               Show this help
+
+Examples:
+  voice
+  voice --duration 15
+  voice --language es
+  voice --model small
+USAGE
+}
+
+need() {
+  command -v "$1" >/dev/null 2>&1 || { echo "Missing required command: $1" >&2; exit 127; }
+}
+
+random_letters() {
+  local out="" n
+  for _ in 1 2 3; do
+    n=$(( RANDOM % 26 ))
+    printf -v out '%s\\%03o' "$out" "$((97 + n))"
+  done
+  printf '%b' "$out"
+}
+
+DURATION=""
+MODEL="${WHISPER_MODEL:-turbo}"
+LANGUAGE=""
+SOURCE="${AUDIO_SOURCE:-default}"
+OUT_DIR="/tmp"
+KEEP_AUDIO=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -d|--duration) DURATION="${2:-}"; shift 2 ;;
+    -m|--model) MODEL="${2:-}"; shift 2 ;;
+    -l|--language) LANGUAGE="${2:-}"; shift 2 ;;
+    --source) SOURCE="${2:-}"; shift 2 ;;
+    --dir) OUT_DIR="${2:-}"; shift 2 ;;
+    --keep-audio) KEEP_AUDIO=1; shift ;;
+    -h|--help) usage; exit 0 ;;
+    *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
+  esac
+done
+
+need ffmpeg
+need whisper
+mkdir -p "$OUT_DIR"
+
+STAMP="$(date +%m%d%H%M%S)"
+RAND="$(random_letters)"
+BASE="${STAMP}_audio_${RAND}"
+TXT_FILE="${OUT_DIR%/}/${BASE}.txt"
+TMP_DIR="$(mktemp -d -t voice.XXXXXX)"
+AUDIO_FILE="$TMP_DIR/${BASE}.wav"
+WHISPER_LOG="$TMP_DIR/whisper.log"
+FFMPEG_LOG="$TMP_DIR/ffmpeg.log"
+
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT
+
+if [[ -n "$DURATION" ]]; then
+  echo "Recording ${DURATION}s from source '$SOURCE'…" >&2
+  ffmpeg -hide_banner -loglevel error -y \
+    -f pulse -i "$SOURCE" -ac 1 -ar 16000 -t "$DURATION" "$AUDIO_FILE" 2>"$FFMPEG_LOG"
+else
+  if [[ -t 0 ]]; then
+    read -r -p "Press Enter to start recording… " _
+    echo "Recording from source '$SOURCE'. Press Enter to stop." >&2
+    ffmpeg -hide_banner -loglevel error -y \
+      -f pulse -i "$SOURCE" -ac 1 -ar 16000 "$AUDIO_FILE" 2>"$FFMPEG_LOG" &
+    REC_PID=$!
+    read -r _
+    kill -INT "$REC_PID" 2>/dev/null || true
+    wait "$REC_PID" 2>/dev/null || true
+  else
+    DURATION="${OPENCLAW_VOICE_DURATION:-20}"
+    echo "Non-interactive stdin; recording ${DURATION}s from source '$SOURCE'…" >&2
+    ffmpeg -hide_banner -loglevel error -y \
+      -f pulse -i "$SOURCE" -ac 1 -ar 16000 -t "$DURATION" "$AUDIO_FILE" 2>"$FFMPEG_LOG"
+  fi
+fi
+
+if [[ ! -s "$AUDIO_FILE" ]]; then
+  echo "Recording failed or produced empty audio. ffmpeg log:" >&2
+  cat "$FFMPEG_LOG" >&2 || true
+  exit 1
+fi
+
+WHISPER_ARGS=(--model "$MODEL" --output_format txt --output_dir "$TMP_DIR")
+if [[ -n "$LANGUAGE" ]]; then
+  WHISPER_ARGS+=(--language "$LANGUAGE")
+fi
+
+echo "Transcribing locally with Whisper model '$MODEL'…" >&2
+whisper "${WHISPER_ARGS[@]}" "$AUDIO_FILE" >"$WHISPER_LOG" 2>&1 || {
+  echo "Whisper failed. Log:" >&2
+  cat "$WHISPER_LOG" >&2 || true
+  exit 1
+}
+
+RAW_TXT="$TMP_DIR/${BASE}.txt"
+if [[ ! -s "$RAW_TXT" ]]; then
+  echo "No transcript produced." >&2
+  cat "$WHISPER_LOG" >&2 || true
+  exit 1
+fi
+
+cp "$RAW_TXT" "$TXT_FILE"
+
+printf 'Transcript: %s\n\n' "$TXT_FILE"
+cat "$TXT_FILE"
+printf '\n'
+
+if [[ "$KEEP_AUDIO" -eq 1 ]]; then
+  AUDIO_KEEP="${OUT_DIR%/}/${BASE}.wav"
+  cp "$AUDIO_FILE" "$AUDIO_KEEP"
+  printf 'Audio: %s\n' "$AUDIO_KEEP"
+fi
