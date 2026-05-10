@@ -323,94 +323,9 @@ require("lazy").setup({
   --   end,
   -- },
   {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = "nvim-treesitter/nvim-treesitter-textobjects",
-    branch = "master",
-    build = ":TSUpdate",
-    config = function()
-      local configs = require("nvim-treesitter.configs")
-      configs.setup({
-        ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "vimdoc", "vim", "yaml", "norg" },
-        -- , 'orgagenda'},
-        ignore_install = { "comment" },
-
-        highlight = {
-          enable = true,
-          disable = function(lang, bufnr) -- Disable in files with many lines or a really large first line (json)
-            -- local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
-            local ft = vim.api.nvim_get_option_value( "filetype", {buf = bufnr})
-            if ft == "text" or ft == "qf" then
-              return true
-            end
-
-            local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
-            local first_line = lines[1] or ""  -- Defaults to an empty string if nil
-            local large_line = vim.api.nvim_strwidth(first_line) > 1000
-            local large_file = vim.api.nvim_buf_line_count(bufnr) > 50000
-            local disable_it = large_line or large_file
-            if disable_it then
-              vim.opt.syntax = false
-              print("Treesitter disabled for " .. lang)
-            end
-            return disable_it
-          end,
-          -- Required for spellcheck, some LaTex highlights and
-          -- code block highlights that do not have ts grammar
-          additional_vim_regex_highlighting = { "org" },
-        },
-        indent = { enable = true }, --, disable = { "python" } },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "gnn",
-            node_incremental = "grn",
-            scope_incremental = "grc",
-            node_decremental = "grm",
-          },
-        },
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-            keymaps = {
-              -- You can use the capture groups defined in textobjects.scm
-              ["aa"] = "@parameter.outer",
-              ["ia"] = "@parameter.inner",
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
-              ["ic"] = "@class.inner",
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
-            goto_next_start = {
-              ["]m"] = "@function.outer",
-              ["]]"] = "@class.outer",
-            },
-            goto_next_end = {
-              ["]M"] = "@function.outer",
-              ["]["] = "@class.outer",
-            },
-            goto_previous_start = {
-              ["[m"] = "@function.outer",
-              ["[["] = "@class.outer",
-            },
-            goto_previous_end = {
-              ["[M"] = "@function.outer",
-              ["[]"] = "@class.outer",
-            },
-          },
-        },
-      })
-    end
-  },
-  {
     "kevinhwang91/nvim-ufo",
     dependencies = {
       "kevinhwang91/promise-async",
-      "nvim-treesitter/nvim-treesitter",
     },
     event = "BufReadPost",
     init = function()
@@ -456,7 +371,7 @@ require("lazy").setup({
     },
     opts = {
       provider_selector = function()
-        return {"treesitter", "indent"}
+        return {"lsp", "indent"}
       end,
     },
   },
@@ -479,8 +394,6 @@ require("lazy").setup({
       }
     },
   },
-  {"nvim-treesitter-textobjects"},
-
   -- Colorscheme, config needs to be done in init.lua
   {
     "rebelot/kanagawa.nvim",
@@ -1124,7 +1037,6 @@ require("lazy").setup({
     config = true,
     dependencies = {
         "echasnovski/mini.nvim", -- Needed to enable :ToggleCommentDebugPrints for NeoVim <= 0.9
-        "nvim-treesitter/nvim-treesitter" -- Needed to enable treesitter for NeoVim 0.8
     },
     -- Remove the following line to use development versions,
     -- not just the formal releases
@@ -1325,7 +1237,6 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
-      "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/nvim-nio",
       "nvim-neotest/neotest-plenary",
       "nvim-neotest/neotest-python",
@@ -1396,7 +1307,6 @@ require("lazy").setup({
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
     },
   },
   -- {
