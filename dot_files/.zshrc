@@ -312,4 +312,7 @@ esac
 export PATH=$HOME/.opencode/bin:$PATH
 
 # OpenClaw Completion
-source "${HOME}/.openclaw/completions/openclaw.zsh"
+for _oc_state in "${OPENCLAW_STATE_DIR:-}" "${HOME}/.openclaw-firiona" "${HOME}/.openclaw-solusek"; do
+  [[ -n "$_oc_state" && -r "${_oc_state}/completions/openclaw.zsh" ]] && source "${_oc_state}/completions/openclaw.zsh" && break
+done
+unset _oc_state
