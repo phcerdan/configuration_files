@@ -24,3 +24,7 @@ Session*.vim
 .nvimrc
 .nvimrc.lua
 scratch/
+
+.github/hooks/workmux-status/
+
+**/.claude/settings.local.json
